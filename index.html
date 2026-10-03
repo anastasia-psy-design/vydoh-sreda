@@ -537,6 +537,40 @@ input.line:focus{border-color:var(--ink)}
   .item-row{grid-template-columns:minmax(0,1fr) 32px}.item-row label{grid-column:1 / -1}
   .nav-sec{grid-template-columns:minmax(0,1fr)}
   .tool{grid-template-columns:42px 1fr}.tool__st,.tool-toggle{grid-column:2;grid-row:auto}}
+.stages{list-style:none;margin:0;padding:0;position:relative}
+.stages::before{content:'';position:absolute;left:21px;top:21px;bottom:40px;width:1px;background:repeating-linear-gradient(to bottom,color-mix(in srgb,var(--text) 38%,var(--bg)) 0 4px,transparent 4px 12px)}
+.stage{position:relative;display:grid;grid-template-columns:42px 1fr;gap:0 28px;padding-bottom:44px}
+.stage__num{position:relative;z-index:1;width:42px;height:42px;border-radius:50%;background:var(--lavender);display:grid;place-items:center;font-family:var(--serif);font-size:16px;color:var(--text)}
+.stage--past .stage__num{background:var(--text);color:var(--bg)}
+.stage--now .stage__num{background:var(--text);color:var(--bg);box-shadow:0 0 0 5px var(--bg),0 0 0 6px var(--text)}
+.stage__body h2{font-family:var(--serif);font-size:clamp(24px,2vw,32px);line-height:1.15;margin:6px 0 8px}
+.stage--next .stage__body h2{color:var(--muted)}
+.stage__desc{color:var(--muted);max-width:60ch;margin-bottom:12px}
+.stage__tools{display:grid}
+.tool--in{grid-template-columns:34px 1fr auto;padding:14px 0;border-top:1px solid var(--line)}
+.tool--in .tool__num{width:34px;height:34px;font-size:14px;background:var(--cream)}
+.tool--in.is-done .tool__num{background:var(--text);color:var(--bg)}
+.tool--in .tool__title{font-size:clamp(18px,1.4vw,21px)}
+.tool--in .tool__goal{font-size:14px}
+.copyrow{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.copyrow code,code{font-size:13px;background:var(--cream);padding:6px 10px;word-break:break-all}
+.hard-link{display:inline-flex;align-items:center;gap:10px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--cream);color:var(--ink);font-size:14px;text-align:left}
+.hard-link:hover{background:var(--mint)}
+.plain{margin:6px 0;padding-left:20px;display:grid;gap:6px}
+.data-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+.breath-wrap{display:grid;grid-template-columns:auto 1fr;gap:28px 44px;align-items:center;padding:clamp(24px,3vw,40px);background:var(--mint)}
+.breath{position:relative;width:200px;height:200px;display:grid;place-items:center;border:0;cursor:pointer}
+.breath::before{content:'';position:absolute;inset:0;border-radius:50%;border:1px dashed var(--text)}
+.breath__circle{position:absolute;width:60%;height:60%;border-radius:50%;background:var(--bg);box-shadow:0 0 0 1px var(--line);transition:transform .4s}
+.breath.on .breath__circle{animation:breathe2 10s ease-in-out infinite}
+@keyframes breathe2{0%{transform:scale(.55)}40%{transform:scale(1.55)}100%{transform:scale(.55)}}
+.breath__txt{position:relative;z-index:1;font-family:var(--serif);font-size:18px;color:var(--ink);text-align:center;max-width:140px}
+.emergency{margin-top:40px;padding-top:20px;border-top:1px solid var(--line);font-size:14px;color:var(--muted)}
+.suggest-line{margin:8px 0 0;display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:13px;color:var(--muted)}
+.suggest-line button{border:1px dashed var(--line);border-radius:999px;background:none;padding:3px 10px;font-size:12px;color:var(--text)}
+.suggest-line button:hover{border-color:var(--ink)}
+@media (max-width:700px){.breath-wrap{grid-template-columns:minmax(0,1fr);justify-items:center;text-align:center}.tool--in{grid-template-columns:34px 1fr}}
+
 </style>
 </head>
 <body>
@@ -563,6 +597,30 @@ const CONTENT = {
     text:'Инструменты не рассчитаны на кризис. Если очень тяжело, появляются мысли причинить себе вред или не хочется жить — обратитесь за помощью прямо сейчас и сообщите психологу.',
     phones:[{label:'112 — экстренные службы',href:'tel:112'}],
     note:'Номера телефонов доверия зависят от страны — впишите актуальные для ваших клиентов.' },
+
+  /* МАРШРУТ — этапы трека (как на лендинге) и инструменты, которые на них открываются.
+     Встреча с психологом — раз в неделю. */
+  rhythm: 'Встреча с психологом — раз в неделю',
+  publicUrl: 'https://vydoh-sreda.vercel.app/',
+  stages: [
+    { n:1, title:'Точка А', weeks:'неделя 1', tools:['point','pulse'], desc:'Фиксируем, с чего начинаем: состояние, нагрузку и то, что уже пробовали.' },
+    { n:2, title:'Стабилизация и саморегуляция', weeks:'недели 1–2', tools:['recovery'], desc:'Находим способы, которые действительно помогают именно вам.' },
+    { n:3, title:'Карта энергии и стрессоров', weeks:'недели 2–4', tools:['load','stress'], desc:'Видим, что забирает силы, что их возвращает и где ваши рычаги.' },
+    { n:4, title:'Возвращение в тело', weeks:'недели 3–5', tools:['radar'], desc:'Учимся замечать перегрузку раньше, чем станет «больше не могу».' },
+    { n:5, title:'Убеждения и стратегии', weeks:'недели 5–7', tools:['chain','lab'], desc:'Разбираем, что снова и снова заставляет переступать свои пределы, и проверяем это на практике.' },
+    { n:6, title:'Границы и оптимальная нагрузка', weeks:'недели 6–8', tools:['resp','range'], desc:'Различаем своё и чужое и находим свой переносимый диапазон нагрузки.' },
+    { n:7, title:'Надо — хочу — важно', weeks:'недели 8–9', tools:['nhv'], desc:'Возвращаем связь с желанием, смыслом и собственными решениями.' },
+    { n:8, title:'Сборка образа жизни', weeks:'недели 9–11', tools:[], desc:'Отдельного инструмента нет: вы закрепляете в обычной неделе правила из «Лаборатории» и «Диапазона».' },
+    { n:9, title:'Удержание результата', weeks:'недели 11–12', tools:['peak','nav'], desc:'Готовимся к следующему сложному периоду и собираем вашу личную карту.' }
+  ],
+
+  /* ТЯЖЁЛЫЙ МОМЕНТ — вместо телефонов доверия: дыхание, личный план, связь с психологом. */
+  hard: {
+    title:'Если сейчас очень тяжело',
+    intro:'Вы не обязаны справляться в одиночку. Сделайте по очереди то, что сейчас по силам: одну минуту дыхания, потом — свой план и связь с людьми.',
+    msg:'Здравствуйте! Мне сейчас очень тяжело. Можем ли мы связаться раньше встречи?',
+    emergency:'Если есть угроза жизни — вашей или чужой — звоните 112.'
+  },
 
   tools: [
     { n:1, id:'point', title:'Моя точка сейчас', time:'10–15 минут, один раз',
@@ -734,6 +792,7 @@ const DEMO = {
   lab:[{belief:'Если я не проконтролирую, всё развалится',pred:'Придётся всё переделывать',b0:85,exp:'Не перепроверять один отчёт на этой неделе',observe:'Сколько ошибок найдут и как я себя чувствую вечером',result:'Пришлось поправить одну цифру. Вечером было тревожно 40 минут, потом отпустило',b1:50,ifx:'после планёрки тянет перепроверить всё',ify:'выбираю одну точку контроля и закрываю ноутбук в 20:00'}],
   works:['заметила сигнал','закончила работу вовремя','попросила помощи у брата','позволила себе отдых'],
   peak:{situation:'Запуск проекта'},
+  plan:{signs:'Не сплю вторую ночь, плачу без причины, не хочется ничего',helps:'Выйти на улицу, умыться холодной водой, написать сестре',people:[{name:'Муж',contact:'+7 900 000-00-00'},{name:'Сестра',contact:'@sestra'}],psy:'@psy_vydoh',psyNote:'Можно писать в любое время, отвечу в течение дня'},
   discuss:['Почему «Мама: обследование» — «беру на себя, хотя не моё»','Диапазон: 10 дней мобилизации']
 };
 
@@ -746,7 +805,7 @@ const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>Array.from(r.quer
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const T=Object.fromEntries(C.tools.map(t=>[t.id,t])), TN=Object.fromEntries(C.tools.map(t=>[t.n,t]));
 const MARK='<svg class="mark" viewBox="0 0 27 14" fill="none" aria-hidden="true"><circle class="d" cx="5" cy="7.5" r="5" fill="currentColor"/><circle class="r" cx="19.5" cy="7" r="6.5" stroke="currentColor" stroke-dasharray="1 1"/></svg>';
-const blank=()=>({name:'',open:{point:1,pulse:1},psy:false,point:{},pulses:[],signals:[],load:[],stressors:[],chains:[],recovery:[],range:{},resp:{place:{},ifStop:{}},nhv:{place:{},behind:''},lab:[],works:[],peak:{},discuss:[]});
+const blank=()=>({name:'',start:null,plan:{},open:{point:1,pulse:1},psy:false,point:{},pulses:[],signals:[],load:[],stressors:[],chains:[],recovery:[],range:{},resp:{place:{},ifStop:{}},nhv:{place:{},behind:''},lab:[],works:[],peak:{},discuss:[]});
 let S=blank();
 try{const r=localStorage.getItem(KEY);if(r)S=Object.assign(blank(),JSON.parse(r))}catch(e){}
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
@@ -756,29 +815,39 @@ function discuss(t){if(!S.discuss.includes(t)){S.discuss.push(t);save();nav();to
 const isOpen=id=>S.psy||!!S.open[id]||id==='nav';
 const items=()=>S.load.map(x=>x.name);
 function done(id){return ({point:!!S.point.saved,pulse:S.pulses.length>=3,radar:S.signals.length>=3,load:S.load.length>=3,stress:S.stressors.length>=1,chain:S.chains.length>=1,recovery:S.recovery.length>=2,range:S.pulses.length>=6,resp:Object.keys(S.resp.place).length>=3,nhv:Object.keys(S.nhv.place).length>=3,lab:S.lab.some(l=>l.result),peak:!!S.peak.situation,nav:false})[id]}
+/* ---------- ссылки от психолога, доступ психолога, неделя ---------- */
+let PSY=false, pendingToast='';
+try{PSY=localStorage.getItem('vydoh-psy')==='1'}catch(e){}
+(function(){const q=new URLSearchParams(location.search);let ch=false;
+  if(q.has('psy')){PSY=q.get('psy')!=='0';try{PSY?localStorage.setItem('vydoh-psy','1'):localStorage.removeItem('vydoh-psy')}catch(e){}ch=true;pendingToast=PSY?'Включён доступ психолога':'Доступ психолога выключен'}
+  if(q.has('open')){const added=[];q.get('open').split(',').map(x=>+x).forEach(n=>{const t=TN[n];if(t&&!S.open[t.id]){S.open[t.id]=1;added.push(t.title)}});
+    if(added.length)pendingToast='Психолог открыл: '+added.join(', ');ch=true}
+  if(!S.start)S.start=new Date().toISOString().slice(0,10);
+  if(!PSY)S.psy=false;save();
+  if(ch)try{history.replaceState(null,'',location.pathname)}catch(e){}})();
+function weekNo(){const d=Math.floor((Date.now()-new Date(S.start).getTime())/864e5);return Math.min(12,Math.max(1,Math.floor(d/7)+1))}
+const STAGE_OF=Object.fromEntries(C.stages.flatMap(s=>s.tools.map(id=>[id,s.n])));
+function curStage(){let c=1;C.stages.forEach(s=>{if(s.tools.some(id=>S.open[id]&&id!=='nav'))c=Math.max(c,s.n)});if(S.open.lab&&S.open.range&&c<8&&S.open.nhv)c=8;return c}
+function stageLink(sn){const ids=C.stages.filter(s=>s.n<=sn).flatMap(s=>s.tools);const nums=ids.map(id=>T[id].n).filter(n=>n!==13);return C.publicUrl+'?open='+nums.join(',')}
+function copyText(t){const ok=()=>toast('Скопировано');if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(ok,()=>fallback());else fallback();
+  function fallback(){const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');ok()}catch(e){toast('Не получилось скопировать — выделите и скопируйте вручную')}a.remove()}}
+
+/* ---------- резервная копия ---------- */
+function exportData(){const data=JSON.stringify({app:'vydoh',v:2,saved:new Date().toISOString(),data:S},null,1);
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([data],{type:'application/json'}));a.download='vydoh-moi-otvety-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();a.remove();
+  toast('Файл с ответами сохранён в «Загрузки»')}
+function importData(file){const r=new FileReader();r.onload=()=>{try{const j=JSON.parse(r.result);const d=j&&j.app==='vydoh'?j.data:j;if(!d||!Array.isArray(d.pulses))throw 0;
+    confirmBox('Загрузить ответы из файла?','Текущие ответы в этом браузере заменятся ответами из файла.','Да, загрузить',()=>{const psy=S.psy;S=Object.assign(blank(),d);S.psy=psy&&PSY;save();go('today');toast('Ответы загружены')})}
+  catch(e){toast('Это не файл с ответами «Выдоха»')}};r.readAsText(file)}
 
 /* ---------- маршрутизация ---------- */
 let route={v:'today'};
 function go(v,arg){route={v,arg};$('#sidebar').classList.remove('open');render();window.scrollTo({top:0})}
 document.addEventListener('click',e=>{const g=e.target.closest('[data-go]');if(g&&!g.disabled){e.preventDefault();go(g.dataset.go,g.dataset.arg)}});
 $('#menuBtn').onclick=()=>$('#sidebar').classList.toggle('open');
-function nav(){
-  const cur=route.v==='tool'?(route.arg==='nav'?'navself':'tools'):route.v;
-  const n=(v,l,c)=>`<button class="nav" data-go="${v}" ${cur===v?'aria-current="page"':''}>${l}${c?`<span class="count">${c}</span>`:''}</button>`;
-  $('#sidebar').innerHTML=n('today','Сегодня')+n('tools','Инструменты')+n('navself','Навигация по себе')+n('meet','К встрече',S.discuss.length||'')+
-   `<div class="side-foot"><label class="psy"><input type="checkbox" id="psyT" ${S.psy?'checked':''}> Режим психолога</label>
-    <span>Прототип. Ответы хранятся только в этом браузере.</span>
-    <button class="link" id="demoB" style="justify-self:start">Показать на примере</button><button class="btn btn--sm btn--outline" id="resetB" style="justify-self:start;margin-top:4px">Сбросить все данные</button>
-    <button class="link" id="sosB" style="justify-self:start">Если сейчас совсем плохо</button></div>`;
-  $('#psyT').onchange=e=>{S.psy=e.target.checked;save();render();toast(S.psy?'Режим психолога: видны все инструменты, их можно открывать клиенту':'Режим клиента')};
-  $('#demoB').onclick=()=>{S=Object.assign(blank(),JSON.parse(JSON.stringify(DEMO)));save();render();toast('Заполнено примером: '+DEMO.name)};
-  $('#resetB').onclick=()=>confirmBox('Сбросить все данные?','Все ответы во всех инструментах, отметки «Пульса» и список «К встрече» будут удалены. Начнёте с чистого листа. Отменить это нельзя.','Да, сбросить всё',()=>{const psy=S.psy;S=blank();S.psy=psy;save();go('today');toast('Все данные сброшены')});
-  $('#sosB').onclick=sos;
-  $('#uName').textContent=S.name||'Клиент';$('#uIni').textContent=(S.name||'К')[0];
-}
 function render(){nav();const m=$('#main');m.innerHTML='';
   if(route.v==='tool'){const t=T[route.arg];if(!t||!isOpen(t.id)){go('tools');return}TOOL[t.id](m,t);return}
-  ({today:vToday,tools:vTools,navself:m=>TOOL.nav(m,T.nav),meet:vMeet}[route.v]||vToday)(m);
+  ({today:vToday,tools:vTools,navself:m=>TOOL.nav(m,T.nav),meet:vMeet,links:vLinks,help:vHelp,hard:vHard}[route.v]||vToday)(m);
 }
 function sos(){const s=C.safety;const b=document.createElement('div');b.className='modal-back';
   b.innerHTML=`<div class="modal" role="dialog" aria-modal="true"><h2>${esc(s.title)}</h2><p>${esc(s.text)}</p><div class="phones">${s.phones.map(p=>`<a href="${esc(p.href)}">${esc(p.label)}</a>`).join('')}</div><p class="muted">${esc(s.note)}</p><div><button class="btn btn--primary">Понятно</button></div></div>`;
@@ -796,7 +865,7 @@ function head(t){
   return `<header class="thead"><p class="eyebrow">Инструмент ${t.n} из 13${t.sub?' · '+esc(t.sub):''} · ${esc(t.time)}</p><h1>${esc(t.title)}</h1><p class="thead__goal">${esc(t.goal)}</p>
     <details class="how" ${done(t.id)?'':'open'}><summary>Как это работает</summary><div class="how__body">${(()=>{const h=C.howTo[t.id]||{};return `<div><p class="how__h">Зачем это вам</p><p>${esc(h.why||t.task)}</p></div>${h.steps?`<div><p class="how__h">Как делать</p><ol class="how__steps">${h.steps.map(x=>`<li>${esc(x)}</li>`).join('')}</ol></div>`:''}`})()}<div><p class="how__h">Что получится</p><p>${esc(t.result)}</p></div><div><p class="how__h">Сколько займёт</p><p>${esc(t.time)}</p></div>
     ${t.uses.length?`<div class="links">Берёт данные из: ${lk(t.uses)}</div>`:''}${t.feeds.length?`<div class="links">Передаёт в: ${lk(t.feeds)}</div>`:''}</div></details></header>`}
-const wrap=(t,body)=>`<div class="page page--narrow">${head(t)}${body}<div style="margin-top:44px;display:flex;gap:12px;flex-wrap:wrap"><button class="btn btn--outline" data-disc="${esc(t.title)}">Хочу обсудить на встрече</button><button class="btn btn--ghost" data-go="tools">← Все инструменты</button>${RESET[t.id]?`<button class="btn btn--ghost" data-reset="${t.id}" style="margin-left:auto">Очистить этот инструмент</button>`:''}</div></div>`;
+const wrap=(t,body)=>`<div class="page page--narrow">${head(t)}${body}${t.feeds.length?`<div class="links" style="margin-top:40px;padding-top:18px;border-top:1px solid var(--line)">Ваши ответы отсюда используются в: ${t.feeds.map(n=>`<button data-go="tool" data-arg="${TN[n].id}" class="${isOpen(TN[n].id)?'':'is-closed'}" ${isOpen(TN[n].id)?'':'disabled'}>${n}. ${esc(TN[n].title)}</button>`).join('')}</div>`:''}<div style="margin-top:28px;display:flex;gap:12px;flex-wrap:wrap"><button class="btn btn--outline" data-disc="${esc(t.title)}">Хочу обсудить на встрече</button><button class="btn btn--ghost" data-go="tools">← Все инструменты</button>${RESET[t.id]?`<button class="btn btn--ghost" data-reset="${t.id}" style="margin-left:auto">Очистить этот инструмент</button>`:''}</div></div>`;
 const RESET={point:()=>S.point={},pulse:()=>S.pulses=[],radar:()=>S.signals=[],load:()=>S.load=[],stress:()=>S.stressors=[],chain:()=>S.chains=[],recovery:()=>S.recovery=[],range:()=>S.range={},
   resp:()=>S.resp={place:{},ifStop:{}},nhv:()=>S.nhv={place:{},behind:'',notes:{}},lab:()=>{S.lab=[];S.works=[]},peak:()=>S.peak={}};
 function confirmBox(title,text,ok,onOk){const b=document.createElement('div');b.className='modal-back';
@@ -814,7 +883,7 @@ function vToday(m){
   const last=S.pulses[S.pulses.length-1];
   const navN=navSections().filter(s=>s.ok).length;
   m.innerHTML=`<div class="page page--narrow">
-    <section class="hello"><p class="eyebrow">${esc(C.programLabel)}</p><h1>${S.name?'Здравствуйте, '+esc(S.name):esc(C.program)}</h1><p>${esc(C.todayLead)}</p>
+    <section class="hello"><p class="eyebrow">Неделя ${weekNo()} из 12 · ${esc(C.rhythm.toLowerCase())}</p><h1>${S.name?'Здравствуйте, '+esc(S.name):esc(C.program)}</h1><p>${esc(C.todayLead)}</p>
       <button class="host" id="hostB"><span class="host__pic"><span class="host__play"><svg viewBox="0 0 10 10" width="9" height="9" fill="currentColor"><path d="M2 1l7 4-7 4z"/></svg></span></span><span><span class="host__label">Программу ведёт</span><span class="host__name">${esc(C.guide.name)}</span></span></button></section>
     <div class="today-grid">
       <button class="big-card" data-go="tool" data-arg="pulse"><div><p class="eyebrow">2 · Пульс состояния</p><h2>Как вы сейчас?</h2><p>${last?`Последняя отметка: силы ${last.energy} из 5, напряжение ${last.tension} из 5. `:''}20–40 секунд. Достаточно 2–3 раз в неделю.</p></div><span class="go">${MARK}Сохранить момент</span></button>
@@ -835,20 +904,122 @@ function videoModal(){const b=document.createElement('div');b.className='modal-b
   const close=()=>{v.pause();b.remove()};$('.btn',b).onclick=close;b.onclick=e=>{if(e.target===b)close()}}
 
 /* ================= ИНСТРУМЕНТЫ ================= */
-function vTools(m){
-  m.innerHTML=`<div class="page page--narrow"><header class="thead"><p class="eyebrow">13 инструментов</p><h1>Инструменты</h1>
-    <p class="thead__goal">Каждый инструмент собирает часть данных и передаёт дальше. Психолог открывает их по ходу работы.</p>
-    ${S.psy?'<div class="note">Режим психолога: отметьте, какие инструменты открыты клиенту. Закрытые клиент видит приглушёнными.</div>':''}</header>
-    <ol class="tools">${C.tools.map(t=>{const op=isOpen(t.id),dn=done(t.id);
-      const st=t.final?'<span class="badge b-q">собирается сама</span>':dn?'<span class="badge b-ok">заполнено</span>':S.open[t.id]?'<span class="badge b-warn">открыт</span>':'<span class="badge b-q">откроется позже</span>';
-      return `<li><div class="tool ${dn?'is-done':''} ${t.central?'is-central':''} ${op?'':'is-locked'}" ${op?`data-go="tool" data-arg="${t.id}" role="button" tabindex="0" style="cursor:pointer"`:''}>
-        <span class="tool__num">${t.n}</span><span class="tool__title">${esc(t.title)}</span>
-        ${S.psy&&!t.final?`<label class="tool-toggle" data-stop><input type="checkbox" data-open="${t.id}" ${S.open[t.id]?'checked':''}> открыт клиенту</label>`:`<span class="tool__st">${st}</span>`}
-        <span class="tool__goal">${esc(t.goal)}</span></div></li>`}).join('')}</ol></div>`;
+function nav(){
+  const cur=route.v==='tool'?(route.arg==='nav'?'navself':'tools'):route.v;
+  const n=(v,l,c)=>`<button class="nav" data-go="${v}" ${cur===v?'aria-current="page"':''}>${l}${c?`<span class="count">${c}</span>`:''}</button>`;
+  $('#sidebar').innerHTML=n('today','Сегодня')+n('tools','Маршрут и инструменты')+n('navself','Навигация по себе')+n('meet','К встрече',S.discuss.length||'')+n('help','Как здесь всё устроено')+
+   (PSY?`<div class="nav-group">Для психолога</div>`+n('links','Ссылки для клиента'):'')+
+   `<div class="side-foot"><button class="hard-link" data-go="hard">${MARK}Если сейчас очень тяжело</button>
+    ${PSY?`<label class="psy"><input type="checkbox" id="psyT" ${S.psy?'checked':''}> Видеть все инструменты</label><button class="link" id="demoB" style="justify-self:start">Показать на примере</button>`:''}
+    <button class="link" data-go="help" data-arg="data" style="justify-self:start">Мои данные: сохранить, загрузить, сбросить</button></div>`;
+  if(PSY){$('#psyT').onchange=e=>{S.psy=e.target.checked;save();render();toast(S.psy?'Видны все инструменты':'Видны только открытые клиенту')};
+    $('#demoB').onclick=()=>{S=Object.assign(blank(),JSON.parse(JSON.stringify(DEMO)));S.start=new Date(Date.now()-7*864e5*6).toISOString().slice(0,10);S.psy=true;save();render();toast('Заполнено примером: '+DEMO.name)}}
+  $('#uName').textContent=S.name||'Клиент';$('#uIni').textContent=(S.name||'К')[0];
+}
+
+/* ================= МАРШРУТ И ИНСТРУМЕНТЫ ================= */
+function toolRow(t){const op=isOpen(t.id),dn=done(t.id);
+  const st=t.final?'<span class="badge b-q">собирается сама</span>':dn?'<span class="badge b-ok">заполнено</span>':S.open[t.id]?'<span class="badge b-warn">открыт</span>':'<span class="badge b-q">откроется позже</span>';
+  return `<div class="tool tool--in ${dn?'is-done':''} ${t.central?'is-central':''} ${op?'':'is-locked'}" ${op?`data-go="tool" data-arg="${t.id}" role="button" tabindex="0" style="cursor:pointer"`:''}>
+    <span class="tool__num">${t.n}</span><span class="tool__title">${esc(t.title)}</span>
+    ${S.psy&&!t.final?`<label class="tool-toggle" data-stop><input type="checkbox" data-open="${t.id}" ${S.open[t.id]?'checked':''}> открыт клиенту</label>`:`<span class="tool__st">${st}</span>`}
+    <span class="tool__goal">${esc(t.goal)}</span></div>`}
+function vTools(m){const cs=curStage();
+  m.innerHTML=`<div class="page page--narrow"><header class="thead"><p class="eyebrow">${esc(C.rhythm)} · неделя ${weekNo()} из 12</p><h1>Маршрут</h1>
+    <p class="thead__goal">Девять этапов трека и инструменты к ним. Психолог открывает инструменты по ходу работы — обычно один-два за встречу.</p></header>
+    <ol class="stages">${C.stages.map(s=>{const st=s.n===cs?'now':(s.n<cs&&s.tools.some(id=>S.open[id]))?'past':'next';
+      return `<li class="stage stage--${st}"><span class="stage__num">${s.n}</span><div class="stage__body"><p class="eyebrow">${esc(s.weeks)}${st==='now'?' · вы здесь':''}</p><h2>${esc(s.title)}</h2><p class="stage__desc">${esc(s.desc)}</p>
+        <div class="stage__tools">${s.tools.map(id=>toolRow(T[id])).join('')}
+        ${s.n===8?`<div class="links" style="margin-top:6px">Работаем с: <button data-go="tool" data-arg="lab" ${isOpen('lab')?'':'disabled class="is-closed"'}>11. Лаборатория изменений</button><button data-go="tool" data-arg="range" ${isOpen('range')?'':'disabled class="is-closed"'}>8. Диапазон устойчивой нагрузки</button></div>`:''}</div></div></li>`}).join('')}</ol></div>`;
   $$('[data-stop]',m).forEach(l=>l.addEventListener('click',e=>e.stopPropagation()));
   $$('[data-open]',m).forEach(c=>c.onchange=()=>{S.open[c.dataset.open]=c.checked?1:0;save();toast(c.checked?'Инструмент открыт клиенту':'Инструмент скрыт')});
   $$('.tool[role=button]',m).forEach(el=>el.onkeydown=e=>{if(e.key==='Enter')el.click()});
 }
+
+/* ================= ССЫЛКИ ДЛЯ КЛИЕНТА (психолог) ================= */
+function vLinks(m){const base=C.publicUrl;
+  m.innerHTML=`<div class="page page--narrow"><header class="thead"><p class="eyebrow">Для психолога</p><h1>Ссылки для клиента</h1>
+    <p class="thead__goal">После встречи отправьте клиенту ссылку нужного этапа. Он перейдёт по ней — и у него откроются инструменты этого и предыдущих этапов. Его прежние ответы сохранятся.</p></header>
+    <div class="note" style="margin-bottom:24px">Ответы клиента хранятся только в его браузере. Вы видите их на встрече, когда клиент показывает экран.</div>
+    <ul class="list">${C.stages.filter(s=>s.tools.length).map(s=>{const url=stageLink(s.n);return `<li style="display:grid;gap:8px;justify-content:stretch"><span><b style="font-weight:500">${s.n}. ${esc(s.title)}</b> <span class="muted">· ${esc(s.weeks)} · откроет: ${s.tools.map(id=>T[id].n+'. '+esc(T[id].title)).join(', ')}</span></span>
+      <span class="copyrow"><code>${esc(url)}</code><button class="btn btn--sm" data-copy="${esc(url)}">Ссылка</button><button class="btn btn--sm btn--outline" data-copymsg="${esc(url)}">Сообщение со ссылкой</button></span></li>`}).join('')}</ul>
+    <section class="sec"><div class="sec__h"><h2>Сообщение клиенту</h2></div>
+      <textarea class="area" id="msgT" style="min-height:120px">Здравствуйте! После нашей встречи я открыла вам новые инструменты в «Выдохе». Перейдите по ссылке — они появятся в разделе «Маршрут». Достаточно 10–20 минут за неделю, а «Пульс» — 2–3 раза в неделю по полминуты.\n\n[ссылка]</textarea>
+      <p class="muted" style="margin-top:8px">Кнопка «Сообщение со ссылкой» у нужного этапа подставит ссылку вместо [ссылка].</p><div style="margin-top:12px"><button class="btn btn--sm" id="msgC">Скопировать без ссылки</button></div></section>
+    <section class="sec"><div class="sec__h"><h2>Доступ для коллег</h2></div>
+      <p style="font-size:16px">Режим психолога включается по ссылке <code>${esc(base)}?psy=1</code> и выключается по <code>${esc(base)}?psy=0</code>. Клиентам эту ссылку не отправляйте.</p>
+      <div style="margin-top:12px"><button class="btn btn--sm" data-copy="${esc(base)}?psy=1">Скопировать ссылку психолога</button></div></section></div>`;
+  $$('[data-copy]',m).forEach(b=>b.onclick=()=>copyText(b.dataset.copy));
+  $('#msgC').onclick=()=>copyText($('#msgT').value);
+  $$('[data-copymsg]',m).forEach(b=>b.onclick=()=>copyText($('#msgT').value.replace('[ссылка]',b.dataset.copymsg)));
+}
+
+/* ================= КАК ЗДЕСЬ ВСЁ УСТРОЕНО ================= */
+function vHelp(m){
+  m.innerHTML=`<div class="page page--narrow"><header class="thead"><p class="eyebrow">Коротко о главном</p><h1>Как здесь всё устроено</h1>
+    <p class="thead__goal">Это ваше место для работы между встречами. Оно не заменяет встречи с психологом, а помогает приходить на них с наблюдениями, а не с «ну как-то так прошла неделя».</p></header>
+    <div class="nav-sec"><div class="nav-sec__n">Ритм</div><div class="nav-sec__body"><p>${esc(C.rhythm)}. Между встречами:</p>
+      <ul class="plain"><li>2–3 раза в неделю — «Пульс», по полминуты;</li><li>один-два открытых инструмента — 10–20 минут за неделю;</li><li>«Пульт восстановления» — когда нужно;</li><li>«Хочу обсудить на встрече» — всё, что цепляет.</li></ul>
+      <p class="muted">Если неделя была тяжёлой и вы ничего не сделали — это не провал, а материал для встречи.</p></div></div>
+    <div class="nav-sec"><div class="nav-sec__n">Маршрут</div><div class="nav-sec__body"><p>Трек идёт по девяти этапам. Инструменты открывает психолог: после встречи он пришлёт ссылку — перейдите по ней, и новые инструменты появятся в «Маршруте». Всё, что вы заполняете, связано между собой и в конце соберётся в «Навигацию по себе».</p></div></div>
+    <div class="nav-sec" id="data"><div class="nav-sec__n">Ваши данные</div><div class="nav-sec__body">
+      <p>Ответы хранятся только в этом браузере на этом устройстве и никуда не отправляются. Психолог видит их, только когда вы сами показываете экран.</p>
+      <ul class="plain"><li>Пользуйтесь одним устройством и одним браузером.</li><li>Не открывайте среду в режиме инкогнито — после закрытия окна всё сотрётся.</li><li>Время от времени сохраняйте ответы в файл — так их можно перенести на другое устройство или восстановить.</li></ul>
+      <div class="data-actions"><button class="btn btn--primary btn--sm" id="expB">${MARK}Сохранить мои ответы в файл</button>
+        <label class="btn btn--sm" for="impF">Загрузить из файла</label><input type="file" id="impF" accept=".json,application/json" hidden>
+        <button class="btn btn--sm btn--outline" id="resetB">Сбросить все данные</button></div></div></div>
+    <div class="nav-sec"><div class="nav-sec__n">Если очень тяжело</div><div class="nav-sec__body"><p>Внизу меню всегда есть «Если сейчас очень тяжело»: минута дыхания, ваш личный план на тяжёлый момент и быстрая связь с психологом. План лучше заполнить вместе с психологом на первой встрече.</p>
+      <div><button class="btn btn--sm" data-go="hard">Открыть</button></div></div></div></div>`;
+  $('#expB').onclick=exportData;$('#impF').onchange=e=>{if(e.target.files[0])importData(e.target.files[0])};
+  $('#resetB').onclick=()=>confirmBox('Сбросить все данные?','Все ответы во всех инструментах, отметки «Пульса», ваш план на тяжёлый момент и список «К встрече» будут удалены. Перед этим можно сохранить ответы в файл. Отменить сброс нельзя.','Да, сбросить всё',()=>{const psy=S.psy;S=blank();S.psy=psy;S.start=new Date().toISOString().slice(0,10);save();go('today');toast('Все данные сброшены')});
+  if(route.arg==='data')setTimeout(()=>$('#data').scrollIntoView({behavior:'smooth'}),50);
+}
+
+/* ================= ЕСЛИ СЕЙЧАС ОЧЕНЬ ТЯЖЕЛО ================= */
+function vHard(m){const H=C.hard;const p=S.plan=S.plan||{};p.people=p.people||[];
+  const early=S.signals.filter(x=>x.zone==='предел').map(x=>x.t).join(', ');
+  const kit=kitText().slice(0,4).join(', ');
+  const contactHref=c=>{c=(c||'').trim();if(/^@/.test(c))return 'https://t.me/'+c.slice(1);if(/^\+?[\d\s()-]{6,}$/.test(c))return 'tel:'+c.replace(/[^\d+]/g,'');if(/^https?:\/\//.test(c))return c;return ''};
+  const filled=p.signs||p.helps||p.people.length||p.psy;
+  m.innerHTML=`<div class="page page--narrow"><header class="thead"><p class="eyebrow">Прямо сейчас</p><h1>${esc(H.title)}</h1><p class="thead__goal">${esc(H.intro)}</p></header>
+    <section class="breath-wrap"><div class="breath" id="breath"><span class="breath__circle"></span><span class="breath__txt" id="brT">Нажмите, чтобы начать</span></div>
+      <div><h2 style="font-family:var(--serif);text-transform:uppercase;font-size:clamp(24px,2.4vw,36px);line-height:1.05">Одна минута дыхания</h2>
+      <p style="margin-top:10px">Вдыхайте, пока круг растёт, и медленно выдыхайте, пока он сжимается. Выдох длиннее вдоха — так телу легче успокоиться. Шесть кругов — около минуты.</p>
+      <p class="muted" id="brC" style="margin-top:8px"></p></div></section>
+    <section class="sec"><div class="sec__h"><h2>Мой план на тяжёлый момент</h2><button class="btn btn--sm btn--outline" id="planEdit">${filled?'Изменить':'Заполнить'}</button></div>
+      <p class="muted" style="margin-bottom:14px">Лучше заполнить заранее — вместе с психологом на первой встрече, когда есть силы. Тогда в тяжёлый момент не придётся ничего придумывать.</p>
+      <div id="planBox">${planView(p,contactHref)}</div></section>
+    <section class="sec"><div class="sec__h"><h2>Написать психологу</h2></div>
+      <textarea class="area" id="msgH" style="min-height:80px">${esc(H.msg)}</textarea>
+      <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap"><button class="btn btn--primary btn--sm" id="msgHC">${MARK}Скопировать сообщение</button>
+        ${p.psy&&contactHref(p.psy)?`<a class="btn btn--sm" href="${esc(contactHref(p.psy))}" target="_blank" rel="noopener">Открыть контакт психолога</a>`:''}</div></section>
+    <p class="emergency">${esc(H.emergency)}</p></div>`;
+  // дыхание
+  let timer=null,cycles=0;const br=$('#breath');
+  br.onclick=()=>{if(timer){clearInterval(timer);timer=null;br.classList.remove('on');$('#brT').textContent='Нажмите, чтобы начать';return}
+    cycles=0;br.classList.add('on');const step=()=>{$('#brT').textContent='Вдох';setTimeout(()=>{if(timer)$('#brT').textContent='Выдох'},4000);cycles++;$('#brC').textContent='Круг '+cycles+' из 6';if(cycles>6){clearInterval(timer);timer=null;br.classList.remove('on');$('#brT').textContent='Ещё раз?';$('#brC').textContent='Минута прошла. Как вы сейчас?'}};
+    step();timer=setInterval(step,10000)};
+  $('#msgHC').onclick=()=>copyText($('#msgH').value);
+  $('#planEdit').onclick=()=>{$('#planBox').innerHTML=`<div class="form">
+      ${field('Как я понимаю, что мне становится очень плохо',`<textarea class="area" data-pl="signs" placeholder="${esc(early?'Из вашего радара: '+early:'Например: не сплю вторую ночь, всё время плачу, ничего не хочется')}">${esc(p.signs||'')}</textarea>`)}
+      ${field('Что мне обычно хоть немного помогает',`<textarea class="area" data-pl="helps" placeholder="${esc(kit?'Из вашего пульта восстановления: '+kit:'Например: выйти на улицу, умыться холодной водой, позвонить сестре')}">${esc(p.helps||'')}</textarea>`)}
+      ${field('Кому я могу написать или позвонить','<div id="ppl"></div><button class="btn btn--sm btn--ghost" id="pplAdd" style="justify-self:start">+ Добавить человека</button>','телефон или @ник в Telegram')}
+      ${field('Как связаться с моим психологом между встречами',`<input class="line" data-pl="psy" placeholder="Телефон или @ник" value="${esc(p.psy||'')}"><input class="line" data-pl="psyNote" placeholder="О чём договорились: например, писать в любое время, отвечу в течение дня" value="${esc(p.psyNote||'')}">`)}
+      ${field('Что я могу сделать, чтобы обезопасить себя',`<textarea class="area" data-pl="safe" placeholder="Например: не оставаться одной, убрать подальше то, чем могу навредить себе">${esc(p.safe||'')}</textarea>`,'по желанию')}
+      </div><button class="btn btn--primary btn--sm" id="planSave" style="margin-top:14px">${MARK}Сохранить план</button>`;
+    const people=p.people.map(x=>({...x}));
+    const drawP=()=>{$('#ppl').innerHTML=people.map((x,i)=>`<div class="row2" style="margin-bottom:6px"><input class="line" data-pn="${i}" placeholder="Имя" value="${esc(x.name||'')}"><input class="line" data-pc="${i}" placeholder="Телефон или @ник" value="${esc(x.contact||'')}"></div>`).join('')};
+    if(!people.length)people.push({name:'',contact:''});drawP();
+    $('#pplAdd').onclick=()=>{$$('[data-pn]').forEach(i=>people[+i.dataset.pn].name=i.value);$$('[data-pc]').forEach(i=>people[+i.dataset.pc].contact=i.value);people.push({name:'',contact:''});drawP()};
+    $('#planSave').onclick=()=>{$$('[data-pl]').forEach(i=>p[i.dataset.pl]=i.value.trim());$$('[data-pn]').forEach(i=>people[+i.dataset.pn].name=i.value.trim());$$('[data-pc]').forEach(i=>people[+i.dataset.pc].contact=i.value.trim());
+      p.people=people.filter(x=>x.name||x.contact);save();toast('План сохранён');render()}};
+}
+function planView(p,href){if(!(p.signs||p.helps||(p.people||[]).length||p.psy))return '<div class="empty"><p style="font-size:16px">План пока не заполнен.</p></div>';
+  const row=(l,v)=>v?`<div class="nav-sec"><div class="nav-sec__n">${l}</div><div class="nav-sec__body">${v}</div></div>`:'';
+  return row('Как я понимаю, что мне очень плохо',esc(p.signs||''))+row('Что мне помогает',esc(p.helps||''))+
+    row('Кому написать или позвонить',(p.people||[]).map(x=>{const h=href(x.contact);return `<p>${esc(x.name)} ${h?`<a class="link" href="${esc(h)}" target="_blank" rel="noopener">${esc(x.contact)}</a>`:esc(x.contact||'')}</p>`}).join(''))+
+    row('Мой психолог',p.psy?`<p>${href(p.psy)?`<a class="link" href="${esc(href(p.psy))}" target="_blank" rel="noopener">${esc(p.psy)}</a>`:esc(p.psy)}</p>${p.psyNote?`<p class="muted">${esc(p.psyNote)}</p>`:''}`:'')+
+    row('Как обезопасить себя',esc(p.safe||''))}
 
 /* ================= 13 ИНСТРУМЕНТОВ ================= */
 const TOOL={};
@@ -877,13 +1048,13 @@ TOOL.pulse=(m,t)=>{const p={energy:null,tension:null,clarity:null,want:null,emo:
     ${field('Напряжение',seg('tension',[[1,'1'],[2,'2'],[3,'3'],[4,'4'],[5,'5']],null),'1 — спокойно, 5 — на взводе')}
     ${field('Ясность головы',seg('clarity',['ясно','нормально','туман'],null))}
     ${field('Чего хочется',seg('want',['продолжать','остановиться'],null))}
-    ${field('Что сейчас происходило',`<input class="line" id="ctx" placeholder="Например: после планёрки" list="ctxList"><datalist id="ctxList">${items().map(i=>`<option value="${esc(i)}">`).join('')}</datalist>`)}
+    ${field('Что сейчас происходило',`<input class="line" id="ctx" placeholder="Например: после планёрки" list="ctxList"><datalist id="ctxList">${items().map(i=>`<option value="${esc(i)}">`).join('')}</datalist>${items().length?`<div class="suggest-line">Из вашей карты нагрузки: ${items().map(i=>`<button type="button" data-ctx="${esc(i)}">${esc(i)}</button>`).join('')}</div>`:''}`)}
     ${field('Эмоции',chips('emo',C.EMOTIONS,[],{multi:true,max:2}),'одна-две')}
-    ${field('Телесное ощущение',chips('body',C.BODY,[],{multi:true,max:2}))}
+    ${field('Телесное ощущение',chips('body',[...new Set([...C.BODY,...S.signals.filter(x=>x.type==='тело').map(x=>x.t)])],[],{multi:true,max:2}),S.signals.some(x=>x.type==='тело')?'включая сигналы из вашего радара':'')}
   </div><div style="margin-top:20px;display:flex;gap:14px;align-items:center;flex-wrap:wrap"><button class="btn btn--primary" id="puSave">${MARK}Сохранить момент</button><span class="muted">Можно заполнить только первые два поля</span></div></div>
   <section class="sec"><div class="sec__h"><h2>Ваши отметки</h2><span class="muted">${S.pulses.length} ${plural(S.pulses.length,'отметка','отметки','отметок')}</span></div>
     ${recent.length?`<div class="viz">${pulseChart(recent)}</div><p class="viz-cap">Линия — энергия, точки — напряжение. Подписи — что происходило.</p>`:'<p class="muted">Отметок пока нет.</p>'}</section>`);
-  bindSeg(m,p);bindDisc(m);
+  bindSeg(m,p);bindDisc(m);$$('[data-ctx]',m).forEach(b=>b.onclick=()=>$('#ctx').value=b.dataset.ctx);
   $('#puSave').onclick=()=>{if(!p.energy||!p.tension){toast('Отметьте энергию и напряжение');return}p.ctx=$('#ctx').value.trim();p.d=new Date().toISOString().slice(0,10);S.pulses.push(p);save();toast('Момент сохранён. Он уже попал в диапазон нагрузки и радар.');render()};
 };
 function pulseChart(ps){const W=720,H=240,L=40,R=20,Tp=20,B=50;const n=ps.length;const x=i=>L+(n<2?0:i*(W-L-R)/(n-1)),y=v=>Tp+(5-v)*(H-Tp-B)/4;
@@ -942,7 +1113,7 @@ TOOL.load=(m,t)=>{
     <div class="input"><input id="ldIn" placeholder="Например: совещания, ребёнок, дорога…"><button class="btn btn--sm" id="ldAdd">Добавить</button></div>
     <div class="chips" style="margin-top:12px">${C.LOAD_SUGGEST.filter(s=>!items().includes(s)).map(s=>`<button class="chip chip--add" data-ls="${esc(s)}">+ ${esc(s)}</button>`).join('')}</div>
     ${S.load.length?`<p style="font-size:17px;margin:26px 0 6px">Для каждого пункта ответьте на четыре вопроса.</p><p class="muted">Ориентируйтесь на обычную неделю, а не на самый тяжёлый день.</p>`:''}
-    <div style="margin-top:12px">${S.load.map((x,i)=>`<div class="ld-item" data-i="${i}"><div class="ld-item__head"><span class="item-row__name">${esc(x.name)}</span><button class="del" data-dl="${i}" aria-label="Убрать">×</button></div>
+    <div style="margin-top:12px">${S.load.map((x,i)=>`<div class="ld-item" data-i="${i}"><div class="ld-item__head"><span class="item-row__name">${esc(x.name)} ${(()=>{const n=S.pulses.filter(p=>p.ctx===x.name).length;return n?`<span class="badge b-q" style="vertical-align:middle">в «Пульсе» ${n}×</span>`:''})()}</span><button class="del" data-dl="${i}" aria-label="Убрать">×</button></div>
       <div class="ld-q"><span>Сколько сил это забирает?</span>${seg('demand',[[1,'почти не забирает'],[2,'немного'],[3,'средне'],[4,'много'],[5,'очень много']],x.demand)}</div>
       <div class="ld-q"><span>Как вы обычно себя чувствуете после?</span>${seg('after',[[-2,'опустошён(а)'],[-1,'устал(а)'],[0,'так же, как до'],[1,'чуть лучше'],[2,'наполнен(а)']],x.after)}</div>
       <div class="ld-q"><span>Насколько это важно для вас?</span>${seg('imp',[[1,'не очень'],[2,'важно'],[3,'очень важно']],x.imp)}</div>
@@ -1005,14 +1176,20 @@ function stressSvg(){const W=720,H=440,L=60,R=30,Tp=30,B=50;const x=v=>L+50+v*(W
     const left=X>W-240;return `<circle cx="${X}" cy="${Y}" r="9" fill="${rule?'var(--bg)':'var(--text)'}" stroke="var(--text)" stroke-width="1.6"/><text class="dot-lbl" x="${Math.max(L+70,Math.min(W-R-70,X))}" y="${Y+26}" text-anchor="middle">${esc(s.name)}</text>`}).join('')}</svg>`}
 
 /* 6. Цепочка перегруза */
+function chainSugg(k){const uniq=a=>[...new Set(a.filter(Boolean))];let src=[],lab='';
+  if(k==='situation'){src=uniq([...S.stressors.map(x=>x.name),...items()]);lab='Из ваших карт:'}
+  if(k==='emotion'){src=uniq([...S.pulses.flatMap(p=>p.emo||[]),...S.signals.filter(x=>x.type==='эмоции').map(x=>x.t)]);lab='Из «Пульса» и радара:'}
+  if(k==='body'){src=uniq([...S.signals.filter(x=>x.type==='тело').map(x=>x.t),...S.pulses.flatMap(p=>p.body||[])]);lab='Из радара и «Пульса»:'}
+  if(k==='rule'){src=uniq([...S.signals.filter(x=>x.type==='мысли').map(x=>x.t),...Object.values(S.resp.ifStop||{})]);lab='Из радара и карты ответственности:'}
+  return src.length?`<div class="suggest-line">${lab} ${src.slice(0,8).map(v=>`<button type="button" data-cs="${k}" data-v="${esc(v)}">${esc(v)}</button>`).join('')}</div>`:''}
 TOOL.chain=(m,t)=>{const idx=route.sub!=null?route.sub:0;const c=S.chains[idx]?JSON.parse(JSON.stringify(S.chains[idx])):{};
   m.innerHTML=wrap(t,`<p style="font-size:17px;margin-bottom:24px">Вспомните один конкретный недавний случай, когда вы снова перегрузили себя, — например, «опять работала до полуночи». Ответьте на вопросы по порядку. Серым в полях написаны примеры.</p>
-  <ol class="chain">${C.CHAIN.map(([k,l,h,ex],i)=>`<li><span class="chain__n">${i+1}</span><div><span class="chain__q">${l}</span><span class="chain__hint">${h}</span><textarea class="area" style="min-height:64px" data-ck="${k}" placeholder="${esc(ex)}">${esc(c[k]||'')}</textarea></div></li>
+  <ol class="chain">${C.CHAIN.map(([k,l,h,ex],i)=>`<li><span class="chain__n">${i+1}</span><div><span class="chain__q">${l}</span><span class="chain__hint">${h}</span><textarea class="area" style="min-height:64px" data-ck="${k}" placeholder="${esc(ex)}">${esc(c[k]||'')}</textarea>${chainSugg(k)}</div></li>
     ${i<C.CHAIN.length-1?`<li><div class="chain__gap"><button type="button" class="choice" data-choice="${k}" aria-pressed="${c.choice===k}">здесь можно было иначе?</button></div></li>`:''}`).join('')}</ol>
   <div class="note" style="margin-top:20px"><b style="font-weight:500">Где в этой цепочке у вас был хотя бы маленький выбор?</b> Посмотрите на неё целиком и нажмите «здесь можно было иначе?» между теми шагами, где можно было поступить по-другому: подумать иначе, взять паузу, попросить помощи. Это и есть точка, с которой можно начать менять цепочку.</div>
   <div style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap"><button class="btn btn--primary" id="chSave">${MARK}Сохранить цепочку</button><button class="btn btn--outline" id="chNew">Новая цепочка</button>${c.rule?`<button class="btn" id="toLab">Проверить правило в Лаборатории</button>`:''}</div>
   ${S.chains.length?`<section class="sec"><div class="sec__h"><h2>Мои цепочки</h2></div><ul class="list">${S.chains.map((x,i)=>`<li><span>${esc(x.situation||'Эпизод')}<br><span class="muted">правило: ${esc(x.rule||'—')}</span></span><button class="btn btn--sm btn--ghost" data-ch="${i}">Открыть</button></li>`).join('')}</ul></section>`:''}`);
-  bindDisc(m);
+  bindDisc(m);$$('[data-cs]',m).forEach(b=>b.onclick=()=>{const a=$(`[data-ck="${b.dataset.cs}"]`,m);a.value=a.value?a.value.replace(/\s*$/,'')+', '+b.dataset.v:b.dataset.v});
   $$('[data-choice]',m).forEach(b=>b.onclick=()=>{c.choice=c.choice===b.dataset.choice?null:b.dataset.choice;$$('[data-choice]',m).forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.choice===c.choice)))});
   $('#chSave').onclick=()=>{$$('[data-ck]',m).forEach(a=>c[a.dataset.ck]=a.value.trim());if(!c.situation){toast('Опишите ситуацию');return}
     if(S.chains[idx])S.chains[idx]=c;else{S.chains.push(c);route.sub=S.chains.length-1}save();toast('Цепочка сохранена');render()};
@@ -1028,7 +1205,7 @@ TOOL.recovery=(m,t)=>{const st={state:route.state||null};
   const sugg=st.state?C.METHODS.filter(x=>x.states.includes(st.state)).sort((a,b)=>score(b.id,st.state)-score(a.id,st.state)).slice(0,3):[];
   const kit={};S.recovery.filter(r=>r.keep&&r.after<r.before).forEach(r=>{(kit[r.state]=kit[r.state]||{});kit[r.state][r.m]=(kit[r.state][r.m]||0)+1});
   m.innerHTML=wrap(t,`<section><div class="sec__h"><h2>Что сейчас происходит?</h2></div>
-    <div class="states">${C.STATES.map(s=>`<button class="state" data-state="${esc(s)}" aria-pressed="${st.state===s}">${esc(s)}</button>`).join('')}</div>
+    ${(()=>{const l=S.pulses[S.pulses.length-1];if(!l||st.state)return '';const g=l.tension>=4?'взвинчен(а)':l.energy<=2?'пусто, нет сил':null;return g?`<p class="muted" style="margin-bottom:10px">По последней отметке «Пульса» (силы ${l.energy}, напряжение ${l.tension}) похоже на «${g}».</p>`:''})()}<div class="states">${C.STATES.map(s=>`<button class="state" data-state="${esc(s)}" aria-pressed="${st.state===s}">${esc(s)}</button>`).join('')}</div>
     ${st.state?`<div class="sugg" style="margin-top:20px">${sugg.map(x=>`<div class="method"><p class="eyebrow">${esc(x.channel)} · ${esc(x.time)}${score(x.id,st.state)?' · вам уже помогало':''}</p><h3>${esc(x.title)}</h3><p class="why">${esc(x.how)}</p>
       ${x.channel==='релаксация Анастасии'?(x.audio?`<div class="vnote" data-audio="${esc(x.audio)}"><svg class="vnote__ring" viewBox="0 0 100 100"><circle class="track" cx="50" cy="50" r="49"/><circle class="bar" cx="50" cy="50" r="49" stroke-dasharray="307.88" stroke-dashoffset="307.88"/></svg><button class="vnote__view" aria-label="Слушать"></button><span class="vnote__play"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="23" fill="rgba(24,22,22,.55)"/><path d="M19 15l15 9-15 9z" fill="#fff"/></svg></span></div>`:'<p class="muted">Запись скоро появится</p>'):''}
       <button class="btn btn--sm btn--primary" data-try="${x.id}">${MARK}Попробовать</button></div>`).join('')}</div>`:''}
@@ -1208,7 +1385,7 @@ function vMeet(m){
   const add=()=>{const v=$('#mIn').value.trim();if(v){S.discuss.push(v);save();render()}};$('#mAdd').onclick=add;$('#mIn').onkeydown=e=>{if(e.key==='Enter')add()};
 }
 
-render();
+render();if(pendingToast)setTimeout(()=>toast(pendingToast),300);
 })();
 
 </script>
