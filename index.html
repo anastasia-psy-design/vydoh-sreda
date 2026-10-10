@@ -665,6 +665,14 @@ button.t-card{cursor:pointer}button.t-card:hover .t-btn{transform:translateX(2px
 .pw-want button[aria-pressed="true"]{background:var(--mint);border-color:var(--ink)}
 /* визуализации инструментов */
 .sc-t{font-family:var(--sans);font-size:13px;fill:var(--ink)}
+.sc-chip{cursor:pointer;outline:none}.sc-chip:hover rect,.sc-chip:focus rect{stroke-width:2}
+.sc-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 28px;margin-top:14px}
+.sc-list__h{margin:0 0 8px;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted,#6b6965)}
+.sc-list ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.sc-list li{display:flex;align-items:center;gap:10px;font-size:16px;line-height:1.35;padding:4px 8px;border-radius:10px;transition:background .4s}
+.sc-list li>span{flex:0 0 12px;height:12px;border-radius:50%;border:1px solid var(--ink)}
+.sc-list li.hl{background:var(--soft,#f3f1ee)}
+@media(max-width:560px){.sc-list{grid-template-columns:1fr}}
 .sc-h{font-family:var(--serif);font-size:22px;fill:var(--ink)}
 .sc-h2{font-family:var(--sans);font-size:11px;letter-spacing:.14em;fill:var(--text)}
 .scale,.infl,.corr,.venn{display:block;width:100%;height:auto}
@@ -1096,7 +1104,7 @@ const CONTENT = {
 
 
   /* Образ-ассоциация в начале каждого инструмента. */
-  metaphor: {'point': 'Как точка «вы здесь» на карте: отмечаем, откуда вы начинаете путь', 'pulse': 'Как шагомер, только для сил: несколько отметок в неделю, и видно, что вас разряжает', 'radar': 'Как лампочка топлива: учимся замечать ее, а не ждать, пока бак опустеет', 'load': 'Как весы: кладем на чаши то, что забирает силы, и то, что их возвращает', 'stress': 'Как пульт: ищем кнопки, до которых вы можете дотянуться', 'chain': 'Как домино: находим костяшку, которую можно убрать, чтобы цепочка не упала', 'recovery': 'Как аптечка: собираем то, что помогает именно вам', 'range': 'Как спидометр: находим скорость, на которой можно ехать долго', 'resp': 'Как рюкзак: проверяем, что вы несете за других', 'nhv': 'Как три банки: смотрим, чего в жизни много, а чего не хватает', 'lab': 'Как первый шаг по льду: проверяем убеждение маленьким безопасным шагом', 'peak': 'Как прогноз погоды: заранее готовимся к шторму', 'nav': 'Как инструкция к любимой вещи: как обращаться с собой в разные дни'},
+  metaphor: {'point': 'Как точка «вы здесь» на карте: отмечаем, откуда вы начинаете путь', 'pulse': 'Как шагомер, только для сил: несколько отметок в неделю, и видно, что вас разряжает', 'radar': 'Как лампочка топлива: учимся замечать ее, а не ждать, пока бак опустеет', 'load': 'Как весы: кладем на чаши то, что забирает силы, и то, что их возвращает', 'stress': 'Как пульт: ищем кнопки, благодаря которым вы сможете управлять состоянием', 'chain': 'Как домино: находим костяшку, которую можно убрать, чтобы цепочка не упала', 'recovery': 'Как аптечка: собираем то, что помогает именно вам', 'range': 'Как спидометр: находим скорость, на которой можно ехать долго', 'resp': 'Как рюкзак: проверяем, что вы несете за других', 'nhv': 'Как три банки: смотрим, чего в жизни много, а чего не хватает', 'lab': 'Как первый шаг по льду: проверяем убеждение маленьким безопасным шагом', 'peak': 'Как прогноз погоды: заранее готовимся к шторму', 'nav': 'Как инструкция к любимой вещи: как обращаться с собой в разные дни'},
   /* Что можно сделать, если сил мало. */
   lowEnergy: {'point': 'заполните только блок про обычный день, а остальное добавьте позже', 'pulse': 'отметьте только силы и напряжение и сохраните', 'radar': 'отметьте один-два сигнала, которые замечаете чаще всего', 'load': 'добавьте три дела и ответьте только на вопрос, как вы себя чувствуете после них', 'stress': 'выберите один стрессор и отметьте, насколько можете на него повлиять', 'chain': 'ответьте только на первые два вопроса, а остальное разберите с психологом', 'recovery': 'просто выберите свое состояние и попробуйте первый способ из списка', 'range': 'достаточно посмотреть на картинку, заполнять ничего не нужно', 'resp': 'разложите только три пункта, которые давят сильнее всего', 'nhv': 'разложите только три пункта и пропустите вопросы', 'lab': 'запишите только убеждение, а эксперимент придумайте вместе с психологом', 'peak': 'выберите период и просто прочитайте, что собралось само', 'nav': 'ничего делать не нужно, инструкция собирается сама'},
   /* Короткая инструкция, которую видит клиент вверху каждого инструмента - один абзац. */
@@ -1493,11 +1501,12 @@ function scaleSvg(){const dr=S.load.filter(x=>x.after<0).sort((a,b)=>a.after-b.a
   const ang=Math.max(-9,Math.min(9,(wD-wR)*1.1))*Math.PI/180;const cx=360,cy=70,L=230;
   const lx=cx-L*Math.cos(ang),ly=cy+L*Math.sin(ang),rx=cx+L*Math.cos(ang),ry=cy-L*Math.sin(ang);
   const pan=(x,y,fill,arr,label)=>{const py=y+96;const st=arr.slice(0,4).map((o,i)=>{const col=i%2,row=Math.floor(i/2);const t=o.name.length>11?o.name.slice(0,10)+'…':o.name;const w=Math.max(58,t.length*7.4+18);const sx=arr.length===1?x-w/2:(col?x+6:x-6-w);const sy=py-30-row*32;
-      return `<rect x="${sx}" y="${sy}" width="${w}" height="28" rx="12" fill="var(--bg)" stroke="var(--ink)"/><text x="${sx+w/2}" y="${sy+19}" text-anchor="middle" class="sc-t">${esc(t)}</text>`}).join('');
+      return `<g class="sc-chip" data-sclist="${S.load.indexOf(o)}" tabindex="0" role="button" aria-label="${esc(o.name)}"><title>${esc(o.name)}</title><rect x="${sx}" y="${sy}" width="${w}" height="28" rx="12" fill="var(--bg)" stroke="var(--ink)"/><text x="${sx+w/2}" y="${sy+19}" text-anchor="middle" class="sc-t">${esc(t)}</text></g>`}).join('');
     return `<path d="M${x} ${y} L${x-74} ${py} M${x} ${y} L${x+74} ${py}" stroke="var(--ink)" stroke-dasharray="3 3"/><path d="M${x-88} ${py} H${x+88} Q${x+84} ${py+38} ${x} ${py+40} Q${x-84} ${py+38} ${x-88} ${py} Z" fill="${fill}" stroke="var(--ink)" stroke-width="1.4"/>${st}${arr.length>4?`<text x="${x}" y="${py+96}" text-anchor="middle" class="sc-t">и еще ${arr.length-4}</text>`:''}<text x="${x}" y="${py+72}" text-anchor="middle" class="sc-h">${label}</text>`};
   return `<svg viewBox="0 0 720 300" class="scale" role="img" aria-label="Весы: что забирает и что возвращает силы">
     <path d="M${cx} ${cy} V272 M${cx-55} 272 H${cx+55}" stroke="var(--ink)" stroke-width="2" fill="none"/><line x1="${lx}" y1="${ly}" x2="${rx}" y2="${ry}" stroke="var(--ink)" stroke-width="2.4"/><circle cx="${cx}" cy="${cy}" r="6" fill="var(--ink)"/>
-    ${pan(lx,ly,'var(--drain)',dr,'Забирает')}${pan(rx,ry,'var(--mint)',rt,'Возвращает')}</svg>`}
+    ${pan(lx,ly,'var(--drain)',dr,'Забирает')}${pan(rx,ry,'var(--mint)',rt,'Возвращает')}</svg>
+    <div class="sc-list">${[['Забирает силы',dr,'var(--drain)'],['Возвращает силы',rt,'var(--mint)']].map(([h,a,c])=>`<div><p class="sc-list__h">${h}</p>${a.length?`<ul>${a.map(o=>`<li data-sci="${S.load.indexOf(o)}"><span style="background:${c}"></span>${esc(o.name)}</li>`).join('')}</ul>`:'<p class="muted">Пока ничего</p>'}</div>`).join('')}</div>`}
 const scaleCap=()=>{const dr=S.load.filter(x=>x.after<0),rt=S.load.filter(x=>x.after>0);const wD=dr.reduce((a,x)=>a+(-x.after)*x.demand,0),wR=rt.reduce((a,x)=>a+x.after*(x.imp+1),0);
   return wD>wR+1?'Сейчас перевешивают дела, которые забирают у вас силы':wR>wD+1?'Сейчас перевешивают дела, которые возвращают вам силы':'Сейчас дела, которые забирают силы, и дела, которые их возвращают, примерно уравновешены'};
 
@@ -1854,6 +1863,7 @@ TOOL.load=(m,t)=>{
   const add=v=>{v=v.trim();if(v&&!items().includes(v)){S.load.push({name:v,demand:3,after:0,imp:2,change:'частично'});save();render()}};
   $('#ldAdd').onclick=()=>add($('#ldIn').value);$('#ldIn').onkeydown=e=>{if(e.key==='Enter')add(e.target.value)};
   $$('[data-ls]',m).forEach(b=>b.onclick=()=>add(b.dataset.ls));
+  {const sv=$('#scaleV',m);if(sv){const hit=e=>{const g=e.target.closest('[data-sclist]');if(!g)return;if(e.type==='keydown'&&e.key!=='Enter'&&e.key!==' ')return;e.preventDefault();$$('.sc-list li',sv).forEach(l=>l.classList.toggle('hl',l.dataset.sci===g.dataset.sclist));const li=$(`.sc-list li[data-sci="${g.dataset.sclist}"]`,sv);if(li)li.scrollIntoView({behavior:'smooth',block:'nearest'})};sv.addEventListener('click',hit);sv.addEventListener('keydown',hit)}}
   $$('.ld-item',m).forEach(r=>{const x=S.load[+r.dataset.i];bindSeg(r,x,()=>{save();const a=$('#scaleV',m);if(!a&&S.load.some(o=>o.after)||a&&!S.load.some(o=>o.after)){const y=window.scrollY;render();window.scrollTo({top:y});return}if(a){a.innerHTML=scaleSvg();$('#scaleC',m).textContent=scaleCap()}const q=$('#quadV',m);if(q)q.innerHTML=loadSvg()})});
   $$('[data-dl]',m).forEach(b=>b.onclick=()=>{S.load.splice(+b.dataset.dl,1);save();render()});
 };
