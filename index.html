@@ -592,6 +592,8 @@ input.line:focus{border-color:var(--ink)}
 .dsec__h{font-family:var(--serif);text-transform:uppercase;font-size:clamp(20px,1.8vw,26px);margin-bottom:6px}
 .wheel-wrap{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:20px;align-items:center}
 .wheel svg{width:100%;height:auto;display:block}
+.wheel-wrap .ld-q{grid-template-columns:minmax(0,1fr);gap:6px}
+.dsec .seg button,.ld-q .seg button{font-size:15px;min-height:44px;padding:6px 16px}.wheel-wrap{align-items:start}.wheel{position:sticky;top:96px}
 .name-row{display:flex;gap:10px;align-items:center;max-width:420px;margin-top:14px}
 .first{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;justify-content:space-between;margin-bottom:20px;padding:18px 22px;background:var(--mint);font-size:16px}
 .help-btn{white-space:nowrap}
@@ -701,7 +703,7 @@ details.more{margin-top:14px}details.more summary{cursor:pointer;color:var(--mut
 .cviz__link{position:relative;height:58px}.cviz__link::before{content:'';position:absolute;left:-4px;right:-4px;top:28px;border-top:2px solid var(--ink)}
 .cviz__link.is-cut::before{border-top-style:dashed}
 .cviz__cut{position:absolute;left:50%;top:29px;transform:translate(-50%,-50%);width:34px;height:34px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center}
-@media (max-width:640px){.cviz{grid-template-columns:repeat(9,auto);justify-content:start}.cviz__n{width:84px}}
+@media (max-width:640px){.cviz{grid-template-columns:minmax(0,1fr);padding:18px 16px;overflow:visible}.cviz__n{display:grid;grid-template-columns:44px auto minmax(0,1fr);align-items:center;gap:12px;text-align:left}.cviz__c{width:44px;height:44px}.cviz__n small{font-size:13px}.cviz__link{height:22px;width:44px}.cviz__link::before{left:21px;right:auto;top:0;bottom:0;border-top:0;border-left:2px solid var(--ink)}.cviz__link.is-cut::before{border-left-style:dashed}.cviz__cut{top:11px;left:22px;width:28px;height:28px}}
 .state{display:inline-flex;align-items:center;gap:10px;padding:8px 18px 8px 8px}
 .state[aria-pressed="true"] svg{color:var(--bg)}
 .jars{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;margin:4px 0 22px}
@@ -771,12 +773,17 @@ details.more{margin-top:14px}details.more summary{cursor:pointer;color:var(--mut
 .h-first{display:flex;align-items:center;gap:12px;width:100%;margin-bottom:18px;padding:14px 18px;border:1px dashed var(--ghost);background:var(--bg);font:inherit;font-size:15px;color:var(--text);text-align:left;cursor:pointer}
 .h-grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:20px;min-height:min(56vh,520px)}
 .h-main{position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;gap:14px;padding:40px;border:0;background:var(--mint);color:var(--ink);font:inherit;text-align:left;cursor:pointer;min-height:360px}
-.h-main .eyebrow{color:var(--ok-ink);position:relative}
+.h-main .eyebrow{color:var(--text);position:relative;grid-column:1}
 .h-main__t{position:relative;font-family:var(--serif);font-size:clamp(38px,4.4vw,56px);line-height:1.05}
 .h-main__a{position:relative;display:flex;align-items:center;gap:16px;font-size:15px;color:var(--text)}
 .h-main .t-btn{margin:0;min-height:56px;padding:0 30px;font-size:17px}
 .hero-wave{position:absolute;right:-34px;top:-24px;color:var(--ink)}
 .hero-img{position:absolute;right:20px;top:18px;color:var(--ink);opacity:.9}
+.h-main{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:1fr auto auto auto;column-gap:24px;row-gap:14px;align-content:stretch}
+.h-main>.hero-img{position:static;grid-column:2;grid-row:1 / 5;align-self:center;margin:-10px -6px -10px 0}
+.h-main>.hero-img svg{width:clamp(150px,18vw,230px);height:auto}
+.h-main>.h-main__t,.h-main>.h-main__a{grid-column:1}.h-main>.eyebrow{grid-row:2}.h-main>.h-main__t{grid-row:3}.h-main>.h-main__a{grid-row:4;flex-wrap:wrap}
+@media (max-width:560px){.h-main{grid-template-columns:minmax(0,1fr)}.h-main>.hero-img{grid-column:1;grid-row:1;justify-self:end;margin:-6px -6px 0 0}.h-main>.hero-img svg{width:130px}}
 .h-side{display:grid;grid-template-rows:1fr 1fr;gap:20px}
 .h-card{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:12px;padding:24px 26px;border:0;font:inherit;text-align:left;color:var(--ink);cursor:pointer}
 .h-card--beige{background:var(--beige)}.h-card--lav{background:var(--lavender)}
@@ -884,6 +891,8 @@ button.user:hover,button.user[aria-expanded="true"]{background:var(--mint)}
 .stg__d{margin:0;font-size:16px;line-height:1.5;color:var(--text);max-width:62ch}
 .stg__note{margin:0;font-size:14px;color:var(--muted)}
 .stg__tools{display:flex;flex-wrap:wrap;gap:12px;margin-top:6px}
+.stg--now .stg__tools{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,220px));align-items:stretch}.stg--now .stg__tools .tt{width:auto;height:100%}
+@media (max-width:700px){.stg--now .stg__tools{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .tt-wrap{display:flex;flex-direction:column;gap:6px}
 .tt{display:flex;flex-direction:column;align-items:flex-start;gap:8px;width:170px;min-height:150px;padding:14px;border:0;border-radius:4px;background:var(--bg);font:inherit;text-align:left;color:var(--ink)}
 button.tt{cursor:pointer}
@@ -1549,7 +1558,7 @@ function inflLegend(){const zn=s=>s.infl===3?2:s.infl===0?0:1;
 const CV=[['situation','Ситуация','<rect x="4" y="6" width="16" height="12" rx="2"/><path d="M4 8l8 5 8-5"/>'],['rule','Правило','<path d="M5 11a7 6 0 1114 0c0 3.5-3.5 6-7 6l-4.5 2.5 1-3.5C6.5 15 5 13 5 11z"/>'],['emotion','Чувство','<path d="M12 20s-7-4.5-7-10a4 4 0 017-2.6A4 4 0 0119 10c0 5.5-7 10-7 10z"/>'],['action','Действие','<path d="M5 12h12M13 7l5 5-5 5"/>'],['cost','Цена','<circle cx="12" cy="12" r="7.5"/><path d="M12 8.5v4.5"/><circle cx="12" cy="16" r=".7" fill="currentColor"/>']];
 function chainViz(c){if(!c||!CV.some(([k])=>c[k]))return '';const idx=k=>C.CHAIN.findIndex(x=>x[0]===k);const ch=c.choice?idx(c.choice):-1;
   let cut=-1;if(ch>=0){CV.forEach(([k],i)=>{if(idx(k)<=ch)cut=i})}
-  return `<div class="cviz" role="img" aria-label="Цепочка: ${CV.map(([k,l])=>l).join(', ')}">${CV.map(([k,l,ic],i)=>`${i?`<span class="cviz__link ${i-1===cut?'is-cut':''}">${i-1===cut?`<span class="cviz__cut">${'<svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><circle cx="5" cy="15" r="2.6"/><circle cx="15" cy="15" r="2.6"/><path d="M6.8 13L15 3M13.2 13L5 3"/></svg>'}</span>`:''}</span>`:''}<div class="cviz__n ${i>=3?'is-cost':''}"><span class="cviz__c"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">${ic}</svg></span><b>${l}</b><small>${esc((c[k]||'-').slice(0,40))}</small></div>`).join('')}</div>
+  return `<div class="cviz" role="img" aria-label="Цепочка: ${CV.map(([k,l])=>l).join(', ')}">${CV.map(([k,l,ic],i)=>`${i?`<span class="cviz__link ${i-1===cut?'is-cut':''}">${i-1===cut?`<span class="cviz__cut">${'<svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><circle cx="5" cy="15" r="2.6"/><circle cx="15" cy="15" r="2.6"/><path d="M6.8 13L15 3M13.2 13L5 3"/></svg>'}</span>`:''}</span>`:''}<div class="cviz__n ${i>=3?'is-cost':''}"><span class="cviz__c"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">${ic}</svg></span><b>${l}</b><small>${esc((c[k]||'-').length>70?(c[k]).slice(0,68)+'…':(c[k]||'-'))}</small></div>`).join('')}</div>
     ${cut>=0?`<p class="viz-cap">Ножницы - место, где можно поступить иначе</p>`:''}`}
 
 /* --- Иконки состояний --- */
@@ -1765,14 +1774,15 @@ const SPHERES=[['work','Работа'],['home','Семья и дом'],['care','
 const LOADW=[[1,'мало'],[2,'умеренно'],[3,'заметно'],[4,'много'],[5,'предельно']];
 function wheelSvg(v){const cx=160,cy=150,R=110,n=SPHERES.length;const pt=(i,r)=>{const a=-Math.PI/2+i*2*Math.PI/n;return [cx+r*Math.cos(a),cy+r*Math.sin(a)]};
   const poly=SPHERES.map(([k],i)=>pt(i,R*(v[k]||0)/5).join(',')).join(' ');
-  return `<svg viewBox="-70 0 460 300" role="img" aria-label="Колесо нагрузки">${[1,2,3,4,5].map(r=>`<circle cx="${cx}" cy="${cy}" r="${R*r/5}" fill="none" stroke="var(--line)" ${r===5?'':'stroke-dasharray="2 4"'}/>`).join('')}
-    ${SPHERES.map(([k,l],i)=>{const [x,y]=pt(i,R),[tx,ty]=pt(i,R+22);return `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="var(--line)"/><text class="lbl" x="${tx}" y="${ty+4}" text-anchor="${Math.abs(tx-cx)<10?'middle':tx<cx?'end':'start'}">${esc(l)}</text>`}).join('')}
+  return `<svg viewBox="-120 -6 560 316" role="img" aria-label="Колесо нагрузки">${[1,2,3,4,5].map(r=>`<circle cx="${cx}" cy="${cy}" r="${R*r/5}" fill="none" stroke="var(--line)" ${r===5?'':'stroke-dasharray="2 4"'}/>`).join('')}
+    ${SPHERES.map(([k,l],i)=>{const [x,y]=pt(i,R),[tx,ty]=pt(i,R+22);return `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="var(--line)"/><text class="lbl" x="${tx}" y="${ty+4}" text-anchor="${Math.abs(tx-cx)<10?'middle':tx<cx?'end':'start'}">${l.length>14&&l.includes(' ')?(()=>{const w=l.split(' ');const h=Math.ceil(w.length/2);return `<tspan x="${tx}" dy="-7">${esc(w.slice(0,h).join(' '))}</tspan><tspan x="${tx}" dy="15">${esc(w.slice(h).join(' '))}</tspan>`})():esc(l)}</text>`}).join('')}
     <polygon points="${poly}" fill="var(--lavender)" stroke="var(--text)" stroke-width="1.4" opacity=".9"/></svg>`}
 TOOL.point=(m,t)=>{const p=S.point;p.spheres=p.spheres||{};
   m.innerHTML=wrap(t,`<section class="dsec"><h2 class="dsec__h">Отметьте, как проходит ваш обычный день</h2><div class="form">
     ${field('Оцените, сколько у вас сил утром',seg('morning',ENERGY_W,p.morning))}
     ${field('Оцените, сколько сил остается к вечеру',seg('evening',ENERGY_W,p.evening))}
-    ${field('Отметьте, как вы спите',seg('sleep',['восстанавливает','так себе','не восстанавливает'],p.sleep))}</div></section>
+    ${field('Оцените, восстанавливает ли вас сон',seg('sleep',[['восстанавливает','да, после сна есть силы'],['так себе','частично'],['не восстанавливает','нет, просыпаюсь без сил']],p.sleep))}
+    ${field('Отметьте, что происходит со сном',chips('sleepProb',['долго не могу уснуть','часто просыпаюсь среди ночи','просыпаюсь слишком рано и больше не сплю','сплю много, но не высыпаюсь','сплю меньше 6 часов','тревожные сны','со сном все в порядке'],p.sleepProb||[],{multi:true,max:7}),'можно выбрать несколько')}</div></section>
   <section class="dsec"><h2 class="dsec__h">Отметьте, как вы отдыхаете в течение недели и года</h2><div class="form">
     ${field('Отметьте, восстанавливают ли вас выходные',seg('weekend',['да','частично','нет, уходят на дела'],p.weekend))}
     ${field('Когда вы последний раз отдыхали в отпуске без работы?',seg('vacation',['в последние полгода','больше полугода назад','больше года назад','в отпуске все равно работаю'],p.vacation))}</div></section>
@@ -1913,8 +1923,10 @@ function loadSvg(){const W=720,H=460,L=60,R=30,Tp=30,B=50;const x=v=>L+50+(v-1)*
   <text class="q" x="${L+12}" y="${H-B-12}">Тихо подтачивает</text><text class="q" x="${W-R-12}" y="${H-B-12}" text-anchor="end">Истощает</text>
   <text class="lbl" x="${L}" y="${H-16}">забирает мало сил</text><text class="lbl" x="${W-R}" y="${H-16}" text-anchor="end">забирает много сил →</text>
   <text class="lbl" x="${L-10}" y="${Tp+8}" text-anchor="end" transform="rotate(-90 ${L-10} ${Tp+8})">после - наполняет ↑</text><text class="lbl" x="${L-10}" y="${H-B}" text-anchor="start" transform="rotate(-90 ${L-10} ${H-B})">опустошает</text>
-  ${S.load.map(o=>{const k=o.demand+'_'+o.after;const j=cnt[k]=(cnt[k]||0)+1;const dx=(j-1)*16,dy=(j-1)*62;const r=6+o.imp*4;const X=x(o.demand)+dx,Y=y(o.after)+dy;const left=X>W-240;
-    return `<g>${o.change!=='нет'?`<circle cx="${X}" cy="${Y}" r="${r+6}" fill="none" stroke="var(--text)" stroke-dasharray="2 3"/>`:''}<circle cx="${X}" cy="${Y}" r="${r}" fill="var(--text)"/><text class="dot-lbl" x="${Math.max(L+70,Math.min(W-R-70,X))}" y="${Y+r+(o.change!=='нет'?22:16)}" text-anchor="middle">${esc(o.name)}</text></g>`}).join('')}</svg>`}
+  ${(()=>{const placed=[];return S.load.map(o=>{const k=o.demand+'_'+o.after;const j=cnt[k]=(cnt[k]||0)+1;const dx=(j-1)*16,dy=(j-1)*62;const r=6+o.imp*4;const X=x(o.demand)+dx,Y=y(o.after)+dy;
+    const lw=Math.min(220,o.name.length*6.8+10),lx=Math.max(L+lw/2+4,Math.min(W-R-lw/2-4,X));let ly=Y+r+(o.change!=='нет'?22:16);
+    for(let g=0;g<8&&placed.some(q=>Math.abs(q.x-lx)<(q.w+lw)/2&&Math.abs(q.y-ly)<17);g++)ly+=18;placed.push({x:lx,y:ly,w:lw});
+    return `<g>${o.change!=='нет'?`<circle cx="${X}" cy="${Y}" r="${r+6}" fill="none" stroke="var(--text)" stroke-dasharray="2 3"/>`:''}<circle cx="${X}" cy="${Y}" r="${r}" fill="var(--text)"/><text class="dot-lbl" x="${lx}" y="${ly}" text-anchor="middle">${esc(o.name)}</text></g>`}).join('')})()}</svg>`}
 
 /* 5. Карта стрессоров и рычагов */
 TOOL.stress=(m,t)=>{
