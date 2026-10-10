@@ -1382,7 +1382,6 @@ b,strong{font-weight:500}
 .h-first:hover{border-color:color-mix(in srgb,var(--ink) 50%,transparent);background:var(--bg)}
 .h-main{padding:clamp(28px,3.4vw,48px)}
 .h-main__t{font-family:var(--serif);font-weight:400;font-size:clamp(32px,3.4vw,48px);line-height:1.05;letter-spacing:0;color:var(--ink);text-wrap:balance}
-.h-main::after{content:'';position:absolute;right:-90px;bottom:-90px;width:260px;height:260px;border-radius:50%;border:1px dashed color-mix(in srgb,var(--ink) 16%,transparent);pointer-events:none}
 .h-card{padding:24px 26px}
 .h-card__t{font-size:clamp(22px,1.9vw,27px);line-height:1.15}
 .h-main,.h-card{transition:transform var(--t-mid) var(--ease),box-shadow var(--t-mid) var(--ease)}
@@ -1574,7 +1573,7 @@ button.tt:hover{transform:translateY(-2px);box-shadow:var(--sh-3);border-color:c
   .stgs{grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
 }
 @media (max-width:820px){
-  .h-main::after{display:none}
+  
   .thero__img{width:116px;height:116px}
   .thero__img svg{width:88px;height:88px}
   .nav-sec{grid-template-columns:minmax(0,1fr);gap:8px}
@@ -1618,6 +1617,20 @@ button.tt:hover{transform:translateY(-2px);box-shadow:var(--sh-3);border-color:c
   .stg,.tt,.note,.viz{border:1px solid CanvasText}
 }
 
+/* Стартовая диагностика по шагам */
+.pt-steps{margin:6px 0 28px}
+.pt-nav{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:30px;padding-top:20px;border-top:1px solid var(--hair)}
+.pt-count{font-size:14px;color:var(--muted)}
+.pt-steps~.dsec{border-top:0!important;margin-top:0!important;padding-top:0!important}
+.pt-steps~.dsec .field{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;padding:18px 0;border-top:1px solid var(--hair)}
+.pt-steps~.dsec .field:first-child{border-top:0;padding-top:4px}
+.pt-steps~.dsec .form{gap:0}
+@media (prefers-reduced-motion:no-preference){.pt-steps~.dsec:not([hidden]){animation:vy-in .32s var(--ease) both}}
+@media (max-width:560px){.pt-steps button{font-size:12px}.pt-nav .btn--primary{padding:0 22px}}
+
+@media (max-width:560px){.wheel-wrap .ld-q .seg{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}.wheel-wrap .ld-q .seg button{min-height:44px;padding:4px 2px;font-size:12.5px;border-radius:10px}.wheel-wrap .ld-q .seg button[aria-pressed="true"]::before{display:none}.wheel-wrap .ld-q{padding:6px 0}}
+
+.h-main::after{content:none!important}
 </style>
 </head>
 <body>
@@ -1912,7 +1925,7 @@ function importData(file){const r=new FileReader();r.onload=()=>{try{const j=JSO
 /* ---------- маршрутизация ---------- */
 let route={v:'today'};
 let RET=null;
-function go(v,arg,noPush){if(typeof pracStop==='function')pracStop();if(typeof recStop==='function')recStop();const mn=document.getElementById('main');if(mn){mn.classList.add('enter');clearTimeout(window._ent);window._ent=setTimeout(()=>mn.classList.remove('enter'),1800)}route={v,arg};$('#sidebar').classList.remove('open');if(!noPush)try{history.pushState({v,arg},'')}catch(e){}render();window.scrollTo({top:0})}
+function go(v,arg,noPush){if(route&&route.arg!==arg)route.pst=0;if(typeof pracStop==='function')pracStop();if(typeof recStop==='function')recStop();const mn=document.getElementById('main');if(mn){mn.classList.add('enter');clearTimeout(window._ent);window._ent=setTimeout(()=>mn.classList.remove('enter'),1800)}route={v,arg};$('#sidebar').classList.remove('open');if(!noPush)try{history.pushState({v,arg},'')}catch(e){}render();window.scrollTo({top:0})}
 window.__vy={go:(...a)=>go(...a),get S(){return S},save:()=>save(),render:()=>render(),get route(){return route}};
 window.addEventListener('popstate',e=>{const st=e.state;if(st&&st.v)go(st.v,st.arg,true);else go('today',null,true)});
 try{history.replaceState({v:'today'},'')}catch(e){}
@@ -2397,7 +2410,25 @@ TOOL.point=(m,t)=>{const p=S.point;p.spheres=p.spheres||{};
   bindSeg(m,p);bindOwn(m,p);bindDisc(m);
   $$('[data-sph]',m).forEach(g=>$$('button',g).forEach(b=>b.onclick=()=>{p.spheres[g.dataset.sph]=+b.dataset.v;$$('button',g).forEach(x=>x.setAttribute('aria-pressed',String(x===b)));$('#wheel').innerHTML=wheelSvg(p.spheres);S.point=p;save()}));
   $('#pSave').onclick=()=>{p.change=$('#pChange').value.trim();p.markers=$$('[data-mk]',m).map(i=>i.value.trim()).filter(Boolean);p.energy=p.morning||p.energy;p.load=Math.max(0,...Object.values(p.spheres))||p.load;p.saved=1;S.point=p;save();toast('Диагностика сохранена. В конце трека она встанет рядом с финальной')};
+  pointSteps(m,p);
 };
+/* Стартовая диагностика по одному блоку за раз: данные и сохранение прежние, меняется только показ */
+const PT_STEPS=['Ваш день','Отдых','Нагрузка','Чувства','Цель'];
+function pointSteps(m,p){const secs=$$('.dsec',m);if(secs.length!==PT_STEPS.length)return;const sv=$('#pSave',m).parentElement;
+  let i=Math.min(route.pst||0,secs.length-1);
+  const bar=document.createElement('ol');bar.className='pw-steps pt-steps';bar.setAttribute('aria-label','Шаги диагностики');
+  bar.innerHTML=PT_STEPS.map((t,k)=>`<li><button type="button" class="pw-step" data-ps="${k}"><span>${k+1}</span>${t}</button></li>`).join('');
+  secs[0].before(bar);
+  const nav=document.createElement('div');nav.className='pt-nav';
+  nav.innerHTML=`<button type="button" class="btn btn--ghost" id="ptPrev">${BACK}Назад</button><span class="pt-count" id="ptCount"></span><button type="button" class="btn btn--primary" id="ptNext">Дальше</button>`;
+  sv.before(nav);
+  const show=(k,scroll)=>{i=k;route.pst=k;secs.forEach((x,j)=>x.hidden=j!==k);sv.hidden=k!==secs.length-1;$('#ptNext',m).hidden=k===secs.length-1;$('#ptPrev',m).style.visibility=k?'visible':'hidden';
+    $('#ptCount',m).textContent=`Шаг ${k+1} из ${secs.length}`;
+    $$('.pw-step',bar).forEach((b,j)=>{const li=b.parentElement;li.className=j<k?'done':j===k?'now':'';b.setAttribute('aria-current',j===k?'step':'false')});
+    S.point=p;save();if(scroll){const y=bar.getBoundingClientRect().top+window.scrollY-110;window.scrollTo({top:Math.max(0,y),behavior:'smooth'})}};
+  $('#ptNext',m).onclick=()=>show(Math.min(i+1,secs.length-1),true);$('#ptPrev',m).onclick=()=>show(Math.max(i-1,0),true);
+  $$('.pw-step',bar).forEach(b=>b.onclick=()=>show(+b.dataset.ps,true));
+  show(i,false)}
 
 
 /* 2. Карта состояния */
