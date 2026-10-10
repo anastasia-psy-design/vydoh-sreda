@@ -975,6 +975,17 @@ button.tt{cursor:pointer}
   .thero__img{transition:transform .5s var(--ease)}.thero:hover .thero__img{transform:scale(1.04) rotate(-4deg)}
   .tpanel:not([hidden]){animation:fadeUp .35s var(--ease) both}
 }
+
+.hero-art .hf-fill{transform-box:fill-box;transform-origin:left center}
+.hero-img--bat{right:10px;top:10px}
+@media (prefers-reduced-motion:no-preference){
+  @keyframes charge2{0%,100%{transform:scaleX(.55)}50%{transform:scaleX(1)}}
+  @keyframes needle{0%,100%{transform:rotate(0)}50%{transform:rotate(8deg)}}
+  .main.enter .hero-art .hf-fill{animation:fillX 1.2s var(--ease) .3s both}
+  .thero:hover .hf-fill,.h-main:hover .hf-fill,.h-card:hover .hf-fill,button.tt:hover .hf-fill{animation:charge2 2.4s ease-in-out infinite}
+  .hero-art .hf-needle{transform-box:view-box;transform-origin:60px 81px}
+  .thero:hover .hf-needle,button.tt:hover .hf-needle,.h-card:hover .hf-needle{animation:needle 2s ease-in-out infinite}
+}
 </style>
 </head>
 <body>
@@ -1295,7 +1306,7 @@ function head(t){
   const lk=ns=>ns.map(n=>`<button data-go="tool" data-arg="${TN[n].id}" class="${isOpen(TN[n].id)?'':'is-closed'}" ${isOpen(TN[n].id)?'':'disabled'}>${n}. ${esc(TN[n].title)}</button>`).join('');
   const h=C.howTo[t.id]||{};
   return `<button class="back" data-back>${BACK}Назад</button><header class="thero">
-    <div class="thero__img">${bigIco(t.id,150)}</div>
+    <div class="thero__img" style="background:${HBG[t.id]||'var(--mint)'}">${bigIco(t.id,150)}</div>
     <div class="thero__txt"><p class="eyebrow">${t.role?esc(t.role)+' · ':''}${esc(t.time)}</p><h1>${esc(t.title)}</h1>
       <p class="thero__met">${esc((C.metaphor||{})[t.id]||t.goal)}</p>
       <div class="thero__pills"><button type="button" class="tpill" data-tp="how" aria-expanded="false">${ico('nav',16)}Как это работает</button>${C.lowEnergy[t.id]?`<button type="button" class="tpill" data-tp="low" aria-expanded="false"><span class="thead__bat" aria-hidden="true"><i></i></span>Если сил мало</button>`:''}</div>
@@ -1355,7 +1366,24 @@ function sparkSvg(ps){const W=420,H=96,n=ps.length;const x=i=>18+(n<2?0:i*(W-36)
     <path d="${ps.map((p,i)=>`${i?'L':'M'}${x(i).toFixed(1)} ${y(p.energy).toFixed(1)}`).join(' ')}" fill="none" stroke="var(--ink)" stroke-width="1.6"/>
     ${ps.map((p,i)=>`<circle cx="${x(i)}" cy="${y(p.energy)}" r="${i===n-1?7:5}" fill="${i===n-1?'var(--mint)':'var(--ink)'}" stroke="var(--ink)" stroke-width="1.6"/>`).join('')}</svg>`}
 
-const bigIco=(id,s=120)=>`<svg class="bigico" width="${s}" height="${s}" viewBox="-2 -2 28 28" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="13" stroke-dasharray="1 2.2" opacity=".8"/>${ICO[id]||''}</svg>`;
+/* --- Образы-обложки инструментов: тонкая линия, один акцентный цвет --- */
+const HC={mint:'#a9cbbf',mintL:'#cfe0da',peach:'#f1ddd5',sun:'#f2c88f',lav:'#d9d4e6',beige:'#e6dccf'};
+const HERO={
+  pulse:`<rect x="20" y="40" width="72" height="40" rx="10" fill="var(--bg)"/><rect x="92" y="52" width="7" height="16" rx="2.5" fill="currentColor" stroke="none"/><rect class="hf-fill" x="26" y="46" width="42" height="28" rx="5" fill="${HC.mint}" stroke="none"/><path d="M60 47L49 62h8l-3 12 11-16h-8z" fill="currentColor" stroke="none"/>`,
+  point:`<path d="M16 94c18-10 30 4 46-6s30-12 42-24" stroke-dasharray="2 5"/><circle cx="16" cy="94" r="3" fill="currentColor" stroke="none"/><path d="M60 22c-12 0-21 9-21 21 0 15 21 34 21 34s21-19 21-34c0-12-9-21-21-21z" fill="${HC.peach}"/><circle cx="60" cy="43" r="7" fill="var(--bg)"/>`,
+  radar:`<path d="M22 80a38 38 0 0 1 76 0"/><path d="M22 80a38 38 0 0 1 6.4-21.1" stroke="#c98a7a" stroke-width="4" stroke-linecap="round"/><path d="M39 56l3 3M60 46v4M81 56l-3 3" /><line class="hf-needle" x1="60" y1="80" x2="35" y2="66" stroke-width="2"/><circle cx="60" cy="80" r="4" fill="currentColor" stroke="none"/><rect x="54" y="90" width="11" height="13" rx="2" fill="${HC.sun}"/><path d="M65 94h3v6"/>`,
+  load:`<path d="M60 28v62M46 90h28"/><circle cx="60" cy="28" r="3" fill="currentColor" stroke="none"/><path d="M26 44l68-10"/><path d="M26 44l-10 22M26 44l10 22M94 34l-10 22M94 34l10 22" stroke-dasharray="2 3"/><path d="M14 66h24q-2 9-12 9t-12-9z" fill="${HC.peach}"/><path d="M82 56h24q-2 9-12 9t-12-9z" fill="${HC.mintL}"/><circle cx="21" cy="62" r="4" fill="currentColor" stroke="none"/><circle cx="30" cy="62" r="3.5" fill="currentColor" stroke="none"/><circle cx="26" cy="56" r="3" fill="currentColor" stroke="none"/><circle cx="94" cy="53" r="2.5" fill="currentColor" stroke="none"/>`,
+  stress:`<rect x="40" y="18" width="40" height="84" rx="16" fill="var(--bg)"/><circle cx="60" cy="38" r="9" fill="${HC.mint}"/><circle cx="51" cy="60" r="4"/><circle cx="69" cy="60" r="4" fill="${HC.sun}"/><circle cx="51" cy="74" r="4"/><circle cx="69" cy="74" r="4"/><circle cx="51" cy="88" r="4"/><circle cx="69" cy="88" r="4"/>`,
+  chain:`<rect x="22" y="48" width="14" height="38" rx="3" transform="rotate(-28 29 86)" fill="var(--bg)"/><rect x="42" y="46" width="14" height="40" rx="3" transform="rotate(-14 49 86)" fill="var(--bg)"/><rect x="62" y="44" width="14" height="42" rx="3" fill="${HC.peach}"/><rect x="84" y="44" width="14" height="42" rx="3" stroke-dasharray="2 3"/><path d="M14 86h92"/><path d="M69 36v-10M64 31l5-5 5 5"/>`,
+  recovery:`<path d="M48 40v-7a5 5 0 0 1 5-5h14a5 5 0 0 1 5 5v7"/><rect x="24" y="40" width="72" height="50" rx="9" fill="${HC.mintL}"/><path d="M55 51h10v9h9v10h-9v9H55v-9h-9V60h9z" fill="var(--bg)"/>`,
+  range:`<path d="M22 82a38 38 0 0 1 76 0"/><path d="M35.6 52.9a38 38 0 0 1 48.8 0" stroke="${HC.mint}" stroke-width="5" stroke-linecap="round"/><path d="M26 66l4 2M60 44v5M94 66l-4 2"/><line class="hf-needle" x1="60" y1="82" x2="68" y2="53" stroke-width="2"/><circle cx="60" cy="82" r="4" fill="currentColor" stroke="none"/><path d="M40 96h40" stroke-dasharray="2 4"/>`,
+  resp:`<path d="M52 30a8 8 0 0 1 16 0"/><path d="M40 46a20 20 0 0 1 40 0v42a8 8 0 0 1-8 8H48a8 8 0 0 1-8-8z" fill="${HC.beige}"/><rect x="48" y="66" width="24" height="18" rx="4" fill="var(--bg)"/><ellipse cx="60" cy="38" rx="11" ry="5" fill="currentColor" stroke="none"/><path d="M40 56h-6v26h6M80 56h6v26h-6"/>`,
+  nhv:`${[[24,30,HC.beige],[52,12,HC.mint],[80,22,HC.lav]].map(([x,h,c])=>`<rect x="${x}" y="40" width="18" height="5" rx="1.5" fill="currentColor" stroke="none"/><rect x="${x+1}" y="${88-h}" width="16" height="${h}" fill="${c}" stroke="none"/><rect x="${x}" y="45" width="18" height="44" rx="4"/>`).join('')}`,
+  lab:`<path d="M14 84h92"/><path d="M38 84l5 7-3 7M82 84l-5 6 5 7"/><ellipse cx="60" cy="60" rx="10" ry="16" transform="rotate(-8 60 60)" fill="${HC.mintL}"/><circle cx="53" cy="38" r="3" fill="currentColor" stroke="none"/><circle cx="59.5" cy="35.5" r="3" fill="currentColor" stroke="none"/><circle cx="66" cy="37.5" r="2.6" fill="currentColor" stroke="none"/><circle cx="70.5" cy="42" r="2.2" fill="currentColor" stroke="none"/>`,
+  peak:`<circle cx="74" cy="44" r="14" fill="${HC.sun}" stroke="none"/><path d="M74 22v-6M92 30l4-4M98 46h6"/><path d="M34 86a14 14 0 0 1 3-27 18 18 0 0 1 34 3 12 12 0 0 1 3 24z" fill="var(--bg)"/><path d="M44 94l-3 6M56 94l-3 6M68 94l-3 6" />`,
+  nav:`<path d="M22 38q19-7 38 2 19-9 38-2v52q-19-7-38 2-19-9-38-2z" fill="var(--bg)"/><path d="M60 40v52"/><path d="M30 52h20M30 60h17M30 68h20"/><path d="M79 55c-3-5-10-3-10 2 0 5 10 11 10 11s10-6 10-11c0-5-7-7-10-2z" fill="${HC.peach}"/>`};
+const HBG={pulse:'var(--mint)',point:'var(--beige)',radar:'var(--lavender)',load:'var(--beige)',stress:'var(--lavender)',chain:'var(--beige)',recovery:'var(--mint)',range:'var(--mint)',resp:'var(--beige)',nhv:'var(--lavender)',lab:'var(--mint)',peak:'var(--lavender)',nav:'var(--beige)'};
+const bigIco=(id,s=120)=>HERO[id]?`<svg class="bigico hero-art" width="${s}" height="${s}" viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="60" cy="60" r="57" stroke-dasharray="1 4" opacity=".7"/>${HERO[id]}</svg>`:`<svg class="bigico" width="${s}" height="${s}" viewBox="-2 -2 28 28" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="13" stroke-dasharray="1 2.2" opacity=".8"/>${ICO[id]||''}</svg>`;
 function homeSteps(){const wk=Date.now()-8*864e5;const nP=S.pulses.filter(p=>new Date(p.d).getTime()>=wk).length;
   const cur=(C.stages[curStage()-1]||{tools:[]}).tools;
   const tools=C.tools.filter(t=>S.open[t.id]&&!t.final&&t.id!=='pulse'&&!done(t.id));
@@ -1370,7 +1398,7 @@ function weekDots(){const now=new Date();const dow=(now.getDay()+6)%7;const mon=
   const has=new Set(S.pulses.map(p=>p.d));const N=['пн','вт','ср','чт','пт','сб','вс'];
   return N.map((n,i)=>{const d=new Date(mon);d.setDate(mon.getDate()+i);const iso=d.toISOString().slice(0,10);const cls=has.has(iso)?'on':i===dow?'today':i>dow?'later':'';return `<span class="wd wd--${cls||'off'}"><i></i>${n}</span>`}).join('')}
 function vToday(m){const {st,nP}=homeSteps();const main=st[0],second=st[1];const cs=curStage();const navN=navSections().filter(s=>s.ok).length;
-  const mainImg=main.id==='pulse'?`<svg class="hero-wave" width="380" height="380" viewBox="0 0 360 360" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="180" cy="180" r="170" stroke-width="1.2" stroke-dasharray="2 6"/><circle cx="180" cy="180" r="118" stroke-width="1" stroke-dasharray="2 5" opacity=".55"/><path class="hw-line" d="M30 210c30-50 52-70 78-50s40 52 72 10 52-70 80-40 40 30 70 18" stroke-width="2"/><circle class="hw-dot" cx="190" cy="170" r="9" fill="currentColor"/></svg>`:`<span class="hero-img">${bigIco(main.id,300)}</span>`;
+  const mainImg=main.id==='pulse'?`<span class="hero-img hero-img--bat">${bigIco('pulse',300)}</span>`+'':false?`<svg class="hero-wave" width="380" height="380" viewBox="0 0 360 360" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="180" cy="180" r="170" stroke-width="1.2" stroke-dasharray="2 6"/><circle cx="180" cy="180" r="118" stroke-width="1" stroke-dasharray="2 5" opacity=".55"/><path class="hw-line" d="M30 210c30-50 52-70 78-50s40 52 72 10 52-70 80-40 40 30 70 18" stroke-width="2"/><circle class="hw-dot" cx="190" cy="170" r="9" fill="currentColor"/></svg>`:`<span class="hero-img">${bigIco(main.id,300)}</span>`;
   m.innerHTML=`<div class="page home">
     <div class="h-top"><h1 class="h-hello">${hello()}${S.name?', '+esc(S.name):''}</h1>${!S.name?`<span class="h-name"><input class="line" id="hNameIn" placeholder="Как к вам обращаться?" aria-label="Ваше имя"><button class="btn btn--sm" id="hNameB">Сохранить</button></span>`:''}
       <button class="h-trail" data-go="tools" aria-label="Маршрут: этап ${cs} из 9"><span class="h-trail__line"><i style="width:${(cs-1)/8*100}%"></i></span>${C.stages.map((s,i)=>`<span class="h-dot ${i<cs-1?'past':i===cs-1?'now':i===8?'end':''}"></span>`).join('')}</button>
