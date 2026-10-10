@@ -9,10 +9,10 @@
 <style>
 /* ===== Токены «Выдох» - как на лендинге программы ===== */
 :root{
-  --bg:#ffffff; --cream:#faf9f7; --ink:#1a1816; --text:#2d2c2a;
+  --bg:#ffffff; --cream:#faf9f7; --ink:#2f2d2a; --text:#45433f;
   --muted:rgba(37,36,35,.68); --ghost:rgba(37,36,35,.45); --line:rgba(0,0,0,.1); --soft:#efefef;
   --mint:#e2e9e9; --beige:#efe9e3; --lavender:#e7e4ee; --drain:#f1ddd5;
-  --action:#181616; --action-text:#ffffff; --orbit-disc:#f4f4f4; --deep:#2d2c2a;
+  --action:#2b2927; --action-text:#ffffff; --orbit-disc:#f4f4f4; --deep:#2d2c2a;
   --focus:#2d2c2a;
   --ok-bg:#e2e9e9; --ok-ink:#2f5a4a; --warn-bg:#efe9e3; --warn-ink:#6f5530; --bad-bg:#f1ddd5; --bad-ink:#8a4339;
   --serif:'Playfair Display','Times New Roman',serif;
@@ -619,7 +619,7 @@ button.t-card{cursor:pointer}button.t-card:hover .t-btn{transform:translateX(2px
 .t-card--mint{background:var(--mint)}.t-card--beige{background:var(--beige)}.t-card--lav{background:var(--lavender)}
 .t-card h2{font-family:var(--serif);font-weight:400;font-size:30px;line-height:1.1;margin:0}
 .t-card p:not(.eyebrow){color:var(--text);margin:0}
-.t-btn{margin-top:auto;display:inline-flex;align-items:center;min-height:48px;padding:0 24px;border-radius:999px;background:var(--action);color:var(--action-text);font-size:16px;transition:transform .2s var(--ease)}
+.t-btn{margin-top:auto;display:inline-flex;align-items:center;min-height:48px;padding:0 24px;border-radius:12px;background:var(--action);color:var(--action-text);font-size:16px;transition:transform .2s var(--ease)}
 .t-btn--line{background:transparent;color:var(--ink);border:1px solid var(--ink)}
 .t-breath{position:relative;width:92px;height:92px;border-radius:50%;border:1.4px dashed var(--ink)}.t-breath i{position:absolute;inset:20px;border-radius:50%;background:var(--bg)}
 .t-list{display:grid;width:100%}
@@ -823,7 +823,7 @@ body.rp-open{overflow:hidden}
 }
 
 /* ===== Полировка: скругления, выравнивания, тонкие линии ===== */
-:root{--r-lg:24px;--r-md:16px;--r-sm:12px}
+:root{--r-lg:0px;--r-md:0px;--r-sm:0px}
 .h-main,.h-card,.h-strip,.stg,.panel,.empty,.viz,.cviz,.scard,.method,.zone-card,.sector,.nhv-col,.big-card,.keep-card,.pt-card,.t-card,.tpanel,.rc,.rc-empty,.rp__img,.nav-next,.prac__play,.breath-wrap,.zrows,.howread,.modal{border-radius:var(--r-lg)}
 .note,.h-first,.tt,.path,.ap,.rp-dev,.rp-warn,.rp-check button,.rp-sort>div,.rp-shelves>div,.zrow,.kv,.copyrow code,.retbar+header,.inf-leg__it span,.thead__how,.req,.first,.mode{border-radius:var(--r-md)}
 .rp-paper{border-radius:6px}
@@ -836,6 +836,30 @@ body.rp-open{overflow:hidden}
 svg [stroke-dasharray]{stroke-linecap:round}
 .wsteps{margin-top:28px!important}.viz{padding:14px 18px}.viz>svg{width:100%;height:auto;border-radius:14px;overflow:hidden}
 .tdetails,.psy-more{margin-bottom:8px}
+
+/* ===== Стиль InTreatment: легкие заголовки, мягкий объем ===== */
+:root{--sh-soft:0 1px 2px rgba(45,44,42,.04),0 14px 36px -20px rgba(45,44,42,.22);--sh-tile:0 1px 2px rgba(45,44,42,.04),0 6px 18px -12px rgba(45,44,42,.18);--glow:rgba(255,255,255,.62)}
+h1,.thead h1,.thero h1{font-size:clamp(30px,3.1vw,46px);font-weight:400;letter-spacing:.01em;color:var(--ink)}
+.h-main__t{font-size:clamp(32px,3.2vw,44px);font-weight:400;line-height:1.08;color:var(--ink)}
+.h-hello{font-weight:400;color:var(--ink)}
+.sec__h h2,.dsec__h{font-size:clamp(20px,1.7vw,26px);font-weight:400;letter-spacing:.01em;color:var(--ink)}
+.stg__t,.rc__h,.rp-h,.h-card__t,.zone-card h3,.sector h3,.scard h3,.rp-big,.rp-phase,.rp-quote p{font-weight:400;color:var(--ink)}
+.stg--now .stg__t{font-size:clamp(26px,2.6vw,32px)}
+b,strong{font-weight:500}
+.eyebrow{color:var(--muted)}
+/* мягкий свет страницы */
+@media (prefers-color-scheme:light),(prefers-color-scheme:no-preference){:root:not([data-theme="dark"]) .main{background:radial-gradient(900px 520px at 100% -8%,rgba(167,216,205,.20),transparent 62%),radial-gradient(760px 520px at -6% 104%,rgba(231,228,238,.45),transparent 60%),var(--bg)}}
+:root[data-theme="light"] .main{background:radial-gradient(900px 520px at 100% -8%,rgba(167,216,205,.20),transparent 62%),radial-gradient(760px 520px at -6% 104%,rgba(231,228,238,.45),transparent 60%),var(--bg)}
+/* объем цветных панелей: легкий градиент и тень */
+.h-main,.h-card,.stg,.zone-card,.sector,.nhv-col,.rc,.rp__img,.nav-next,.empty,.scard,.viz,.cviz,.note,.tpanel,.h-strip,.panel{background-image:linear-gradient(155deg,var(--glow) 0%,rgba(255,255,255,0) 58%);box-shadow:var(--sh-soft)}
+.thero__img{background-image:radial-gradient(circle at 32% 26%,var(--glow),rgba(255,255,255,0) 62%);box-shadow:inset 0 0 0 1px rgba(45,44,42,.04),0 18px 40px -26px rgba(45,44,42,.35)}
+.tt,.ap,.path,.rp-check button,.rp-sort>div{box-shadow:var(--sh-tile)}
+.h-main,.h-card,.stg,.rc,.tt{transition:box-shadow .35s ease,transform .35s ease}
+.h-main:hover,.h-card:hover,button.tt:hover{box-shadow:0 1px 2px rgba(45,44,42,.05),0 22px 48px -24px rgba(45,44,42,.3)}
+.btn--primary,.t-btn{background-image:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,0));box-shadow:0 8px 20px -12px rgba(45,44,42,.55)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--glow:rgba(255,255,255,.035)}}
+:root[data-theme="dark"]{--glow:rgba(255,255,255,.035)}
+.zrows{box-shadow:none}
 .sc-chip{cursor:pointer;outline:none}.sc-chip:hover rect,.sc-chip:focus rect{stroke-width:2}
 .sc-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 28px;margin-top:14px}
 .sc-list__h{margin:0 0 8px;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted,#6b6965)}
