@@ -801,7 +801,7 @@ button.user:hover,button.user[aria-expanded="true"]{background:var(--mint)}
   @keyframes grow{from{transform:scaleY(0)}to{transform:scaleY(1)}}
   @keyframes breatheSoft{0%,100%{transform:scale(.86)}50%{transform:scale(1)}}
   @keyframes flow{to{stroke-dashoffset:-40}}
-  .page{animation:fadeUp .5s var(--ease) both}
+  .main.enter .page{animation:fadeUp .5s var(--ease) both}
   .hw-line{stroke-dasharray:900;animation:drawIn 1.6s var(--ease) both,drift 9s ease-in-out 1.6s infinite}
   .hw-dot{animation:popIn .6s var(--ease) 1.2s both,dotFloat 9s ease-in-out 1.8s infinite;transform-box:fill-box;transform-origin:center}
   .h-main,.h-card,.t-card{transition:transform .35s var(--ease),box-shadow .35s var(--ease)}
@@ -809,27 +809,27 @@ button.user:hover,button.user[aria-expanded="true"]{background:var(--mint)}
   .h-card__img svg,.hero-img svg{transition:transform .6s var(--ease)}
   .h-card:hover .h-card__img svg,.h-main:hover .hero-img svg{transform:rotate(-8deg) scale(1.05)}
   .h-card:hover .h-breath i{animation:breatheSoft 4s ease-in-out infinite}
-  .h-grid>*{animation:fadeUp .6s var(--ease) both}.h-side>*:nth-child(1){animation:fadeUp .6s var(--ease) .12s both}.h-side>*:nth-child(2){animation:fadeUp .6s var(--ease) .24s both}
+  .main.enter .h-grid>*{animation:fadeUp .6s var(--ease) both}.h-side>*:nth-child(1){animation:fadeUp .6s var(--ease) .12s both}.h-side>*:nth-child(2){animation:fadeUp .6s var(--ease) .24s both}
   .h-trail:hover .h-dot:not(.past):not(.now){transform:translateY(-3px)}
   .h-trail:hover .h-dot:nth-child(odd){transition-delay:.05s}
   .trail path[stroke-dasharray]{transition:stroke-dashoffset .3s}.t-trail:hover .trail path[stroke-dasharray]{animation:flow 1.6s linear infinite}
-  .ring-bar{animation:drawIn 1.2s var(--ease) .4s both;--len:100}
-  .wd--on i{animation:popIn .45s var(--ease) both}
-  .viz svg{animation:fadeUp .7s var(--ease) both}
-  .viz svg circle,.viz svg rect:not(:first-child){transform-box:fill-box;transform-origin:center;animation:popIn .5s var(--ease) both}
-  .viz svg circle:nth-of-type(3n+1){animation-delay:.15s}.viz svg circle:nth-of-type(3n+2){animation-delay:.3s}.viz svg circle:nth-of-type(3n){animation-delay:.45s}
-  .viz svg path[fill="none"]:not([stroke-dasharray]){stroke-dasharray:1400;animation:drawIn 1.4s var(--ease) both;--len:1400}
+  .main.enter .ring-bar{animation:drawIn 1.2s var(--ease) .4s both;--len:100}
+  .main.enter .wd--on i{animation:popIn .45s var(--ease) both}
+  .main.enter .viz svg{animation:fadeUp .7s var(--ease) both}
+  .main.enter .viz svg circle,.main.enter .viz svg rect:not(:first-child){transform-box:fill-box;transform-origin:center;animation:popIn .5s var(--ease) both}
+  .main.enter .viz svg circle:nth-of-type(3n+1){animation-delay:.15s}.main.enter .viz svg circle:nth-of-type(3n+2){animation-delay:.3s}.main.enter .viz svg circle:nth-of-type(3n){animation-delay:.45s}
+  .main.enter .viz svg path[fill="none"]:not([stroke-dasharray]){stroke-dasharray:1400;animation:drawIn 1.4s var(--ease) both;--len:1400}
   .viz svg g:hover circle,.viz svg .pt:hover circle{transform:scale(1.25)}
   .scale line{transform-box:view-box;transform-origin:360px 70px}
-  .jar__g i{transform-origin:bottom;animation:grow 1s var(--ease) both}
-  .cviz__n{animation:fadeUp .5s var(--ease) both}.cviz__n:nth-child(3){animation-delay:.1s}.cviz__n:nth-child(5){animation-delay:.2s}.cviz__n:nth-child(7){animation-delay:.3s}.cviz__n:nth-child(9){animation-delay:.4s}
+  .main.enter .jar__g i{transform-origin:bottom;animation:grow 1s var(--ease) both}
+  .main.enter .cviz__n{animation:fadeUp .5s var(--ease) both}.cviz__n:nth-child(3){animation-delay:.1s}.cviz__n:nth-child(5){animation-delay:.2s}.cviz__n:nth-child(7){animation-delay:.3s}.cviz__n:nth-child(9){animation-delay:.4s}
   .cviz__cut{animation:popIn .5s var(--ease) .6s both}
   .chip,.state,.lvl button,.pw-want button{transition:transform .2s var(--ease),background .2s,border-color .2s}
   .chip:hover,.state:hover,.lvl button:hover,.pw-want button:hover{transform:translateY(-2px)}
   .bz ellipse{transition:fill .25s,stroke .25s}
-  .bz.on ellipse{animation:popIn .35s var(--ease) both;transform-box:fill-box;transform-origin:center}
-  .zrow{animation:fadeUp .5s var(--ease) both}.zrow:nth-child(2){animation-delay:.1s}.zrow:nth-child(3){animation-delay:.2s}
-  .wstep{animation:fadeUp .5s var(--ease) both}
+  .bz.on ellipse{transform-box:fill-box;transform-origin:center}
+  .main.enter .zrow{animation:fadeUp .5s var(--ease) both}.zrow:nth-child(2){animation-delay:.1s}.zrow:nth-child(3){animation-delay:.2s}
+  .main.enter .wstep{animation:fadeUp .5s var(--ease) both}
   .tool--in{transition:background .2s}.tool--in[role=button]:hover{background:var(--cream)}
 }
 
@@ -877,7 +877,7 @@ button.tt{cursor:pointer}
   @keyframes charge{0%,100%{transform:scaleX(.35)}50%{transform:scaleX(.75)}}
   .bat__c.past i{animation:fillX .6s var(--ease) var(--d) both}
   .bat__c.now i{animation:fillX .6s var(--ease) var(--d) both,charge 5s ease-in-out 1.2s infinite}
-  .stg{animation:fadeUp .5s var(--ease) var(--d) both}
+  .main.enter .stg{animation:fadeUp .5s var(--ease) var(--d) both}
   button.tt{transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
   button.tt:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(0,0,0,.06)}
   button.tt .tt__ico svg{transition:transform .5s var(--ease)}button.tt:hover .tt__ico svg{transform:rotate(-10deg) scale(1.06)}
@@ -943,6 +943,19 @@ button.tt{cursor:pointer}
   .prac__play{animation:fadeUp .5s var(--ease) both}
 }
 @media (max-width:760px){.prac__cards{grid-template-columns:minmax(0,1fr)}.prac__card{flex-direction:row;text-align:left;padding:14px}.prac__card svg{width:84px;height:84px;flex:0 0 84px}.prac__card .prac__st{flex:1}.prac__card .prac__nm{display:none}.prac__play{grid-template-columns:minmax(0,1fr);justify-items:center;text-align:center}.prac__stage svg{width:220px;height:220px}.prac__btns{justify-content:center}.prac__prog{margin-inline:auto}}
+
+.pw-sub{margin:0 0 10px;font-size:15px;color:var(--ink);font-weight:500}
+.pw-addrow{display:flex;gap:8px;align-items:center;margin-top:10px;max-width:440px}.pw-addrow .line{font-size:15px}
+.pw-zone{margin-top:20px;padding:16px 18px;background:var(--bg);border:1.5px solid var(--ink)}
+.chip.has{border-color:var(--ink)}
+.pw-saved{margin-top:20px;padding-top:16px;border-top:1px solid var(--line)}
+.pw-saved__r{display:grid;grid-template-columns:auto minmax(0,1fr) 32px;gap:12px;align-items:center;padding:6px 0;font-size:15px}.pw-saved__r b{font-weight:500}.pw-saved__r span{color:var(--text)}
+.bz.act ellipse{fill:#9fc3b7;stroke:var(--ink);stroke-width:2;stroke-dasharray:none}
+.howread{display:grid;gap:8px;margin:0 0 14px;font-size:15px;line-height:1.45;color:var(--text)}.howread>div{display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px;align-items:start}.howread b{font-weight:500;color:var(--ink)}
+.hr-i{display:block;width:24px;height:14px;margin-top:3px;position:relative}
+.hr-i--line::before{content:'';position:absolute;left:0;right:0;top:7px;border-top:2px solid var(--ink)}.hr-i--line::after{content:'';position:absolute;left:8px;top:2px;width:10px;height:10px;border-radius:50%;background:var(--ink)}
+.hr-i--dash::after{content:'';position:absolute;left:6px;top:1px;width:12px;height:12px;border-radius:50%;border:1.5px dashed var(--ink)}
+.hr-i--tap{height:auto;margin-top:1px;color:var(--ink)}
 </style>
 </head>
 <body>
@@ -1051,7 +1064,7 @@ const CONTENT = {
 
 
   /* Что можно сделать, если сил мало. */
-  lowEnergy: {'point': 'заполните только блок про обычный день, а остальное добавьте позже.', 'pulse': 'отметьте только силы и напряжение и сохраните.', 'radar': 'отметьте один-два сигнала, которые замечаете чаще всего.', 'load': 'добавьте три дела и ответьте только на вопрос, как вы себя чувствуете после них.', 'stress': 'выберите один стрессор и отметьте, насколько можете на него повлиять.', 'chain': 'ответьте только на первые два вопроса, а остальное разберите с психологом.', 'recovery': 'просто выберите свое состояние и попробуйте первый способ из списка.', 'range': 'достаточно посмотреть на картинку, заполнять ничего не нужно.', 'resp': 'разложите только три пункта, которые давят сильнее всего.', 'nhv': 'разложите только три пункта и пропустите вопросы.', 'lab': 'запишите только убеждение, а эксперимент придумайте вместе с психологом.', 'peak': 'выберите период и просто прочитайте, что собралось само.', 'nav': 'ничего делать не нужно, инструкция собирается сама.'},
+  lowEnergy: {'point': 'заполните только блок про обычный день, а остальное добавьте позже.', 'pulse': '2-3 раза в неделю отмечайте, чем вы заняты, что чувствуете и сколько у вас сил. Обязательно нужно отметить только силы и напряжение, остальное можно пропустить. Из отметок складывается график, по которому видно, что забирает у вас силы и что их возвращает.', 'radar': 'отметьте один-два сигнала, которые замечаете чаще всего.', 'load': 'добавьте три дела и ответьте только на вопрос, как вы себя чувствуете после них.', 'stress': 'выберите один стрессор и отметьте, насколько можете на него повлиять.', 'chain': 'ответьте только на первые два вопроса, а остальное разберите с психологом.', 'recovery': 'просто выберите свое состояние и попробуйте первый способ из списка.', 'range': 'достаточно посмотреть на картинку, заполнять ничего не нужно.', 'resp': 'разложите только три пункта, которые давят сильнее всего.', 'nhv': 'разложите только три пункта и пропустите вопросы.', 'lab': 'запишите только убеждение, а эксперимент придумайте вместе с психологом.', 'peak': 'выберите период и просто прочитайте, что собралось само.', 'nav': 'ничего делать не нужно, инструкция собирается сама.'},
   /* Короткая инструкция, которую видит клиент вверху каждого инструмента - один абзац. */
   howShort: {'point': 'Ответьте на вопросы о том, как вы живете сейчас - в основном нажатиями. В конце трека вы сравните ответы с финальными и увидите изменения не по ощущениям, а по факту.',
     'pulse': '2-3 раза в неделю отметьте, что делаете, что чувствуете и сколько у вас сил. Обязательно только энергия и напряжение. Из отметок складывается график - по нему видно, что забирает силы и что их возвращает.',
@@ -1234,7 +1247,7 @@ function importData(file){const r=new FileReader();r.onload=()=>{try{const j=JSO
 
 /* ---------- маршрутизация ---------- */
 let route={v:'today'};
-function go(v,arg,noPush){if(typeof pracStop==='function')pracStop();route={v,arg};$('#sidebar').classList.remove('open');if(!noPush)try{history.pushState({v,arg},'')}catch(e){}render();window.scrollTo({top:0})}
+function go(v,arg,noPush){if(typeof pracStop==='function')pracStop();const mn=document.getElementById('main');if(mn){mn.classList.add('enter');clearTimeout(window._ent);window._ent=setTimeout(()=>mn.classList.remove('enter'),1800)}route={v,arg};$('#sidebar').classList.remove('open');if(!noPush)try{history.pushState({v,arg},'')}catch(e){}render();window.scrollTo({top:0})}
 window.__vy={go:(...a)=>go(...a),get S(){return S},save:()=>save(),render:()=>render(),get route(){return route}};
 window.addEventListener('popstate',e=>{const st=e.state;if(st&&st.v)go(st.v,st.arg,true);else go('today',null,true)});
 try{history.replaceState({v:'today'},'')}catch(e){}
@@ -1355,10 +1368,11 @@ function vToday(m){const {st,nP}=homeSteps();const main=st[0],second=st[1];const
 
 /* --- Карта тела --- */
 const BODY_PATH='M150 86Q158 86 159 95Q160 104 171 108Q182 113 194 116Q206 120 214 127Q222 134 226 148Q229 162 231 184Q233 205 236 228Q238 250 242 272Q246 295 250 318Q254 340 256 356Q259 372 264 380Q268 388 272 399Q276 410 275 421Q274 432 269 439Q264 446 258 443Q252 440 250 429Q247 418 246 405Q246 392 243 384Q240 375 236 360Q232 345 227 322Q222 300 218 281Q214 262 211 242Q208 222 206 204Q203 186 202 200Q200 214 197 233Q194 252 196 268Q198 284 202 300Q206 316 207 338Q208 360 206 382Q204 404 200 424Q197 444 198 457Q198 470 200 488Q201 505 198 522Q194 540 192 548Q190 556 196 563Q203 570 202 576Q200 582 187 583Q174 584 168 581Q162 578 162 567Q163 556 164 538Q165 520 166 500Q167 480 166 463Q166 446 164 423Q163 400 160 375Q158 350 154 343Q150 336 146 343Q142 350 140 375Q137 400 136 423Q134 446 134 463Q133 480 134 500Q135 520 136 538Q137 556 138 567Q138 578 132 581Q126 584 113 583Q100 582 98 576Q97 570 104 563Q110 556 108 548Q106 540 102 522Q99 505 100 488Q102 470 102 457Q103 444 100 424Q96 404 94 382Q92 360 93 338Q94 316 98 300Q102 284 104 268Q106 252 103 233Q100 214 98 200Q97 186 94 204Q92 222 89 242Q86 262 82 281Q78 300 73 322Q68 345 64 360Q60 375 57 384Q54 392 54 405Q53 418 50 429Q48 440 42 443Q36 446 31 439Q26 432 25 421Q24 410 28 399Q32 388 36 380Q41 372 44 356Q46 340 50 318Q54 295 58 272Q62 250 64 228Q67 205 69 184Q71 162 74 148Q78 134 86 127Q94 120 106 116Q118 113 129 108Q140 104 141 95Q142 86 150 86Z';
-const ZONES=[['глаза',[[150,46,20,8]]],['челюсть',[[150,74,15,8]]],['горло и шея',[[150,97,11,8]]],['грудь',[[150,150,44,26]]],['диафрагма',[[150,192,40,10]]],['живот',[[150,232,34,22]]],['таз',[[150,292,46,20]]],['руки',[[234,262,13,62],[66,262,13,62]]],['ноги',[[178,452,17,92],[122,452,17,92]]]];
-function bodyMap(sel){return `<svg viewBox="0 0 300 600" class="bodymap" role="group" aria-label="Силуэт: нажмите, где ощущение">
+const ZONES=[['глаза',[[150,46,20,8]]],['челюсть',[[150,74,15,8]]],['горло и шея',[[150,97,11,8]]],['плечи',[[200,122,16,10],[100,122,16,10]]],['грудь',[[150,150,40,24]]],['диафрагма',[[150,192,38,10]]],['живот',[[150,232,32,20]]],['таз',[[150,292,44,18]]],['руки',[[234,240,12,48],[66,240,12,48]]],['кисти',[[264,418,13,22],[36,418,13,22]]],['ноги',[[178,452,17,82],[122,452,17,82]]],['стопы',[[184,570,15,9],[116,570,15,9]]]];
+const SENS=['напряжение','тяжесть','зажатость','боль','холод','жар','дрожь','покалывание','онемение','пустота','тепло','легкость'];
+function bodyMap(sel,act){act=act||'';return `<svg viewBox="0 0 300 600" class="bodymap" role="group" aria-label="Силуэт: нажмите, где ощущение">
   <ellipse cx="150" cy="50" rx="29" ry="37" fill="var(--bg)" stroke="var(--ink)" stroke-width="1.6"/><path d="${BODY_PATH}" fill="var(--bg)" stroke="var(--ink)" stroke-width="1.6" stroke-linejoin="round"/>
-  ${ZONES.map(([k,es])=>{const on=sel.includes(k);return `<g class="bz ${on?'on':''}" data-zone="${k}" role="button" tabindex="0" aria-pressed="${on}" aria-label="${k}">${es.map(([x,y,rx,ry])=>`<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}"/>`).join('')}</g>`}).join('')}</svg>`}
+  ${ZONES.map(([k,es])=>{const on=sel.includes(k);return `<g class="bz ${on?'on':''} ${act===k?'act':''}" data-zone="${k}" role="button" tabindex="0" aria-pressed="${on}" aria-label="${k}">${es.map(([x,y,rx,ry])=>`<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}"/>`).join('')}</g>`}).join('')}</svg>`}
 
 /* --- Кружки уровня --- */
 const lvlIco=(i,kind)=>kind==='t'?`<svg width="46" height="46" viewBox="0 0 46 46" aria-hidden="true">${[0,1,2,3,4].slice(0,i+1).map(k=>`<circle cx="23" cy="23" r="${20-k*4}" fill="none" stroke="currentColor" stroke-width="${k===i?1.8:1}" ${k?'':'stroke-dasharray="2 3"'}/>`).join('')}</svg>`
@@ -1367,17 +1381,24 @@ const lvlRow=(key,words,val,kind)=>`<div class="lvl" data-lvl="${key}" role="gro
 
 /* --- Карта состояния: по одному шагу --- */
 const PSTEPS=[['Дело','pulse'],['Тело','body'],['Эмоции','emo'],['Силы','lvl'],['Дальше?','go']];
-function toolPulse(m,t){if(!route.pw)route.pw={step:0,p:{energy:null,tension:null,clarity:null,want:null,emo:[],body:[],zones:[],ctx:''}};
+function toolPulse(m,t){if(!route.pw)route.pw={step:0,act:null,p:{energy:null,tension:null,clarity:null,want:null,emo:[],body:[],zones:[],bmap:{},ctx:''}};
   const W=route.pw,p=W.p,st=W.step;const emoOpts=[...C.EMOTIONS,...(S.informal?C.INFORMAL:[])];
   const bodyOpts=[...new Set([...C.BODY,...S.signals.filter(x=>x.type==='тело').map(x=>x.t)])];
   const own=(k)=>`<div class="own"><input class="line" data-own="${k}" placeholder="Свое - напишите и нажмите Enter" aria-label="Свое"></div>`;
   const chipsOf=(k,opts)=>`<div class="chips" data-ck="${k}">${[...new Set([...opts,...p[k]])].map(o=>`<button type="button" class="chip" aria-pressed="${p[k].includes(o)}" data-v="${esc(o)}">${esc(o)}</button>`).join('')}</div>`;
   const body=[
-    `<button type="button" class="pw-quick" id="pwQuick">${ico('pulse',18)}Мало сил? Отметьте только силы и напряжение</button><h2 class="pw-q">Что вы сейчас делаете или только что делали?</h2><input class="line pw-in" id="ctx" value="${esc(p.ctx)}" placeholder="Например: после планерки">${items().length?`<div class="suggest-line">${items().map(i=>`<button type="button" data-ctx="${esc(i)}">${esc(i)}</button>`).join('')}</div>`:''}`,
-    `<h2 class="pw-q">Где в теле вы что-то чувствуете?</h2><div class="pw-body"><div class="pw-body__fig">${bodyMap(p.zones)}</div><div class="pw-body__side"><p class="muted">Нажмите на место на силуэте или здесь:</p><div class="chips" data-zk>${ZONES.map(([k])=>`<button type="button" class="chip" aria-pressed="${p.zones.includes(k)}" data-zone="${k}">${k}</button>`).join('')}</div><p class="muted" style="margin-top:18px">Какое это ощущение?</p>${chipsOf('body',bodyOpts)}${own('body')}</div></div>`,
-    `<h2 class="pw-q">Какие эмоции это вызывает?</h2><p class="muted" style="margin:-8px 0 14px">одной-двух достаточно</p>${chipsOf('emo',emoOpts)}${own('emo')}`,
-    `<h2 class="pw-q">Сколько у вас сейчас сил?</h2>${lvlRow('energy',ENERGY_W,p.energy,'e')}<h2 class="pw-q" style="margin-top:28px">А насколько вы напряжены?</h2>${lvlRow('tension',TENSION_W,p.tension,'t')}<p class="muted" style="margin:22px 0 8px">Как сейчас голова?</p>${seg('clarity',['ясная','нормально','туман'],p.clarity)}`,
-    `<h2 class="pw-q">Хочется продолжить это дело или остановиться?</h2><div class="pw-want">${[['продолжать','Продолжить','<path d="M8 6l12 8-12 8z" fill="currentColor"/>'],['остановиться','Остановиться','<path d="M9 7v14M19 7v14" stroke="currentColor" stroke-width="2.4"/>']].map(([v,l,ic])=>`<button type="button" data-want="${v}" aria-pressed="${p.want===v}"><svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">${ic}</svg>${l}</button>`).join('')}</div>`][st];
+    `<button type="button" class="pw-quick" id="pwQuick">${ico('pulse',18)}Мало сил? Отметьте только силы и напряжение</button><h2 class="pw-q">Напишите, чем вы сейчас заняты или только что занимались</h2><input class="line pw-in" id="ctx" value="${esc(p.ctx)}" placeholder="Например: после планерки">${items().length?`<div class="suggest-line">${items().map(i=>`<button type="button" data-ctx="${esc(i)}">${esc(i)}</button>`).join('')}</div>`:''}`,
+    (()=>{const zs=Object.keys(p.bmap),act=W.act,cur=act?(p.bmap[act]||[]):[];const opts=[...new Set([...SENS,...cur])];
+      return `<h2 class="pw-q">Отметьте, где в теле вы что-то чувствуете</h2><div class="pw-body"><div class="pw-body__fig">${bodyMap(zs,act)}</div><div class="pw-body__side">
+      <p class="pw-sub">1. Выберите область на силуэте или в списке</p><div class="chips" data-zk>${[...new Set([...ZONES.map(z=>z[0]),...zs])].map(k=>`<button type="button" class="chip ${zs.includes(k)?'has':''}" aria-pressed="${act===k}" data-zone="${esc(k)}">${esc(k)}${p.bmap[k]&&p.bmap[k].length?` · ${p.bmap[k].length}`:''}</button>`).join('')}</div>
+      <div class="pw-addrow"><input class="line" id="ownZone" placeholder="Своя область, например спина" aria-label="Своя область"><button type="button" class="btn btn--sm" id="ownZoneB">Добавить область</button></div>
+      ${act?`<div class="pw-zone"><p class="pw-sub">2. Отметьте, что вы чувствуете в области «${esc(act)}»</p><div class="chips" data-bs>${opts.map(o=>`<button type="button" class="chip" aria-pressed="${cur.includes(o)}" data-v="${esc(o)}">${esc(o)}</button>`).join('')}</div>
+        <div class="pw-addrow"><input class="line" id="ownSens" placeholder="Свое ощущение" aria-label="Свое ощущение"><button type="button" class="btn btn--sm" id="ownSensB">Добавить</button></div></div>`:`<p class="muted" style="margin-top:14px">Когда вы выберете область, здесь появятся ощущения для нее.</p>`}
+      ${zs.length?`<div class="pw-saved"><p class="pw-sub">Ваши отметки сохраняются сразу</p>${zs.map(k=>`<div class="pw-saved__r"><b>${esc(k)}</b><span>${p.bmap[k].length?esc(p.bmap[k].join(', ')):'ощущение не выбрано'}</span><button type="button" class="del" data-delz="${esc(k)}" aria-label="Убрать ${esc(k)}">×</button></div>`).join('')}</div>`:''}
+      </div></div>`})(),
+    `<h2 class="pw-q">Отметьте, какие эмоции это вызывает</h2><p class="muted" style="margin:-8px 0 14px">одной-двух достаточно</p>${chipsOf('emo',emoOpts)}${own('emo')}`,
+    `<h2 class="pw-q">Оцените, сколько у вас сейчас сил</h2>${lvlRow('energy',ENERGY_W,p.energy,'e')}<h2 class="pw-q" style="margin-top:28px">Оцените, насколько вы напряжены</h2>${lvlRow('tension',TENSION_W,p.tension,'t')}<p class="muted" style="margin:22px 0 8px">Отметьте, насколько ясная сейчас голова</p>${seg('clarity',['ясная','нормально','туман'],p.clarity)}`,
+    `<h2 class="pw-q">Прислушайтесь: хочется продолжить это дело или остановиться?</h2><div class="pw-want">${[['продолжать','Продолжить','<path d="M8 6l12 8-12 8z" fill="currentColor"/>'],['остановиться','Остановиться','<path d="M9 7v14M19 7v14" stroke="currentColor" stroke-width="2.4"/>']].map(([v,l,ic])=>`<button type="button" data-want="${v}" aria-pressed="${p.want===v}"><svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">${ic}</svg>${l}</button>`).join('')}</div>`][st];
   m.innerHTML=wrap(t,`<ol class="pw-steps" aria-label="Шаги">${PSTEPS.map(([l],i)=>`<li class="${i<st?'done':i===st?'now':''}"><button type="button" data-step="${i}" ${i===st?'aria-current="step"':''}><span>${i<st?ico('check',18):i+1}</span>${l}</button></li>`).join('')}</ol>
     <div class="panel pw">${body}<div class="pw-nav">${st>0?`<button class="btn btn--ghost" id="pwBack">${BACK}Назад</button>`:'<span></span>'}${st===3?`<span class="pw-nav__r"><button class="btn btn--ghost" id="puQuick">Сохранить сейчас</button><button class="btn btn--primary" id="pwNext">Дальше</button></span>`:st<4?`<button class="btn btn--primary" id="pwNext">Дальше</button>`:`<button class="btn btn--primary" id="puSave">${MARK}Сохранить отметку</button>`}</div></div>
     <section class="sec"><div class="sec__h"><h2>Сверяйтесь с графиком энергии и напряжения</h2><span class="muted">${S.pulses.length} ${plural(S.pulses.length,'отметка','отметки','отметок')}</span></div>
@@ -1388,7 +1409,14 @@ function toolPulse(m,t){if(!route.pw)route.pw={step:0,p:{energy:null,tension:nul
   $$('[data-step]',m).forEach(b=>b.onclick=()=>goStep(+b.dataset.step));
   $('#pwBack')&&($('#pwBack').onclick=()=>goStep(st-1));$('#pwNext')&&($('#pwNext').onclick=()=>goStep(st+1));
   $$('[data-ctx]',m).forEach(b=>b.onclick=()=>{$('#ctx').value=b.dataset.ctx});
-  const togZone=k=>{const i=p.zones.indexOf(k);i>=0?p.zones.splice(i,1):p.zones.push(k);const y=window.scrollY;render();window.scrollTo({top:y});const f=$(`.bodymap [data-zone="${k}"]`);f&&f.focus&&f.focus({preventScroll:true})};
+  const keep=()=>{const y=window.scrollY;render();window.scrollTo({top:y})};
+  const togZone=k=>{if(!p.bmap[k])p.bmap[k]=[];W.act=k;keep()};
+  $('#ownZoneB')&&($('#ownZoneB').onclick=()=>{const v=$('#ownZone').value.trim().toLowerCase();if(v)togZone(v)});
+  $('#ownZone')&&($('#ownZone').onkeydown=e=>{if(e.key==='Enter')$('#ownZoneB').click()});
+  const bs=$('[data-bs]',m);if(bs)bs.onclick=e=>{const b=e.target.closest('button');if(!b)return;const a=p.bmap[W.act],v=b.dataset.v,i=a.indexOf(v);i>=0?a.splice(i,1):a.push(v);keep()};
+  $('#ownSensB')&&($('#ownSensB').onclick=()=>{const v=$('#ownSens').value.trim();if(v&&!p.bmap[W.act].includes(v)){p.bmap[W.act].push(v);keep()}});
+  $('#ownSens')&&($('#ownSens').onkeydown=e=>{if(e.key==='Enter')$('#ownSensB').click()});
+  $$('[data-delz]',m).forEach(b=>b.onclick=()=>{delete p.bmap[b.dataset.delz];if(W.act===b.dataset.delz)W.act=null;keep()});
   $$('[data-zone]',m).forEach(el=>{el.onclick=()=>togZone(el.dataset.zone);el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();togZone(el.dataset.zone)}}});
   $$('[data-ck]',m).forEach(g=>g.onclick=e=>{const b=e.target.closest('button');if(!b)return;const a=p[g.dataset.ck],v=b.dataset.v,i=a.indexOf(v);i>=0?a.splice(i,1):a.push(v);b.setAttribute('aria-pressed',String(i<0))});
   $$('[data-own]',m).forEach(inp=>inp.onkeydown=e=>{if(e.key!=='Enter')return;e.preventDefault();const v=inp.value.trim();if(v&&!p[inp.dataset.own].includes(v)){p[inp.dataset.own].push(v);render()}});
@@ -1397,7 +1425,7 @@ function toolPulse(m,t){if(!route.pw)route.pw={step:0,p:{energy:null,tension:nul
   $('#pwQuick')&&($('#pwQuick').onclick=()=>goStep(3));
   $('#puQuick')&&($('#puQuick').onclick=()=>$('#puSave2').click());
   const doSave=()=>{if(!p.energy||!p.tension){toast('Отметьте силы и напряжение');W.step=3;render();return}
-    const rec={energy:p.energy,tension:p.tension,clarity:p.clarity,want:p.want,emo:p.emo,body:[...p.zones,...p.body],zones:p.zones,ctx:p.ctx,d:new Date().toISOString().slice(0,10)};
+    const zs=Object.keys(p.bmap);const rec={energy:p.energy,tension:p.tension,clarity:p.clarity,want:p.want,emo:p.emo,body:zs.map(k=>p.bmap[k].length?k+': '+p.bmap[k].join(', '):k),zones:zs,bmap:p.bmap,ctx:p.ctx,d:new Date().toISOString().slice(0,10)};
     S.pulses.push(rec);save();route.pw=null;toast('Отметка сохранена');render();window.scrollTo({top:0})};
   $('#puSave')&&($('#puSave').onclick=doSave);if($('#puQuick'))$('#puQuick').onclick=doSave;
 }
@@ -1685,12 +1713,12 @@ TOOL.pulse=toolPulse;
 const fmtD=d=>{if(!d)return '';const a=d.split('-');return a[2]+'.'+a[1]};
 function pulseView(){const ps=S.pulses.slice(-14);const last=S.pulses.slice(-3),prev=S.pulses.slice(-6,-3);
   let trend='';if(prev.length){const av=a=>a.reduce((x,p)=>x+p.energy,0)/a.length;const d=av(last)-av(prev);trend=d>.4?'Энергия в последних отметках растет.':d<-.4?'Энергия в последних отметках снижается.':'Энергия в последних отметках держится примерно на одном уровне.'}
-  return `${trend?`<p class="trend">${trend}</p>`:''}<div class="legend" style="margin-bottom:10px"><span><i style="background:var(--text)"></i>энергия (линия)</span><span><i style="border:1.5px dashed var(--text);background:none"></i>напряжение</span></div>
-    <div class="viz">${pulseChart(ps)}</div><p class="viz-cap">Нажмите на точку, чтобы увидеть подробности.</p><div id="ptDetail"></div>`}
+  return `${trend?`<p class="trend">${trend}</p>`:''}<div class="howread"><div><span class="hr-i hr-i--line"></span><span><b>Линия с точками - ваши силы.</b> Чем выше точка, тем больше сил было в тот момент.</span></div><div><span class="hr-i hr-i--dash"></span><span><b>Пунктирный кружок - напряжение.</b> Чем выше кружок, тем сильнее вы были напряжены.</span></div><div><span class="hr-i hr-i--tap">${ico('pulse',16)}</span><span><b>Нажмите на точку</b>, чтобы увидеть, что вы делали и что чувствовали. Ищите дела, после которых линия опускается, а кружок поднимается.</span></div></div>${S.pulses.length<3?`<p class="note" style="margin-bottom:12px">Пока отметок мало. После трех-четырех отметок станет видно, как меняются ваши силы и что на них влияет.</p>`:''}
+    <div class="viz">${pulseChart(ps)}</div><div id="ptDetail"></div>`}
 function pulseChart(ps){const W=720,H=270,L=96,R=24,Tp=24,B=56;const n=ps.length;const x=i=>L+(n<2?(W-L-R)/2:i*(W-L-R)/(n-1)),y=v=>Tp+(5-v)*(H-Tp-B)/4;
   const line=ps.map((p,i)=>`${i?'L':'M'}${x(i).toFixed(1)} ${y(p.energy).toFixed(1)}`).join(' ');
   const off=S.pulses.length-ps.length;
-  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="График энергии и напряжения">${[1,2,3,4,5].map(v=>`<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/><text class="lbl" x="${L-10}" y="${y(v)+4}" text-anchor="end">${['','на нуле','мало','средне','хорошо','много'][v]}</text>`).join('')}
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="График энергии и напряжения">${[1,2,3,4,5].map(v=>`<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/><text class="lbl" x="${L-10}" y="${y(v)+4}" text-anchor="end">${['','очень мало','мало','средне','много','очень много'][v]}</text>`).join('')}
     <path d="${line}" fill="none" stroke="var(--text)" stroke-width="1.6"/>
     ${ps.map((p,i)=>`<g class="pt" data-pi="${off+i}" tabindex="0" role="button" aria-label="Отметка ${fmtD(p.d)}"><rect x="${x(i)-14}" y="${Tp-10}" width="28" height="${H-Tp-B+20}" fill="transparent"/><circle cx="${x(i)}" cy="${y(p.tension)}" r="6" fill="var(--bg)" stroke="var(--text)" stroke-dasharray="2 2"/><circle cx="${x(i)}" cy="${y(p.energy)}" r="5" fill="var(--text)"/><text class="lbl" x="${x(i)}" y="${H-30}" text-anchor="middle">${fmtD(p.d)}</text></g>`).join('')}</svg>`}
 function bindPulseView(m){$$('.pt',m).forEach(g=>{const show=()=>{const p=S.pulses[+g.dataset.pi];$$('.pt',m).forEach(x=>x.classList.toggle('on',x===g));
@@ -2046,6 +2074,7 @@ function userMenu(){const mm=$('#umenu'),b=$('#userB');const open=mm.hidden;
   $$('.umenu__i',mm).forEach(x=>x.addEventListener('click',()=>{mm.hidden=true}))}
 document.addEventListener('click',e=>{if(e.target.closest('#userB')){userMenu();return}const mm=$('#umenu');if(mm&&!mm.hidden&&!e.target.closest('#umenu')){mm.hidden=true;$('#userB').setAttribute('aria-expanded','false')}});
 
+(()=>{const mn=document.getElementById('main');mn.classList.add('enter');setTimeout(()=>mn.classList.remove('enter'),1800)})();
 render();if(pendingToast)setTimeout(()=>toast(pendingToast),300);
 })();
 
