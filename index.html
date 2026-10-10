@@ -597,6 +597,102 @@ input.line:focus{border-color:var(--ink)}
 .help-btn{white-space:nowrap}
 @media (max-width:900px){.wheel-wrap{grid-template-columns:minmax(0,1fr)}.help-btn{font-size:13px;padding:0 10px}}
 @media (max-width:520px){.help-btn{display:none}}
+
+/* визуальный слой 10.10 */
+.today{max-width:1180px}
+.t-hello{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px 32px;margin-bottom:28px}
+.t-hello h1{font-family:var(--serif);font-weight:400;font-size:clamp(36px,4.4vw,56px);line-height:1.05;color:var(--ink);margin:4px 0 0}
+.t-hello__side{display:flex;flex-direction:column;align-items:flex-end;gap:12px}
+.t-calm{font-family:var(--serif);font-size:22px;color:var(--text)}
+.t-trail{background:var(--cream);padding:22px 12px 8px;margin-bottom:24px;overflow-x:auto}
+.trail{display:block;width:100%;min-width:720px;height:auto}
+@media (max-width:700px){.trail{min-width:980px}}
+.tr-node{cursor:pointer}.tr-node:focus{outline:none}.tr-node:focus-visible circle{stroke:var(--focus);stroke-width:3}
+.tr-n{font-family:var(--sans);font-size:16px;fill:var(--muted)}.tr-n--now{font-family:var(--serif);font-size:22px;fill:var(--ink)}
+.tr-here{font-size:12px;letter-spacing:.12em;text-transform:uppercase;fill:var(--ok-ink)}
+.tr-l{font-size:15px;fill:var(--text)}.tr-l--now{fill:var(--ink);font-weight:500}.tr-l--next{fill:var(--muted)}
+.t-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.t-card{display:flex;flex-direction:column;align-items:flex-start;gap:12px;min-height:280px;padding:26px;border:0;text-align:left;font:inherit;color:var(--ink)}
+button.t-card{cursor:pointer}button.t-card:hover .t-btn{transform:translateX(2px)}
+.t-card--mint{background:var(--mint)}.t-card--beige{background:var(--beige)}.t-card--lav{background:var(--lavender)}
+.t-card h2{font-family:var(--serif);font-weight:400;font-size:30px;line-height:1.1;margin:0}
+.t-card p:not(.eyebrow){color:var(--text);margin:0}
+.t-btn{margin-top:auto;display:inline-flex;align-items:center;min-height:48px;padding:0 24px;border-radius:999px;background:var(--action);color:var(--action-text);font-size:16px;transition:transform .2s var(--ease)}
+.t-btn--line{background:transparent;color:var(--ink);border:1px solid var(--ink)}
+.t-breath{position:relative;width:92px;height:92px;border-radius:50%;border:1.4px dashed var(--ink)}.t-breath i{position:absolute;inset:20px;border-radius:50%;background:var(--bg)}
+.t-list{display:grid;width:100%}
+.t-list button{display:grid;grid-template-columns:48px 1fr auto;align-items:center;gap:14px;padding:12px 0;border:0;border-top:1px solid var(--line);background:none;font:inherit;font-size:18px;line-height:1.25;text-align:left;color:var(--ink);cursor:pointer}
+.t-list small{display:block;font-size:14px;color:var(--muted)}
+.t-list .is-done{color:var(--muted)}
+.t-ico{width:48px;height:48px;border-radius:50%;background:var(--bg);display:grid;place-items:center;color:var(--ink)}
+.t-list .is-done .t-ico{background:var(--ink);color:var(--bg)}
+.t-dots{margin-top:auto;display:flex;align-items:center;gap:7px;font-size:14px;color:var(--muted)}
+.t-dots i{width:10px;height:10px;border-radius:50%;border:1.5px dashed var(--muted)}.t-dots i.on{background:var(--ink);border:0}
+.t-empty{color:var(--muted)}
+.t-energy{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px 40px;margin-top:28px;padding-top:24px;border-top:1px solid var(--line)}
+.t-trend,.trend{font-family:var(--serif);font-size:24px;color:var(--ink);margin:2px 0 0}
+.spark{width:420px;max-width:100%;height:auto}
+.t-nav{display:grid;grid-template-columns:56px 1fr minmax(120px,220px);align-items:center;gap:16px;width:100%;margin-top:24px;padding:16px 20px;border:1px solid var(--line);background:var(--cream);font:inherit;text-align:left;color:var(--ink);cursor:pointer}
+.t-nav b{font-weight:500;font-size:18px}.t-nav small{display:block;color:var(--muted);font-size:14px}
+.t-nav__bar{height:6px;border-radius:3px;background:var(--soft);overflow:hidden}.t-nav__bar i{display:block;height:100%;background:var(--ink)}
+@media (max-width:640px){.t-hello__side{align-items:flex-start}.t-nav{grid-template-columns:48px 1fr}.t-nav__bar{grid-column:1/-1}}
+.tool--in .tool__num{color:var(--ink)}
+/* карта состояния по шагам */
+.pw-steps{list-style:none;margin:0 0 22px;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));position:relative}
+.pw-steps::before{content:'';position:absolute;left:10%;right:10%;top:22px;border-top:1.5px dashed var(--ghost)}
+.pw-steps li{position:relative;text-align:center}
+.pw-steps button{display:flex;flex-direction:column;align-items:center;gap:6px;width:100%;border:0;background:none;font:inherit;font-size:14px;color:var(--muted);cursor:pointer;padding:0}
+.pw-steps button>span{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--bg);border:1.5px dashed var(--ghost);font-size:15px}
+.pw-steps .done button{color:var(--text)}.pw-steps .done button>span{background:var(--ink);color:var(--bg);border:0}
+.pw-steps .now button{color:var(--ink);font-weight:500}.pw-steps .now button>span{background:var(--mint);border:2px solid var(--ink);font-family:var(--serif);font-size:18px}
+.pw-q{font-family:var(--serif);font-weight:400;font-size:clamp(24px,2.4vw,30px);line-height:1.15;color:var(--ink);margin:0 0 16px}
+.pw-in{font-size:18px}
+.pw-nav{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:28px}
+.pw-body{display:grid;grid-template-columns:minmax(180px,250px) minmax(0,1fr);gap:28px;align-items:start}
+.pw-body__fig{background:var(--cream);padding:12px 8px}
+.bodymap{display:block;width:100%;height:auto;max-height:470px}
+.bz ellipse{fill:transparent;stroke:var(--ghost);stroke-width:1;stroke-dasharray:2 3;cursor:pointer;transition:fill .15s}
+.bz:hover ellipse{fill:color-mix(in srgb,var(--mint) 60%,transparent)}
+.bz.on ellipse{fill:#c9dad5;stroke:var(--ink);stroke-width:1.4;stroke-dasharray:none}
+.bz:focus{outline:none}.bz:focus-visible ellipse{stroke:var(--focus);stroke-width:2.5}
+@media (max-width:640px){.pw-body{grid-template-columns:minmax(0,1fr)}.pw-body__fig{max-width:240px;margin:0 auto}.pw-steps button{font-size:12px}}
+.lvl{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.lvl button{display:flex;flex-direction:column;align-items:center;gap:8px;min-height:96px;padding:10px 4px;border:1px solid var(--line);border-radius:14px;background:var(--bg);font:inherit;font-size:14px;color:var(--ink);cursor:pointer}
+.lvl button[aria-pressed="true"]{background:var(--mint);border-color:var(--ink)}
+@media (max-width:420px){.lvl button{font-size:12px;min-height:84px}.lvl svg{width:36px;height:36px}}
+.pw-want{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.pw-want button{display:flex;flex-direction:column;align-items:center;gap:12px;padding:28px 12px;border:1px solid var(--line);border-radius:16px;background:var(--bg);font:inherit;font-size:18px;color:var(--ink);cursor:pointer}
+.pw-want button[aria-pressed="true"]{background:var(--mint);border-color:var(--ink)}
+/* визуализации инструментов */
+.sc-t{font-family:var(--sans);font-size:13px;fill:var(--ink)}
+.sc-h{font-family:var(--serif);font-size:22px;fill:var(--ink)}
+.sc-h2{font-family:var(--sans);font-size:11px;letter-spacing:.14em;fill:var(--text)}
+.scale,.infl,.corr,.venn{display:block;width:100%;height:auto}
+details.more{margin-top:14px}details.more summary{cursor:pointer;color:var(--muted);font-size:15px;padding:8px 0}
+.cviz{display:grid;grid-template-columns:minmax(0,1fr) 28px minmax(0,1fr) 28px minmax(0,1fr) 28px minmax(0,1fr) 28px minmax(0,1fr);align-items:start;gap:0;margin-bottom:26px;padding:24px 16px;background:var(--cream);overflow-x:auto}
+.cviz__n{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;min-width:0}
+.cviz__c{width:58px;height:58px;border-radius:50%;background:var(--bg);border:1.5px solid var(--ink);display:grid;place-items:center;color:var(--ink)}
+.cviz__n.is-cost .cviz__c{background:var(--drain)}
+.cviz__n b{font-weight:500;font-size:14px;color:var(--ink)}.cviz__n small{font-size:12px;color:var(--muted);line-height:1.3;overflow-wrap:anywhere}
+.cviz__link{position:relative;height:58px}.cviz__link::before{content:'';position:absolute;left:-4px;right:-4px;top:28px;border-top:2px solid var(--ink)}
+.cviz__link.is-cut::before{border-top-style:dashed}
+.cviz__cut{position:absolute;left:50%;top:29px;transform:translate(-50%,-50%);width:34px;height:34px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center}
+@media (max-width:640px){.cviz{grid-template-columns:repeat(9,auto);justify-content:start}.cviz__n{width:84px}}
+.state{display:inline-flex;align-items:center;gap:10px;padding:8px 18px 8px 8px}
+.state[aria-pressed="true"] svg{color:var(--bg)}
+.jars{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;margin:4px 0 22px}
+.jar{display:flex;flex-direction:column;align-items:center;gap:8px;font-size:14px;text-align:center;color:var(--text)}
+.jar__g{position:relative;width:100%;max-width:110px;height:150px;border:1.5px solid var(--ink);border-radius:22px 22px 30px 30px;overflow:hidden;background:var(--cream)}
+.jar__g i{position:absolute;left:0;right:0;bottom:0}.jar__g b{position:absolute;left:0;right:0;top:10px;font-family:var(--serif);font-weight:400;font-size:22px;color:var(--ink)}
+@media (max-width:520px){.jars{gap:6px}.jar{font-size:12px}.jar__g{height:110px}}
+.zrows{display:grid;gap:10px;margin-bottom:28px}
+.zrow{display:grid;grid-template-columns:150px minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:center;padding:16px 18px}
+.zrow--ok{background:var(--mint)}.zrow--warn{background:var(--beige)}.zrow--bad{background:var(--drain)}
+.zrow__h{display:flex;align-items:center;gap:10px}.zrow__h b{font-family:var(--serif);font-weight:400;font-size:20px;color:var(--ink)}
+.zrow__m{width:30px;height:30px;border-radius:50%;border:1.5px solid var(--ink);background:var(--bg)}.zrow__m--warn{border-style:dashed}.zrow__m--bad{background:var(--ink)}
+.zrow__c small{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.zrow__c div{display:flex;flex-wrap:wrap;gap:6px}.zrow__c span{padding:5px 11px;border-radius:999px;background:var(--bg);font-size:13px}.zrow__c em{font-style:normal;font-size:13px;color:var(--muted)}
+@media (max-width:640px){.zrow{grid-template-columns:minmax(0,1fr)}}
 </style>
 </head>
 <body>
@@ -927,28 +1023,190 @@ function bindDisc(m){$$('[data-disc]',m).forEach(b=>b.onclick=()=>discuss(b.data
 const emptyNote=(text,n)=>`<div class="empty"><p style="font-size:16px">${text}</p>${n&&isOpen(TN[n].id)?`<button class="btn btn--sm" data-go="tool" data-arg="${TN[n].id}">Открыть «${esc(TN[n].title)}»</button>`:''}</div>`;
 
 /* ================= СЕГОДНЯ ================= */
+/* ================= ВИЗУАЛЬНЫЙ СЛОЙ (образы вместо текста) ================= */
+const ICO={
+  point:'<circle cx="12" cy="12" r="9"/><path d="M12 5l5 4-1.5 6h-7L7 9z"/>',
+  pulse:'<path d="M2.5 14c2.5-4.5 4.5-6 6.5-4s3.5 5 6 1.5S19 6 21.5 8"/>',
+  radar:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5" stroke-dasharray="1.5 2"/><circle cx="12" cy="12" r="1.4" fill="currentColor"/>',
+  load:'<path d="M12 4v16M8 20h8M4 8h16M4 8l-2.5 6h5zM20 8l-2.5 6h5z"/>',
+  stress:'<circle cx="12" cy="12" r="9.5"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2.5" fill="currentColor"/>',
+  chain:'<rect x="2.5" y="8.5" width="10" height="7" rx="3.5"/><rect x="11.5" y="8.5" width="10" height="7" rx="3.5"/>',
+  recovery:'<circle cx="12" cy="12" r="9.5" stroke-dasharray="2 2.5"/><circle cx="12" cy="12" r="4.5"/>',
+  range:'<path d="M3 7h18M3 17h18" stroke-dasharray="2 2"/><path d="M3 13c3-3 5 1 8-1s5-3 10 0"/>',
+  resp:'<circle cx="9" cy="12" r="6.5"/><circle cx="15" cy="12" r="6.5"/>',
+  nhv:'<rect x="3" y="6" width="5" height="14" rx="2"/><rect x="9.5" y="6" width="5" height="14" rx="2"/><rect x="16" y="6" width="5" height="14" rx="2"/><path d="M3 14h5M9.5 17h5M16 11h5"/>',
+  lab:'<path d="M9 3h6M10 3v6l-5 9a2 2 0 002 3h10a2 2 0 002-3l-5-9V3M7.5 15h9"/>',
+  peak:'<path d="M6.5 16a4 4 0 010-8 5.5 5.5 0 0110.5 1.5A3.3 3.3 0 0117 16z"/><path d="M11 17l-1.5 3h3L11 22"/>',
+  nav:'<circle cx="12" cy="12" r="9.5"/><path d="M12 5.5l2 6.5h-4zM12 18.5l-2-6.5h4z"/>',
+  check:'<path d="M5 12.5l4.2 4L19 7"/>'};
+const ico=(k,s=22)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICO[k]||''}</svg>`;
+
+/* --- Тропа: 9 этапов --- */
+const TRAIL_SHORT=['Точка А','Опора','Энергия','Тело','Убеждения','Границы','Желания','Образ жизни','Своя карта'];
+function trailSvg(){const cs=curStage(),ci=cs-1;const X=i=>40+i*134,Y=i=>i%2?100:60;
+  const seg=i=>`C${X(i)+67} ${Y(i)},${X(i)+67} ${Y(i+1)},${X(i+1)} ${Y(i+1)}`;
+  let solid=`M${X(0)} ${Y(0)}`,dash=`M${X(ci)} ${Y(ci)}`;for(let i=0;i<8;i++){if(i<ci)solid+=seg(i);else dash+=seg(i)}
+  const node=i=>{const x=X(i),y=Y(i),st=C.stages[i];
+    const inner=i<ci?`<circle cx="${x}" cy="${y}" r="22" fill="var(--ink)"/><path d="M${x-7} ${y+1}l5 4.5 9-10" fill="none" stroke="var(--bg)" stroke-width="2"/>`
+      :i===ci?`<circle cx="${x}" cy="${y}" r="29" fill="var(--mint)" stroke="var(--ink)" stroke-width="2"/><text x="${x}" y="${y+7}" text-anchor="middle" class="tr-n tr-n--now">${i+1}</text><text x="${x}" y="${y-42}" text-anchor="middle" class="tr-here">вы здесь</text>`
+      :i===8?`<circle cx="${x}" cy="${y}" r="22" fill="var(--lavender)"/><path d="M${x-5} ${y+9}V${y-9}l10 4-10 5" fill="none" stroke="var(--ink)" stroke-width="1.5"/>`
+      :`<circle cx="${x}" cy="${y}" r="22" fill="var(--bg)" stroke="var(--ghost)" stroke-width="1.5" stroke-dasharray="3 3"/><text x="${x}" y="${y+5}" text-anchor="middle" class="tr-n">${i+1}</text>`;
+    return `<g class="tr-node" data-go="tools" role="button" tabindex="0" aria-label="Этап ${i+1}: ${esc(st.title)}">${inner}<text x="${x}" y="164" text-anchor="middle" class="tr-l ${i===ci?'tr-l--now':i>ci?'tr-l--next':''}">${TRAIL_SHORT[i]}</text></g>`};
+  return `<svg viewBox="0 0 1152 180" class="trail" role="img" aria-label="Маршрут трека: этап ${cs} из 9">
+    <path d="${solid}" fill="none" stroke="var(--ink)" stroke-width="2"/><path d="${dash}" fill="none" stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="2 8" stroke-linecap="round"/>
+    ${C.stages.map((s,i)=>node(i)).join('')}</svg>`}
+
+function hello(){const h=new Date().getHours();return h<5?'Доброй ночи':h<12?'Доброе утро':h<18?'Добрый день':'Добрый вечер'}
+function sparkSvg(ps){const W=420,H=96,n=ps.length;const x=i=>18+(n<2?0:i*(W-36)/(n-1)),y=v=>H-14-(v-1)*(H-30)/4;
+  return `<svg viewBox="0 0 ${W} ${H}" class="spark" role="img" aria-label="Силы в последних отметках"><line x1="0" x2="${W}" y1="${H-6}" y2="${H-6}" stroke="var(--line)"/>
+    <path d="${ps.map((p,i)=>`${i?'L':'M'}${x(i).toFixed(1)} ${y(p.energy).toFixed(1)}`).join(' ')}" fill="none" stroke="var(--ink)" stroke-width="1.6"/>
+    ${ps.map((p,i)=>`<circle cx="${x(i)}" cy="${y(p.energy)}" r="${i===n-1?7:5}" fill="${i===n-1?'var(--mint)':'var(--ink)'}" stroke="var(--ink)" stroke-width="1.6"/>`).join('')}</svg>`}
+
 function vToday(m){
   const week=C.tools.filter(t=>S.open[t.id]&&!t.final&&t.id!=='pulse');
-  const todo=week.filter(t=>!done(t.id)).slice(0,2), fin=week.filter(t=>done(t.id));
-  const last=S.pulses[S.pulses.length-1];
+  const rows=[...week.filter(t=>!done(t.id)),...week.filter(t=>done(t.id))].slice(0,3);const dn=week.filter(t=>done(t.id)).length;
+  const ps=S.pulses.slice(-7);let trend='Здесь появится график ваших сил';
+  if(ps.length>=2){const d=ps[ps.length-1].energy-ps[0].energy;trend=d>0?'Понемногу прибавляются':d<0?'Сил стало меньше — это повод быть бережнее':'Держатся примерно ровно'}
   const navN=navSections().filter(s=>s.ok).length;
-  m.innerHTML=`<div class="page page--narrow">
-    <section class="hello"><p class="eyebrow">Неделя ${weekNo()} из 12 · ${esc(C.rhythm.toLowerCase())}</p><h1>${S.name?'Здравствуйте, '+esc(S.name):esc(C.program)}</h1><p>${esc(C.todayLead)}</p>${!S.name?`<div class="name-row"><input class="line" id="nameIn" placeholder="Как к вам обращаться?" aria-label="Ваше имя"><button class="btn btn--sm" id="nameB">Сохранить</button></div>`:''}
-      <button class="host" id="hostB"><span class="host__pic"><span class="host__play"><svg viewBox="0 0 10 10" width="9" height="9" fill="currentColor"><path d="M2 1l7 4-7 4z"/></svg></span></span><span><span class="host__label">Программу ведёт</span><span class="host__name">${esc(C.guide.name)}</span></span></button></section>
-    ${!S.seenHelp?`<div class="first"><div><b>Впервые здесь?</b> За минуту расскажем, как всё устроено и сколько это займёт.</div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn--sm btn--primary" data-go="help">${MARK}Читать</button><button class="btn btn--sm btn--ghost" id="firstX">Скрыть</button></div></div>`:''}
-    <div class="today-grid">
-      <button class="big-card" data-go="tool" data-arg="pulse"><div><p class="eyebrow">2 · Карта состояния</p><h2>Как вы сейчас?</h2><p>${last?`Последняя отметка: силы ${last.energy} из 5, напряжение ${last.tension} из 5. `:''}Ваш основной инструмент. Около минуты, 2–3 раза в неделю.</p></div><span class="go">${MARK}Отметить состояние</span></button>
-      <div class="big-card big-card--beige" style="cursor:default"><div><p class="eyebrow">На этой неделе</p><h2>${todo.length?'Ваши задания':'Всё сделано'}</h2>
-        ${todo.length?`<div class="week">${todo.map(t=>`<button data-go="tool" data-arg="${t.id}"><span class="week__t">${esc(t.title)}<span class="muted">${esc(t.time)}</span></span><span class="week__go" aria-hidden="true">→</span></button>`).join('')}</div>`:`<p>Психолог откроет следующий инструмент на встрече.</p>`}</div>
-        ${fin.length?`<p class="muted">Готово: ${fin.map(t=>esc(t.title)).join(', ')}</p>`:''}</div>
-    </div>
-    <button class="big-card big-card--lav" data-go="navself" style="margin-top:20px;min-height:0;width:100%"><div><p class="eyebrow">13 · Финальная карта</p><h2>Инструкция к себе</h2><p>Собирается сама из ваших инструментов. Сейчас заполнено ${navN} из 11 разделов.</p>
-      <div class="progress-line"><i style="width:${Math.round(navN/11*100)}%"></i></div></div></button>
+  m.innerHTML=`<div class="page today">
+    <section class="t-hello"><div><p class="eyebrow">Неделя ${weekNo()} из 12</p><h1>${hello()}${S.name?', '+esc(S.name):''}</h1>
+      ${!S.name?`<div class="name-row"><input class="line" id="nameIn" placeholder="Как к вам обращаться?" aria-label="Ваше имя"><button class="btn btn--sm" id="nameB">Сохранить</button></div>`:''}</div>
+      <div class="t-hello__side"><p class="t-calm">Можно не спешить.</p><button class="host" id="hostB"><span class="host__pic"><span class="host__play"><svg viewBox="0 0 10 10" width="9" height="9" fill="currentColor"><path d="M2 1l7 4-7 4z"/></svg></span></span><span><span class="host__label">Программу ведёт</span><span class="host__name">${esc(C.guide.name)}</span></span></button></div></section>
+    ${!S.seenHelp?`<div class="first"><div><b>Впервые здесь?</b> За минуту расскажем, как всё устроено.</div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn--sm btn--primary" data-go="help">${MARK}Читать</button><button class="btn btn--sm btn--ghost" id="firstX">Скрыть</button></div></div>`:''}
+    <section class="t-trail" aria-label="Маршрут">${trailSvg()}</section>
+    <section class="t-cards">
+      <button class="t-card t-card--mint" data-go="tool" data-arg="pulse"><p class="eyebrow">Главный шаг</p>
+        <svg width="72" height="72" viewBox="0 0 72 72" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><circle cx="36" cy="36" r="33" stroke-dasharray="2 4"/><path d="M14 44c6-10 10-14 15-10s8 10 14 2 10-14 15-8"/><circle cx="43" cy="36" r="3.5" fill="currentColor"/></svg>
+        <h2>Как вы сейчас?</h2><p>Отметьте состояние · 1 минута</p><span class="t-btn">Отметить</span></button>
+      <div class="t-card t-card--beige"><p class="eyebrow">На этой неделе</p>
+        ${rows.length?`<div class="t-list">${rows.map(t=>`<button data-go="tool" data-arg="${t.id}" class="${done(t.id)?'is-done':''}"><span class="t-ico">${ico(done(t.id)?'check':t.id,24)}</span><span>${esc(t.title)}<small>${done(t.id)?'готово':esc(t.time)}</small></span><span aria-hidden="true">${done(t.id)?'':'→'}</span></button>`).join('')}</div>
+          <div class="t-dots" aria-label="Сделано ${dn} из ${week.length}">${week.map(t=>`<i class="${done(t.id)?'on':''}"></i>`).join('')}<span>${dn} из ${week.length}</span></div>`
+          :`<p class="t-empty">Психолог откроет инструменты на встрече.</p>`}</div>
+      <button class="t-card t-card--lav" data-go="hard"><p class="eyebrow">Если тяжело</p><span class="t-breath" aria-hidden="true"><i></i></span>
+        <h2>Подышать вместе</h2><p>Круг подскажет ритм · 1 минута</p><span class="t-btn t-btn--line">Начать</span></button>
+    </section>
+    <section class="t-energy"><div><p class="eyebrow">Ваши силы</p><p class="t-trend">${trend}</p></div>${ps.length>=2?sparkSvg(ps):`<button class="btn btn--sm" data-go="tool" data-arg="pulse">Сделать первую отметку</button>`}</section>
+    <button class="t-nav" data-go="navself"><span class="t-ico">${ico('nav',26)}</span><span><b>Инструкция к себе</b><small>собирается сама · ${navN} из 11 разделов</small></span><span class="t-nav__bar"><i style="width:${Math.round(navN/11*100)}%"></i></span></button>
   </div>`;
   $('#hostB').onclick=videoModal;
   $('#firstX')&&($('#firstX').onclick=()=>{S.seenHelp=1;save();render()});
   $('#nameB')&&($('#nameB').onclick=()=>{const v=$('#nameIn').value.trim();if(v){S.name=v;save();render()}});
+  $$('.tr-node',m).forEach(g=>g.onkeydown=e=>{if(e.key==='Enter')go('tools')});
+  const tr=$('.t-trail',m);if(tr&&tr.scrollWidth>tr.clientWidth){const ci=curStage()-1;tr.scrollLeft=Math.max(0,(40+ci*134)/1152*tr.scrollWidth-tr.clientWidth/2)}
 }
+
+/* --- Карта тела --- */
+const BODY_PATH='M150 86Q158 86 159 95Q160 104 171 108Q182 113 194 116Q206 120 214 127Q222 134 226 148Q229 162 231 184Q233 205 236 228Q238 250 242 272Q246 295 250 318Q254 340 256 356Q259 372 264 380Q268 388 272 399Q276 410 275 421Q274 432 269 439Q264 446 258 443Q252 440 250 429Q247 418 246 405Q246 392 243 384Q240 375 236 360Q232 345 227 322Q222 300 218 281Q214 262 211 242Q208 222 206 204Q203 186 202 200Q200 214 197 233Q194 252 196 268Q198 284 202 300Q206 316 207 338Q208 360 206 382Q204 404 200 424Q197 444 198 457Q198 470 200 488Q201 505 198 522Q194 540 192 548Q190 556 196 563Q203 570 202 576Q200 582 187 583Q174 584 168 581Q162 578 162 567Q163 556 164 538Q165 520 166 500Q167 480 166 463Q166 446 164 423Q163 400 160 375Q158 350 154 343Q150 336 146 343Q142 350 140 375Q137 400 136 423Q134 446 134 463Q133 480 134 500Q135 520 136 538Q137 556 138 567Q138 578 132 581Q126 584 113 583Q100 582 98 576Q97 570 104 563Q110 556 108 548Q106 540 102 522Q99 505 100 488Q102 470 102 457Q103 444 100 424Q96 404 94 382Q92 360 93 338Q94 316 98 300Q102 284 104 268Q106 252 103 233Q100 214 98 200Q97 186 94 204Q92 222 89 242Q86 262 82 281Q78 300 73 322Q68 345 64 360Q60 375 57 384Q54 392 54 405Q53 418 50 429Q48 440 42 443Q36 446 31 439Q26 432 25 421Q24 410 28 399Q32 388 36 380Q41 372 44 356Q46 340 50 318Q54 295 58 272Q62 250 64 228Q67 205 69 184Q71 162 74 148Q78 134 86 127Q94 120 106 116Q118 113 129 108Q140 104 141 95Q142 86 150 86Z';
+const ZONES=[['глаза',[[150,46,20,8]]],['челюсть',[[150,74,15,8]]],['горло и шея',[[150,97,11,8]]],['грудь',[[150,150,44,26]]],['диафрагма',[[150,192,40,10]]],['живот',[[150,232,34,22]]],['таз',[[150,292,46,20]]],['руки',[[234,262,13,62],[66,262,13,62]]],['ноги',[[178,452,17,92],[122,452,17,92]]]];
+function bodyMap(sel){return `<svg viewBox="0 0 300 600" class="bodymap" role="group" aria-label="Силуэт: нажмите, где ощущение">
+  <ellipse cx="150" cy="50" rx="29" ry="37" fill="var(--bg)" stroke="var(--ink)" stroke-width="1.6"/><path d="${BODY_PATH}" fill="var(--bg)" stroke="var(--ink)" stroke-width="1.6" stroke-linejoin="round"/>
+  ${ZONES.map(([k,es])=>{const on=sel.includes(k);return `<g class="bz ${on?'on':''}" data-zone="${k}" role="button" tabindex="0" aria-pressed="${on}" aria-label="${k}">${es.map(([x,y,rx,ry])=>`<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}"/>`).join('')}</g>`}).join('')}</svg>`}
+
+/* --- Кружки уровня --- */
+const lvlIco=(i,kind)=>kind==='t'?`<svg width="46" height="46" viewBox="0 0 46 46" aria-hidden="true">${[0,1,2,3,4].slice(0,i+1).map(k=>`<circle cx="23" cy="23" r="${20-k*4}" fill="none" stroke="currentColor" stroke-width="${k===i?1.8:1}" ${k?'':'stroke-dasharray="2 3"'}/>`).join('')}</svg>`
+  :`<svg width="46" height="46" viewBox="0 0 46 46" aria-hidden="true"><circle cx="23" cy="23" r="20" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="2 3"/><circle cx="23" cy="23" r="${3+i*4}" fill="currentColor"/></svg>`;
+const lvlRow=(key,words,val,kind)=>`<div class="lvl" data-lvl="${key}" role="group">${words.map(([v,w],i)=>`<button type="button" aria-pressed="${val===v}" data-v="${v}">${lvlIco(i,kind)}<span>${w}</span></button>`).join('')}</div>`;
+
+/* --- Карта состояния: по одному шагу --- */
+const PSTEPS=[['Дело','pulse'],['Тело','body'],['Эмоции','emo'],['Силы','lvl'],['Дальше?','go']];
+function toolPulse(m,t){if(!route.pw)route.pw={step:0,p:{energy:null,tension:null,clarity:null,want:null,emo:[],body:[],zones:[],ctx:''}};
+  const W=route.pw,p=W.p,st=W.step;const emoOpts=[...C.EMOTIONS,...(S.informal?C.INFORMAL:[])];
+  const bodyOpts=[...new Set([...C.BODY,...S.signals.filter(x=>x.type==='тело').map(x=>x.t)])];
+  const own=(k)=>`<div class="own"><input class="line" data-own="${k}" placeholder="Своё — напишите и нажмите Enter" aria-label="Своё"></div>`;
+  const chipsOf=(k,opts)=>`<div class="chips" data-ck="${k}">${[...new Set([...opts,...p[k]])].map(o=>`<button type="button" class="chip" aria-pressed="${p[k].includes(o)}" data-v="${esc(o)}">${esc(o)}</button>`).join('')}</div>`;
+  const body=[
+    `<h2 class="pw-q">Что вы сейчас делаете или только что делали?</h2><input class="line pw-in" id="ctx" value="${esc(p.ctx)}" placeholder="Например: после планёрки">${items().length?`<div class="suggest-line">${items().map(i=>`<button type="button" data-ctx="${esc(i)}">${esc(i)}</button>`).join('')}</div>`:''}`,
+    `<h2 class="pw-q">Где в теле вы что-то чувствуете?</h2><div class="pw-body"><div class="pw-body__fig">${bodyMap(p.zones)}</div><div class="pw-body__side"><p class="muted">Нажмите на место на силуэте или здесь:</p><div class="chips" data-zk>${ZONES.map(([k])=>`<button type="button" class="chip" aria-pressed="${p.zones.includes(k)}" data-zone="${k}">${k}</button>`).join('')}</div><p class="muted" style="margin-top:18px">Какое это ощущение?</p>${chipsOf('body',bodyOpts)}${own('body')}</div></div>`,
+    `<h2 class="pw-q">Какие эмоции это вызывает?</h2><p class="muted" style="margin:-8px 0 14px">одной-двух достаточно</p>${chipsOf('emo',emoOpts)}${own('emo')}`,
+    `<h2 class="pw-q">Сколько у вас сейчас сил?</h2>${lvlRow('energy',ENERGY_W,p.energy,'e')}<h2 class="pw-q" style="margin-top:28px">А насколько вы напряжены?</h2>${lvlRow('tension',TENSION_W,p.tension,'t')}<p class="muted" style="margin:22px 0 8px">Как сейчас голова?</p>${seg('clarity',['ясная','нормально','туман'],p.clarity)}`,
+    `<h2 class="pw-q">Хочется продолжить это дело или остановиться?</h2><div class="pw-want">${[['продолжать','Продолжить','<path d="M8 6l12 8-12 8z" fill="currentColor"/>'],['остановиться','Остановиться','<path d="M9 7v14M19 7v14" stroke="currentColor" stroke-width="2.4"/>']].map(([v,l,ic])=>`<button type="button" data-want="${v}" aria-pressed="${p.want===v}"><svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">${ic}</svg>${l}</button>`).join('')}</div>`][st];
+  m.innerHTML=wrap(t,`<ol class="pw-steps" aria-label="Шаги">${PSTEPS.map(([l],i)=>`<li class="${i<st?'done':i===st?'now':''}"><button type="button" data-step="${i}" ${i===st?'aria-current="step"':''}><span>${i<st?ico('check',18):i+1}</span>${l}</button></li>`).join('')}</ol>
+    <div class="panel pw">${body}<div class="pw-nav">${st>0?`<button class="btn btn--ghost" id="pwBack">${BACK}Назад</button>`:'<span></span>'}${st<4?`<button class="btn btn--primary" id="pwNext">Дальше</button>`:`<button class="btn btn--primary" id="puSave">${MARK}Сохранить отметку</button>`}</div></div>
+    <section class="sec"><div class="sec__h"><h2>Энергия и напряжение</h2><span class="muted">${S.pulses.length} ${plural(S.pulses.length,'отметка','отметки','отметок')}</span></div>
+    ${S.pulses.length?pulseView():'<p class="muted">Здесь появится график после первых отметок.</p>'}</section>`);
+  bindDisc(m);bindPulseView(m);bindSeg(m,p);
+  const keepCtx=()=>{const c=$('#ctx',m);if(c)p.ctx=c.value.trim()};
+  const goStep=n=>{keepCtx();W.step=n;render();window.scrollTo({top:0})};
+  $$('[data-step]',m).forEach(b=>b.onclick=()=>goStep(+b.dataset.step));
+  $('#pwBack')&&($('#pwBack').onclick=()=>goStep(st-1));$('#pwNext')&&($('#pwNext').onclick=()=>goStep(st+1));
+  $$('[data-ctx]',m).forEach(b=>b.onclick=()=>{$('#ctx').value=b.dataset.ctx});
+  const togZone=k=>{const i=p.zones.indexOf(k);i>=0?p.zones.splice(i,1):p.zones.push(k);const y=window.scrollY;render();window.scrollTo({top:y});const f=$(`.bodymap [data-zone="${k}"]`);f&&f.focus&&f.focus({preventScroll:true})};
+  $$('[data-zone]',m).forEach(el=>{el.onclick=()=>togZone(el.dataset.zone);el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();togZone(el.dataset.zone)}}});
+  $$('[data-ck]',m).forEach(g=>g.onclick=e=>{const b=e.target.closest('button');if(!b)return;const a=p[g.dataset.ck],v=b.dataset.v,i=a.indexOf(v);i>=0?a.splice(i,1):a.push(v);b.setAttribute('aria-pressed',String(i<0))});
+  $$('[data-own]',m).forEach(inp=>inp.onkeydown=e=>{if(e.key!=='Enter')return;e.preventDefault();const v=inp.value.trim();if(v&&!p[inp.dataset.own].includes(v)){p[inp.dataset.own].push(v);render()}});
+  $$('[data-lvl]',m).forEach(g=>$$('button',g).forEach(b=>b.onclick=()=>{p[g.dataset.lvl]=+b.dataset.v;$$('button',g).forEach(x=>x.setAttribute('aria-pressed',String(x===b)))}));
+  $$('[data-want]',m).forEach(b=>b.onclick=()=>{p.want=p.want===b.dataset.want?null:b.dataset.want;$$('[data-want]',m).forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.want===p.want)))});
+  $('#puSave')&&($('#puSave').onclick=()=>{if(!p.energy||!p.tension){toast('Отметьте силы и напряжение');W.step=3;render();return}
+    const rec={energy:p.energy,tension:p.tension,clarity:p.clarity,want:p.want,emo:p.emo,body:[...p.zones,...p.body],zones:p.zones,ctx:p.ctx,d:new Date().toISOString().slice(0,10)};
+    S.pulses.push(rec);save();route.pw=null;toast('Отметка сохранена');render();window.scrollTo({top:0})});
+}
+
+/* --- Весы нагрузки --- */
+function scaleSvg(){const dr=S.load.filter(x=>x.after<0).sort((a,b)=>a.after-b.after),rt=S.load.filter(x=>x.after>0).sort((a,b)=>b.after-a.after);
+  const wD=dr.reduce((a,x)=>a+(-x.after)*x.demand,0),wR=rt.reduce((a,x)=>a+x.after*(x.imp+1),0);
+  const ang=Math.max(-9,Math.min(9,(wD-wR)*1.1))*Math.PI/180;const cx=360,cy=70,L=230;
+  const lx=cx-L*Math.cos(ang),ly=cy+L*Math.sin(ang),rx=cx+L*Math.cos(ang),ry=cy-L*Math.sin(ang);
+  const pan=(x,y,fill,arr,label)=>{const py=y+96;const st=arr.slice(0,4).map((o,i)=>{const col=i%2,row=Math.floor(i/2);const t=o.name.length>11?o.name.slice(0,10)+'…':o.name;const w=Math.max(58,t.length*7.4+18);const sx=arr.length===1?x-w/2:(col?x+6:x-6-w);const sy=py-30-row*32;
+      return `<rect x="${sx}" y="${sy}" width="${w}" height="28" rx="12" fill="var(--bg)" stroke="var(--ink)"/><text x="${sx+w/2}" y="${sy+19}" text-anchor="middle" class="sc-t">${esc(t)}</text>`}).join('');
+    return `<path d="M${x} ${y} L${x-74} ${py} M${x} ${y} L${x+74} ${py}" stroke="var(--ink)" stroke-dasharray="3 3"/><path d="M${x-88} ${py} H${x+88} Q${x+84} ${py+38} ${x} ${py+40} Q${x-84} ${py+38} ${x-88} ${py} Z" fill="${fill}" stroke="var(--ink)" stroke-width="1.4"/>${st}${arr.length>4?`<text x="${x}" y="${py+96}" text-anchor="middle" class="sc-t">и ещё ${arr.length-4}</text>`:''}<text x="${x}" y="${py+72}" text-anchor="middle" class="sc-h">${label}</text>`};
+  return `<svg viewBox="0 0 720 300" class="scale" role="img" aria-label="Весы: что забирает и что возвращает силы">
+    <path d="M${cx} ${cy} V272 M${cx-55} 272 H${cx+55}" stroke="var(--ink)" stroke-width="2" fill="none"/><line x1="${lx}" y1="${ly}" x2="${rx}" y2="${ry}" stroke="var(--ink)" stroke-width="2.4"/><circle cx="${cx}" cy="${cy}" r="6" fill="var(--ink)"/>
+    ${pan(lx,ly,'var(--drain)',dr,'Забирает')}${pan(rx,ry,'var(--mint)',rt,'Возвращает')}</svg>`}
+const scaleCap=()=>{const dr=S.load.filter(x=>x.after<0),rt=S.load.filter(x=>x.after>0);const wD=dr.reduce((a,x)=>a+(-x.after)*x.demand,0),wR=rt.reduce((a,x)=>a+x.after*(x.imp+1),0);
+  return wD>wR+1?'Сейчас перевешивает то, что забирает силы.':wR>wD+1?'Сейчас перевешивает то, что возвращает силы.':'Сейчас чаши примерно уравновешены.'};
+
+/* --- Круги влияния --- */
+function inflSvg(){const cx=360,cy=215,R=[205,138,70];const g=[S.stressors.filter(s=>s.infl===0),S.stressors.filter(s=>s.infl===1||s.infl===2),S.stressors.filter(s=>s.infl===3)];
+  const chip=(s,x,y)=>{const t=s.name.length>16?s.name.slice(0,15)+'…':s.name;const w=t.length*7.4+22,dark=s.power>=4;return `<rect x="${x-w/2}" y="${y-14}" width="${w}" height="28" rx="14" fill="${dark?'var(--ink)':'var(--bg)'}" stroke="var(--ink)"/><text x="${x}" y="${y+5}" text-anchor="middle" class="sc-t" ${dark?'style="fill:var(--bg)"':''}>${esc(t)}</text>`};
+  const ring=(arr,r,off)=>arr.map((s,i)=>{const a=(off+i*(360/Math.max(arr.length,1)))*Math.PI/180;return chip(s,cx+r*Math.cos(a)*1.6,cy+r*Math.sin(a))}).join('');
+  return `<svg viewBox="0 0 720 430" class="infl" role="img" aria-label="Круги влияния">
+    <ellipse cx="${cx}" cy="${cy}" rx="${R[0]*1.6}" ry="${R[0]}" fill="var(--lavender)"/><ellipse cx="${cx}" cy="${cy}" rx="${R[1]*1.6}" ry="${R[1]}" fill="var(--beige)"/><ellipse cx="${cx}" cy="${cy}" rx="${R[2]*1.6}" ry="${R[2]}" fill="var(--mint)" stroke="var(--ink)" stroke-width="1.2"/>
+    <text x="${cx}" y="${cy-R[0]+24}" text-anchor="middle" class="sc-h2">НЕ МОГУ ВЛИЯТЬ</text><text x="${cx}" y="${cy-R[1]+22}" text-anchor="middle" class="sc-h2">ВЛИЯЮ ЧАСТИЧНО</text><text x="${cx}" y="${cy-R[2]+22}" text-anchor="middle" class="sc-h2">МОГУ ВЛИЯТЬ</text>
+    ${g[2].slice(0,3).map((s,i)=>chip(s,cx,cy+4+i*30-(Math.min(g[2].length,3)-1)*15)).join('')}${ring(g[1],(R[1]+R[2])/2+4,180)}${ring(g[0],(R[0]+R[1])/2+6,90)}</svg>`}
+
+/* --- Цепочка звеньями --- */
+const CV=[['situation','Ситуация','<rect x="4" y="6" width="16" height="12" rx="2"/><path d="M4 8l8 5 8-5"/>'],['rule','Правило','<path d="M5 11a7 6 0 1114 0c0 3.5-3.5 6-7 6l-4.5 2.5 1-3.5C6.5 15 5 13 5 11z"/>'],['emotion','Чувство','<path d="M12 20s-7-4.5-7-10a4 4 0 017-2.6A4 4 0 0119 10c0 5.5-7 10-7 10z"/>'],['action','Действие','<path d="M5 12h12M13 7l5 5-5 5"/>'],['cost','Цена','<circle cx="12" cy="12" r="7.5"/><path d="M12 8.5v4.5"/><circle cx="12" cy="16" r=".7" fill="currentColor"/>']];
+function chainViz(c){if(!c||!CV.some(([k])=>c[k]))return '';const idx=k=>C.CHAIN.findIndex(x=>x[0]===k);const ch=c.choice?idx(c.choice):-1;
+  let cut=-1;if(ch>=0){CV.forEach(([k],i)=>{if(idx(k)<=ch)cut=i})}
+  return `<div class="cviz" role="img" aria-label="Цепочка: ${CV.map(([k,l])=>l).join(', ')}">${CV.map(([k,l,ic],i)=>`${i?`<span class="cviz__link ${i-1===cut?'is-cut':''}">${i-1===cut?`<span class="cviz__cut">${'<svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><circle cx="5" cy="15" r="2.6"/><circle cx="15" cy="15" r="2.6"/><path d="M6.8 13L15 3M13.2 13L5 3"/></svg>'}</span>`:''}</span>`:''}<div class="cviz__n ${i>=3?'is-cost':''}"><span class="cviz__c"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">${ic}</svg></span><b>${l}</b><small>${esc((c[k]||'—').slice(0,40))}</small></div>`).join('')}</div>
+    ${cut>=0?`<p class="viz-cap">Ножницы — место, где можно поступить иначе.</p>`:''}`}
+
+/* --- Иконки состояний --- */
+const STATE_ICO={'взвинчен(а)':'<path d="M4 13l3-4 3 6 3-8 3 8 3-4 1 2"/>','пусто, нет сил':'<circle cx="12" cy="12" r="5"/>','тревожно':'<path d="M3 13c2-3 3-3 4.5 0S10 16 12 13s3-3 4.5 0 2.5 3 4.5 0"/>','не могу остановиться':'<path d="M5 12a7 7 0 1112.5 4.3"/><path d="M18 13v3.5h-3.5"/>','не могу уснуть':'<path d="M15 4a8 8 0 105 13A6.5 6.5 0 0115 4z"/><path d="M17 7h3l-3 3h3"/>','раздражение':'<path d="M12 4v4M12 16v4M4 12h4M16 12h4M6.5 6.5l2.8 2.8M14.7 14.7l2.8 2.8M6.5 17.5l2.8-2.8M14.7 9.3l2.8-2.8"/>','голова кипит':'<path d="M7 20v-4a6 6 0 1110 0v4M9 4.5c0-1.5 2-1.5 2-3M13 4.5c0-1.5 2-1.5 2-3"/>'};
+const stateIco=s=>`<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="11" stroke-dasharray="1.5 2.2" opacity=".7"/>${STATE_ICO[s]||''}</svg>`;
+
+/* --- Коридор зон --- */
+function corridorSvg(ps,z){const W=720,H=300,L=20,Rr=20,band=[[0,'УСТОЙЧИВО','var(--mint)'],[1,'МОБИЛИЗАЦИЯ','var(--beige)'],[2,'НАКОПЛЕНИЕ ДОЛГА','var(--drain)']];const bh=(H-40)/3;
+  const n=ps.length,x=i=>L+40+(n<2?0:i*(W-L-Rr-80)/(n-1)),y=(zz,e)=>zz*bh+bh/2+(3-e)*bh/10;
+  return `<svg viewBox="0 0 ${W} ${H}" class="corr" role="img" aria-label="Отметки по зонам нагрузки">${band.map(([k,l,c])=>`<rect x="0" y="${k*bh}" width="${W}" height="${bh}" fill="${c}"/><text x="12" y="${k*bh+20}" class="sc-h2" text-anchor="start">${l}</text>`).join('')}
+    <path d="${ps.map((p,i)=>`${i?'L':'M'}${x(i).toFixed(1)} ${y(z[i],p.energy).toFixed(1)}`).join(' ')}" fill="none" stroke="var(--ink)" stroke-width="1.4"/>
+    ${ps.map((p,i)=>`<circle cx="${x(i)}" cy="${y(z[i],p.energy)}" r="6" fill="var(--ink)"><title>${esc(fmtD(p.d)+(p.ctx?' · '+p.ctx:''))}</title></circle>`).join('')}
+    ${ps.map((p,i)=>i%Math.ceil(n/8)===0||i===n-1?`<text x="${x(i)}" y="${H-12}" text-anchor="middle" class="sc-t">${fmtD(p.d)}</text>`:'').join('')}</svg>`}
+
+/* --- Круги ответственности --- */
+function vennSvg(){const P=S.resp.place,get=k=>Object.keys(P).filter(i=>P[i]===k);const mine=get('mine'),sh=get('shared'),other=[...get('taken').map(t=>({t,w:1})),...get('pass').map(t=>({t,w:0}))];
+  const chip=(t,x,y,dark)=>{const s=t.length>14?t.slice(0,13)+'…':t;const w=s.length*7.2+22;return `<rect x="${x-w/2}" y="${y-14}" width="${w}" height="28" rx="14" fill="${dark?'var(--ink)':'var(--bg)'}" stroke="var(--ink)"/><text x="${x}" y="${y+5}" text-anchor="middle" class="sc-t" ${dark?'style="fill:var(--bg)"':''}>${esc(s)}</text>`};
+  const col=(arr,x,fn)=>arr.slice(0,5).map((o,i)=>fn(o,x,110+i*40)).join('')+(arr.length>5?`<text x="${x}" y="${110+5*40}" text-anchor="middle" class="sc-t">ещё ${arr.length-5}</text>`:'');
+  return `<svg viewBox="0 0 720 380" class="venn" role="img" aria-label="Моё, общее и не моё">
+    <circle cx="260" cy="190" r="170" fill="var(--mint)"/><circle cx="460" cy="190" r="170" fill="var(--lavender)" opacity=".85"/>
+    <path d="M360 52.6 A170 170 0 0 1 360 327.4 A170 170 0 0 1 360 52.6Z" fill="color-mix(in srgb,var(--mint) 50%,var(--lavender))"/>
+    <text x="190" y="66" text-anchor="middle" class="sc-h">Моё</text><text x="360" y="84" text-anchor="middle" class="sc-h2">ОБЩЕЕ</text><text x="530" y="66" text-anchor="middle" class="sc-h">Не моё</text>
+    ${col(mine,190,(t,x,y)=>chip(t,x,y,false))}${col(sh,360,(t,x,y)=>chip(t,x,y+30,false))}${col(other,535,(o,x,y)=>chip(o.t,x,y,o.w))}
+    ${other.some(o=>o.w)?`<text x="535" y="358" text-anchor="middle" class="sc-t" fill="var(--bad-ink)">тёмное — несу, хотя не моё</text>`:''}</svg>`}
+
+/* --- Банки «надо — хочу — важно» --- */
+const NHV_SHORT={want:'Хочу',important:'Важно',choose:'Выбираю',fear:'Страх, вина',auto:'По привычке'};
+const NHV_FILL={want:'var(--mint)',important:'var(--lavender)',choose:'var(--beige)',fear:'var(--drain)',auto:'var(--soft)'};
+function jarsHtml(){const P=S.nhv.place;const cnt=C.NHV_COLS.map(([k])=>Object.keys(P).filter(i=>P[i]===k));const mx=Math.max(1,...cnt.map(a=>a.length));
+  return `<div class="jars">${C.NHV_COLS.map(([k],j)=>`<div class="jar"><div class="jar__g"><i style="height:${cnt[j].length?Math.round(14+cnt[j].length/mx*76):0}%;background:${NHV_FILL[k]}"></i><b>${cnt[j].length}</b></div><span>${NHV_SHORT[k]}</span></div>`).join('')}</div>`}
+
+/* --- Инструкция к себе: три зоны --- */
+function zonesHtml(){const pt=S.point,kit=kitText();const sig=z=>S.signals.filter(s=>s.zone===z).map(s=>s.t);
+  const steady=[...(pt.markers||[])].slice(0,3),ret=S.load.filter(x=>x.after>0).map(x=>x.name).slice(0,3);
+  const tags=a=>a.length?a.map(x=>`<span>${esc(x)}</span>`).join(''):'<em>появится по ходу трека</em>';
+  const row=(cls,mark,title,how,what)=>`<div class="zrow zrow--${cls}"><div class="zrow__h"><span class="zrow__m zrow__m--${cls}"></span><b>${title}</b></div><div class="zrow__c"><small>Как я узнаю</small><div>${tags(how)}</div></div><div class="zrow__c"><small>Что я делаю</small><div>${tags(what)}</div></div></div>`;
+  return `<div class="zrows">${row('ok','','Ровно',steady,ret)}${row('warn','','Звоночки',sig('ранний').slice(0,4),kit.slice(0,3))}${row('bad','','Предел',[...sig('предел'),...sig('уже перегружен')].slice(0,4),['открыть «Если очень тяжело»','написать психологу'])}</div>`}
+
 let _intro=null;
 function introSrc(){if(_intro)return _intro;const el=$('#intro-video');const b=el?el.textContent.trim():'';try{const bin=atob(b),u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);_intro=URL.createObjectURL(new Blob([u],{type:'video/mp4'}))}catch(e){_intro='data:video/mp4;base64,'+b}return _intro}
 function videoModal(){const b=document.createElement('div');b.className='modal-back';
@@ -974,7 +1232,7 @@ function nav(){
 function toolRow(t){const op=isOpen(t.id),dn=done(t.id);
   const st=t.final?'<span class="badge b-q">собирается сама</span>':dn?'<span class="badge b-ok">заполнено</span>':S.open[t.id]?'<span class="badge b-warn">открыт</span>':'<span class="badge b-q">откроется позже</span>';
   return `<div class="tool tool--in ${dn?'is-done':''} ${t.central?'is-central':''} ${op?'':'is-locked'}" ${op?`data-go="tool" data-arg="${t.id}" role="button" tabindex="0" style="cursor:pointer"`:''}>
-    <span class="tool__num">${t.n}</span><span class="tool__title">${esc(t.title)}</span>
+    <span class="tool__num" title="${t.n}">${ico(dn?'check':t.id,18)}</span><span class="tool__title">${esc(t.title)}</span>
     ${S.psy&&!t.final?`<label class="tool-toggle" data-stop><input type="checkbox" data-open="${t.id}" ${S.open[t.id]?'checked':''}> открыт клиенту</label>`:`<span class="tool__st">${st}</span>`}
     <span class="tool__goal">${esc(t.goal)}</span></div>`}
 function vTools(m){const cs=curStage();
@@ -1119,22 +1377,7 @@ function bindOwn(root,obj){$$('[data-own]',root).forEach(inp=>inp.onkeydown=e=>{
   $$('button',g).forEach(b=>b.setAttribute('aria-pressed',String(obj[k].includes(b.dataset.v))));inp.value=''})}
 const ENERGY_W=[[1,'на нуле'],[2,'мало'],[3,'средне'],[4,'хорошо'],[5,'много']];
 const TENSION_W=[[1,'спокойно'],[2,'слегка'],[3,'заметно'],[4,'сильно'],[5,'на взводе']];
-TOOL.pulse=(m,t)=>{const p={energy:null,tension:null,clarity:null,want:null,emo:[],body:[]};
-  const emoOpts=[...C.EMOTIONS,...(S.informal?C.INFORMAL:[])];
-  m.innerHTML=wrap(t,`<div class="panel"><div class="form">
-    ${field('1. Напишите, что вы сейчас делаете или только что делали',`<input class="line" id="ctx" placeholder="Например: после планёрки" list="ctxList"><datalist id="ctxList">${items().map(i=>`<option value="${esc(i)}">`).join('')}</datalist>${items().length?`<div class="suggest-line">Из вашей карты нагрузки: ${items().map(i=>`<button type="button" data-ctx="${esc(i)}">${esc(i)}</button>`).join('')}</div>`:''}`)}
-    ${field('2. Отметьте, что чувствуете в теле',chips('body',[...new Set([...C.BODY,...S.signals.filter(x=>x.type==='тело').map(x=>x.t)])],[],{multi:true,max:6})+ownInput('body'))}
-    ${field('3. Отметьте, какие эмоции это вызывает',chips('emo',emoOpts,[],{multi:true,max:6})+ownInput('emo'),'одной-двух достаточно')}
-    ${field('4. Оцените, сколько у вас сейчас сил <span class="req">обязательно</span>',seg('energy',ENERGY_W,null))}
-    ${field('5. Оцените, насколько вы напряжены <span class="req">обязательно</span>',seg('tension',TENSION_W,null))}
-    ${field('6. Отметьте, как сейчас голова',seg('clarity',['ясная','нормально','туман'],null))}
-    ${field('7. Что хочется сделать с этим делом?',seg('want',[['продолжать','продолжить'],['остановиться','остановиться']],null))}
-  </div><div style="margin-top:20px"><button class="btn btn--primary" id="puSave">${MARK}Сохранить отметку</button></div></div>
-  <section class="sec"><div class="sec__h"><h2>Энергия и напряжение</h2><span class="muted">${S.pulses.length} ${plural(S.pulses.length,'отметка','отметки','отметок')}</span></div>
-    ${S.pulses.length?pulseView():'<p class="muted">Здесь появится график после первых отметок.</p>'}</section>`);
-  bindSeg(m,p);bindOwn(m,p);bindDisc(m);bindPulseView(m);$$('[data-ctx]',m).forEach(b=>b.onclick=()=>$('#ctx').value=b.dataset.ctx);
-  $('#puSave').onclick=()=>{if(!p.energy||!p.tension){toast('Оцените силы и напряжение — это пункты 4 и 5');return}p.ctx=$('#ctx').value.trim();p.d=new Date().toISOString().slice(0,10);S.pulses.push(p);save();toast('Отметка сохранена');render()};
-};
+TOOL.pulse=toolPulse;
 const fmtD=d=>{if(!d)return '';const a=d.split('-');return a[2]+'.'+a[1]};
 function pulseView(){const ps=S.pulses.slice(-14);const last=S.pulses.slice(-3),prev=S.pulses.slice(-6,-3);
   let trend='';if(prev.length){const av=a=>a.reduce((x,p)=>x+p.energy,0)/a.length;const d=av(last)-av(prev);trend=d>.4?'Энергия в последних отметках растёт.':d<-.4?'Энергия в последних отметках снижается.':'Энергия в последних отметках держится примерно на одном уровне.'}
@@ -1206,12 +1449,12 @@ TOOL.load=(m,t)=>{
       <div class="ld-q"><span>Насколько это важно для вас?</span>${seg('imp',[[1,'не очень'],[2,'важно'],[3,'очень важно']],x.imp)}</div>
       <div class="ld-q"><span>Можно ли здесь что-то изменить?</span>${seg('change',['да','частично','нет'],x.change)}</div></div>`).join('')}</div></section>
   <section class="sec"><div class="sec__h"><h2>Куда уходит и откуда возвращается</h2></div>
-    ${S.load.length?`<div class="viz">${loadSvg()}</div><p class="viz-cap">Слева направо — сколько сил забирает. Снизу вверх — как вы себя чувствуете после: от «опустошён(а)» до «наполнен(а)». Чем крупнее кружок, тем это важнее для вас. Пунктирное кольцо — здесь что-то можно изменить.</p>`:'<p class="muted">Добавьте 3–5 пунктов, и здесь появится карта.</p>'}</section>`);
+    ${S.load.length?`<div class="viz" id="scaleV">${scaleSvg()}</div><p class="trend" id="scaleC">${scaleCap()}</p><details class="more"><summary>Подробная карта</summary><div class="viz" id="quadV">${loadSvg()}</div><p class="viz-cap">Слева направо — сколько сил забирает. Снизу вверх — как вы себя чувствуете после: от «опустошён(а)» до «наполнен(а)». Чем крупнее кружок, тем это важнее для вас. Пунктирное кольцо — здесь что-то можно изменить.</p></details>`:'<p class="muted">Добавьте 3–5 пунктов, и здесь появится карта.</p>'}</section>`);
   bindDisc(m);
   const add=v=>{v=v.trim();if(v&&!items().includes(v)){S.load.push({name:v,demand:3,after:0,imp:2,change:'частично'});save();render()}};
   $('#ldAdd').onclick=()=>add($('#ldIn').value);$('#ldIn').onkeydown=e=>{if(e.key==='Enter')add(e.target.value)};
   $$('[data-ls]',m).forEach(b=>b.onclick=()=>add(b.dataset.ls));
-  $$('.ld-item',m).forEach(r=>{const x=S.load[+r.dataset.i];bindSeg(r,x,()=>{save();$('.viz',m)&&($('.viz',m).innerHTML=loadSvg())})});
+  $$('.ld-item',m).forEach(r=>{const x=S.load[+r.dataset.i];bindSeg(r,x,()=>{save();const a=$('#scaleV',m);if(a){a.innerHTML=scaleSvg();$('#scaleC',m).textContent=scaleCap()}const q=$('#quadV',m);if(q)q.innerHTML=loadSvg()})});
   $$('[data-dl]',m).forEach(b=>b.onclick=()=>{S.load.splice(+b.dataset.dl,1);save();render()});
 };
 function loadSvg(){const W=720,H=460,L=60,R=30,Tp=30,B=50;const x=v=>L+50+(v-1)*(W-L-R-100)/4,y=v=>Tp+40+(2-v)*(H-Tp-B-80)/4;
@@ -1241,12 +1484,12 @@ TOOL.stress=(m,t)=>{
       <div><p class="muted" style="margin-bottom:8px">Что здесь возможно сделать</p><div class="paths">${C.PATHS.map(([k,l,d])=>`<button type="button" class="path" data-path="${k}" aria-pressed="${s.path===k}"><b>${l}</b>${d}</button>`).join('')}</div></div>
       <input class="line" data-act value="${esc(s.action||'')}" placeholder="Конкретный шаг: что именно, с кем, когда"></article>`).join('')}</div></section>
   <section class="sec"><div class="sec__h"><h2>Где мои рычаги</h2></div>
-    ${S.stressors.length?`<div class="viz">${stressSvg()}</div><p class="viz-cap">По вертикали — насколько сильно влияет, по горизонтали — насколько вы можете на это влиять. Пустой кружок — здесь важную роль играет ваше правило, а не только внешнее требование.</p>`:'<p class="muted">Добавьте стрессоры, и появится карта рычагов.</p>'}</section>`);
+    ${S.stressors.length?`<div class="viz">${inflSvg()}</div><p class="viz-cap">Тёмные — то, что давит сильнее всего. Ищите их ближе к центру: там ваши рычаги.</p>`:'<p class="muted">Добавьте стрессоры, и появится карта рычагов.</p>'}</section>`);
   bindDisc(m);
   const add=v=>{v=v.trim();if(v&&!S.stressors.some(s=>s.name===v)){S.stressors.push({name:v,power:3,freq:'иногда',time:'сейчас',infl:1,source:'внешнее требование',path:null,action:''});save();render()}};
   $('#stAdd').onclick=()=>add($('#stIn').value);$('#stIn').onkeydown=e=>{if(e.key==='Enter')add(e.target.value)};
   $$('[data-sc]',m).forEach(b=>b.onclick=()=>add(b.dataset.sc));
-  $$('.scard',m).forEach(c=>{const s=S.stressors[+c.dataset.i];bindSeg(c,s,()=>{save();$('.viz',m).innerHTML=stressSvg()});
+  $$('.scard',m).forEach(c=>{const s=S.stressors[+c.dataset.i];bindSeg(c,s,()=>{save();$('.viz',m).innerHTML=inflSvg()});
     $$('[data-path]',c).forEach(b=>b.onclick=()=>{s.path=b.dataset.path;$$('[data-path]',c).forEach(x=>x.setAttribute('aria-pressed',String(x===b)));save()});
     $('[data-act]',c).onchange=e=>{s.action=e.target.value.trim();save()}});
   $$('[data-ds]',m).forEach(b=>b.onclick=()=>{S.stressors.splice(+b.dataset.ds,1);save();render()});
@@ -1270,7 +1513,7 @@ function chainSugg(k){const uniq=a=>[...new Set(a.filter(Boolean))];let src=[],l
   if(k==='rule'){src=uniq([...S.signals.filter(x=>x.type==='мысли').map(x=>x.t),...Object.values(S.resp.ifStop||{})]);lab='Из радара и карты ответственности:'}
   return src.length?`<div class="suggest-line">${lab} ${src.slice(0,8).map(v=>`<button type="button" data-cs="${k}" data-v="${esc(v)}">${esc(v)}</button>`).join('')}</div>`:''}
 TOOL.chain=(m,t)=>{const idx=route.sub!=null?route.sub:0;const c=S.chains[idx]?JSON.parse(JSON.stringify(S.chains[idx])):{};
-  m.innerHTML=wrap(t,`<p style="font-size:17px;margin-bottom:24px">Вспомните один конкретный недавний случай, когда вы снова перегрузили себя, — например, «опять работала до полуночи». Ответьте на вопросы по порядку. Серым в полях написаны примеры.</p>
+  m.innerHTML=wrap(t,`${chainViz(S.chains[idx])}<p style="font-size:17px;margin-bottom:24px">Вспомните один конкретный недавний случай, когда вы снова перегрузили себя, — например, «опять работала до полуночи». Ответьте на вопросы по порядку. Серым в полях написаны примеры.</p>
   <ol class="chain">${C.CHAIN.map(([k,l,h,ex],i)=>`<li><span class="chain__n">${i+1}</span><div><span class="chain__q">${l}</span><span class="chain__hint">${h}</span><textarea class="area" style="min-height:64px" data-ck="${k}" placeholder="${esc(ex)}">${esc(c[k]||'')}</textarea>${chainSugg(k)}</div></li>
     ${i<C.CHAIN.length-1?`<li><div class="chain__gap"><button type="button" class="choice" data-choice="${k}" aria-pressed="${c.choice===k}">здесь можно было иначе?</button></div></li>`:''}`).join('')}</ol>
   <div class="note" style="margin-top:20px"><b style="font-weight:500">Где в этой цепочке у вас был хотя бы маленький выбор?</b> Посмотрите на неё целиком и нажмите «здесь можно было иначе?» между теми шагами, где можно было поступить по-другому: подумать иначе, взять паузу, попросить помощи. Это и есть точка, с которой можно начать менять цепочку.</div>
@@ -1292,7 +1535,7 @@ TOOL.recovery=(m,t)=>{const st={state:route.state||null};
   const sugg=st.state?C.METHODS.filter(x=>x.states.includes(st.state)).sort((a,b)=>score(b.id,st.state)-score(a.id,st.state)).slice(0,3):[];
   const kit={};S.recovery.filter(r=>r.keep&&r.after<r.before).forEach(r=>{(kit[r.state]=kit[r.state]||{});kit[r.state][r.m]=(kit[r.state][r.m]||0)+1});
   m.innerHTML=wrap(t,`<section><div class="sec__h"><h2>Что сейчас происходит?</h2></div>
-    ${(()=>{const l=S.pulses[S.pulses.length-1];if(!l||st.state)return '';const g=l.tension>=4?'взвинчен(а)':l.energy<=2?'пусто, нет сил':null;return g?`<p class="muted" style="margin-bottom:10px">По последней отметке «Карты состояния» (силы ${l.energy}, напряжение ${l.tension}) похоже на «${g}».</p>`:''})()}<div class="states">${C.STATES.map(s=>`<button class="state" data-state="${esc(s)}" aria-pressed="${st.state===s}">${esc(s)}</button>`).join('')}</div>
+    ${(()=>{const l=S.pulses[S.pulses.length-1];if(!l||st.state)return '';const g=l.tension>=4?'взвинчен(а)':l.energy<=2?'пусто, нет сил':null;return g?`<p class="muted" style="margin-bottom:10px">По последней отметке «Карты состояния» (силы ${l.energy}, напряжение ${l.tension}) похоже на «${g}».</p>`:''})()}<div class="states">${C.STATES.map(s=>`<button class="state" data-state="${esc(s)}" aria-pressed="${st.state===s}">${stateIco(s)}<span>${esc(s)}</span></button>`).join('')}</div>
     ${st.state?`<div class="sugg" style="margin-top:20px">${sugg.map(x=>`<div class="method"><p class="eyebrow">${esc(x.channel)} · ${esc(x.time)}${score(x.id,st.state)?' · вам уже помогало':''}</p><h3>${esc(x.title)}</h3><p class="why">${esc(x.how)}</p>
       ${x.channel==='релаксация Анастасии'?(x.audio?`<div class="vnote" data-audio="${esc(x.audio)}"><svg class="vnote__ring" viewBox="0 0 100 100"><circle class="track" cx="50" cy="50" r="49"/><circle class="bar" cx="50" cy="50" r="49" stroke-dasharray="307.88" stroke-dashoffset="307.88"/></svg><button class="vnote__view" aria-label="Слушать"></button><span class="vnote__play"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="23" fill="rgba(24,22,22,.55)"/><path d="M19 15l15 9-15 9z" fill="#fff"/></svg></span></div>`:'<p class="muted">Запись скоро появится</p>'):''}
       <button class="btn btn--sm btn--primary" data-try="${x.id}">${MARK}Попробовать</button></div>`).join('')}</div>`:''}
@@ -1319,8 +1562,8 @@ TOOL.range=(m,t)=>{const ps=S.pulses;const z=ps.map((p,i)=>zoneOf(p,ps[i-1]));co
     <div class="zone-card"><b>${c[0]}</b><h3>Устойчивый режим</h3><p>Нагрузка есть, восстановление происходит.</p></div>
     <div class="zone-card"><b>${c[1]}</b><h3>Мобилизация</h3><p>Временно интенсивно, но вы возвращаетесь.</p></div>
     <div class="zone-card"><b>${c[2]}</b><h3>Накопление долга</h3><p>После нагрузки состояние уже не возвращается к исходному.</p></div></div>
-  <section class="sec"><div class="sec__h"><h2>Ваши отметки по зонам</h2></div><div class="strip">${ps.map((p,i)=>`<i data-z="${z[i]}" style="height:${20+p.energy*16}px" title="${esc(p.d+' · '+(p.ctx||''))}"></i>`).join('')}</div>
-    <p class="viz-cap">Высота — энергия. Зелёный — устойчивый режим, охра — мобилизация, лиловый — долг.</p></section>
+  <section class="sec"><div class="sec__h"><h2>Ваши отметки по зонам</h2></div><div class="viz">${corridorSvg(ps,z)}</div>
+    <p class="viz-cap">Каждая точка — отметка в «Карте состояния». Чем ниже точка, тем меньше было сил.</p></section>
   <section class="sec"><div class="sec__h"><h2>Что видно вместе</h2></div><dl class="kv">
     <dt>Ранние сигналы</dt><dd>${esc(S.signals.filter(s=>s.zone==='ранний').map(s=>s.t).join(', ')||'—')}</dd>
     <dt>Что сильнее всего истощает</dt><dd>${esc(S.load.filter(x=>x.after<=-2).map(x=>x.name).join(', ')||'—')}</dd>
@@ -1342,6 +1585,7 @@ TOOL.resp=(m,t)=>{const P=S.resp.place;const pool=items().filter(i=>!P[i]);
   ${pool.length?`<div class="pool">${pool.map(i=>`<button class="chip" data-pick="${esc(i)}">${esc(i)}</button>`).join('')}</div>`:''}
   <div class="input" style="margin-bottom:18px"><input id="rsIn" placeholder="Добавить задачу, отношение или обязательство"><button class="btn btn--sm" id="rsAdd">Добавить</button></div>
   <div id="pickBar"></div>
+  ${Object.keys(P).length?`<div class="viz">${vennSvg()}</div>`:''}
   <div class="sectors">${C.RESP_SECTORS.map(([k,l])=>`<div class="sector"><h3>${l}</h3><div class="chips">${Object.keys(P).filter(i=>P[i]===k).map(i=>`<button class="chip" aria-pressed="true" data-pick="${esc(i)}">${esc(i)}</button>`).join('')}</div></div>`).join('')}</div>
   ${Object.keys(P).some(i=>P[i]==='taken')?`<section class="sec"><div class="sec__h"><h2>Что случится, если я перестану это держать?</h2></div>
     ${Object.keys(P).filter(i=>P[i]==='taken').map(i=>`<div class="field"><div class="field__label"><span>${esc(i)}</span></div><textarea class="area" style="min-height:70px" data-stop="${esc(i)}">${esc(S.resp.ifStop[i]||'')}</textarea>
@@ -1370,7 +1614,7 @@ TOOL.nhv=(m,t)=>{const P=S.nhv.place;S.nhv.notes=S.nhv.notes||{};const N=S.nhv.n
   <section><div class="sec__h"><h2>Шаг 1. Почему вы это делаете?</h2>${pool.length?`<span class="muted">осталось разложить: ${pool.length}</span>`:''}</div>
   <p style="font-size:17px;margin-bottom:16px">Нажмите на пункт и выберите колонку. Честного ответа достаточно — правильных и неправильных колонок нет.</p>
   ${pool.length?`<div class="pool">${pool.map(i=>`<button class="chip" data-pick="${esc(i)}">${esc(i)}</button>`).join('')}</div>`:''}<div id="pickBar"></div>
-  <div class="nhv-cols">${C.NHV_COLS.map(([k,l])=>`<div class="nhv-col"><h3>${l}</h3>${Object.keys(P).filter(i=>P[i]===k).map(i=>`<button class="chip" aria-pressed="true" data-pick="${esc(i)}">${esc(i)}</button>`).join('')}</div>`).join('')}</div></section>
+  ${placed?jarsHtml():''}<div class="nhv-cols">${C.NHV_COLS.map(([k,l])=>`<div class="nhv-col"><h3>${l}</h3>${Object.keys(P).filter(i=>P[i]===k).map(i=>`<button class="chip" aria-pressed="true" data-pick="${esc(i)}">${esc(i)}</button>`).join('')}</div>`).join('')}</div></section>
   ${placed?`<section class="sec"><div class="sec__h"><h2>Шаг 2. Посмотрите, что получилось</h2></div>
     ${(()=>{const self=Object.keys(P).filter(i=>['want','important','choose'].includes(P[i])).length;const other=placed-self;
       return `<p style="font-size:17px;margin-bottom:18px">${other===0?'Всё, что вы разложили, — ваш собственный выбор: вы делаете это, потому что хотите, потому что важно или сознательно решили сохранить. Это хорошая новость. Тогда главный вопрос не «зачем я это делаю», а «какой ценой» — и можно ли то же самое делать бережнее.':self===0?'Похоже, сейчас почти всё в вашей жизни держится на страхе, ожиданиях или привычке. Это частая картина при выгорании, и с ней стоит идти к психологу — здесь достаточно просто это заметить.':`Часть того, что вы делаете, выбрана вами (${self}), а часть держится на страхе, ожиданиях или привычке (${other}). Ответьте на вопросы ниже — по тем колонкам, где у вас есть пункты.`}</p>`})()}
@@ -1459,6 +1703,7 @@ TOOL.nav=(m,t)=>{const secs=navSections();const n=secs.filter(s=>s.ok).length;
   m.innerHTML=`<div class="page page--narrow">${head(t)}
     <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px"><span class="saved">Собрано ${n} из 11 разделов</span><button class="btn btn--sm btn--outline" onclick="window.print()">Распечатать или сохранить PDF</button></div>
     <div class="progress-line" style="margin-bottom:24px"><i style="width:${Math.round(n/11*100)}%"></i></div>
+    ${zonesHtml()}
     ${secs.map(s=>`<section class="nav-sec ${s.ok?'':'is-empty'}"><div class="nav-sec__n">${esc(s.t)}<b>из инструмента ${s.n}</b></div><div class="nav-sec__body">${s.ok?s.body:'<p>Появится, когда будет заполнен инструмент.</p>'}</div></section>`).join('')}
     ${S.point.saved?`<section class="nav-sec"><div class="nav-sec__n">Точка старта<b>из инструмента 1</b></div><div class="nav-sec__body"><p>${esc(S.point.change||'')}</p></div></section>`:''}</div>`;
 };
