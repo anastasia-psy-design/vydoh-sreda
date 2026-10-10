@@ -911,6 +911,38 @@ button.tt{cursor:pointer}
   .bat2__bolt{animation:boltIn .5s var(--ease) 1.2s both}
 }
 .h-name{display:flex;align-items:center;gap:8px;flex:0 1 320px}.h-name .line{font-size:15px}
+
+/* практики «Если тяжело» */
+.prac{margin-bottom:8px}
+.prac__h{font-family:var(--serif);font-weight:400;font-size:clamp(24px,2.4vw,30px);margin:0 0 16px;color:var(--ink);text-transform:none}
+.prac__cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.prac__card{display:flex;flex-direction:column;align-items:center;gap:12px;padding:24px 18px;border:0;font:inherit;text-align:center;color:var(--ink);cursor:pointer}
+.prac__st{font-size:16px;line-height:1.35}
+.prac__nm{font-size:14px;color:var(--muted)}
+.prac__play{display:grid;grid-template-columns:auto minmax(0,1fr);gap:28px 40px;align-items:center;padding:clamp(22px,3vw,36px)}
+.prac__stage{display:grid;place-items:center}
+.prac__phase{font-family:var(--serif);font-size:clamp(34px,4vw,52px);line-height:1.05;color:var(--ink);margin:6px 0 10px}
+.prac__hint{font-size:16px;line-height:1.5;color:var(--text);margin:0 0 14px;max-width:46ch}
+.prac__prog{height:4px;background:rgba(0,0,0,.08);border-radius:2px;overflow:hidden;margin:6px 0 18px;max-width:320px}.prac__prog i{display:block;height:100%;width:0;background:var(--ink)}
+.prac__btns{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:12px}
+.tide{transition:transform var(--dur,4s) ease-in-out}
+.pl--in .tide{transform:translateY(-34px)}
+.sun{transition:transform var(--dur,3s) ease-in-out}.rays{transform-origin:100px 120px;transition:transform var(--dur,3s) ease-in-out,opacity var(--dur,3s)}
+.pimg--energy .sun{transform:translateY(22px)}.pimg--energy .rays{transform:scale(.7);opacity:.5}
+.pl--in .pimg--energy .sun{transform:translateY(-14px)}.pl--in .pimg--energy .rays{transform:scale(1.15);opacity:1}
+.pl--out .pimg--energy .sun{transform:translateY(0)}.pl--out .pimg--energy .rays{transform:scale(.9);opacity:.8}
+.pl--move .pimg--energy .sun{transform:translateY(-20px)}.pl--move .pimg--energy .rays{transform:scale(1.2);opacity:1}
+.pl--end .pimg--energy .sun{transform:translateY(-20px)}.pl--end .pimg--energy .rays{transform:scale(1.2);opacity:1}
+@media (prefers-reduced-motion:no-preference){
+  @keyframes wvx{to{transform:translateX(-100px)}}
+  .wv{animation:wvx 9s linear infinite}.wv2{animation-duration:12s;animation-direction:reverse}.wv3{animation-duration:15s}
+  .pl--move .rays{animation:spinSlow 12s linear infinite}
+  .prac__card{transition:transform .35s var(--ease),box-shadow .35s var(--ease)}.prac__card:hover{transform:translateY(-3px);box-shadow:0 12px 26px rgba(0,0,0,.06)}
+  .prac__card:hover .pimg--calm .tide{transform:translateY(-14px);transition:transform 2s ease-in-out}
+  .prac__card:hover .pimg--energy .sun{transform:translateY(-6px)}.prac__card:hover .pimg--energy .rays{transform:scale(1);opacity:1}
+  .prac__play{animation:fadeUp .5s var(--ease) both}
+}
+@media (max-width:760px){.prac__cards{grid-template-columns:minmax(0,1fr)}.prac__card{flex-direction:row;text-align:left;padding:14px}.prac__card svg{width:84px;height:84px;flex:0 0 84px}.prac__card .prac__st{flex:1}.prac__card .prac__nm{display:none}.prac__play{grid-template-columns:minmax(0,1fr);justify-items:center;text-align:center}.prac__stage svg{width:220px;height:220px}.prac__btns{justify-content:center}.prac__prog{margin-inline:auto}}
 </style>
 </head>
 <body>
@@ -957,7 +989,7 @@ const CONTENT = {
   /* ТЯЖЕЛЫЙ МОМЕНТ - вместо телефонов доверия: дыхание, личный план, связь с психологом. */
   hard: {
     title:'Если сейчас очень тяжело',
-    intro:'Вы не обязаны справляться в одиночку. Сделайте по очереди то, что сейчас по силам: одну минуту дыхания, потом - свой план и связь с людьми.',
+    intro:'Вы не обязаны справляться в одиночку. Выберите, что с вами сейчас, и сделайте короткую практику, а потом, если нужно, откройте свой план и напишите психологу.',
     msg:'Здравствуйте! Мне сейчас очень тяжело. Можем ли мы связаться раньше встречи?',
     emergency:'Если есть угроза жизни - вашей или чужой - звоните 112.'
   },
@@ -1202,7 +1234,7 @@ function importData(file){const r=new FileReader();r.onload=()=>{try{const j=JSO
 
 /* ---------- маршрутизация ---------- */
 let route={v:'today'};
-function go(v,arg,noPush){route={v,arg};$('#sidebar').classList.remove('open');if(!noPush)try{history.pushState({v,arg},'')}catch(e){}render();window.scrollTo({top:0})}
+function go(v,arg,noPush){if(typeof pracStop==='function')pracStop();route={v,arg};$('#sidebar').classList.remove('open');if(!noPush)try{history.pushState({v,arg},'')}catch(e){}render();window.scrollTo({top:0})}
 window.__vy={go:(...a)=>go(...a),get S(){return S},save:()=>save(),render:()=>render(),get route(){return route}};
 window.addEventListener('popstate',e=>{const st=e.state;if(st&&st.v)go(st.v,st.arg,true);else go('today',null,true)});
 try{history.replaceState({v:'today'},'')}catch(e){}
@@ -1523,16 +1555,57 @@ function vHelp(m){S.seenHelp=1;save();
 }
 
 /* ================= ЕСЛИ СЕЙЧАС ОЧЕНЬ ТЯЖЕЛО ================= */
-function vHard(m){const H=C.hard;const p=S.plan=S.plan||{};p.people=p.people||[];
+/* --- Практики «Если тяжело»: три состояния, три образа --- */
+const PRAC={
+  calm:{state:'Слишком много всего, внутри все кипит',name:'Прилив',time:'1 минута',color:'var(--mint)',hint:'Вдыхайте, пока вода прибывает, и медленно выдыхайте, пока она уходит. Длинный выдох помогает телу успокоиться.',
+    seq:()=>{const a=[];for(let i=0;i<6;i++){a.push(['Вдох',4,'in']);a.push(['Выдох',6,'out'])}return a}},
+  energy:{state:'Нет сил, все серое, ничего не хочется',name:'Рассвет',time:'1,5 минуты',color:'var(--beige)',hint:'Сделайте несколько бодрых вдохов вместе с солнцем, а потом немного подвигайтесь. Это мягко добавляет энергии.',
+    seq:()=>{const a=[];for(let i=0;i<8;i++){a.push(['Вдох',3,'in']);a.push(['Выдох',2,'out'])}a.push(['Потянитесь руками вверх',8,'move']);a.push(['Встряхните кисти',8,'move']);a.push(['Покрутите плечами',8,'move']);return a}},
+  anxious:{state:'Тревожно, мысли скачут',name:'Квадрат',time:'1 минута',color:'var(--lavender)',hint:'Ведите взглядом за точкой: четыре счета вдох, четыре пауза, четыре выдох, четыре пауза. Ровный ритм собирает внимание.',
+    seq:()=>{const a=[];for(let i=0;i<4;i++){a.push(['Вдох',4,'s0']);a.push(['Пауза',4,'s1']);a.push(['Выдох',4,'s2']);a.push(['Пауза',4,'s3'])}return a}}};
+const pracImg=(k,big)=>{const s=big?300:120;
+  if(k==='calm')return `<svg class="pimg pimg--calm" width="${s}" height="${s}" viewBox="0 0 200 200" aria-hidden="true"><defs><clipPath id="pc${big?1:0}"><circle cx="100" cy="100" r="96"/></clipPath><linearGradient id="sk${big?1:0}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e7e4ee"/><stop offset="1" stop-color="#f6efe7"/></linearGradient></defs>
+    <g clip-path="url(#pc${big?1:0})"><rect width="200" height="200" fill="url(#sk${big?1:0})"/><circle cx="100" cy="112" r="30" fill="#f1ddd5"/>
+    <g class="tide"><g class="wv wv1"><path d="M-60 120 q25 -10 50 0 t50 0 t50 0 t50 0 t50 0 t50 0 t50 0 t50 0 t50 0 t50 0 t50 0 t50 0 V240 H-60z" fill="#cfe0da"/></g><g class="wv wv2"><path d="M-60 134 q25 -9 50 0 t50 0 t50 0 t50 0 t50 0 t50 0 t50 0 t50 0 t50 0 t50 0 t50 0 t50 0 V240 H-60z" fill="#a9cbbf"/></g><g class="wv wv3"><path d="M-60 150 q25 -8 50 0 t50 0 t50 0 t50 0 t50 0 t50 0 t50 0 t50 0 t50 0 t50 0 t50 0 t50 0 V240 H-60z" fill="#7fa59a"/></g></g></g>
+    <circle cx="100" cy="100" r="96" fill="none" stroke="var(--ink)" stroke-width="1.2" stroke-dasharray="2 4"/></svg>`;
+  if(k==='energy')return `<svg class="pimg pimg--energy" width="${s}" height="${s}" viewBox="0 0 200 200" aria-hidden="true"><defs><clipPath id="pe${big?1:0}"><circle cx="100" cy="100" r="96"/></clipPath></defs>
+    <g clip-path="url(#pe${big?1:0})"><rect width="200" height="200" fill="#faf3ea"/><g class="sun"><g class="rays" stroke="#d9a86a" stroke-width="3" stroke-linecap="round">${Array.from({length:12},(_,i)=>{const a=i*30*Math.PI/180;return `<line x1="${100+38*Math.cos(a)}" y1="${120+38*Math.sin(a)}" x2="${100+56*Math.cos(a)}" y2="${120+56*Math.sin(a)}"/>`}).join('')}</g><circle cx="100" cy="120" r="28" fill="#f2c88f"/></g>
+    <rect y="130" width="200" height="70" fill="#efe9e3"/><path d="M0 130 H200" stroke="var(--ink)" stroke-width="1.2"/><path d="M20 150 h40 M90 162 h60 M40 176 h30" stroke="#cdbfae" stroke-width="2" stroke-linecap="round"/></g>
+    <circle cx="100" cy="100" r="96" fill="none" stroke="var(--ink)" stroke-width="1.2" stroke-dasharray="2 4"/></svg>`;
+  return `<svg class="pimg pimg--anx" width="${s}" height="${s}" viewBox="0 0 200 200" aria-hidden="true"><circle cx="100" cy="100" r="96" fill="#f3f1f7"/><rect x="50" y="50" width="100" height="100" rx="14" fill="none" stroke="var(--ink)" stroke-width="1.6"/>
+    ${big?`<g font-family="Golos Text,sans-serif" font-size="11" fill="#6b6965" text-anchor="middle"><text x="100" y="40">вдох</text><text x="166" y="104" transform="rotate(90 166 104)">пауза</text><text x="100" y="170">выдох</text><text x="34" y="104" transform="rotate(-90 34 104)">пауза</text></g>`:''}
+    <circle class="sqdot" cx="50" cy="150" r="9" fill="var(--ink)"/><circle cx="100" cy="100" r="96" fill="none" stroke="var(--ink)" stroke-width="1.2" stroke-dasharray="2 4"/></svg>`};
+function pracPicker(){return `<h2 class="prac__h">Что с вами сейчас?</h2><div class="prac__cards">${Object.entries(PRAC).map(([k,v])=>`<button class="prac__card" data-prac="${k}" style="background:${v.color}">${pracImg(k)}<span class="prac__st">${esc(v.state)}</span><span class="prac__nm">${esc(v.name)} · ${esc(v.time)}</span></button>`).join('')}</div>`}
+let PR=null;
+function pracStop(){if(PR){clearTimeout(PR.t);cancelAnimationFrame(PR.raf);PR=null}}
+function pracRun(box,k){pracStop();const v=PRAC[k],seq=v.seq();
+  box.innerHTML=`<div class="prac__play" style="background:${v.color}"><div class="prac__stage">${pracImg(k,true)}</div>
+    <div class="prac__side"><p class="eyebrow">${esc(v.name)}</p><p class="prac__phase" id="prPh" aria-live="polite">Приготовьтесь</p><p class="prac__hint">${esc(v.hint)}</p>
+      <div class="prac__prog"><i id="prBar"></i></div><div class="prac__btns"><button class="btn btn--sm btn--outline" id="prStop">Остановить</button><button class="btn btn--sm btn--ghost" id="prBack">Выбрать другое</button></div></div></div>`;
+  const pl=$('.prac__play',box),ph=$('#prPh'),bar=$('#prBar');const total=seq.reduce((a,x)=>a+x[1],0);let done=0,i=0;PR={t:0,raf:0};
+  const dot=$('.sqdot',box);
+  const next=()=>{if(!PR)return;if(i>=seq.length){pracEnd(box,k);return}const [w,sec,mode]=seq[i];ph.textContent=w;
+    pl.style.setProperty('--dur',sec+'s');pl.className='prac__play pl--'+mode;
+    if(dot&&mode[0]==='s'){const side=+mode[1],P=[[50,150],[50,50],[150,50],[150,150],[50,150]];const a=P[side],b=P[side+1],t0=performance.now();
+      const anim=n=>{if(!PR)return;const f=Math.min(1,(n-t0)/(sec*1000));dot.setAttribute('cx',a[0]+(b[0]-a[0])*f);dot.setAttribute('cy',a[1]+(b[1]-a[1])*f);if(f<1)PR.raf=requestAnimationFrame(anim)};PR.raf=requestAnimationFrame(anim)}
+    done+=sec;bar.style.transition=`width ${sec}s linear`;bar.style.width=(done/total*100)+'%';i++;PR.t=setTimeout(next,sec*1000)};
+  PR.t=setTimeout(next,1500);
+  $('#prStop').onclick=()=>{pracStop();box.innerHTML=pracPicker();bindPrac(box)};$('#prBack').onclick=$('#prStop').onclick}
+function pracEnd(box,k){pracStop();const v=PRAC[k];
+  box.innerHTML=`<div class="prac__play pl--end" style="background:${v.color}"><div class="prac__stage">${pracImg(k,true)}</div><div class="prac__side"><p class="prac__phase">Готово</p><p class="prac__hint">Как вы сейчас?</p>
+    <div class="prac__btns"><button class="btn btn--sm" data-after="ok">Стало легче</button><button class="btn btn--sm" data-after="same">Так же</button><button class="btn btn--sm" data-after="bad">Хуже</button></div><p class="prac__hint" id="prAfter"></p>
+    <div class="prac__btns"><button class="btn btn--sm btn--ghost" id="prAgain">Еще раз</button><button class="btn btn--sm btn--ghost" id="prBack">Выбрать другое</button></div></div></div>`;
+  $$('[data-after]',box).forEach(b=>b.onclick=()=>{const a=b.dataset.after;$('#prAfter').textContent=a==='ok'?'Хорошо. Можно вернуться к делам в своем темпе.':a==='same'?'Можно попробовать другую практику или открыть свой план ниже.':'Ниже ваш план на тяжелый момент и сообщение психологу. Не оставайтесь с этим одни.';if(a==='bad')setTimeout(()=>$('#planBox')&&$('#planBox').scrollIntoView({behavior:'smooth',block:'start'}),400)});
+  $('#prAgain').onclick=()=>pracRun(box,k);$('#prBack').onclick=()=>{box.innerHTML=pracPicker();bindPrac(box)}}
+function bindPrac(box){$$('[data-prac]',box).forEach(b=>b.onclick=()=>pracRun(box,b.dataset.prac))}
+
+function vHard(m){pracStop();const H=C.hard;const p=S.plan=S.plan||{};p.people=p.people||[];
   const early=S.signals.filter(x=>x.zone==='предел').map(x=>x.t).join(', ');
   const kit=kitText().slice(0,4).join(', ');
   const contactHref=c=>{c=(c||'').trim();if(/^@/.test(c))return 'https://t.me/'+c.slice(1);if(/^\+?[\d\s()-]{6,}$/.test(c))return 'tel:'+c.replace(/[^\d+]/g,'');if(/^https?:\/\//.test(c))return c;return ''};
   const filled=p.signs||p.helps||p.people.length||p.psy;
   m.innerHTML=`<div class="page page--narrow"><header class="thead"><p class="eyebrow">Прямо сейчас</p><h1>${esc(H.title)}</h1><p class="thead__goal">${esc(H.intro)}</p></header>
-    <section class="breath-wrap"><div class="breath" id="breath"><span class="breath__circle"></span><span class="breath__txt" id="brT">Нажмите, чтобы начать</span></div>
-      <div><h2 style="font-family:var(--serif);text-transform:uppercase;font-size:clamp(24px,2.4vw,36px);line-height:1.05">Одна минута дыхания</h2>
-      <p style="margin-top:10px">Вдыхайте, пока круг растет, и медленно выдыхайте, пока он сжимается. Выдох длиннее вдоха - так телу легче успокоиться. Шесть кругов - около минуты.</p>
-      <p class="muted" id="brC" style="margin-top:8px"></p></div></section>
+    <section class="prac" id="prac">${pracPicker()}</section>
     <section class="sec"><div class="sec__h"><h2>Мой план на тяжелый момент</h2><button class="btn btn--sm btn--outline" id="planEdit">${filled?'Изменить':'Заполнить'}</button></div>
       <p class="muted" style="margin-bottom:14px">Лучше заполнить заранее - вместе с психологом на первой встрече, когда есть силы. Тогда в тяжелый момент не придется ничего придумывать.</p>
       <div id="planBox">${planView(p,contactHref)}</div></section>
@@ -1541,11 +1614,7 @@ function vHard(m){const H=C.hard;const p=S.plan=S.plan||{};p.people=p.people||[]
       <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap"><button class="btn btn--primary btn--sm" id="msgHC">${MARK}Скопировать сообщение</button>
         ${p.psy&&contactHref(p.psy)?`<a class="btn btn--sm" href="${esc(contactHref(p.psy))}" target="_blank" rel="noopener">Открыть контакт психолога</a>`:''}</div></section>
     <p class="emergency">${esc(H.emergency)}</p></div>`;
-  // дыхание
-  let timer=null,cycles=0;const br=$('#breath');
-  br.onclick=()=>{if(timer){clearInterval(timer);timer=null;br.classList.remove('on');$('#brT').textContent='Нажмите, чтобы начать';return}
-    cycles=0;br.classList.add('on');const step=()=>{$('#brT').textContent='Вдох';setTimeout(()=>{if(timer)$('#brT').textContent='Выдох'},4000);cycles++;$('#brC').textContent='Круг '+cycles+' из 6';if(cycles>6){clearInterval(timer);timer=null;br.classList.remove('on');$('#brT').textContent='Еще раз?';$('#brC').textContent='Минута прошла. Как вы сейчас?'}};
-    step();timer=setInterval(step,10000)};
+  bindPrac($('#prac'));
   $('#msgHC').onclick=()=>copyText($('#msgH').value);
   $('#planEdit').onclick=()=>{$('#planBox').innerHTML=`<div class="form">
       ${field('Как я понимаю, что мне становится очень плохо',`<textarea class="area" data-pl="signs" placeholder="${esc(early?'Из вашего радара: '+early:'Например: не сплю вторую ночь, все время плачу, ничего не хочется')}">${esc(p.signs||'')}</textarea>`)}
