@@ -986,6 +986,8 @@ button.tt{cursor:pointer}
   .hero-art .hf-needle{transform-box:view-box;transform-origin:60px 81px}
   .thero:hover .hf-needle,button.tt:hover .hf-needle,.h-card:hover .hf-needle{animation:needle 2s ease-in-out infinite}
 }
+.umenu__psy{border-top:1px solid var(--line);margin-top:6px;padding-top:6px;font-size:13px;color:var(--muted)}.umenu__psy .umenu__i{font-size:13px;color:var(--muted)}
+.umenu__row[hidden]{display:none}
 </style>
 </head>
 <body>
@@ -2122,11 +2124,16 @@ function userMenu(){const mm=$('#umenu'),b=$('#userB');const open=mm.hidden;
   mm.innerHTML=`<label class="umenu__l">Как к вам обращаться?<span class="umenu__row"><input class="line" id="umName" value="${esc(S.name||'')}" placeholder="Ваше имя"><button class="btn btn--sm" id="umSave">Сохранить</button></span></label>
     <button class="umenu__i" data-go="help">${ico('nav',18)}Как здесь все устроено</button>
     <button class="umenu__i" data-go="help" data-arg="data">${ico('lab',18)}Мои данные: сохранить в файл или загрузить</button>
-    ${PSY?`<button class="umenu__i" data-go="links">${ico('chain',18)}Ссылки для клиента</button>`:''}`;
+    ${PSY?`<button class="umenu__i" data-go="links">${ico('chain',18)}Ссылки для клиента</button><button class="umenu__i umenu__psy" id="umPsyOff">Выйти из режима психолога</button>`:`<div class="umenu__psy"><button class="umenu__i" id="umPsy">Я психолог</button><span class="umenu__row" id="umPsyRow" hidden><input class="line" id="umPsyCode" placeholder="Код психолога" aria-label="Код психолога"><button class="btn btn--sm" id="umPsyB">Войти</button></span></div>`}`;
   mm.hidden=false;b.setAttribute('aria-expanded','true');
   $('#umSave').onclick=()=>{S.name=$('#umName').value.trim();save();mm.hidden=true;render();toast('Сохранено')};
   $('#umName').onkeydown=e=>{if(e.key==='Enter')$('#umSave').click()};
-  $$('.umenu__i',mm).forEach(x=>x.addEventListener('click',()=>{mm.hidden=true}))}
+  const setPsy=on=>{PSY=on;try{on?localStorage.setItem('vydoh-psy','1'):localStorage.removeItem('vydoh-psy')}catch(e){}S.psy=on;save();mm.hidden=true;render();toast(on?'Режим психолога включен, видны все инструменты':'Режим психолога выключен')};
+  $('#umPsy')&&($('#umPsy').onclick=()=>{$('#umPsyRow').hidden=false;$('#umPsyCode').focus()});
+  $('#umPsyB')&&($('#umPsyB').onclick=()=>{const c=$('#umPsyCode').value.trim().toLowerCase();if(c==='выдох'||c==='vydoh')setPsy(true);else toast('Неверный код')});
+  $('#umPsyCode')&&($('#umPsyCode').onkeydown=e=>{if(e.key==='Enter')$('#umPsyB').click()});
+  $('#umPsyOff')&&($('#umPsyOff').onclick=()=>setPsy(false));
+  $$('.umenu__i[data-go]',mm).forEach(x=>x.addEventListener('click',()=>{mm.hidden=true}))}
 document.addEventListener('click',e=>{if(e.target.closest('#userB')){userMenu();return}const mm=$('#umenu');if(mm&&!mm.hidden&&!e.target.closest('#umenu')){mm.hidden=true;$('#userB').setAttribute('aria-expanded','false')}});
 
 (()=>{const mn=document.getElementById('main');mn.classList.add('enter');setTimeout(()=>mn.classList.remove('enter'),1800)})();
