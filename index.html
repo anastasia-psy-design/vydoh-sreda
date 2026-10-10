@@ -665,6 +665,22 @@ button.t-card{cursor:pointer}button.t-card:hover .t-btn{transform:translateX(2px
 .pw-want button[aria-pressed="true"]{background:var(--mint);border-color:var(--ink)}
 /* визуализации инструментов */
 .sc-t{font-family:var(--sans);font-size:13px;fill:var(--ink)}
+.retbar{display:inline-flex;align-items:center;gap:8px;margin:0 0 14px 12px;min-height:40px;padding:0 16px;border:1px solid var(--ink);border-radius:999px;background:var(--mint);font:inherit;font-size:15px;color:var(--ink);cursor:pointer}
+.path-q{margin:4px 0 6px;font-size:16px;color:var(--ink)}
+.path.is-fit{border-style:dashed;border-color:var(--ink)}
+.linkbtn{align-self:flex-start;border:0;background:none;padding:6px 0;font:inherit;font-size:15px;color:var(--text);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.inf-leg{display:grid;gap:12px;margin-top:16px}
+.inf-leg__r{display:grid;grid-template-columns:28px minmax(0,1fr);gap:12px;align-items:start}
+.inf-leg__sw{width:28px;height:28px;border-radius:50%;border:1px solid var(--ink)}
+.inf-leg b{font-weight:500;color:var(--ink);font-size:16px}.inf-leg p{margin:2px 0 0;font-size:15px;color:var(--text)}
+.inf-leg__it{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px!important}.inf-leg__it span{padding:4px 12px;border:1px solid var(--ink);border-radius:999px;background:var(--bg);font-size:14px;color:var(--ink)}.inf-leg__it span.is-hot{background:var(--drain)}
+.inf-leg__hot{display:flex;align-items:center;gap:10px;font-size:14px!important;color:var(--muted,#6b6965)!important}.inf-leg__hot span{width:26px;height:16px;border-radius:8px;background:var(--drain);border:1.5px solid var(--ink)}
+.lab-step{grid-column:1 / -1;margin:8px 0 -4px;font-family:var(--serif);font-size:20px;color:var(--ink)}
+.field__sub{margin:-2px 0 8px;font-size:15px;line-height:1.45;color:var(--muted,#6b6965)}
+.zone-card--debt{background:var(--drain)!important}.zone-card__n{display:block;margin-top:2px;font-size:14px;color:var(--text)}.zone-card__k{margin-top:8px;font-size:13px;color:var(--muted,#6b6965)}
+.nhv-col .chip--jar,.nhv-col .chip--jar[aria-pressed="true"]{background:var(--c);color:var(--ink);border:1px solid var(--ink);border-radius:14px;font-weight:400}
+.chip--soft[aria-pressed="true"]{background:var(--bg);color:var(--ink);border:1.5px solid var(--ink)}
+.nav-next{margin-top:24px;padding:28px;background:var(--mint)}.nav-next h2{margin:0 0 8px}.nav-next p{margin:0 0 18px;font-size:16px;color:var(--text)}.nav-next__b{display:flex;gap:12px;flex-wrap:wrap}
 .sc-chip{cursor:pointer;outline:none}.sc-chip:hover rect,.sc-chip:focus rect{stroke-width:2}
 .sc-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 28px;margin-top:14px}
 .sc-list__h{margin:0 0 8px;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted,#6b6965)}
@@ -707,6 +723,7 @@ details.more{margin-top:14px}details.more summary{cursor:pointer;color:var(--mut
 /* ведущий главный экран 10.10 */
 .guided{max-width:760px}
 @media (min-width:700px){.page p:not(.eyebrow),.page li p{text-align:justify;hyphens:auto;-webkit-hyphens:auto}}
+@media (min-width:700px){.page .zone-card p,.page .inf-leg p,.page .scard p,.page .field__sub{text-align:left}}
 .page p{hyphens:auto;-webkit-hyphens:auto}
 .g-head{margin-bottom:40px}
 .g-head h1{font-family:var(--serif);font-weight:400;font-size:clamp(34px,4vw,52px);line-height:1.08;color:var(--ink);margin:6px 0 18px}
@@ -1160,10 +1177,10 @@ const CONTENT = {
   RADAR_ZONES: ['ранний','уже перегружен','предел'],
   RADAR_SUGGEST: { 'тело':['сжата челюсть','плечи у ушей','холодные руки','тяжесть'], 'эмоции':['раздражение','тревога','пустота'], 'мысли':['«не успею»','«все на мне»','думаю о работе ночью'], 'поведение':['перестаю делать паузы','перепроверяю все','не отвечаю близким','ем на бегу'] },
   PATHS: [
-    ['change','Изменить','условия, процесс, количество, формат'],
-    ['share','Перераспределить','делегировать, договориться, разделить ответственность'],
-    ['interact','Изменить способ взаимодействия','граница, разговор, новый ответ'],
-    ['regulate','Регулировать последствия','если воздействие пока неизбежно']],
+    ['change','Сделать иначе или меньше','Например: готовить сразу на два дня или сдавать отчет раз в месяц, а не раз в неделю'],
+    ['share','Отдать часть другому','Например: попросить мужа забирать ребенка по вторникам или поручить проверку коллеге'],
+    ['interact','Ответить или поговорить по-другому','Например: сказать «посмотрю завтра» или не отвечать на рабочие сообщения после 19:00'],
+    ['regulate','Беречь себя, если изменить нельзя','Например: после тяжелого разговора побыть 10 минут в тишине или выйти на прогулку после смены']],
   CHAIN: [
     ['situation','Что произошло?','Опишите конкретный случай так, будто пересказываете подруге','Например: руководитель отдела сдал отчет с ошибками'],
     ['reading','Что вы подумали о ситуации в первый момент?','Какой смысл вы ей придали - что она для вас означала','Например: «если я не проверю, все направление подведет»'],
@@ -1172,7 +1189,7 @@ const CONTENT = {
     ['body','Что происходило в теле?','Напряжение, тяжесть, жар, ком в горле - что заметили','Например: сжалась челюсть, плечи поднялись'],
     ['action','Что вы в итоге сделали?','Действие, а не намерение','Например: вечером перепроверила все отчеты целиком'],
     ['gain','Что это дало вам сразу?','Почти любое действие что-то дает: спокойствие, контроль, облегчение','Например: спокойствие, что ничего не упущено'],
-    ['cost','Чем вы за это заплатили потом?','Время, сон, силы, отношения, здоровье','Например: не отключилась, плохо спала, сорвалась на детей']],
+    ['cost','Чего вам это стоило потом?','Что вы потеряли из-за этого действия в следующие часы или дни: время, сон, силы, отношения, здоровье','Например: не отключилась, плохо спала, сорвалась на детей']],
   STATES: ['взвинчен(а)','пусто, нет сил','тревожно','не могу остановиться','не могу уснуть','раздражение','голова кипит'],
   METHODS: [
     { id:'exhale', title:'Длинный выдох', channel:'дыхание', time:'1-2 минуты', states:['взвинчен(а)','тревожно','раздражение','голова кипит'], how:'Вдох на 4 счета, выдох на 6-8. Шесть-десять циклов' },
@@ -1289,12 +1306,13 @@ function importData(file){const r=new FileReader();r.onload=()=>{try{const j=JSO
 
 /* ---------- маршрутизация ---------- */
 let route={v:'today'};
+let RET=null;
 function go(v,arg,noPush){if(typeof pracStop==='function')pracStop();const mn=document.getElementById('main');if(mn){mn.classList.add('enter');clearTimeout(window._ent);window._ent=setTimeout(()=>mn.classList.remove('enter'),1800)}route={v,arg};$('#sidebar').classList.remove('open');if(!noPush)try{history.pushState({v,arg},'')}catch(e){}render();window.scrollTo({top:0})}
 window.__vy={go:(...a)=>go(...a),get S(){return S},save:()=>save(),render:()=>render(),get route(){return route}};
 window.addEventListener('popstate',e=>{const st=e.state;if(st&&st.v)go(st.v,st.arg,true);else go('today',null,true)});
 try{history.replaceState({v:'today'},'')}catch(e){}
 document.addEventListener('click',e=>{if(e.target.closest('[data-back]')){e.preventDefault();if(history.state&&history.length>1&&history.state.v!=='today')history.back();else go('tools')}});
-document.addEventListener('click',e=>{const g=e.target.closest('[data-go]');if(g&&!g.disabled){e.preventDefault();go(g.dataset.go,g.dataset.arg)}});
+document.addEventListener('click',e=>{const g=e.target.closest('[data-go]');if(g&&!g.disabled){e.preventDefault();if(g.dataset.go==='tool'&&route.v==='tool'&&route.arg&&g.dataset.arg!==route.arg&&g.dataset.arg!==RET)RET=route.arg;else if(g.dataset.go!=='tool'||g.dataset.arg===RET)RET=null;go(g.dataset.go,g.dataset.arg)}});
 $('#menuBtn').onclick=()=>$('#sidebar').classList.toggle('open');
 function render(){nav();const m=$('#main');m.innerHTML='';
   if(route.v==='tool'){const t=T[route.arg];if(!t||!isOpen(t.id)){go('tools');return}TOOL[t.id](m,t);return}
@@ -1315,7 +1333,7 @@ const field=(label,inner,hint)=>`<div class="field"><div class="field__label"><s
 function head(t){
   const lk=ns=>ns.map(n=>`<button data-go="tool" data-arg="${TN[n].id}" class="${isOpen(TN[n].id)?'':'is-closed'}" ${isOpen(TN[n].id)?'':'disabled'}>${n}. ${esc(TN[n].title)}</button>`).join('');
   const h=C.howTo[t.id]||{};
-  return `<button class="back" data-back>${BACK}Назад</button><header class="thero">
+  return `<button class="back" data-back>${BACK}Назад</button>${RET&&RET!==t.id&&T[RET]?`<button class="retbar" data-go="tool" data-arg="${RET}">${BACK}Вернуться в «${esc(T[RET].title)}»</button>`:''}<header class="thero">
     <div class="thero__img" style="background:${HBG[t.id]||'var(--mint)'}">${bigIco(t.id,150)}</div>
     <div class="thero__txt"><p class="eyebrow">${t.role?esc(t.role)+' · ':''}${esc(t.time)}</p><h1>${esc(t.title)}</h1>
       <p class="thero__met">${esc((C.metaphor||{})[t.id]||t.goal)}</p>
@@ -1490,8 +1508,8 @@ function toolPulse(m,t){if(!route.pw)route.pw={step:0,act:null,p:{energy:null,te
   $('#pwQuick')&&($('#pwQuick').onclick=()=>goStep(3));
   $('#puQuick')&&($('#puQuick').onclick=()=>$('#puSave2').click());
   const doSave=()=>{if(!p.energy||!p.tension){toast('Отметьте силы и напряжение');W.step=3;render();return}
-    const zs=Object.keys(p.bmap);const rec={energy:p.energy,tension:p.tension,clarity:p.clarity,want:p.want,emo:p.emo,body:zs.map(k=>p.bmap[k].length?k+': '+p.bmap[k].join(', '):k),zones:zs,bmap:p.bmap,ctx:p.ctx,d:new Date().toISOString().slice(0,10)};
-    S.pulses.push(rec);save();route.pw=null;toast('Отметка сохранена');render();window.scrollTo({top:0})};
+    const zs=Object.keys(p.bmap);const rec={energy:p.energy,tension:p.tension,clarity:p.clarity,want:p.want,emo:p.emo,body:zs.map(k=>p.bmap[k].length?k+': '+p.bmap[k].join(', '):k),zones:zs,bmap:p.bmap,ctx:p.ctx,d:new Date().toISOString().slice(0,10),t:new Date().toTimeString().slice(0,5)};
+    S.pulses.push(rec);save();route.pw=null;if(RET&&T[RET]){const r=RET;RET=null;toast('Отметка сохранена. Вы вернулись в «'+T[r].title+'»');go('tool',r);return}toast('Отметка сохранена');render();window.scrollTo({top:0})};
   $('#puSave')&&($('#puSave').onclick=doSave);if($('#puQuick'))$('#puQuick').onclick=doSave;
 }
 
@@ -1512,12 +1530,20 @@ const scaleCap=()=>{const dr=S.load.filter(x=>x.after<0),rt=S.load.filter(x=>x.a
 
 /* --- Круги влияния --- */
 function inflSvg(){const cx=360,cy=215,R=[205,138,70];const g=[S.stressors.filter(s=>s.infl===0),S.stressors.filter(s=>s.infl===1||s.infl===2),S.stressors.filter(s=>s.infl===3)];
-  const chip=(s,x,y)=>{const t=s.name.length>16?s.name.slice(0,15)+'…':s.name;const w=t.length*7.4+22,dark=s.power>=4;return `<rect x="${x-w/2}" y="${y-14}" width="${w}" height="28" rx="14" fill="${dark?'var(--ink)':'var(--bg)'}" stroke="var(--ink)"/><text x="${x}" y="${y+5}" text-anchor="middle" class="sc-t" ${dark?'style="fill:var(--bg)"':''}>${esc(t)}</text>`};
+  const chip=(s,x,y)=>{const t=s.name.length>16?s.name.slice(0,15)+'…':s.name;const w=t.length*7.4+22,hot=s.power>=4;return `<g><title>${esc(s.name)}</title><rect x="${x-w/2}" y="${y-14}" width="${w}" height="28" rx="14" fill="${hot?'var(--drain)':'var(--bg)'}" stroke="var(--ink)" stroke-width="${hot?1.8:1}"/><text x="${x}" y="${y+5}" text-anchor="middle" class="sc-t">${esc(t)}</text></g>`};
   const ring=(arr,r,off)=>arr.map((s,i)=>{const a=(off+i*(360/Math.max(arr.length,1)))*Math.PI/180;return chip(s,cx+r*Math.cos(a)*1.6,cy+r*Math.sin(a))}).join('');
   return `<svg viewBox="0 0 720 430" class="infl" role="img" aria-label="Круги влияния">
     <ellipse cx="${cx}" cy="${cy}" rx="${R[0]*1.6}" ry="${R[0]}" fill="var(--lavender)"/><ellipse cx="${cx}" cy="${cy}" rx="${R[1]*1.6}" ry="${R[1]}" fill="var(--beige)"/><ellipse cx="${cx}" cy="${cy}" rx="${R[2]*1.6}" ry="${R[2]}" fill="var(--mint)" stroke="var(--ink)" stroke-width="1.2"/>
-    <text x="${cx}" y="${cy-R[0]+24}" text-anchor="middle" class="sc-h2">НЕ МОГУ ВЛИЯТЬ</text><text x="${cx}" y="${cy-R[1]+22}" text-anchor="middle" class="sc-h2">ВЛИЯЮ ЧАСТИЧНО</text><text x="${cx}" y="${cy-R[2]+22}" text-anchor="middle" class="sc-h2">МОГУ ВЛИЯТЬ</text>
-    ${g[2].slice(0,3).map((s,i)=>chip(s,cx,cy+4+i*30-(Math.min(g[2].length,3)-1)*15)).join('')}${ring(g[1],(R[1]+R[2])/2+4,180)}${ring(g[0],(R[0]+R[1])/2+6,90)}</svg>`}
+    <text x="${cx}" y="${cy-R[0]+24}" text-anchor="middle" class="sc-h2">НЕ В ВАШИХ РУКАХ</text><text x="${cx}" y="${cy-R[1]+22}" text-anchor="middle" class="sc-h2">МОЖНО ПОВЛИЯТЬ ЧАСТИЧНО</text><text x="${cx}" y="${cy-R[2]+22}" text-anchor="middle" class="sc-h2">В ВАШИХ РУКАХ</text>
+    ${g[2].slice(0,3).map((s,i)=>chip(s,cx,cy+8+i*30-(Math.min(g[2].length,3)-1)*15)).join('')}${ring(g[1],(R[1]+R[2])/2+4,180)}${ring(g[0],(R[0]+R[1])/2+6,90)}</svg>`}
+function inflLegend(){const zn=s=>s.infl===3?2:s.infl===0?0:1;
+  const rows=[[2,'mint','В ваших руках','Это можно менять самой: что, сколько и как вы делаете'],[1,'beige','Можно повлиять частично','Можно договориться, попросить о помощи, разделить с кем-то'],[0,'lavender','Не в ваших руках','Изменить это нельзя, но можно беречь себя от последствий']];
+  const hot=S.stressors.filter(s=>s.power>=4),lev=hot.filter(s=>s.infl>=2);
+  const tip=lev.length?`<b>Начните с этого: ${esc(lev.map(s=>s.name).join(', '))}</b> Это давит на вас сильно, и при этом вы можете на это повлиять. Здесь маленький шаг даст больше всего облегчения`
+    :hot.length?`<b>Сильнее всего давит то, на что вы почти не влияете: ${esc(hot.map(s=>s.name).join(', '))}</b> Тогда главный рычаг - беречь себя. В карточке выше выберите «Беречь себя, если изменить нельзя»`
+    :`<b>Сильно давящих стрессоров вы не отметили</b> Начните с любого из центрального круга: там изменения даются легче всего`;
+  return `<div class="inf-leg">${rows.map(([z,c,h,d])=>{const v=S.stressors.filter(s=>zn(s)===z);return `<div class="inf-leg__r"><span class="inf-leg__sw" style="background:var(--${c})"></span><div><b>${h}</b><p>${d}</p>${v.length?`<p class="inf-leg__it">${v.map(s=>`<span class="${s.power>=4?'is-hot':''}">${esc(s.name)}</span>`).join('')}</p>`:''}</div></div>`}).join('')}
+    <p class="inf-leg__hot"><span></span>Розовым выделено то, что давит сильно</p></div><div class="note" style="margin-top:16px">${tip}</div>`}
 
 /* --- Цепочка звеньями --- */
 const CV=[['situation','Ситуация','<rect x="4" y="6" width="16" height="12" rx="2"/><path d="M4 8l8 5 8-5"/>'],['rule','Правило','<path d="M5 11a7 6 0 1114 0c0 3.5-3.5 6-7 6l-4.5 2.5 1-3.5C6.5 15 5 13 5 11z"/>'],['emotion','Чувство','<path d="M12 20s-7-4.5-7-10a4 4 0 017-2.6A4 4 0 0119 10c0 5.5-7 10-7 10z"/>'],['action','Действие','<path d="M5 12h12M13 7l5 5-5 5"/>'],['cost','Цена','<circle cx="12" cy="12" r="7.5"/><path d="M12 8.5v4.5"/><circle cx="12" cy="16" r=".7" fill="currentColor"/>']];
@@ -1531,12 +1557,12 @@ const STATE_ICO={'взвинчен(а)':'<path d="M4 13l3-4 3 6 3-8 3 8 3-4 1 2"
 const stateIco=s=>`<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="11" stroke-dasharray="1.5 2.2" opacity=".7"/>${STATE_ICO[s]||''}</svg>`;
 
 /* --- Коридор зон --- */
-function corridorSvg(ps,z){const W=720,H=300,L=20,Rr=20,band=[[0,'УСТОЙЧИВО','var(--mint)'],[1,'МОБИЛИЗАЦИЯ','var(--beige)'],[2,'НАКОПЛЕНИЕ ДОЛГА','var(--drain)']];const bh=(H-40)/3;
+function corridorSvg(ps,z){const W=720,H=300,L=20,Rr=20,band=[[0,'РОВНО','var(--mint)'],[1,'ЧЕРЕЗ УСИЛИЕ','var(--beige)'],[2,'В ДОЛГ','var(--drain)']];const bh=(H-40)/3;
   const n=ps.length,x=i=>L+40+(n<2?0:i*(W-L-Rr-80)/(n-1)),y=(zz,e)=>zz*bh+bh/2+(3-e)*bh/10;
   return `<svg viewBox="0 0 ${W} ${H}" class="corr" role="img" aria-label="Отметки по зонам нагрузки">${band.map(([k,l,c])=>`<rect x="0" y="${k*bh}" width="${W}" height="${bh}" fill="${c}"/><text x="12" y="${k*bh+20}" class="sc-h2" text-anchor="start">${l}</text>`).join('')}
     <path d="${ps.map((p,i)=>`${i?'L':'M'}${x(i).toFixed(1)} ${y(z[i],p.energy).toFixed(1)}`).join(' ')}" fill="none" stroke="var(--ink)" stroke-width="1.4"/>
-    ${ps.map((p,i)=>`<circle cx="${x(i)}" cy="${y(z[i],p.energy)}" r="6" fill="var(--ink)"><title>${esc(fmtD(p.d)+(p.ctx?' · '+p.ctx:''))}</title></circle>`).join('')}
-    ${ps.map((p,i)=>i%Math.ceil(n/8)===0||i===n-1?`<text x="${x(i)}" y="${H-12}" text-anchor="middle" class="sc-t">${fmtD(p.d)}</text>`:'').join('')}</svg>`}
+    ${ps.map((p,i)=>`<circle cx="${x(i)}" cy="${y(z[i],p.energy)}" r="6" fill="var(--ink)"><title>${esc(fmtD(p.d)+(p.t?' '+p.t:'')+' · сил '+p.energy+' из 5'+(p.ctx?' · '+p.ctx:''))}</title></circle>`).join('')}
+    ${(()=>{let last=-99;return ps.map((p,i)=>{const same=ps.filter(q=>q.d===p.d).length>1;const lab=fmtD(p.d)+(same&&p.t?' '+p.t:'');const first=!ps.slice(0,i).some(q=>q.d===p.d);const show=(same&&p.t)||first;if(!show||x(i)-last<70)return '';last=x(i);return `<text x="${x(i)}" y="${H-12}" text-anchor="middle" class="sc-t">${lab}</text>`}).join('')})()}</svg>`}
 
 /* --- Круги ответственности --- */
 function vennSvg(){const P=S.resp.place,get=k=>Object.keys(P).filter(i=>P[i]===k);const mine=get('mine'),sh=get('shared'),other=[...get('taken').map(t=>({t,w:1})),...get('pass').map(t=>({t,w:0}))];
@@ -1796,14 +1822,14 @@ const ZL={'ранний':'Первые звоночки','уже перегру�
 const ZD={'ранний':'нагрузка только начала копиться, вы еще справляетесь','уже перегружен':'сил заметно меньше, но вы продолжаете через силу','предел':'«больше не могу» - пора срочно останавливаться'};
 const TD={'тело':'ощущения, напряжение, сон, аппетит','эмоции':'что чувствуете чаще обычного','мысли':'какие фразы крутятся в голове','поведение':'что начинаете делать или перестаете'};
 TOOL.radar=(m,t)=>{
-  const pulseBody=[...new Set(S.pulses.flatMap(p=>p.body||[]))];
+  const bodyS=bodySugg();
   const has=(type,v)=>S.signals.some(x=>x.type===type&&x.t===v);
   const unz=S.signals.filter(x=>!x.zone).length;
   m.innerHTML=wrap(t,`<div class="note">Внутренний сканер: остановитесь на 30 секунд и пройдите вниманием по телу. Тяжело или легко? Холодно или горячо? Напряжено или расслаблено? Потом - что с эмоциями, мыслями и поведением</div>
-  <section class="sec"><div class="sec__h"><h2>Шаг 1. Отметьте, что вы замечаете, когда нагрузка растет</h2></div>
+  <section class="sec"><div class="sec__h"><h2>Шаг 1. Отметьте, что с вами происходит, когда общая нагрузка растет</h2></div>
     <p class="muted" style="margin-bottom:16px">Нажмите на подходящие варианты или допишите свои - они сохраняются сразу. Можно заполнять колонки в любом порядке</p>
-    <div class="sectors">${C.RADAR_TYPES.map(type=>{const sugg=[...new Set([...(type==='тело'?pulseBody:[]),...(C.RADAR_SUGGEST[type]||[])])];const own=S.signals.filter(x=>x.type===type&&!sugg.includes(x.t));
-      return `<div class="sector" data-type="${type}"><h3>${type[0].toUpperCase()+type.slice(1)}</h3><p class="muted" style="margin-top:-6px">${TD[type]}</p>
+    <div class="sectors">${C.RADAR_TYPES.map(type=>{const sugg=type==='тело'?bodyS:[...new Set(C.RADAR_SUGGEST[type]||[])];const own=S.signals.filter(x=>x.type===type&&!sugg.includes(x.t));
+      return `<div class="sector" data-type="${type}"><h3>${type[0].toUpperCase()+type.slice(1)}</h3><p class="muted" style="margin-top:-6px">${TD[type]}${type==='тело'&&S.pulses.some(p=>(p.body||[]).length)?'. Здесь есть и то, что вы отмечали в «Карте состояния»':''}</p>
         <div class="chips">${sugg.map(v=>`<button class="chip" aria-pressed="${has(type,v)}" data-tg="${esc(v)}">${esc(v)}</button>`).join('')}${own.map(x=>`<button class="chip" aria-pressed="true" data-tg="${esc(x.t)}">${esc(x.t)}</button>`).join('')}</div>
         <div class="input" style="min-height:44px"><input placeholder="Свое" data-own aria-label="Свой сигнал: ${type}"><button class="btn btn--sm btn--ghost" data-ownadd>+</button></div></div>`}).join('')}</div></section>
   <section class="sec"><div class="sec__h"><h2>Шаг 2. Отметьте, когда это обычно появляется</h2>${unz?`<span class="muted">не отмечено: ${unz}</span>`:''}</div>
@@ -1811,8 +1837,8 @@ TOOL.radar=(m,t)=>{
     <div class="zones" style="margin-bottom:18px">${Object.keys(ZL).map(z=>`<div class="zone-card"><h3 style="margin-top:0">${ZL[z]}</h3><p>${ZD[z]}</p></div>`).join('')}</div>
     ${S.signals.length?`<div>${S.signals.map((x,k)=>`<div class="item-row" style="grid-template-columns:minmax(0,1fr) auto 32px"><span style="font-size:16px;color:var(--ink)">${esc(x.t)} <span class="muted">· ${esc(x.type)}</span></span>
       <div class="seg" data-zk="${k}">${Object.keys(ZL).map(z=>`<button type="button" aria-pressed="${x.zone===z}" data-z="${z}">${ZL[z]}</button>`).join('')}</div><button class="del" data-dsig="${k}" aria-label="Убрать">×</button></div>`).join('')}</div>`:'<p class="muted">Сначала отметьте сигналы в шаге 1.</p>'}</section>
-  <section class="sec"><div class="sec__h"><h2>Посмотрите на свой радар</h2><span class="muted">чем ближе к центру - тем ближе к пределу</span></div>
-    ${S.signals.some(x=>x.zone)?`<div class="viz">${radarSvg()}</div>`:'<p class="muted">Радар появится, когда вы отметите этапы в шаге 2.</p>'}</section>
+  <section class="sec"><div class="sec__h"><h2>Посмотрите на свой радар</h2></div>
+    ${S.signals.some(x=>x.zone)?`<p style="font-size:17px;margin-bottom:14px">Радар устроен как мишень: чем ближе сигнал к центру, тем меньше у вас остается сил, когда он появляется</p>${radarRead()}<div class="viz">${radarSvg()}</div>`:'<p class="muted">Радар появится, когда вы отметите этапы в шаге 2</p>'}</section>
   ${S.signals.some(x=>x.zone)?radarMeaning():''}`);
   bindDisc(m);
   const toggle=(type,v)=>{const k=S.signals.findIndex(x=>x.type===type&&x.t===v);if(k>=0)S.signals.splice(k,1);else S.signals.push({t:v,type,zone:null});save();const y=window.scrollY;render();window.scrollTo({top:y})};
@@ -1824,6 +1850,18 @@ TOOL.radar=(m,t)=>{
   $$('[data-dsig]',m).forEach(b=>b.onclick=()=>{S.signals.splice(+b.dataset.dsig,1);save();const y=window.scrollY;render();window.scrollTo({top:y})});
 };
 
+function bodySugg(){const st=w=>w.toLowerCase().replace(/[«»"]/g,'').slice(0,4);const zones={},plain=[];
+  S.pulses.forEach(p=>{if(p.bmap&&Object.keys(p.bmap).length)Object.entries(p.bmap).forEach(([z,a])=>{zones[z]=zones[z]||new Set();(a||[]).forEach(x=>zones[z].add(x))});
+    else (p.body||[]).forEach(b=>{const i=b.indexOf(':');if(i>0){const z=b.slice(0,i).trim();zones[z]=zones[z]||new Set();b.slice(i+1).split(',').map(x=>x.trim()).filter(Boolean).forEach(x=>zones[z].add(x))}else if(b&&b!=='легко')plain.push(b)})});
+  const selSt=S.signals.filter(x=>x.type==='тело'&&!x.t.includes(':')).flatMap(x=>x.t.split(/\s+/).filter(w=>w.length>2).map(st));
+  const res=Object.entries(zones).filter(([z])=>{const zs=z.split(/[\s,]+/).filter(w=>w.length>2).map(st);const lab=zones[z].size?z+': '+[...zones[z]].join(', '):z;return S.signals.some(x=>x.t===lab)||!zs.some(w=>selSt.includes(w))}).map(([z,v])=>v.size?z+': '+[...v].join(', '):z);
+  const zst=Object.keys(zones).flatMap(z=>z.split(/[\s,]+/).filter(w=>w.length>2).map(st));const seen=new Set();
+  [...plain,...C.RADAR_SUGGEST['тело']].forEach(v=>{const ws=v.split(/\s+/).filter(w=>w.length>2).map(st);if(ws.some(w=>zst.includes(w)))return;const key=ws.sort().join(' ');if(seen.has(key))return;seen.add(key);res.push(v)});
+  return res}
+function radarRead(){const ic=b=>`<svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="var(--ink)" stroke-width="1.3" aria-hidden="true">${b}</svg>`;
+  return `<div class="howread"><div>${ic('<circle cx="14" cy="14" r="5" fill="var(--ink)"/>')}<span><b>Точка - один ваш сигнал</b> Подпись рядом показывает, какой именно</span></div>
+  <div>${ic('<circle cx="14" cy="14" r="11" stroke-dasharray="2 3"/><path d="M14 3v22M3 14h22"/><path d="M14 14V3A11 11 0 0 1 25 14z" fill="var(--mint)"/>')}<span><b>Четверть круга - где проявляется сигнал</b> В теле, в эмоциях, в мыслях или в поведении</span></div>
+  <div>${ic('<circle cx="14" cy="14" r="12" fill="var(--mint)"/><circle cx="14" cy="14" r="8" fill="var(--beige)"/><circle cx="14" cy="14" r="4" fill="var(--lavender)"/>')}<span><b>Кольцо - когда сигнал появляется</b> Внешнее кольцо - в самом начале перегрузки, среднее - когда уже тяжело, центр - когда сил почти не осталось</span></div></div>`}
 function radarMeaning(){const g=z=>S.signals.filter(x=>x.zone===z).map(x=>x.t);
   const Z=[['ранний','ok','Первые звоночки','Эти сигналы появляются, когда нагрузка только начинает расти. Если вы их заметили, у вас еще есть запас сил, и это самый удобный момент, чтобы сбавить темп: сделать паузу, убрать одно дело из списка или попросить помощи. Чем раньше вы отреагируете, тем меньше сил потратите'],
     ['уже перегружен','warn','Уже тяжело','Эти сигналы означают, что вы уже тратите силы быстрее, чем они восстанавливаются. В такой момент лучше не терпеть до выходных, а снизить нагрузку в тот же день и выбрать способ прийти в себя в «Центре восстановления»'],
@@ -1891,15 +1929,17 @@ TOOL.stress=(m,t)=>{
         <label>Где во времени${seg('time',['прошлое','сейчас','будущее'],s.time)}</label>
         <label>Насколько вы можете на это повлиять${seg('infl',[[0,'никак'],[1,'чуть-чуть'],[2,'отчасти'],[3,'во многом']],s.infl)}</label>
         <label>Это скорее${seg('source',['внешнее требование','мое правило'],s.source)}</label></div>
-      <div><p class="muted" style="margin-bottom:8px">Что здесь возможно сделать</p><div class="paths">${C.PATHS.map(([k,l,d])=>`<button type="button" class="path" data-path="${k}" aria-pressed="${s.path===k}"><b>${l}</b>${d}</button>`).join('')}</div></div>
-      <input class="line" data-act value="${esc(s.action||'')}" placeholder="Конкретный шаг: что именно, с кем, когда"></article>`).join('')}</div></section>
+      <div><p class="path-q">Выберите, что можно попробовать</p><p class="muted" style="margin-bottom:10px">Если не знаете, выберите то, что кажется самым легким${s.infl===0?'. Раз повлиять на это вы не можете, подойдет последний вариант':''}</p><div class="paths">${C.PATHS.map(([k,l,d])=>`<button type="button" class="path${s.infl===0&&k==='regulate'?' is-fit':''}" data-path="${k}" aria-pressed="${s.path===k}"><b>${l}</b>${d}</button>`).join('')}</div></div>
+      <label class="path-q" style="display:block">Напишите один маленький шаг на эту неделю<input class="line" data-act value="${esc(s.action||'')}" placeholder="Что именно вы сделаете, с кем и когда"></label>
+      <button type="button" class="linkbtn" data-sdisc="${esc(s.name)}">Не знаю, что выбрать - обсудить с психологом</button></article>`).join('')}</div></section>
   <section class="sec"><div class="sec__h"><h2>Найдите, на что вы можете повлиять</h2></div>
-    ${S.stressors.length?`<div class="viz">${inflSvg()}</div><p class="viz-cap">Темные - то, что давит сильнее всего. Ищите их ближе к центру: там ваши рычаги</p>`:'<p class="muted">Добавьте стрессоры, и появится карта рычагов</p>'}</section>`);
+    ${S.stressors.length?`<p style="font-size:17px;margin-bottom:14px">Каждый стрессор лег в свой круг по вашему ответу на вопрос «Насколько вы можете на это повлиять». Чем ближе к центру, тем больше это в ваших руках</p><div class="viz" id="inflV">${inflSvg()}</div><div id="inflL">${inflLegend()}</div>`:'<p class="muted">Добавьте стрессоры, и появится карта рычагов</p>'}</section>`);
   bindDisc(m);
   const add=v=>{v=v.trim();if(v&&!S.stressors.some(s=>s.name===v)){S.stressors.push({name:v,power:3,freq:'иногда',time:'сейчас',infl:1,source:'внешнее требование',path:null,action:''});save();render()}};
   $('#stAdd').onclick=()=>add($('#stIn').value);$('#stIn').onkeydown=e=>{if(e.key==='Enter')add(e.target.value)};
   $$('[data-sc]',m).forEach(b=>b.onclick=()=>add(b.dataset.sc));
-  $$('.scard',m).forEach(c=>{const s=S.stressors[+c.dataset.i];bindSeg(c,s,()=>{save();$('.viz',m).innerHTML=inflSvg()});
+  $$('[data-sdisc]',m).forEach(b=>b.onclick=()=>discuss('Стрессор «'+b.dataset.sdisc+'»: не знаю, что с этим можно сделать'));
+  $$('.scard',m).forEach(c=>{const s=S.stressors[+c.dataset.i];bindSeg(c,s,()=>{save();const y=window.scrollY;render();window.scrollTo({top:y})});
     $$('[data-path]',c).forEach(b=>b.onclick=()=>{s.path=b.dataset.path;$$('[data-path]',c).forEach(x=>x.setAttribute('aria-pressed',String(x===b)));save()});
     $('[data-act]',c).onchange=e=>{s.action=e.target.value.trim();save()}});
   $$('[data-ds]',m).forEach(b=>b.onclick=()=>{S.stressors.splice(+b.dataset.ds,1);save();render()});
@@ -1965,38 +2005,52 @@ TOOL.recovery=(m,t)=>{const st={state:route.state||null};
 
 /* 8. Диапазон устойчивой нагрузки */
 function zoneOf(p,prev){if(p.energy<=2&&prev&&prev.energy<=2)return 2;if(p.tension>=4||p.energy<=2)return 1;return 0}
+const plur=(n,a,b,c)=>n%10===1&&n%100!==11?a:[2,3,4].includes(n%10)&&![12,13,14].includes(n%100)?b:c;
+const field2=(l,h,inner)=>`<div class="field"><div class="field__label"><span>${l}</span></div><p class="field__sub">${h}</p>${inner}</div>`;
+const RANGE_Z=[['Ровно','Нагрузка есть, но вы успеваете восстанавливаться','сил 3 и больше, напряжение ниже 4'],
+  ['Через усилие','Сил мало или напряжение высокое. Ненадолго это нормально, если потом вы возвращаетесь','сил 2 и меньше или напряжение 4-5'],
+  ['В долг','Сил мало уже несколько отметок подряд: вы тратите больше, чем успеваете восстановить','сил 2 и меньше две отметки подряд']];
 TOOL.range=(m,t)=>{const ps=S.pulses;const z=ps.map((p,i)=>zoneOf(p,ps[i-1]));const c=[0,1,2].map(k=>z.filter(x=>x===k).length);
-  const r=S.range;
-  m.innerHTML=wrap(t,`${ps.length<4?emptyNote('Этот инструмент почти ничего не просит заполнять: он собирается из «Карты состояния», сигналов, нагрузки и восстановления. Нужно хотя бы 4-6 отметок',2):`
-  <div class="zones">
-    <div class="zone-card"><b>${c[0]}</b><h3>Устойчивый режим</h3><p>Нагрузка есть, восстановление происходит</p></div>
-    <div class="zone-card"><b>${c[1]}</b><h3>Мобилизация</h3><p>Временно интенсивно, но вы возвращаетесь</p></div>
-    <div class="zone-card"><b>${c[2]}</b><h3>Накопление долга</h3><p>После нагрузки состояние уже не возвращается к исходному</p></div></div>
-  <section class="sec"><div class="sec__h"><h2>Посмотрите, в каких зонах проходят ваши дни</h2></div><div class="viz">${corridorSvg(ps,z)}</div>
-    <p class="viz-cap">Каждая точка - отметка в «Карте состояния». Чем ниже точка, тем меньше было сил</p></section>
-  <section class="sec"><div class="sec__h"><h2>Сопоставьте то, что видно в разных инструментах</h2></div><dl class="kv">
-    <dt>Ранние сигналы</dt><dd>${esc(S.signals.filter(s=>s.zone==='ранний').map(s=>s.t).join(', ')||'-')}</dd>
-    <dt>Что сильнее всего истощает</dt><dd>${esc(S.load.filter(x=>x.after<=-2).map(x=>x.name).join(', ')||'-')}</dd>
-    <dt>Что возвращает</dt><dd>${esc(S.load.filter(x=>x.after>=1).map(x=>x.name).join(', ')||'-')}</dd>
-    <dt>Главные рычаги</dt><dd>${esc(S.stressors.filter(s=>s.power>=4&&s.infl>=2).map(s=>s.name).join(', ')||'-')}</dd></dl></section>`}
-  <section class="sec"><div class="sec__h"><h2>Обсудите вместе с психологом</h2></div><div class="form">
-    ${field('Что переводит вас в мобилизацию и в долг?',`<textarea class="area" data-rq="q1">${esc(r.q1||'')}</textarea>`)}
-    ${field('Сколько вы обычно там остаетесь?',`<textarea class="area" data-rq="q2">${esc(r.q2||'')}</textarea>`)}
-    ${field('Какие ресурсы помогают пройти сложный период?',`<textarea class="area" data-rq="q3">${esc(r.q3||'')}</textarea>`)}
-    ${field('Что первым приходится менять?',`<textarea class="area" data-rq="q4">${esc(r.q4||'')}</textarea>`)}</div>
+  const r=S.range;const top=c.indexOf(Math.max(...c));
+  const verdict=['Чаще всего вы живете ровно. Посмотрите ниже, что вам в этом помогает, и сохраните это','Чаще всего вы живете через усилие. Посмотрите ниже, что вас туда переводит, и обсудите это с психологом','Чаще всего вы живете в долг по силам. Это важный сигнал: обсудите его с психологом на ближайшей встрече, а когда сил совсем нет, откройте «Мне тяжело»'][top];
+  m.innerHTML=wrap(t,`<p style="font-size:17px;margin-bottom:20px">Здесь ничего не нужно заполнять. Практика берет ваши отметки из «Карты состояния» и показывает, в каком режиме вы живете: ровно, через усилие или уже в долг по силам</p>
+  ${ps.length<4?emptyNote(`Чтобы картина появилась, нужно хотя бы 4 отметки в «Карте состояния». Сейчас у вас ${ps.length}. После отметки вы сразу вернетесь сюда`,2):`
+  <div class="zones">${RANGE_Z.map(([h,d,k],i)=>`<div class="zone-card${i===2?' zone-card--debt':''}"><b>${c[i]}</b><small class="zone-card__n">${plur(c[i],'отметка','отметки','отметок')} из ${ps.length}</small><h3>${h}</h3><p>${d}</p><p class="zone-card__k">${k}</p></div>`).join('')}</div>
+  <div class="note" style="margin-top:16px">${verdict}</div>
+  <section class="sec"><div class="sec__h"><h2>Посмотрите, в каком режиме вы были при каждой отметке</h2></div><div class="viz">${corridorSvg(ps,z)}</div>
+    <p class="viz-cap">Каждая точка - одна отметка в «Карте состояния». Полоса, в которой стоит точка, показывает режим, а высота внутри полосы - сколько было сил</p></section>
+  <section class="sec"><div class="sec__h"><h2>Посмотрите, что уже известно из других практик</h2></div><dl class="kv">
+    <dt>Ваши первые звоночки</dt><dd>${esc(S.signals.filter(s=>s.zone==='ранний').map(s=>s.t).join(', ')||'-')}</dd>
+    <dt>Что сильнее всего забирает силы</dt><dd>${esc(S.load.filter(x=>x.after<=-2).map(x=>x.name).join(', ')||'-')}</dd>
+    <dt>Что возвращает силы</dt><dd>${esc(S.load.filter(x=>x.after>=1).map(x=>x.name).join(', ')||'-')}</dd>
+    <dt>Где у вас есть рычаги</dt><dd>${esc(S.stressors.filter(s=>s.power>=4&&s.infl>=2).map(s=>s.name).join(', ')||'-')}</dd></dl></section>`}
+  <section class="sec"><div class="sec__h"><h2>Ответьте на вопросы, чтобы обсудить их с психологом</h2></div>
+    <p class="muted" style="margin-bottom:14px">Отвечать на все не обязательно. Достаточно одного вопроса, который откликается</p><div class="form">
+    ${field2('Что переводит вас в режим «через усилие» или «в долг»?','Какие события, дела или люди забирают больше всего сил. Например: дедлайны, болезнь ребенка, сообщения по ночам',`<textarea class="area" data-rq="q1">${esc(r.q1||'')}</textarea>`)}
+    ${field2('Сколько вы обычно живете в таком режиме?','Сколько дней или недель проходит, пока вы не вернетесь в «ровно». Например: неделю до сдачи проекта и еще неделю прихожу в себя',`<textarea class="area" data-rq="q2">${esc(r.q2||'')}</textarea>`)}
+    ${field2('Что помогает вам пройти сложный период?','Люди, привычки, места, способы отдыха. Например: вечерняя прогулка, помощь мамы, отпуск без ноутбука',`<textarea class="area" data-rq="q3">${esc(r.q3||'')}</textarea>`)}
+    ${field2('От чего вы первым отказываетесь, когда нагрузка растет?','Обычно первым уходит то, что нас поддерживает: сон, спорт, встречи с друзьями, еда без спешки. Напишите, что уходит у вас',`<textarea class="area" data-rq="q4">${esc(r.q4||'')}</textarea>`)}</div>
     <button class="btn btn--primary" id="rgSave" style="margin-top:16px">${MARK}Сохранить</button></section>`);
   bindDisc(m);$('#rgSave').onclick=()=>{$$('[data-rq]',m).forEach(a=>r[a.dataset.rq]=a.value.trim());S.range=r;save();toast('Сохранено')};
 };
 
 /* 9. Карта ответственности и границ */
-TOOL.resp=(m,t)=>{const P=S.resp.place;const pool=items().filter(i=>!P[i]);
+const RESP_DO=[['mine','Только ваше','Это действительно ваша задача. Оставьте ее себе и подумайте, как делать ее бережнее: реже, проще или с перерывами'],
+  ['shared','Общее с кем-то','Договоритесь, кто за какую часть отвечает. Например: «я готовлю ужин, ты моешь посуду». Пока договоренности нет, скорее всего, все делаете вы'],
+  ['pass','Можно передать','Выберите хотя бы одно дело и решите, кому и когда передадите его'],
+  ['taken','Несете, хотя это не ваше','Это забирает больше всего сил. Ниже подумайте, что случится, если перестать это держать']];
+TOOL.resp=(m,t)=>{S.resp.passTo=S.resp.passTo||{};const P=S.resp.place;const pool=items().filter(i=>!P[i]);
   m.innerHTML=wrap(t,`${!items().length?emptyNote('Сначала заполните карту нагрузки - пункты подтянутся отсюда',4):''}
   <p style="font-size:17px;margin-bottom:16px">Нажмите на пункт и выберите, куда он относится</p>
   ${pool.length?`<div class="pool">${pool.map(i=>`<button class="chip" data-pick="${esc(i)}">${esc(i)}</button>`).join('')}</div>`:''}
   <div class="input" style="margin-bottom:18px"><input id="rsIn" placeholder="Добавить задачу, отношение или обязательство"><button class="btn btn--sm" id="rsAdd">Добавить</button></div>
   <div id="pickBar"></div>
   ${Object.keys(P).length?`<div class="viz">${vennSvg()}</div>`:''}
-  <div class="sectors">${C.RESP_SECTORS.map(([k,l])=>`<div class="sector"><h3>${l}</h3><div class="chips">${Object.keys(P).filter(i=>P[i]===k).map(i=>`<button class="chip" aria-pressed="true" data-pick="${esc(i)}">${esc(i)}</button>`).join('')}</div></div>`).join('')}</div>
+  <div class="sectors">${C.RESP_SECTORS.map(([k,l])=>`<div class="sector"><h3>${l}</h3><div class="chips">${Object.keys(P).filter(i=>P[i]===k).map(i=>`<button class="chip chip--soft" aria-pressed="true" data-pick="${esc(i)}">${esc(i)}</button>`).join('')}</div></div>`).join('')}</div>
+  ${Object.keys(P).length?`<section class="sec"><div class="sec__h"><h2>Решите, что делать с каждым кругом</h2></div>
+    <p style="font-size:17px;margin-bottom:16px">Разложить дела - половина работы. Теперь выберите для каждого круга один шаг на эту неделю</p>
+    <div class="card-list">${RESP_DO.filter(([k])=>Object.keys(P).some(i=>P[i]===k)).map(([k,h,d])=>{const v=Object.keys(P).filter(i=>P[i]===k);return `<div class="scard"><div class="scard__top"><h3>${h}</h3></div><p class="muted">${esc(v.join(', '))}</p><p style="font-size:16px;color:var(--ink)">${d}</p>
+      ${k==='pass'?v.map(i=>`<label class="path-q" style="display:block">${esc(i)}: кому и когда передадите<input class="line" data-passto="${esc(i)}" value="${esc(S.resp.passTo[i]||'')}" placeholder="Например: Саше, с понедельника"></label>`).join(''):''}</div>`}).join('')}</div></section>`:''}
   ${Object.keys(P).some(i=>P[i]==='taken')?`<section class="sec"><div class="sec__h"><h2>Подумайте, что случится, если перестать это держать</h2></div>
     ${Object.keys(P).filter(i=>P[i]==='taken').map(i=>`<div class="field"><div class="field__label"><span>${esc(i)}</span></div><textarea class="area" style="min-height:70px" data-stop="${esc(i)}">${esc(S.resp.ifStop[i]||'')}</textarea>
       <div><button class="btn btn--sm" data-tolab="${esc(i)}">Это убеждение - проверить в Лаборатории</button></div></div>`).join('')}</section>`:''}`);
@@ -2006,6 +2060,7 @@ TOOL.resp=(m,t)=>{const P=S.resp.place;const pool=items().filter(i=>!P[i]);
   const add=v=>{v=v.trim();if(v&&!items().includes(v)){S.load.push({name:v,demand:3,after:0,imp:2,change:'частично'});save();render()}};
   $('#rsAdd').onclick=()=>add($('#rsIn').value);
   $$('[data-stop]',m).forEach(a=>a.onchange=()=>{S.resp.ifStop[a.dataset.stop]=a.value.trim();save()});
+  $$('[data-passto]',m).forEach(a=>a.onchange=()=>{S.resp.passTo[a.dataset.passto]=a.value.trim();save();toast('Сохранено')});
   $$('[data-tolab]',m).forEach(b=>b.onclick=()=>{const v=S.resp.ifStop[b.dataset.tolab]||$(`[data-stop="${b.dataset.tolab}"]`,m).value;S.lab.push({belief:v||('Если я перестану держать «'+b.dataset.tolab+'», все рухнет'),pred:'',b0:70,exp:'',observe:'',result:'',b1:null,ifx:'',ify:''});S.open.lab=1;save();go('tool','lab')});
 };
 
@@ -2024,7 +2079,7 @@ TOOL.nhv=(m,t)=>{const P=S.nhv.place;S.nhv.notes=S.nhv.notes||{};const N=S.nhv.n
   <section><div class="sec__h"><h2>Шаг 1. Разложите дела по тому, почему вы их делаете</h2>${pool.length?`<span class="muted">осталось разложить: ${pool.length}</span>`:''}</div>
   <p style="font-size:17px;margin-bottom:16px">Нажмите на пункт и выберите колонку. Честного ответа достаточно - правильных и неправильных колонок нет</p>
   ${pool.length?`<div class="pool">${pool.map(i=>`<button class="chip" data-pick="${esc(i)}">${esc(i)}</button>`).join('')}</div>`:''}<div id="pickBar"></div>
-  ${placed?jarsHtml():''}<div class="nhv-cols">${C.NHV_COLS.map(([k,l])=>`<div class="nhv-col"><h3>${l}</h3>${Object.keys(P).filter(i=>P[i]===k).map(i=>`<button class="chip" aria-pressed="true" data-pick="${esc(i)}">${esc(i)}</button>`).join('')}</div>`).join('')}</div></section>
+  ${placed?jarsHtml():''}<div class="nhv-cols">${C.NHV_COLS.map(([k,l])=>`<div class="nhv-col" style="--c:${NHV_FILL[k]}"><h3>${l}</h3>${Object.keys(P).filter(i=>P[i]===k).map(i=>`<button class="chip chip--jar" aria-pressed="true" data-pick="${esc(i)}">${esc(i)}</button>`).join('')}</div>`).join('')}</div></section>
   ${placed?`<section class="sec"><div class="sec__h"><h2>Шаг 2. Посмотрите, что получилось</h2></div>
     ${(()=>{const self=Object.keys(P).filter(i=>['want','important','choose'].includes(P[i])).length;const other=placed-self;
       return `<p style="font-size:17px;margin-bottom:18px">${other===0?'Все, что вы разложили, - ваш собственный выбор: вы делаете это, потому что хотите, потому что важно или сознательно решили сохранить. Это хорошая новость. Тогда главный вопрос не «зачем я это делаю», а «какой ценой» - и можно ли то же самое делать бережнее':self===0?'Похоже, сейчас почти все в вашей жизни держится на страхе, ожиданиях или привычке. Это частая картина при выгорании, и с ней стоит идти к психологу - здесь достаточно просто это заметить':`Часть того, что вы делаете, выбрана вами (${self}), а часть держится на страхе, ожиданиях или привычке (${other}). Ответьте на вопросы ниже - по тем колонкам, где у вас есть пункты`}</p>`})()}
@@ -2047,15 +2102,18 @@ TOOL.lab=(m,t)=>{const i=route.sub!=null&&S.lab[route.sub]?route.sub:(S.lab.leng
   const beliefs=[...S.chains.map(c=>c.rule),...Object.values(S.resp.ifStop)].filter(Boolean);
   m.innerHTML=wrap(t,`<div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px"><button class="btn btn--primary btn--sm" id="labNew">${MARK}Новый эксперимент</button>${S.lab.length>1?S.lab.map((x,k)=>`<button class="btn btn--sm ${k===i?'':'btn--outline'}" data-lb="${k}">${k+1}</button>`).join(''):''}</div>
   ${e?`<div class="panel"><div class="lab-grid">
-    <label style="grid-column:1 / -1">Убеждение, которое проверяем<input class="line" data-l="belief" value="${esc(e.belief)}" list="blist"><datalist id="blist">${beliefs.map(b=>`<option value="${esc(b)}">`).join('')}</datalist></label>
-    <label>Мой прогноз: что произойдет<input class="line" data-l="pred" value="${esc(e.pred)}"></label>
-    <div class="belief"><span class="muted" style="font-size:11px;letter-spacing:.05em;text-transform:uppercase">Насколько я верю прогнозу сейчас</span><output id="b0o">${e.b0}%</output><input type="range" min="0" max="100" step="5" value="${e.b0}" id="b0" aria-label="Вера в прогноз до"></div>
-    <label>Маленький безопасный эксперимент<input class="line" data-l="exp" value="${esc(e.exp)}" placeholder="Один день, одна задача, один разговор"></label>
-    <label>Что буду наблюдать<input class="line" data-l="observe" value="${esc(e.observe)}"></label>
-    <label style="grid-column:1 / -1">Что произошло<textarea class="area" data-l="result" style="min-height:70px">${esc(e.result)}</textarea></label>
-    <div class="belief"><span class="muted" style="font-size:11px;letter-spacing:.05em;text-transform:uppercase">Насколько верю исходному прогнозу теперь</span><output id="b1o">${e.b1!=null?e.b1+'%':'-'}</output><input type="range" min="0" max="100" step="5" value="${e.b1!=null?e.b1:e.b0}" id="b1" aria-label="Вера в прогноз после"></div>
+    <p class="lab-step">1. До эксперимента</p>
+    <label style="grid-column:1 / -1">Убеждение, которое вы проверяете<input class="line" data-l="belief" value="${esc(e.belief)}" list="blist" placeholder="Например: если могу сделать сама - должна сделать сама"><datalist id="blist">${beliefs.map(b=>`<option value="${esc(b)}">`).join('')}</datalist></label>
+    <label>Что, по-вашему, случится, если поступить не так, как велит убеждение?<input class="line" data-l="pred" value="${esc(e.pred)}" placeholder="Например: руководитель найдет ошибку и будет недоволен"></label>
+    <div class="belief"><span class="muted" style="font-size:11px;letter-spacing:.05em;text-transform:uppercase">Насколько вы верите в этот прогноз сейчас</span><output id="b0o">${e.b0}%</output><input type="range" min="0" max="100" step="5" value="${e.b0}" id="b0" aria-label="Вера в прогноз до"></div>
+    <label>Что вы попробуете сделать иначе<input class="line" data-l="exp" value="${esc(e.exp)}" placeholder="Маленький и безопасный шаг, например: один раз отправлю отчет без перепроверки"></label>
+    <label>По каким признакам вы поймете, сбылся ли прогноз?<input class="line" data-l="observe" value="${esc(e.observe)}" placeholder="Например: будут ли замечания, как я себя чувствую вечером"></label>
+    <p class="lab-step">2. После эксперимента</p>
+    <label style="grid-column:1 / -1">Что произошло на самом деле, когда вы попробовали<textarea class="area" data-l="result" style="min-height:70px" placeholder="Заполните после того, как проведете эксперимент">${esc(e.result)}</textarea></label>
+    <div class="belief"><span class="muted" style="font-size:11px;letter-spacing:.05em;text-transform:uppercase">Насколько вы верите в прогноз теперь</span><output id="b1o">${e.b1!=null?e.b1+'%':'-'}</output><input type="range" min="0" max="100" step="5" value="${e.b1!=null?e.b1:e.b0}" id="b1" aria-label="Вера в прогноз после"></div>
     <div></div>
-    <label>Если возникает…<input class="line" data-l="ifx" value="${esc(e.ifx)}"></label><label>…то я делаю<input class="line" data-l="ify" value="${esc(e.ify)}"></label></div>
+    <p class="lab-step">3. Новое правило для себя</p>
+    <label>Если возникает…<input class="line" data-l="ifx" value="${esc(e.ifx)}" placeholder="Например: хочется все перепроверить"></label><label>…то я делаю<input class="line" data-l="ify" value="${esc(e.ify)}" placeholder="Например: проверяю только главное и закрываю ноутбук"></label></div>
     <button class="btn btn--primary btn--sm" id="labS" style="margin-top:18px">${MARK}Сохранить</button>
     ${e.ifx&&e.ify?`<p class="ifthen" style="margin-top:20px"><em>Если</em> ${esc(e.ifx)} → <em>я</em> ${esc(e.ify)}</p>`:''}</div>`:emptyNote('Убеждения приходят сюда из «Цепочки перегруза» и «Карты ответственности». Или начните новый эксперимент')}
   <section class="sec"><div class="sec__h"><h2>Отметьте, что у вас уже работает</h2><span class="muted">${S.works.length}</span></div>
@@ -2114,8 +2172,10 @@ TOOL.nav=(m,t)=>{const secs=navSections();const n=secs.filter(s=>s.ok).length;
     <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px"><span class="saved">Собрано ${n} из 11 разделов</span><button class="btn btn--sm btn--outline" onclick="window.print()">Распечатать или сохранить PDF</button></div>
     <div class="progress-line" style="margin-bottom:24px"><i style="width:${Math.round(n/11*100)}%"></i></div>
     ${zonesHtml()}
-    ${secs.map(s=>`<section class="nav-sec ${s.ok?'':'is-empty'}"><div class="nav-sec__n">${esc(s.t)}<b>из инструмента ${s.n}</b></div><div class="nav-sec__body">${s.ok?s.body:'<p>Появится, когда будет заполнен инструмент</p>'}</div></section>`).join('')}
-    ${S.point.saved?`<section class="nav-sec"><div class="nav-sec__n">Точка старта<b>из инструмента 1</b></div><div class="nav-sec__body"><p>${esc(S.point.change||'')}</p></div></section>`:''}</div>`;
+    ${secs.map(s=>`<section class="nav-sec ${s.ok?'':'is-empty'}"><div class="nav-sec__n">${esc(s.t)}<b>из инструмента ${s.n}</b></div><div class="nav-sec__body">${s.ok?s.body:(()=>{const id=TN[parseInt(s.n)]&&TN[parseInt(s.n)].id;return `<p>Появится, когда вы заполните практику</p>${id&&isOpen(id)?`<button class="btn btn--sm btn--outline" style="margin-top:10px" data-go="tool" data-arg="${id}">Открыть практику</button>`:''}`})()}</div></section>`).join('')}
+    ${S.point.saved?`<section class="nav-sec"><div class="nav-sec__n">Точка старта<b>из инструмента 1</b></div><div class="nav-sec__body"><p>${esc(S.point.change||'')}</p></div></section>`:''}
+    <section class="nav-next"><h2>Решите, что делать дальше</h2><p>Инструкция собирается сама, пока вы проходите практики. ${n<11?'Пустые разделы заполнятся по ходу трека. ':''}Сохраните ее себе и возвращайтесь к ней перед сложными периодами</p>
+      <div class="nav-next__b"><button class="btn btn--primary" onclick="window.print()">Сохранить в PDF</button><button class="btn btn--outline" data-go="tools">Посмотреть свой маршрут</button><button class="btn btn--ghost" data-go="today">Вернуться на главный экран</button></div></section></div>`;
 };
 
 /* ================= К ВСТРЕЧЕ ================= */
