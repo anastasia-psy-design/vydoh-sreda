@@ -891,6 +891,26 @@ button.tt{cursor:pointer}
 .stg:not(.stg--now) .tt__t{flex:1}
 .stg:not(.stg--now) .tt__s{display:none}
 @media (max-width:700px){.stg:not(.stg--now) .tt{width:100%}}
+
+.bat2{display:flex;align-items:center;flex-wrap:wrap;gap:20px 32px;margin:0 0 36px}
+.bat2__icon{display:flex;align-items:center;gap:4px}
+.bat2__body{position:relative;width:min(380px,62vw);height:64px;padding:6px;border:2.5px solid var(--ink);border-radius:16px;box-sizing:border-box;background:var(--bg)}
+.bat2__fill{position:relative;height:100%;width:var(--lvl);border-radius:9px;background:linear-gradient(90deg,#c9ddd6,#a9cbbf);overflow:hidden}
+.bat2__ticks{position:absolute;inset:6px;border-radius:9px;background:repeating-linear-gradient(90deg,transparent 0 calc(100%/9 - 1.5px),rgba(255,255,255,.75) calc(100%/9 - 1.5px) calc(100%/9));pointer-events:none}
+.bat2__bolt{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)}
+.bat2__nub{width:9px;height:24px;border-radius:0 5px 5px 0;background:var(--ink)}
+.bat2__txt{display:flex;flex-direction:column;gap:4px}
+.bat2__big{font-family:var(--serif);font-size:30px;line-height:1.1;color:var(--ink)}
+.bat2__sub{font-size:15px;color:var(--muted)}
+@media (prefers-reduced-motion:no-preference){
+  @keyframes fillW{from{width:0}}
+  @keyframes shine{0%{transform:translateX(-120%)}60%,100%{transform:translateX(260%)}}
+  @keyframes boltIn{from{opacity:0;transform:translate(-50%,-50%) scale(.6)}}
+  .bat2__fill{animation:fillW 1.2s var(--ease) .2s both}
+  .bat2__shine{position:absolute;top:0;bottom:0;width:40%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);animation:shine 6s ease-in-out 1.6s infinite}
+  .bat2__bolt{animation:boltIn .5s var(--ease) 1.2s both}
+}
+.h-name{display:flex;align-items:center;gap:8px;flex:0 1 320px}.h-name .line{font-size:15px}
 </style>
 </head>
 <body>
@@ -1280,7 +1300,7 @@ function weekDots(){const now=new Date();const dow=(now.getDay()+6)%7;const mon=
 function vToday(m){const {st,nP}=homeSteps();const main=st[0],second=st[1];const cs=curStage();const navN=navSections().filter(s=>s.ok).length;
   const mainImg=main.id==='pulse'?`<svg class="hero-wave" width="380" height="380" viewBox="0 0 360 360" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="180" cy="180" r="170" stroke-width="1.2" stroke-dasharray="2 6"/><circle cx="180" cy="180" r="118" stroke-width="1" stroke-dasharray="2 5" opacity=".55"/><path class="hw-line" d="M30 210c30-50 52-70 78-50s40 52 72 10 52-70 80-40 40 30 70 18" stroke-width="2"/><circle class="hw-dot" cx="190" cy="170" r="9" fill="currentColor"/></svg>`:`<span class="hero-img">${bigIco(main.id,300)}</span>`;
   m.innerHTML=`<div class="page home">
-    <div class="h-top"><h1 class="h-hello">${hello()}${S.name?', '+esc(S.name):''}</h1>
+    <div class="h-top"><h1 class="h-hello">${hello()}${S.name?', '+esc(S.name):''}</h1>${!S.name?`<span class="h-name"><input class="line" id="hNameIn" placeholder="Как к вам обращаться?" aria-label="Ваше имя"><button class="btn btn--sm" id="hNameB">Сохранить</button></span>`:''}
       <button class="h-trail" data-go="tools" aria-label="Маршрут: этап ${cs} из 9"><span class="h-trail__line"><i style="width:${(cs-1)/8*100}%"></i></span>${C.stages.map((s,i)=>`<span class="h-dot ${i<cs-1?'past':i===cs-1?'now':i===8?'end':''}"></span>`).join('')}</button>
       <button class="h-week" data-go="tools">неделя ${weekNo()} из 12</button></div>
     ${!S.seenHelp?`<button class="h-first" data-go="help"><span>${ico('nav',20)}</span>Впервые здесь? Посмотрите, как все устроено, это займет две минуты.</button>`:''}
@@ -1298,6 +1318,7 @@ function vToday(m){const {st,nP}=homeSteps();const main=st[0],second=st[1];const
       <button class="h-ring" data-go="navself"><svg width="40" height="40" viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="15" fill="none" stroke="var(--soft)" stroke-width="4"/><circle class="ring-bar" cx="18" cy="18" r="15" fill="none" stroke="var(--ink)" stroke-width="4" stroke-dasharray="${Math.max(1,Math.round(navN/11*94))} 100" transform="rotate(-90 18 18)"/></svg>Инструкция к себе</button>
     </div>
   </div>`;
+  const hb=$('#hNameB');if(hb){const sv=()=>{const v=$('#hNameIn').value.trim();if(v){S.name=v;save();render();toast('Приятно познакомиться, '+v)}};hb.onclick=sv;$('#hNameIn').onkeydown=e=>{if(e.key==='Enter')sv()}}
 }
 
 /* --- Карта тела --- */
@@ -1450,10 +1471,8 @@ function vTools(m){const cs=curStage();const stg=C.stages[cs-1];
   m.innerHTML=`<div class="page rmap">
     <header class="r-head"><p class="eyebrow">Неделя ${weekNo()} из 12</p><h1>Ваш маршрут</h1>
       <p class="r-lead">Сейчас вы на этапе «${esc(stg.title)}». Новые инструменты появляются постепенно, после встреч с психологом.</p></header>
-    <div class="bat" role="img" aria-label="Пройдено этапов: ${cs-1} из 9">
-      <div class="bat__body">${C.stages.map((s,i)=>`<span class="bat__c ${i<cs-1?'past':i===cs-1?'now':'next'}" style="--d:${i*0.08}s"><i></i></span>`).join('')}</div><span class="bat__nub"></span>
-    </div>
-    <div class="bat__labels">${C.stages.map((s,i)=>`<span class="${i===cs-1?'now':i<cs-1?'past':''}">${TRAIL_SHORT[i]}</span>`).join('')}</div>
+    <div class="bat2"><div class="bat2__icon" role="img" aria-label="Пройдено этапов: ${cs-1} из 9"><div class="bat2__body"><div class="bat2__fill" style="--lvl:${Math.round((cs-0.5)/9*100)}%"><span class="bat2__shine"></span></div><span class="bat2__ticks"></span><svg class="bat2__bolt" width="22" height="30" viewBox="0 0 22 30" aria-hidden="true"><path d="M13 1L2 17h7l-2 12 11-16h-7z" fill="var(--ink)"/></svg></div><span class="bat2__nub"></span></div>
+      <div class="bat2__txt"><span class="bat2__big">Этап ${cs} из 9</span><span class="bat2__sub">${esc(TRAIL_SHORT[cs-1])}${cs<9?` · дальше ${esc(TRAIL_SHORT[cs])}`:''}</span></div></div>
     <div class="stgs">${C.stages.map((s,i)=>{const stt=i<cs-1?'past':i===cs-1?'now':'next';const ids=s.tools.length?s.tools:['lab','range'];
       return `<section class="stg stg--${stt}" style="--d:${i*0.05}s"><div class="stg__h"><span class="stg__n">${stt==='past'?ico('check',16):s.n}</span><span class="stg__w">${esc(s.weeks)}${stt==='now'?' · вы здесь':''}</span></div>
         <h2 class="stg__t">${esc(s.title)}</h2>${stt==='now'?`<p class="stg__d">${esc(s.desc)}</p>`:''}
