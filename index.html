@@ -775,6 +775,52 @@ body.rp-open{overflow:hidden}
   .rp__nav .is-ready{animation:rp-ready 1.8s ease-in-out infinite}@keyframes rp-ready{0%,100%{box-shadow:0 0 0 0 rgba(26,24,22,.25)}50%{box-shadow:0 0 0 8px rgba(26,24,22,0)}}
   .rc .rpi{transition:transform .6s var(--ease)}.rc:hover .rpi{transform:scale(1.04)}
 }
+
+/* ===== Плеер практик, второй заход ===== */
+.rp__right{display:flex;align-items:center;gap:18px}
+.rp__snd{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 14px;border:1px solid var(--line);border-radius:999px;background:var(--bg);font:inherit;font-size:14px;color:var(--text);cursor:pointer}
+.rp__snd[aria-pressed="false"]{color:var(--muted)}
+.rp-plan{margin:0 0 18px;padding:0;list-style:none;counter-reset:rp;display:grid;gap:8px}
+.rp-plan li{counter-increment:rp;display:grid;grid-template-columns:26px minmax(0,1fr);gap:10px;align-items:baseline;font-size:15px;color:var(--text)}
+.rp-plan li::before{content:counter(rp);display:grid;place-items:center;width:24px;height:24px;border-radius:50%;border:1px solid var(--line);font-size:12px;color:var(--muted)}
+.rp-dev{display:flex;align-items:center;gap:12px;margin:0 0 20px;padding:12px 16px;background:var(--cream);font-size:14px;line-height:1.45;color:var(--text);text-align:left!important}
+.rp-dev svg{flex:0 0 20px;color:var(--muted)}
+.rp-voice{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px;margin:0 0 14px}
+.rp-recb{display:inline-flex;align-items:center;gap:10px}
+.rp-recb.is-rec{border-color:var(--ink);background:var(--drain)}
+.rp-dot{width:10px;height:10px;border-radius:50%;background:#c2554b}
+.rp-rect{font-family:var(--serif);font-size:20px;color:var(--ink)}
+.rp-vchip{display:inline-flex;align-items:center;gap:12px;padding:6px 16px 6px 6px;border-radius:999px;background:var(--c);font-size:15px;color:var(--ink)}
+.rp-vplay{display:grid;place-items:center;width:34px;height:34px;border:0;border-radius:50%;background:var(--ink);color:var(--bg);cursor:pointer;padding:0}
+.rp-paper{position:relative;max-height:240px;overflow:auto;margin-bottom:18px;padding:18px 22px;background:#fbf8f2;background-image:repeating-linear-gradient(transparent 0 27px,rgba(0,0,0,.06) 27px 28px);background-position:0 16px;font-size:16px;line-height:28px;color:#2b2925;box-shadow:0 1px 0 rgba(0,0,0,.04),0 14px 34px -14px rgba(0,0,0,.18);transition:none}
+.rp-paper__v{display:flex;align-items:center;gap:8px;margin:0 0 4px;font-size:14px;color:#6b665e}
+.rp-paper.is-empty{background-image:none;box-shadow:none;background:transparent;padding:0;font-family:var(--serif);font-size:22px;color:var(--muted)}
+.shred{position:fixed;z-index:120;pointer-events:none;filter:drop-shadow(0 6px 8px rgba(0,0,0,.12))}
+.shred__p{position:absolute;inset:0;background:#fbf8f2;background-image:repeating-linear-gradient(transparent 0 27px,rgba(0,0,0,.06) 27px 28px);background-position:0 16px;will-change:transform,opacity}
+.shred__in{height:100%;overflow:hidden;color:#2b2925}
+.rp__img,.rc{background-image:radial-gradient(120% 90% at 28% 18%,rgba(255,255,255,.5),rgba(255,255,255,0) 62%)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .rp__img,:root:not([data-theme="light"]) .rc{background-image:radial-gradient(120% 90% at 28% 18%,rgba(255,255,255,.05),rgba(255,255,255,0) 62%)}}
+:root[data-theme="dark"] .rp__img,:root[data-theme="dark"] .rc{background-image:radial-gradient(120% 90% at 28% 18%,rgba(255,255,255,.05),rgba(255,255,255,0) 62%)}
+.rp-orb.is-dark{fill:var(--ink)}
+.rp-orbit{transform-origin:60px 60px}
+.rp-flow{will-change:transform}
+.rp-rip ellipse,.rp-fall{transform-box:fill-box;transform-origin:center}
+@media (max-width:560px){.rp__snd span{display:none}.rp__snd{padding:0 10px}}
+@media (prefers-reduced-motion:no-preference){
+  .rp-orbit{animation:rp-spin 36s linear infinite}@keyframes rp-spin{to{transform:rotate(360deg)}}
+  .rc .rp-orb--2,.rc-empty .rp-orb--2,.rp__img.is-idle .rp-orb--2{animation:rp-idle 7s ease-in-out infinite}
+  .rc .rp-orb--3,.rc-empty .rp-orb--3,.rp__img.is-idle .rp-orb--3{animation:rp-idle 7s ease-in-out .5s infinite}
+  .rc .rp-orb--1,.rc-empty .rp-orb--1,.rp__img.is-idle .rp-orb--1{animation:rp-idle1 7s ease-in-out infinite}
+  @keyframes rp-idle{0%,100%{transform:scale(.92)}50%{transform:scale(1.08)}}@keyframes rp-idle1{0%,100%{transform:scale(.96)}50%{transform:scale(1.04)}}
+  .rp-flow--1{animation:rp-flow 1.6s linear infinite}.rp-flow--2{animation:rp-flow 1.1s linear infinite}.rp-flow--3{animation:rp-flow 2s linear infinite}@keyframes rp-flow{to{transform:translateX(16px)}}
+  .rp-rip ellipse{animation:rp-rip 2.4s ease-out infinite}.rp-rip ellipse:nth-child(2){animation-delay:1.2s}@keyframes rp-rip{0%{transform:scale(.6);opacity:.7}100%{transform:scale(2.4);opacity:0}}
+  .rp-fall{animation:rp-fall 2.4s cubic-bezier(.5,0,.8,.4) infinite}@keyframes rp-fall{0%{transform:translateY(-14px);opacity:0}25%{opacity:1}80%{transform:translateY(8px);opacity:1}100%{transform:translateY(8px);opacity:0}}
+  .rp__side>*{animation:rp-rise .75s cubic-bezier(.2,.7,.2,1) both}
+  .rp__side>*:nth-child(2){animation-delay:.06s}.rp__side>*:nth-child(3){animation-delay:.12s}.rp__side>*:nth-child(4){animation-delay:.18s}.rp__side>*:nth-child(5){animation-delay:.24s}.rp__side>*:nth-child(n+6){animation-delay:.3s}
+  @keyframes rp-rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .rp__img>svg{animation:rp-pop 1s cubic-bezier(.2,.7,.2,1) both}@keyframes rp-pop{from{opacity:0;transform:scale(.92);filter:blur(8px)}to{opacity:1;transform:none;filter:none}}
+  .rp-dot{animation:rp-blink 1.2s ease-in-out infinite}@keyframes rp-blink{50%{opacity:.25}}
+}
 .sc-chip{cursor:pointer;outline:none}.sc-chip:hover rect,.sc-chip:focus rect{stroke-width:2}
 .sc-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 28px;margin-top:14px}
 .sc-list__h{margin:0 0 8px;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted,#6b6965)}
@@ -2117,13 +2163,14 @@ function bindAP(root){$$('[data-ap]',root).forEach(el=>{const a=new Audio(AUDIO[
 
 /* ================= ОБРАЗЫ ПРАКТИК ================= */
 const RI={
-  breath:`<circle cx="60" cy="60" r="52" fill="none" stroke="var(--ink)" stroke-dasharray="2 5" opacity=".5"/><circle class="rp-orb" cx="60" cy="60" r="28" fill="var(--bg)" stroke="var(--ink)" stroke-width="1.4"/>`,
-  hum:`<circle cx="60" cy="60" r="52" fill="none" stroke="var(--ink)" stroke-dasharray="2 5" opacity=".5"/><g class="rp-waves" fill="none" stroke="var(--ink)" stroke-width="1.2"><circle cx="60" cy="60" r="30"/><circle cx="60" cy="60" r="30"/><circle cx="60" cy="60" r="30"/></g><circle class="rp-orb" cx="60" cy="60" r="24" fill="var(--bg)" stroke="var(--ink)" stroke-width="1.4"/>`,
-  squeeze:`<circle cx="60" cy="60" r="52" fill="none" stroke="var(--ink)" stroke-dasharray="2 5" opacity=".5"/><circle class="rp-orb" cx="60" cy="60" r="30" fill="var(--bg)" stroke="var(--ink)" stroke-width="1.4"/>`,
+  breath:`<g class="rp-orbit"><circle cx="60" cy="60" r="54" fill="none" stroke="var(--ink)" stroke-dasharray="1.5 5" opacity=".45"/><circle cx="60" cy="6" r="2.6" fill="var(--ink)"/></g><circle class="rp-orb rp-orb--3" cx="60" cy="60" r="44" fill="var(--bg)" opacity=".28"/><circle class="rp-orb rp-orb--2" cx="60" cy="60" r="36" fill="var(--bg)" opacity=".55"/><circle class="rp-orb rp-orb--1" cx="60" cy="60" r="27" fill="var(--bg)" stroke="var(--ink)" stroke-width="1.2"/>`,
+  hum:`<g class="rp-waves" fill="none" stroke="var(--ink)" stroke-width="1"><circle cx="60" cy="60" r="30"/><circle cx="60" cy="60" r="30"/><circle cx="60" cy="60" r="30"/></g><g class="rp-orbit"><circle cx="60" cy="60" r="54" fill="none" stroke="var(--ink)" stroke-dasharray="1.5 5" opacity=".45"/><circle cx="60" cy="6" r="2.6" fill="var(--ink)"/></g><circle class="rp-orb rp-orb--3" cx="60" cy="60" r="44" fill="var(--bg)" opacity=".28"/><circle class="rp-orb rp-orb--2" cx="60" cy="60" r="36" fill="var(--bg)" opacity=".55"/><circle class="rp-orb rp-orb--1" cx="60" cy="60" r="27" fill="var(--bg)" stroke="var(--ink)" stroke-width="1.2"/>`,
+  squeeze:`<g class="rp-orbit"><circle cx="60" cy="60" r="54" fill="none" stroke="var(--ink)" stroke-dasharray="1.5 5" opacity=".45"/><circle cx="60" cy="6" r="2.6" fill="var(--ink)"/></g><circle class="rp-orb rp-orb--3" cx="60" cy="60" r="44" fill="var(--bg)" opacity=".28"/><circle class="rp-orb rp-orb--2" cx="60" cy="60" r="36" fill="var(--bg)" opacity=".55"/><circle class="rp-orb rp-orb--1" cx="60" cy="60" r="27" fill="var(--bg)" stroke="var(--ink)" stroke-width="1.2"/>`,
   look:`<g fill="none" stroke="var(--ink)" stroke-width="1.6" stroke-linecap="round"><path d="M22 38V24h14M84 24h14v14M98 82v14H84M36 96H22V82"/></g><circle class="rp-scan" cx="60" cy="60" r="7" fill="var(--ink)"/><circle cx="60" cy="60" r="28" fill="none" stroke="var(--ink)" stroke-dasharray="2 4" opacity=".5"/>`,
-  shake:`<g class="rp-shake" fill="none" stroke="var(--ink)" stroke-width="1.6" stroke-linecap="round"><path d="M28 44c6-6 10 6 16 0s10 6 16 0 10 6 16 0 10 6 16 0"/><path d="M28 60c6-6 10 6 16 0s10 6 16 0 10 6 16 0 10 6 16 0"/><path d="M28 76c6-6 10 6 16 0s10 6 16 0 10 6 16 0 10 6 16 0"/></g>`,
+  shake:`<defs><clipPath id="rpClip"><circle cx="60" cy="60" r="46"/></clipPath></defs><circle cx="60" cy="60" r="46" fill="var(--bg)"/><g clip-path="url(#rpClip)" fill="none" stroke="var(--ink)" stroke-width="1.5" stroke-linecap="round"><path class="rp-flow rp-flow--1" d="M-16 44 q4 -6 8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0"/><path class="rp-flow rp-flow--2" d="M-16 60 q4 -9 8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0"/><path class="rp-flow rp-flow--3" d="M-16 76 q4 -5 8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0"/></g><circle cx="60" cy="60" r="46" fill="none" stroke="var(--ink)" stroke-width="1.2"/>`,
   walk:`<g class="rp-steps" fill="var(--ink)"><ellipse cx="44" cy="92" rx="7" ry="11"/><ellipse cx="70" cy="74" rx="7" ry="11"/><ellipse cx="48" cy="52" rx="7" ry="11"/><ellipse cx="74" cy="32" rx="7" ry="11"/></g>`,
-  cold:`<path d="M60 18c14 20 24 34 24 48a24 24 0 0 1-48 0c0-14 10-28 24-48z" fill="var(--bg)" stroke="var(--ink)" stroke-width="1.4"/><g class="rp-drops" fill="var(--ink)"><circle cx="52" cy="62" r="3"/><circle cx="66" cy="74" r="2.4"/><circle cx="58" cy="84" r="2"/></g>`,
+  cold:`<g class="rp-rip" fill="none" stroke="var(--ink)" stroke-width="1"><ellipse cx="60" cy="100" rx="14" ry="3.5"/><ellipse cx="60" cy="100" rx="14" ry="3.5"/></g><path class="rp-float" d="M60 16c14 20 24 34 24 48a24 24 0 0 1-48 0c0-14 10-28 24-48z" fill="var(--bg)" stroke="var(--ink)" stroke-width="1.3"/><path d="M48 66a12 12 0 0 0 9 11" fill="none" stroke="var(--ink)" stroke-width="1.3" stroke-linecap="round" opacity=".6"/><circle class="rp-fall" cx="60" cy="92" r="2.6" fill="var(--ink)"/>`,
+  name:`<path d="M24 40h50l22 20-22 20H24z" fill="var(--bg)" stroke="var(--ink)" stroke-width="1.3" stroke-linejoin="round"/><circle cx="78" cy="60" r="4" fill="var(--ink)"/><g class="rp-lines" stroke="var(--ink)" stroke-width="1.4" stroke-linecap="round"><path d="M34 54h28"/><path d="M34 66h18"/></g>`,
   fact:`<rect x="22" y="38" width="76" height="52" rx="8" fill="var(--bg)" stroke="var(--ink)" stroke-width="1.4"/><path d="M46 38l6-10h16l6 10" fill="none" stroke="var(--ink)" stroke-width="1.4"/><circle class="rp-float" cx="60" cy="64" r="14" fill="none" stroke="var(--ink)" stroke-width="1.4"/><circle cx="60" cy="64" r="5" fill="var(--ink)"/>`,
   clock:`<circle cx="60" cy="60" r="38" fill="var(--bg)" stroke="var(--ink)" stroke-width="1.4"/><path class="rp-hand" d="M60 60V36" stroke="var(--ink)" stroke-width="1.8" stroke-linecap="round"/><path d="M60 60h16" stroke="var(--ink)" stroke-width="1.8" stroke-linecap="round"/><circle cx="60" cy="60" r="3" fill="var(--ink)"/>`,
   stepi:`<path d="M24 92h24V72h24V52h24" fill="none" stroke="var(--ink)" stroke-width="1.6" stroke-linejoin="round"/><circle class="rp-float" cx="36" cy="80" r="7" fill="var(--ink)"/>`,
@@ -2142,7 +2189,7 @@ const rImg=(k,s)=>`<svg class="rpi rpi--${k}" width="${s||120}" height="${s||120
 /* ================= ПРАКТИКИ ================= */
 const RP={
   sigh:{title:'Двойной вдох',kind:'body',time:'1 минута',c:'mint',img:'breath',lead:'Самый быстрый способ сбавить внутренний разгон',
-    steps:[{h:'Сядьте удобно',p:'Глаза можно не закрывать. Просто следите за кругом и дышите вместе с ним'},
+    steps:[{h:'Сядьте удобно',p:'Телефон можно держать в руке. Следите за кругом или закройте глаза: смену вдоха и выдоха подскажет тихий звук'},
       {t:'breath',h:'Дышите вместе с кругом',total:60,phases:[['Вдохните носом',1.6,1.25],['Добавьте еще маленький вдох',.9,1.4],['Медленно выдохните ртом',5,.75]]}]},
   exhale:{title:'Длинный выдох',kind:'body',time:'2 минуты',c:'mint',img:'breath',lead:'Когда выдох длиннее вдоха, сердце бьется спокойнее',
     steps:[{t:'breath',h:'Сделайте выдох длиннее вдоха',total:96,phases:[['Вдохните',4,1.3],['Медленно выдохните',8,.75]]}]},
@@ -2150,7 +2197,8 @@ const RP={
     steps:[{h:'Сомкните губы',p:'На выдохе тяните негромкое «м-м-м», как будто напеваете себе под нос'},
       {t:'breath',h:'Тяните «м-м-м» на выдохе',total:60,phases:[['Вдохните носом',4,1.3],['Выдыхайте со звуком «м-м-м»',7,.75]]}]},
   squeeze:{title:'Напрячь и отпустить',kind:'body',time:'1,5 минуты',c:'beige',img:'squeeze',lead:'Мышцы легче отпускают напряжение, если сначала его усилить',
-    steps:[{t:'breath',h:'Кулаки',total:30,phases:[['Сожмите кулаки изо всех сил',5,.7,1],['Отпустите и почувствуйте разницу',10,1.15]]},
+    dev:'Положите телефон на стол или на колени: смену подскажет тихий звук',
+    steps:[{h:'Положите телефон',p:'На стол или на колени, чтобы руки были свободны. Каждую смену подскажет звук, на экран можно не смотреть'},{t:'breath',h:'Кулаки',total:30,phases:[['Сожмите кулаки изо всех сил',5,.7,1],['Отпустите и почувствуйте разницу',10,1.15]]},
       {t:'breath',h:'Плечи',total:30,phases:[['Поднимите плечи к ушам',5,.7,1],['Уроните плечи вниз',10,1.15]]},
       {t:'breath',h:'Лицо',total:30,phases:[['Зажмурьтесь и сожмите зубы',5,.7,1],['Отпустите лицо и приоткройте рот',10,1.15]]}]},
   look:{title:'Оглядеться',kind:'body',time:'1 минута',c:'mint',img:'look',lead:'Внимание наружу возвращает чувство, что вы здесь и вы в безопасности',
@@ -2159,19 +2207,27 @@ const RP={
       {t:'count',h:'Прислушайтесь и найдите два звука',n:2,p:'Улица, техника, ваше дыхание - подойдет любой'},
       {h:'Почувствуйте опору',p:'Заметьте, как стопы стоят на полу, а спина касается спинки стула',sec:15}]},
   shake:{title:'Потряхивание',kind:'body',time:'1 минута',c:'drain',img:'shake',lead:'Так животные сбрасывают стресс, и у людей это тоже работает',
-    steps:[{h:'Встаньте',p:'Поставьте ноги на ширину плеч, колени чуть согнуты'},{h:'Потрясите кистями',p:'Свободно, как будто стряхиваете с рук воду',sec:20},
+    dev:'Положите телефон перед собой: каждую смену подскажет звук',
+    steps:[{h:'Положите телефон и встаньте',p:'Поставьте ноги на ширину плеч, колени чуть согнуты. Дальше смену движений подскажет звук'},{h:'Потрясите кистями',p:'Свободно, как будто стряхиваете с рук воду',sec:20},
       {h:'Подключите руки и плечи',sec:20},{h:'Добавьте ноги и все тело',p:'Можно легко подпрыгивать на месте',sec:20},{h:'Остановитесь и постойте',p:'Заметьте, как тело гудит и теплеет',sec:10}]},
   dawn:{title:'Рассвет',kind:'body',time:'1 минута',c:'drain',img:'breath',lead:'Короткий бодрый ритм дыхания немного поднимает силы',
-    steps:[{t:'breath',h:'Дышите бодро и коротко',total:45,phases:[['Вдохните',3,1.3],['Коротко выдохните',2,.85]]},{h:'Потянитесь вверх',p:'Поднимите руки, потянитесь всем телом и со вздохом опустите руки',sec:15}]},
+    steps:[{t:'breath',h:'Дышите бодро и коротко',total:45,phases:[['Вдохните',3,1.3],['Коротко выдохните',2,.85]]},{h:'Положите телефон и потянитесь',p:'Поднимите руки, потянитесь всем телом и со вздохом опустите руки',sec:15}]},
   walk:{title:'Пройтись',kind:'body',time:'5 минут',c:'mint',img:'walk',lead:'Движение переключает голову лучше, чем попытки не думать',
-    steps:[{h:'Оставьте телефон',p:'Выйдите на улицу, в коридор или на лестницу'},{h:'Идите и замечайте',p:'Смотрите по сторонам, слушайте звуки, чувствуйте каждый шаг',sec:300}]},
+    dev:'Возьмите телефон с собой, но не смотрите в него: через 5 минут прозвучит сигнал',
+    steps:[{h:'Уберите телефон в карман',p:'Выйдите на улицу, в коридор или на лестницу. Через 5 минут прозвучит сигнал, до этого в телефон можно не смотреть'},{h:'Идите и замечайте',p:'Смотрите по сторонам, слушайте звуки, чувствуйте каждый шаг',sec:300}]},
   cold:{title:'Холодная вода',kind:'body',time:'30 секунд',c:'mint',img:'cold',lead:'Холод на лице включает естественный тормоз нервной системы',warn:'Не делайте эту практику, если у вас проблемы с сердцем',
-    steps:[{h:'Наберите холодную воду',p:'В ладони или в раковину'},{h:'Умойте лицо и подержите ладони',p:'Задержите мокрые ладони на лбу и вокруг глаз',sec:30},{h:'Медленно выдохните',p:'Заметьте, как пульс становится реже'}]},
-  fact:{title:'Факт или мысль',kind:'head',time:'5 минут',c:'lavender',img:'fact',lead:'Отделите то, что случилось, от того, что вы об этом думаете',
+    dev:'Положите телефон рядом с раковиной: через 30 секунд прозвучит сигнал',
+    steps:[{h:'Положите телефон рядом и наберите воду',p:'Холодную, в ладони или в раковину. Когда нажмете «Дальше», пойдет таймер на 30 секунд'},{h:'Умойте лицо и подержите ладони',p:'Задержите мокрые ладони на лбу и вокруг глаз',sec:30},{h:'Медленно выдохните',p:'Заметьте, как пульс становится реже'}]},
+  name:{title:'Назвать чувство',kind:'head',time:'2 минуты',c:'lavender',img:'name',lead:'Когда чувство названо точным словом, оно становится тише',
+    steps:[{t:'chips',h:'Какое слово точнее всего описывает то, что вы чувствуете?',p:'Выберите одно или допишите свое',key:'e',own:1,opts:['злость','раздражение','тревога','страх','обида','беспомощность','стыд','перегруз']},
+      {t:'scale',h:'Оцените, насколько оно сильное',key:'v',rows:['сейчас']},
+      {h:a=>'Скажите про себя: «Я замечаю, что чувствую '+(a.e||'это')+'»',p:'Медленно, три раза, на каждом выдохе. Не нужно ничего менять, достаточно назвать',sec:30},
+      {t:'sum',h:'Заметьте, что изменилось',render:a=>`<p class="rp-big">«Я замечаю, что чувствую ${esc(a.e||'это')}»</p><p class="rp-p">Так работает мозг: когда мы подбираем чувству точное слово, сигнал тревоги в нем ослабевает. Чувство остается, но перестает управлять вами</p>`}]},
+  fact:{title:'Факт или интерпретация',kind:'head',time:'5 минут',c:'lavender',img:'fact',lead:'Отделите то, что случилось, от того, что вы об этом думаете',
     steps:[{t:'input',h:'Что случилось?',p:'Опишите так, как это сняла бы камера, без оценок',key:'f',ph:'Например: руководитель не ответил на письмо'},
       {t:'input',h:'Что вы об этом подумали?',key:'m',ph:'Например: он недоволен моей работой'},
       {t:'chips',h:'Какие еще объяснения возможны?',p:'Выберите или допишите свое',key:'alt',multi:1,own:1,opts:['человек занят','еще не успел прочитать','это не про меня','я узнаю позже']},
-      {t:'sum',h:'Посмотрите на все вместе',render:a=>`<dl class="rp-dl"><dt>Факт</dt><dd>${esc(a.f||'-')}</dd><dt>Ваша мысль</dt><dd>${esc(a.m||'-')}</dd><dt>Другие объяснения</dt><dd>${esc((a.alt||[]).join(', ')||'-')}</dd></dl><p class="rp-p">Ваша мысль - одно из объяснений, а не факт. Выберите то, которое кажется самым правдоподобным</p>`}]},
+      {t:'sum',h:'Посмотрите на все вместе',render:a=>`<dl class="rp-dl"><dt>Факт</dt><dd>${esc(a.f||'-')}</dd><dt>Ваша интерпретация</dt><dd>${esc(a.m||'-')}</dd><dt>Другие объяснения</dt><dd>${esc((a.alt||[]).join(', ')||'-')}</dd></dl><p class="rp-p">Ваша интерпретация - одно из объяснений, а не факт. Выберите то, которое кажется самым правдоподобным</p>`}]},
   postpone:{title:'Отложить тревогу',kind:'head',time:'3 минуты',c:'lavender',img:'clock',lead:'Тревога отпускает, когда у нее есть свое время',
     steps:[{t:'input',h:'Запишите, о чем вы тревожитесь',key:'w',multi:1,ph:'Все, что крутится в голове'},
       {t:'chips',h:'Назначьте тревоге время сегодня',p:'15 минут, когда вы спокойно об этом подумаете',key:'at',own:1,opts:['18:00','19:00','20:00','21:00']},
@@ -2199,10 +2255,10 @@ const RP={
       {t:'sum',h:'Все записано',render:()=>`<p class="rp-big">Завтра в 10:00 вы вернетесь к этому</p><p class="rp-p">А сейчас голове можно отдохнуть. Ваши мысли сохранены и никуда не денутся</p>`}]},
   shuffle:{title:'Перемешивание',kind:'head',time:'5 минут',c:'lavender',img:'letters',lead:'Случайные образы мягко уводят от тревожных мыслей и помогают уснуть',
     steps:[{h:'Лягте удобно',p:'Вам будет загадано слово. На каждую его букву представляйте любые предметы, например на «К»: кот, кружка, ключ, кит'},{t:'letters',sec:30}]},
-  rule20:{title:'Правило 20 минут',kind:'head',time:'1 минута',c:'lavender',img:'moon',lead:'Постель должна связываться со сном, а не с борьбой за него',
+  rule20:{title:'Правило 20 минут',kind:'head',time:'1 минута',c:'lavender',img:'moon',lead:'Постель должна ассоциироваться со сном, а не с борьбой за него',
     steps:[{h:'Если не спите дольше 20 минут, встаньте',p:'Лежать и заставлять себя уснуть только добавляет напряжения'},{h:'Займитесь чем-то спокойным при тусклом свете',p:'Почитайте бумажную книгу или сложите белье. Без телефона'},{h:'Вернитесь в постель, когда захочется спать',p:'Если снова не получается, повторите. Это нормально, со временем сон наладится'}]},
   letter:{title:'Письмо без отправки',kind:'head',time:'5 минут',c:'drain',img:'letter',lead:'Злость легче отпустить, когда она высказана',
-    steps:[{t:'input',h:'Напишите все, что хочется сказать',p:'Никто это не прочитает. Письмо не сохранится',key:'t',multi:1,ph:'Можно не выбирать слова',nosave:1},{t:'erase',h:'Теперь сотрите письмо',p:'Нажмите на кнопку и посмотрите, как слова исчезают'}]},
+    steps:[{t:'input',h:'Выскажите все, что хочется сказать',p:'Напишите или наговорите голосом. Никто это не услышит и не прочитает, письмо не сохранится',key:'t',multi:1,ph:'Можно не выбирать слова',nosave:1,voice:1},{t:'erase',h:'Теперь разорвите письмо',p:'Нажмите на кнопку и посмотрите, как оно разлетается на клочки'}]},
   role:{title:'Смена роли',kind:'head',time:'3 минуты',c:'drain',img:'role',lead:'Посмотрите на того, кто злит, с другой стороны',
     steps:[{t:'input',h:'Кто вас сейчас злит?',key:'who',ph:'Например: коллега'},
       {t:'chips',h:'Представьте этого человека как…',key:'r',opts:['уставшего ребенка','больного человека','того, кто чему-то меня учит','того, кому сейчас страшно']},
@@ -2218,7 +2274,7 @@ const RP={
 
 /* Какие практики подходят каждому состоянию: тело, голова, голос Насти */
 const RSTATE={
-  'взвинчен(а)':{body:['sigh','squeeze','cold'],head:['fact','need'],audio:'pause'},
+  'взвинчен(а)':{body:['sigh','shake','cold'],head:['name','fact'],audio:'pause'},
   'тревожно':{body:['look','exhale'],head:['fact','postpone'],audio:'place'},
   'пусто, нет сил':{body:['shake','dawn'],head:['step2','friend'],audio:'morning'},
   'не могу остановиться':{body:['walk','squeeze'],head:['need','finish'],audio:'tension'},
@@ -2229,21 +2285,48 @@ const MBY=Object.fromEntries([...C.METHODS.map(x=>[x.id,x]),...Object.entries(RP
 
 /* ================= ПЛЕЕР ПРАКТИКИ ================= */
 let RPS=null;
-function recStop(){if(RPS){clearTimeout(RPS.t);clearInterval(RPS.iv);RPS=null}const o=document.getElementById('rpBox');if(o)o.remove();document.body.classList.remove('rp-open');apStop()}
+let RSND=(()=>{try{return localStorage.getItem('vydoh-snd')!=='0'}catch(e){return true}})();let ACX=null;
+function acx(){try{ACX=ACX||new (window.AudioContext||window.webkitAudioContext)();if(ACX.state==='suspended')ACX.resume()}catch(e){}return ACX}
+/* Мягкие сигналы: end - колокольчик в конце таймера, in/out - тихая подсказка вдоха и выдоха, rip - звук рвущейся бумаги */
+function chime(kind){if(!RSND)return;const c=acx();if(!c)return;try{const t=c.currentTime;
+  if(kind==='rip'){const len=c.sampleRate*.55,b=c.createBuffer(1,len,c.sampleRate),d=b.getChannelData(0);for(let i=0;i<len;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/len,2)*(Math.random()<.35?1:.25);const src=c.createBufferSource(),f=c.createBiquadFilter(),g=c.createGain();src.buffer=b;f.type='bandpass';f.frequency.setValueAtTime(2600,t);f.frequency.exponentialRampToValueAtTime(900,t+.5);g.gain.value=.22;src.connect(f).connect(g).connect(c.destination);src.start(t);return}
+  const T=kind==='end'?[[659.3,0,.16,2.2],[987.8,.22,.12,2.4]]:kind==='in'?[[392,0,.045,.9]]:[[293.7,0,.04,1.1]];
+  T.forEach(([f,d,v,len])=>{const o=c.createOscillator(),o2=c.createOscillator(),g=c.createGain();o.type='sine';o2.type='sine';o.frequency.value=f;o2.frequency.value=f*2.01;
+    const g2=c.createGain();g2.gain.value=.18;g.gain.setValueAtTime(0,t+d);g.gain.linearRampToValueAtTime(v,t+d+.015);g.gain.exponentialRampToValueAtTime(.0001,t+d+len);
+    o.connect(g);o2.connect(g2).connect(g);g.connect(c.destination);o.start(t+d);o2.start(t+d);o.stop(t+d+len+.1);o2.stop(t+d+len+.1)})}catch(e){}}
+const SND_ON='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5h3.5L12 6v12l-4.5-3.5H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg>';
+const SND_OFF='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5h3.5L12 6v12l-4.5-3.5H4z"/><path d="M16 9.5l5 5M21 9.5l-5 5"/></svg>';
+const PHONE='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><rect x="6.5" y="3" width="11" height="18" rx="2.5"/><path d="M11 18h2"/></svg>';
+const MIC='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><rect x="9" y="3.5" width="6" height="11" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v2.5"/></svg>';
+function recKill(s){try{if(s.rec&&s.rec.state==='recording')s.rec.stop()}catch(e){}try{s.stream&&s.stream.getTracks().forEach(t=>t.stop())}catch(e){}if(s.voice){try{URL.revokeObjectURL(s.voice)}catch(e){}}}
+function recStop(){if(RPS){clearTimeout(RPS.t);clearTimeout(RPS.adv);clearInterval(RPS.iv);clearInterval(RPS.riv);recKill(RPS);RPS=null}const o=document.getElementById('rpBox');if(o)o.remove();$$('.shred').forEach(x=>x.remove());document.body.classList.remove('rp-open');apStop()}
+function rpAdvance(s,i){clearTimeout(s.adv);s.adv=setTimeout(()=>{if(RPS===s&&s.i===i){s.i++;rpDraw()}},1700)}
+function shred(el){const r=el.getBoundingClientRect(),cols=7,rows=5,w=r.width/cols,h=r.height/rows,html=el.innerHTML,cs=getComputedStyle(el);
+  const wrap=document.createElement('div');wrap.className='shred';wrap.style.cssText=`left:${r.left}px;top:${r.top}px;width:${r.width}px;height:${r.height}px`;
+  const j=()=>Math.random()*10-5;const pts={};const P=(x,y)=>{const k=x+'_'+y;if(!pts[k])pts[k]=[(x===0||x===cols)?x*w:x*w+j(),(y===0||y===rows)?y*h:y*h+j()];return pts[k]};
+  for(let y=0;y<rows;y++)for(let x=0;x<cols;x++){const a=P(x,y),b=P(x+1,y),c=P(x+1,y+1),d=P(x,y+1);const p=document.createElement('div');p.className='shred__p';
+    p.innerHTML=`<div class="shred__in" style="padding:${cs.padding};font-size:${cs.fontSize};line-height:${cs.lineHeight}">${html}</div>`;p.style.clipPath=`polygon(${a[0]}px ${a[1]}px,${b[0]}px ${b[1]}px,${c[0]}px ${c[1]}px,${d[0]}px ${d[1]}px)`;
+    const dx=(x-cols/2+.5)*(30+Math.random()*50),dy=180+Math.random()*320+y*30,rot=Math.random()*140-70,del=Math.random()*180+(x+y)*18;
+    p.animate([{transform:'translate(0,0) rotate(0deg)',opacity:1},{offset:.18,transform:`translate(${dx*.08}px,${-8-Math.random()*10}px) rotate(${rot*.08}deg)`,opacity:1},{transform:`translate(${dx}px,${dy}px) rotate(${rot}deg) scale(.7)`,opacity:0}],{duration:1300+Math.random()*700,delay:del,easing:'cubic-bezier(.35,.05,.6,1)',fill:'forwards'});wrap.appendChild(p)}
+  document.body.appendChild(wrap);el.style.visibility='hidden';setTimeout(()=>wrap.remove(),2600)}
 function rpOpen(id,state){recStop();const P=RP[id];RPS={id,state,i:-1,a:{},before:null,after:null};
   const o=document.createElement('div');o.id='rpBox';o.className='rp';o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');o.setAttribute('aria-label',P.title);o.style.setProperty('--c',`var(--${P.c})`);
   document.body.appendChild(o);document.body.classList.add('rp-open');rpDraw();
   o.addEventListener('keydown',e=>{if(e.key==='Escape')recStop()})}
 function rpDraw(){const s=RPS;if(!s)return;clearTimeout(s.t);clearInterval(s.iv);const P=RP[s.id],o=$('#rpBox');const n=P.steps.length;const st=s.i>=0&&s.i<n?P.steps[s.i]:null;
-  const dots=`<span class="rp__dots">${[...Array(n+2)].map((_,k)=>`<i class="${k<=s.i+1?'on':''}"></i>`).join('')}</span>`;
+  const dots=`<span class="rp__right"><button type="button" class="rp__snd" id="rpSnd" aria-pressed="${RSND}" title="${RSND?'Выключить звук':'Включить звук'}">${RSND?SND_ON:SND_OFF}<span>${RSND?'Звук включен':'Без звука'}</span></button><span class="rp__dots">${[...Array(n+2)].map((_,k)=>`<i class="${k<=s.i+1?'on':''}"></i>`).join('')}</span></span>`;
+  const hasT=P.steps.some(x=>x.sec||x.t==='breath');const dev=P.dev||(P.kind==='head'?'Отвечайте прямо здесь, в телефоне или на компьютере':hasT?'Можно держать телефон в руке или положить рядом: когда время выйдет, прозвучит мягкий сигнал':'');
+  const plan=P.steps.map(x=>typeof x.h==='function'?null:x.h).filter(Boolean);
   const rate=(key,q)=>`<p class="rp-q">${q}</p><div class="rp-rate" data-rate="${key}">${[1,2,3,4,5].map(v=>`<button type="button" aria-pressed="${s[key]===v}" data-v="${v}" aria-label="${v} из 5"><i style="--s:${.35+v*.13}"></i></button>`).join('')}</div><div class="rp-rate__l"><span>легко</span><span>очень тяжело</span></div>`;
   let side='',next='Дальше',img=rImg(P.img,200);
-  if(s.i<0){side=`<p class="eyebrow">${P.kind==='body'?'Прямо сейчас':'Когда станет чуть легче'} · ${esc(P.time)}</p><h2 class="rp-h">${esc(P.title)}</h2><p class="rp-p">${esc(P.lead)}</p>${P.warn?`<p class="rp-warn">${esc(P.warn)}</p>`:''}${rate('before','Насколько вам сейчас тяжело?')}`;next='Начать'}
+  if(s.i<0){side=`<p class="eyebrow">${P.kind==='body'?'Прямо сейчас':'Когда станет чуть легче'} · ${esc(P.time)}</p><h2 class="rp-h">${esc(P.title)}</h2><p class="rp-p">${esc(P.lead)}</p>${P.warn?`<p class="rp-warn">${esc(P.warn)}</p>`:''}
+      ${plan.length>1?`<ol class="rp-plan">${plan.map(x=>`<li>${esc(x)}</li>`).join('')}</ol>`:''}${dev?`<p class="rp-dev">${hasT&&P.kind==='body'?SND_ON:PHONE}<span>${esc(dev)}</span></p>`:''}${rate('before','Насколько вам сейчас тяжело?')}`;next='Начать'}
   else if(s.i>=n){side=`<h2 class="rp-h">Как вы сейчас?</h2>${rate('after','Насколько тяжело теперь?')}<p class="rp-q" style="margin-top:22px">Оставить практику в вашем наборе?</p><div class="rp-yn"><button type="button" class="chip" data-keep="1">Да, помогло</button><button type="button" class="chip" data-keep="0">Не в этот раз</button></div>`;next=''}
   else{const h=typeof st.h==='function'?st.h(s.a):st.h;const t=st.t||'text';side=t==='breath'?`<p class="eyebrow">${esc(h)}</p>`:`<h2 class="rp-h">${esc(h)}</h2>${st.p?`<p class="rp-p">${esc(st.p)}</p>`:''}`;
     if(t==='text'&&st.sec)side+=`<div class="rp-timer"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="21" class="trk"/><circle cx="24" cy="24" r="21" class="bar" id="rpBar" stroke-dasharray="132" stroke-dashoffset="0"/></svg><span id="rpT">${fmtS(st.sec)}</span></div>`;
     if(t==='breath')side+=`<p class="rp-phase" id="rpPh">Приготовьтесь</p><p class="rp-left" id="rpT">${fmtS(st.total)}</p>`;
     if(t==='count')side+=`<div class="rp-count">${[...Array(st.n)].map((_,k)=>`<button type="button" aria-pressed="${(s.a['c'+s.i]||0)>k}" aria-label="Нашла ${k+1}"></button>`).join('')}</div>`;
+    if(t==='input'&&st.voice)side+=`<div class="rp-voice" id="rpVoice">${s.voice?`<span class="rp-vchip"><button type="button" class="rp-vplay" id="rpVPlay" aria-label="Прослушать">${'<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 6l11 6-11 6z"/></svg>'}</button>Голосовое письмо · ${fmtS(s.voiceSec||0)}</span><button type="button" class="linkbtn" id="rpRec">Записать заново</button>`:`<button type="button" class="btn btn--outline rp-recb" id="rpRec">${MIC}<span>Наговорить голосом</span></button><span class="rp-rect" id="rpRecT"></span>`}</div>`;
     if(t==='input')side+=st.multi?`<textarea class="area rp-in" id="rpIn" placeholder="${esc(st.ph||'')}">${esc(s.a[st.key]||'')}</textarea>`:`<input class="line rp-in" id="rpIn" placeholder="${esc(st.ph||'')}" value="${esc(s.a[st.key]||'')}">`;
     if(t==='chips'){const v=s.a[st.key];const opts=[...st.opts,...(st.multi?(v||[]).filter(x=>!st.opts.includes(x)):(v&&!st.opts.includes(v)?[v]:[]))];side+=`<div class="chips rp-chips">${opts.map(x=>`<button type="button" class="chip" data-ch="${esc(x)}" aria-pressed="${st.multi?(v||[]).includes(x):v===x}">${esc(x)}</button>`).join('')}</div>${st.own?`<div class="input rp-own"><input class="line" id="rpOwn" placeholder="Свой вариант"><button class="btn btn--sm btn--ghost" id="rpOwnB" type="button">+</button></div>`:''}`}
     if(t==='yn')side+=`<div class="rp-yn">${st.opts.map(([k,l])=>`<button type="button" class="chip" data-yn="${k}" aria-pressed="${s.a[st.key]===k}">${esc(l)}</button>`).join('')}</div>`;
@@ -2253,21 +2336,24 @@ function rpDraw(){const s=RPS;if(!s)return;clearTimeout(s.t);clearInterval(s.iv)
       side+=lines.length?`<div class="rp-sort">${s.a.sorted.map(([x,k],ri)=>`<div><span>${esc(x)}</span><div class="rp-sort__b">${st.opts.map(op=>`<button type="button" class="chip" data-so="${ri}" data-v="${op}" aria-pressed="${k===op}">${op}</button>`).join('')}</div></div>`).join('')}</div>`:'<p class="rp-p">Вернитесь на шаг назад и запишите хотя бы одну мысль</p>'}
     if(t==='letters'){const W=['ОБЛАКО','ПЕСОК','ЛОДКА','ВЕТЕР','ЛУНА','САД'];s.a.word=s.a.word||W[Math.floor(Math.random()*W.length)];s.a.li=s.a.li||0;
       side+=`<p class="rp-p">Ваше слово: ${s.a.word.split('').map((ch,k)=>`<b class="${k===s.a.li?'is-now':''}">${ch}</b>`).join(' ')}</p><p class="rp-letter" id="rpL">${s.a.word[s.a.li]}</p><p class="rp-left" id="rpT">${fmtS(st.sec)}</p>`;img=rImg('letters',200)}
-    if(t==='erase')side+=`<div class="rp-paper" id="rpPaper">${esc(s.a.t||'').replace(/\n/g,'<br>')||'<em>Письмо пустое</em>'}</div><button type="button" class="btn btn--primary" id="rpErase">Стереть письмо</button>`;
+    if(t==='erase')side+=`<div class="rp-paper" id="rpPaper">${s.voice?`<p class="rp-paper__v">${MIC} Голосовое письмо · ${fmtS(s.voiceSec||0)}</p>`:''}${esc(s.a.t||'').replace(/\n/g,'<br>')||(s.voice?'':'<em>Письмо пустое</em>')}</div><button type="button" class="btn btn--primary" id="rpErase">Разорвать письмо</button>`;
     if(t==='sum')side+=`<div class="rp-sum">${st.render(s.a)}</div>`;}
   o.innerHTML=`<div class="rp__top"><button type="button" class="rp__x" id="rpX">${BACK}Выйти из практики</button>${dots}</div>
-    <div class="rp__body"><div class="rp__img">${img}</div><div class="rp__side">${side}</div></div>
+    <div class="rp__body"><div class="rp__img${st&&st.t==='breath'?'':' is-idle'}">${img}</div><div class="rp__side">${side}</div></div>
     <div class="rp__nav">${s.i>=0?`<button type="button" class="btn btn--ghost" id="rpPrev">Назад</button>`:'<span></span>'}${next?`<button type="button" class="btn btn--primary" id="rpNext">${next}</button>`:''}</div>`;
-  $('#rpX').onclick=recStop;$('#rpPrev')&&($('#rpPrev').onclick=()=>{rpSave();s.i--;rpDraw()});$('#rpNext')&&($('#rpNext').onclick=()=>{rpSave();s.i++;rpDraw();const sd=$('.rp__side');sd&&sd.focus&&sd.scrollTo&&sd.scrollTo({top:0})});
+  $('#rpX').onclick=recStop;$('#rpSnd').onclick=()=>{RSND=!RSND;try{localStorage.setItem('vydoh-snd',RSND?'1':'0')}catch(e){}if(RSND){acx();chime('in')}const b=$('#rpSnd');b.setAttribute('aria-pressed',String(RSND));b.innerHTML=(RSND?SND_ON:SND_OFF)+`<span>${RSND?'Звук включен':'Без звука'}</span>`};
+  if(s.i<0&&$('#rpNext'))$('#rpNext').addEventListener('click',()=>{if(RSND)acx()},{capture:true});$('#rpPrev')&&($('#rpPrev').onclick=()=>{rpSave();s.i--;rpDraw()});$('#rpNext')&&($('#rpNext').onclick=()=>{rpSave();s.i++;rpDraw();const sd=$('.rp__side');sd&&sd.focus&&sd.scrollTo&&sd.scrollTo({top:0})});
   $$('[data-rate]',o).forEach(g=>$$('button',g).forEach(b=>b.onclick=()=>{s[g.dataset.rate]=+b.dataset.v;$$('button',g).forEach(x=>x.setAttribute('aria-pressed',String(x===b)))}));
   $$('[data-keep]',o).forEach(b=>b.onclick=()=>{S.recovery.push({state:s.state,m:s.id,before:s.before,after:s.after,keep:b.dataset.keep==='1'});
     if(P.kind==='head'&&!P.steps.some(x=>x.nosave)){S.recNotes=S.recNotes||{};S.recNotes[s.id]={a:s.a,d:new Date().toISOString().slice(0,10)}}
     save();const better=s.before&&s.after&&s.after<s.before;recStop();toast(b.dataset.keep==='1'?(better?'Сохранено: стало легче':'Сохранено в вашем наборе'):'Записано. Это тоже важная информация');render()});
   if(!st){$('#rpNext')&&$('#rpNext').focus();return}
   const t=st.t||'text';
-  if(t==='text'&&st.sec){let left=st.sec;const bar=$('#rpBar');s.iv=setInterval(()=>{left--;if(!$('#rpT')){clearInterval(s.iv);return}$('#rpT').textContent=fmtS(Math.max(0,left));bar.style.strokeDashoffset=132*(1-left/st.sec);if(left<=0){clearInterval(s.iv);$('#rpT').textContent='Готово';$('#rpNext')&&$('#rpNext').classList.add('is-ready')}},1000)}
-  if(t==='breath'){const orb=$('.rp-orb',o),wav=$('.rp-waves',o);let left=st.total,k=0;const run=()=>{if(!RPS||RPS!==s)return;if(left<=0){$('#rpPh').textContent='Готово, можно идти дальше';orb&&(orb.style.transform='scale(1)');orb&&orb.classList.remove('is-dark');wav&&wav.classList.remove('is-on');$('#rpNext')&&$('#rpNext').classList.add('is-ready');return}
-      const [lab,sec,sc,dark]=st.phases[k%st.phases.length];const ph=$('#rpPh');ph.classList.add('is-sw');setTimeout(()=>{ph.textContent=lab;ph.classList.remove('is-sw')},180);if(orb){orb.style.transition=`transform ${sec}s cubic-bezier(.45,0,.55,1), fill .6s`;orb.style.transform=`scale(${sc})`;orb.classList.toggle('is-dark',!!dark)}
+  if(t==='text'&&st.sec){let left=st.sec;const bar=$('#rpBar');s.iv=setInterval(()=>{left--;if(!$('#rpT')){clearInterval(s.iv);return}$('#rpT').textContent=fmtS(Math.max(0,left));bar.style.strokeDashoffset=132*(1-left/st.sec);if(left<=0){clearInterval(s.iv);$('#rpT').textContent='Готово';$('#rpNext')&&$('#rpNext').classList.add('is-ready');chime('end');rpAdvance(s,s.i)}},1000)}
+  if(t==='breath'){const orbs=[1,2,3].map(q=>$('.rp-orb--'+q,o)).filter(Boolean),wav=$('.rp-waves',o);let left=st.total,k=0;
+    const setO=(sc,sec,dark)=>orbs.forEach((e,q)=>{const m=dark?sc*(1-q*.06):1+(sc-1)*(1+q*.35);e.style.transition=`transform ${sec}s cubic-bezier(.45,0,.55,1) ${q*.14}s, fill .7s, opacity .7s`;e.style.transform=`scale(${m})`;e.classList.toggle('is-dark',!!dark&&q===0)});
+    const run=()=>{if(!RPS||RPS!==s)return;if(left<=0){$('#rpPh').textContent='Готово';setO(1,1.2,0);wav&&wav.classList.remove('is-on');$('#rpNext')&&$('#rpNext').classList.add('is-ready');chime('end');rpAdvance(s,s.i);return}
+      const [lab,sec,sc,dark]=st.phases[k%st.phases.length];const ph=$('#rpPh');ph.classList.add('is-sw');setTimeout(()=>{ph.textContent=lab;ph.classList.remove('is-sw')},180);setO(sc,sec,dark);chime(sc>1&&!dark?'in':'out');
       if(wav)wav.classList.toggle('is-on',sc<1);k++;s.t=setTimeout(run,sec*1000)};
     s.iv=setInterval(()=>{left--;if($('#rpT'))$('#rpT').textContent=left>0?'осталось '+fmtS(left):'';if(left<=0)clearInterval(s.iv)},1000);s.t=setTimeout(run,700)}
   if(t==='count')$$('.rp-count button',o).forEach((b,k)=>b.onclick=()=>{s.a['c'+s.i]=k+1;$$('.rp-count button',o).forEach((x,j)=>x.setAttribute('aria-pressed',String(j<=k)));if(k+1===st.n)$('#rpNext').classList.add('is-ready')});
@@ -2278,8 +2364,17 @@ function rpDraw(){const s=RPS;if(!s)return;clearTimeout(s.t);clearInterval(s.iv)
   if(t==='check')$$('[data-ck]',o).forEach(b=>b.onclick=()=>{const a=s.a[st.key]=s.a[st.key]||[];const v=b.dataset.ck,j=a.indexOf(v);j>=0?a.splice(j,1):a.push(v);b.setAttribute('aria-pressed',String(j<0));if(a.length===st.opts.length)$('#rpNext').classList.add('is-ready')});
   if(t==='scale')$$('[data-sc]',o).forEach(g=>$$('button',g).forEach(b=>b.onclick=()=>{const v=s.a[st.key]=s.a[st.key]||[];v[+g.dataset.sc]=+b.dataset.v;$$('button',g).forEach(x=>x.setAttribute('aria-pressed',String(x===b)))}));
   if(t==='sort')$$('[data-so]',o).forEach(b=>b.onclick=()=>{s.a.sorted[+b.dataset.so][1]=b.dataset.v;$$(`[data-so="${b.dataset.so}"]`,o).forEach(x=>x.setAttribute('aria-pressed',String(x===b)))});
-  if(t==='letters'){let left=st.sec;s.iv=setInterval(()=>{left--;if(!$('#rpT')){clearInterval(s.iv);return}$('#rpT').textContent=fmtS(Math.max(0,left));if(left<=0){clearInterval(s.iv);if(s.a.li<s.a.word.length-1){s.a.li++;rpDraw()}else{$('#rpL').textContent='Хорошо';$('#rpT').textContent='Можно закрыть глаза и продолжать самостоятельно';$('#rpNext').classList.add('is-ready')}}},1000)}
-  if(t==='erase')$('#rpErase').onclick=()=>{$('#rpPaper').classList.add('is-gone');$$('.rp-env',o).forEach(x=>x.classList.add('is-gone'));s.a.t='';$('#rpErase').disabled=true;setTimeout(()=>{if(RPS===s){$('#rpPaper').innerHTML='<em>Письма больше нет</em>';$('#rpPaper').classList.remove('is-gone');$('#rpNext').classList.add('is-ready')}},1400)};
+  if(t==='letters'){let left=st.sec;s.iv=setInterval(()=>{left--;if(!$('#rpT')){clearInterval(s.iv);return}$('#rpT').textContent=fmtS(Math.max(0,left));if(left<=0){clearInterval(s.iv);if(s.a.li<s.a.word.length-1){s.a.li++;chime('in');rpDraw()}else{chime('end');$('#rpL').textContent='Хорошо';$('#rpT').textContent='Можно закрыть глаза и продолжать самостоятельно';$('#rpNext').classList.add('is-ready')}}},1000)}
+  if(t==='erase')$('#rpErase').onclick=()=>{const pp=$('#rpPaper');chime('rip');shred(pp);$$('.rp-env',o).forEach(x=>x.classList.add('is-gone'));s.a.t='';recKill(s);s.voice=null;$('#rpErase').disabled=true;
+    const ei=s.i;setTimeout(()=>{if(RPS===s&&s.i===ei&&document.body.contains(pp)){pp.innerHTML='<em>Письма больше нет. Сделайте глубокий выдох</em>';pp.classList.add('is-empty');pp.style.visibility='visible';const eb=$('#rpErase');eb&&eb.remove();const nb=$('#rpNext');nb&&nb.classList.add('is-ready')}},2000)};
+  if(t==='input'&&st.voice){const rb=$('#rpRec');const vp=$('#rpVPlay');if(vp)vp.onclick=()=>{const a=new Audio(s.voice);window._aps.push(a);a.play().catch(()=>{})};
+    rb.onclick=async()=>{if(s.rec&&s.rec.state==='recording'){s.rec.stop();return}
+      if(s.voice){try{URL.revokeObjectURL(s.voice)}catch(e){}s.voice=null}
+      if(!navigator.mediaDevices||!window.MediaRecorder){toast('Запись голоса недоступна в этом браузере. Можно написать текстом');return}
+      try{const stream=await navigator.mediaDevices.getUserMedia({audio:true});const r=new MediaRecorder(stream),ch=[];s.stream=stream;s.rec=r;const t0=Date.now();
+        r.ondataavailable=e=>e.data.size&&ch.push(e.data);r.onstop=()=>{clearInterval(s.riv);stream.getTracks().forEach(x=>x.stop());if(RPS!==s)return;s.voice=URL.createObjectURL(new Blob(ch,{type:r.mimeType||'audio/webm'}));s.voiceSec=(Date.now()-t0)/1000;rpSave();rpDraw()};
+        r.start();rb.classList.add('is-rec');rb.innerHTML=`<i class="rp-dot"></i><span>Остановить запись</span>`;s.riv=setInterval(()=>{const e=$('#rpRecT');if(e)e.textContent=fmtS((Date.now()-t0)/1000)},300)}
+      catch(e){toast('Нет доступа к микрофону. Разрешите его в настройках браузера или напишите текстом')}}}
 }
 function rpSave(){const s=RPS;if(!s)return;const st=RP[s.id].steps[s.i];if(st&&st.t==='input'){const i=$('#rpIn');if(i)s.a[st.key]=i.value.trim()}}
 const fmtS=x=>{x=Math.max(0,Math.round(x));return Math.floor(x/60)+':'+String(x%60).padStart(2,'0')};
