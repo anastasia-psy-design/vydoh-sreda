@@ -474,7 +474,7 @@ details.how .how__body{gap:20px!important;font-size:16px!important;line-height:1
 .scard{display:grid;gap:14px;padding:22px;background:var(--cream)}
 .scard__top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap}
 .scard__top h3{font-family:var(--serif);font-size:22px}
-.scard__grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px 22px}
+.scard__grid{display:grid;grid-template-columns:minmax(0,1fr);gap:0}.scard__grid>label{grid-template-columns:230px minmax(0,1fr);align-items:center;gap:8px 20px;padding:12px 0;border-top:1px solid var(--line)}.scard__grid>label:first-child{border-top:0}@media (max-width:700px){.scard__grid>label{grid-template-columns:minmax(0,1fr)}}
 .scard__grid label,.lab-grid label{display:grid;gap:6px;font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
 .paths{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
 .path{display:grid;gap:4px;padding:14px;border:1px solid var(--line);background:var(--bg);text-align:left;font-size:14px;color:var(--muted);transition:border-color .2s,background .2s}
@@ -629,7 +629,7 @@ button.t-card{cursor:pointer}button.t-card:hover .t-btn{transform:translateX(2px
 .t-ico{width:48px;height:48px;border-radius:50%;background:var(--bg);display:grid;place-items:center;color:var(--ink)}
 .t-list .is-done .t-ico{background:var(--ink);color:var(--bg)}
 .t-dots{margin-top:auto;display:flex;align-items:center;gap:7px;font-size:14px;color:var(--muted)}
-.t-dots i{width:10px;height:10px;border-radius:50%;border:1.5px dashed var(--muted)}.t-dots i.on{background:var(--ink);border:0}
+.t-dots i{width:10px;height:10px;border-radius:50%;border:1px dashed var(--muted)}.t-dots i.on{background:var(--ink);border:0}
 .t-empty{color:var(--muted)}
 .t-energy{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px 40px;margin-top:28px;padding-top:24px;border-top:1px solid var(--line)}
 .t-trend,.trend{font-family:var(--serif);font-size:24px;color:var(--ink);margin:2px 0 0}
@@ -641,10 +641,10 @@ button.t-card{cursor:pointer}button.t-card:hover .t-btn{transform:translateX(2px
 .tool--in .tool__num{color:var(--ink)}
 /* карта состояния по шагам */
 .pw-steps{list-style:none;margin:0 0 22px;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));position:relative}
-.pw-steps::before{content:'';position:absolute;left:10%;right:10%;top:22px;border-top:1.5px dashed var(--ghost)}
+.pw-steps::before{content:'';position:absolute;left:10%;right:10%;top:22px;border-top:1px dashed var(--ghost)}
 .pw-steps li{position:relative;text-align:center}
 .pw-steps button{display:flex;flex-direction:column;align-items:center;gap:6px;width:100%;border:0;background:none;font:inherit;font-size:14px;color:var(--muted);cursor:pointer;padding:0}
-.pw-steps button>span{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--bg);border:1.5px dashed var(--ghost);font-size:15px}
+.pw-steps button>span{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--bg);border:1px dashed var(--ghost);font-size:15px}
 .pw-steps .done button{color:var(--text)}.pw-steps .done button>span{background:var(--ink);color:var(--bg);border:0}
 .pw-steps .now button{color:var(--ink);font-weight:500}.pw-steps .now button>span{background:var(--mint);border:2px solid var(--ink);font-family:var(--serif);font-size:18px}
 .pw-q{font-family:var(--serif);font-weight:400;font-size:clamp(24px,2.4vw,30px);line-height:1.15;color:var(--ink);margin:0 0 16px}
@@ -737,7 +737,7 @@ body.rp-open{overflow:hidden}
 .rp-left{margin:0;font-size:15px;color:var(--muted);min-height:1.4em}
 .rp-timer{position:relative;width:120px;height:120px;margin-top:10px}.rp-timer svg{width:120px;height:120px;transform:rotate(-90deg)}.rp-timer .trk{fill:none;stroke:var(--line);stroke-width:2}.rp-timer .bar{fill:none;stroke:var(--ink);stroke-width:2;transition:stroke-dashoffset 1s linear}
 .rp-timer span{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--serif);font-size:24px;color:var(--ink)}
-.rp-count{display:flex;gap:16px;margin-top:6px}.rp-count button{width:64px;height:64px;border-radius:50%;border:1.5px dashed var(--ink);background:transparent;cursor:pointer;transition:background .35s,transform .35s}
+.rp-count{display:flex;gap:16px;margin-top:6px}.rp-count button{width:64px;height:64px;border-radius:50%;border:1px dashed var(--ink);background:transparent;cursor:pointer;transition:background .35s,transform .35s}
 .rp-count button[aria-pressed="true"]{background:var(--c);border-style:solid;transform:scale(1.06)}
 .rp-check{display:grid;gap:10px;margin-top:6px}.rp-check button{display:flex;align-items:center;gap:14px;min-height:52px;padding:0 16px;border:1px solid var(--line);background:var(--bg);font:inherit;font-size:16px;color:var(--ink);text-align:left;cursor:pointer}
 .rp-check i{width:22px;height:22px;border:1.5px solid var(--ink);border-radius:50%;flex:0 0 22px;transition:background .3s}.rp-check button[aria-pressed="true"] i{background:var(--ink);box-shadow:inset 0 0 0 4px var(--bg)}
@@ -821,6 +821,21 @@ body.rp-open{overflow:hidden}
   .rp__img>svg{animation:rp-pop 1s cubic-bezier(.2,.7,.2,1) both}@keyframes rp-pop{from{opacity:0;transform:scale(.92);filter:blur(8px)}to{opacity:1;transform:none;filter:none}}
   .rp-dot{animation:rp-blink 1.2s ease-in-out infinite}@keyframes rp-blink{50%{opacity:.25}}
 }
+
+/* ===== Полировка: скругления, выравнивания, тонкие линии ===== */
+:root{--r-lg:24px;--r-md:16px;--r-sm:12px}
+.h-main,.h-card,.h-strip,.stg,.panel,.empty,.viz,.cviz,.scard,.method,.zone-card,.sector,.nhv-col,.big-card,.keep-card,.pt-card,.t-card,.tpanel,.rc,.rc-empty,.rp__img,.nav-next,.prac__play,.breath-wrap,.zrows,.howread,.modal{border-radius:var(--r-lg)}
+.note,.h-first,.tt,.path,.ap,.rp-dev,.rp-warn,.rp-check button,.rp-sort>div,.rp-shelves>div,.zrow,.kv,.copyrow code,.retbar+header,.inf-leg__it span,.thead__how,.req,.first,.mode{border-radius:var(--r-md)}
+.rp-paper{border-radius:6px}
+.viz,.zone-card,.rc,.rp__img,.stg,.h-card,.cviz,.sector,.nhv-col,.scard,.empty,.panel,.zrows{overflow:hidden}
+.viz svg{display:block}
+.zrows{gap:0}.zrows .zrow{border-radius:0}
+.stg:not(.stg--now) .stg__t{min-height:2.3em}
+.stg__d,.empty p,.note,.zone-card p,.rc p,.scard p,.method p,.sector p,.panel p,.stg p,.tpanel p{text-align:left!important}
+.h-dot,.stg__n{border-width:1px}
+svg [stroke-dasharray]{stroke-linecap:round}
+.wsteps{margin-top:28px!important}.viz{padding:14px 18px}.viz>svg{width:100%;height:auto;border-radius:14px;overflow:hidden}
+.tdetails,.psy-more{margin-bottom:8px}
 .sc-chip{cursor:pointer;outline:none}.sc-chip:hover rect,.sc-chip:focus rect{stroke-width:2}
 .sc-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 28px;margin-top:14px}
 .sc-list__h{margin:0 0 8px;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted,#6b6965)}
@@ -862,7 +877,7 @@ details.more{margin-top:14px}details.more summary{cursor:pointer;color:var(--mut
 
 /* ведущий главный экран 10.10 */
 .guided{max-width:760px}
-@media (min-width:700px){.page p:not(.eyebrow),.page li p{text-align:justify;hyphens:manual;-webkit-hyphens:manual}.page .thead__goal,.page .thero p{text-align:left!important}}
+@media (min-width:700px){.page>p:not(.eyebrow):not(.muted),.page section>p:not(.eyebrow):not(.muted):not(.viz-cap){text-align:justify;hyphens:manual;-webkit-hyphens:manual}.page .thead__goal,.page .thero p{text-align:left!important}}
 @media (min-width:700px){.page .zone-card p,.page .inf-leg p,.page .scard p,.page .field__sub{text-align:left}}
 .page p{hyphens:manual;-webkit-hyphens:manual}
 .g-head{margin-bottom:40px}
@@ -874,9 +889,9 @@ details.more{margin-top:14px}details.more summary{cursor:pointer;color:var(--mut
 .page .sec__h h2{text-transform:none;font-size:clamp(22px,2.2vw,28px);line-height:1.2}
 .wsteps{list-style:none;margin:0;padding:0;position:relative}
 .wstep{position:relative;display:grid;grid-template-columns:44px minmax(0,1fr);gap:0 22px;padding:0 0 30px}
-.wstep:not(:last-child)::before{content:'';position:absolute;left:21px;top:46px;bottom:4px;border-left:1.5px dashed var(--ghost)}
+.wstep:not(:last-child)::before{content:'';position:absolute;left:21px;top:46px;bottom:4px;border-left:1px dashed var(--ghost)}
 .wstep--done:not(:last-child)::before{border-left:1.5px solid var(--ink)}
-.wstep__m{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-size:16px;background:var(--bg);border:1.5px dashed var(--ghost);color:var(--muted)}
+.wstep__m{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-size:16px;background:var(--bg);border:1px dashed var(--ghost);color:var(--muted)}
 .wstep--done .wstep__m{background:var(--ink);border:0;color:var(--bg)}
 .wstep--now .wstep__m{background:var(--mint);border:2px solid var(--ink);color:var(--ink);font-family:var(--serif);font-size:19px}
 .wstep__b{padding-top:9px;min-width:0}
@@ -901,9 +916,9 @@ details.more{margin-top:14px}details.more summary{cursor:pointer;color:var(--mut
 .h-top{display:flex;align-items:center;gap:22px;flex-wrap:wrap;margin-bottom:22px}
 .h-hello{font-family:var(--serif);font-weight:400;font-size:clamp(28px,3vw,36px);line-height:1.1;color:var(--ink);margin:0;text-transform:none}
 .h-trail{flex:1 1 260px;position:relative;display:flex;justify-content:space-between;align-items:center;height:30px;padding:0;border:0;background:none;cursor:pointer}
-.h-trail__line{position:absolute;left:8px;right:8px;top:50%;border-top:1.5px dashed var(--ghost)}
+.h-trail__line{position:absolute;left:8px;right:8px;top:50%;border-top:1px dashed var(--ghost)}
 .h-trail__line i{position:absolute;left:0;top:-1.5px;height:2.5px;background:var(--ink);display:block}
-.h-dot{position:relative;width:16px;height:16px;border-radius:50%;background:var(--bg);border:1.5px dashed var(--ghost);transition:transform .4s var(--ease)}
+.h-dot{position:relative;width:16px;height:16px;border-radius:50%;background:var(--bg);border:1px dashed var(--ghost);transition:transform .4s var(--ease)}
 .h-dot.past{background:var(--ink);border:0;width:18px;height:18px}
 .h-dot.now{width:26px;height:26px;background:var(--mint);border:2px solid var(--ink)}
 .h-dot.end{background:var(--lavender);border:0;width:20px;height:20px}
@@ -934,7 +949,7 @@ details.more{margin-top:14px}details.more summary{cursor:pointer;color:var(--mut
 .h-weekdots{display:flex;flex-wrap:wrap;align-items:center;gap:12px 22px;border:0;background:none;padding:0;font:inherit;color:var(--text);cursor:pointer}
 .wds{display:flex;gap:14px}
 .wd{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:12px;color:var(--muted)}
-.wd i{width:24px;height:24px;border-radius:50%;border:1.5px dashed var(--ghost);box-sizing:border-box}
+.wd i{width:24px;height:24px;border-radius:50%;border:1px dashed var(--ghost);box-sizing:border-box}
 .wd--on i{background:var(--ink);border:0}.wd--today{color:var(--ink);font-weight:500}.wd--today i{background:var(--mint);border:2px solid var(--ink)}.wd--later{opacity:.55}
 .h-strip__m{font-size:14px;color:var(--text)}
 .h-ring{display:inline-flex;align-items:center;gap:10px;border:0;background:none;font:inherit;font-size:14px;color:var(--text);cursor:pointer;padding:0}
@@ -1010,7 +1025,7 @@ button.user:hover,button.user[aria-expanded="true"]{background:var(--mint)}
 .bat{display:flex;align-items:center;gap:6px}
 .bat__body{flex:1;display:grid;grid-template-columns:repeat(9,minmax(0,1fr));gap:6px;padding:7px;border:2px solid var(--ink);border-radius:16px;background:var(--bg)}
 .bat__nub{width:10px;height:34px;border-radius:0 6px 6px 0;background:var(--ink)}
-.bat__c{position:relative;height:56px;border-radius:8px;overflow:hidden;background:var(--cream);border:1.5px dashed var(--ghost)}
+.bat__c{position:relative;height:56px;border-radius:8px;overflow:hidden;background:var(--cream);border:1px dashed var(--ghost)}
 .bat__c i{position:absolute;inset:0;transform-origin:left;transform:scaleX(0)}
 .bat__c.past{border:0}.bat__c.past i{background:var(--ink);transform:scaleX(1)}
 .bat__c.now{border:2px solid var(--ink);background:var(--bg)}.bat__c.now i{background:var(--mint);transform:scaleX(.55)}
@@ -1021,7 +1036,7 @@ button.user:hover,button.user[aria-expanded="true"]{background:var(--mint)}
 .stg--now{background:var(--mint);grid-column:1/-1;padding:28px}
 .stg--next{background:var(--bg);border:1px solid var(--line)}
 .stg__h{display:flex;align-items:center;gap:12px}
-.stg__n{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:15px;background:var(--bg);border:1.5px dashed var(--ghost);color:var(--muted)}
+.stg__n{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:15px;background:var(--bg);border:1px dashed var(--ghost);color:var(--muted)}
 .stg--past .stg__n{background:var(--ink);border:0;color:var(--bg)}.stg--now .stg__n{background:var(--bg);border:2px solid var(--ink);color:var(--ink);font-family:var(--serif);font-size:17px}
 .stg__w{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}.stg--now .stg__w{color:var(--ok-ink)}
 .stg__t{font-family:var(--serif);font-weight:400;font-size:24px;line-height:1.15;margin:0;color:var(--ink);text-transform:none}
@@ -1126,7 +1141,7 @@ button.tt{cursor:pointer}
 .howread{display:grid;gap:8px;margin:0 0 14px;font-size:15px;line-height:1.45;color:var(--text)}.howread>div{display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px;align-items:start}.howread b{font-weight:500;color:var(--ink)}
 .hr-i{display:block;width:24px;height:14px;margin-top:3px;position:relative}
 .hr-i--line::before{content:'';position:absolute;left:0;right:0;top:7px;border-top:2px solid var(--ink)}.hr-i--line::after{content:'';position:absolute;left:8px;top:2px;width:10px;height:10px;border-radius:50%;background:var(--ink)}
-.hr-i--dash::after{content:'';position:absolute;left:6px;top:1px;width:12px;height:12px;border-radius:50%;border:1.5px dashed var(--ink)}
+.hr-i--dash::after{content:'';position:absolute;left:6px;top:1px;width:12px;height:12px;border-radius:50%;border:1px dashed var(--ink)}
 .hr-i--tap{height:auto;margin-top:1px;color:var(--ink)}
 
 /* обложка инструмента: образ + одна строка */
@@ -1506,12 +1521,12 @@ const emptyNote=(text,n)=>`<div class="empty"><p style="font-size:16px">${text}<
 const ICO={
   point:'<circle cx="12" cy="12" r="9"/><path d="M12 5l5 4-1.5 6h-7L7 9z"/>',
   pulse:'<path d="M2.5 14c2.5-4.5 4.5-6 6.5-4s3.5 5 6 1.5S19 6 21.5 8"/>',
-  radar:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5" stroke-dasharray="1.5 2"/><circle cx="12" cy="12" r="1.4" fill="currentColor"/>',
+  radar:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5" stroke-dasharray="1 2.2"/><circle cx="12" cy="12" r="1.4" fill="currentColor"/>',
   load:'<path d="M12 4v16M8 20h8M4 8h16M4 8l-2.5 6h5zM20 8l-2.5 6h5z"/>',
   stress:'<circle cx="12" cy="12" r="9.5"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2.5" fill="currentColor"/>',
   chain:'<rect x="2.5" y="8.5" width="10" height="7" rx="3.5"/><rect x="11.5" y="8.5" width="10" height="7" rx="3.5"/>',
-  recovery:'<circle cx="12" cy="12" r="9.5" stroke-dasharray="2 2.5"/><circle cx="12" cy="12" r="4.5"/>',
-  range:'<path d="M3 7h18M3 17h18" stroke-dasharray="2 2"/><path d="M3 13c3-3 5 1 8-1s5-3 10 0"/>',
+  recovery:'<circle cx="12" cy="12" r="9.5" stroke-dasharray="1 2.4"/><circle cx="12" cy="12" r="4.5"/>',
+  range:'<path d="M3 7h18M3 17h18" stroke-dasharray="1 2"/><path d="M3 13c3-3 5 1 8-1s5-3 10 0"/>',
   resp:'<circle cx="9" cy="12" r="6.5"/><circle cx="15" cy="12" r="6.5"/>',
   nhv:'<rect x="3" y="6" width="5" height="14" rx="2"/><rect x="9.5" y="6" width="5" height="14" rx="2"/><rect x="16" y="6" width="5" height="14" rx="2"/><path d="M3 14h5M9.5 17h5M16 11h5"/>',
   lab:'<path d="M9 3h6M10 3v6l-5 9a2 2 0 002 3h10a2 2 0 002-3l-5-9V3M7.5 15h9"/>',
@@ -1529,10 +1544,10 @@ function trailSvg(){const cs=curStage(),ci=cs-1;const X=i=>40+i*134,Y=i=>i%2?100
     const inner=i<ci?`<circle cx="${x}" cy="${y}" r="22" fill="var(--ink)"/><path d="M${x-7} ${y+1}l5 4.5 9-10" fill="none" stroke="var(--bg)" stroke-width="2"/>`
       :i===ci?`<circle cx="${x}" cy="${y}" r="29" fill="var(--mint)" stroke="var(--ink)" stroke-width="2"/><text x="${x}" y="${y+7}" text-anchor="middle" class="tr-n tr-n--now">${i+1}</text><text x="${x}" y="${y-42}" text-anchor="middle" class="tr-here">вы здесь</text>`
       :i===8?`<circle cx="${x}" cy="${y}" r="22" fill="var(--lavender)"/><path d="M${x-5} ${y+9}V${y-9}l10 4-10 5" fill="none" stroke="var(--ink)" stroke-width="1.5"/>`
-      :`<circle cx="${x}" cy="${y}" r="22" fill="var(--bg)" stroke="var(--ghost)" stroke-width="1.5" stroke-dasharray="3 3"/><text x="${x}" y="${y+5}" text-anchor="middle" class="tr-n">${i+1}</text>`;
+      :`<circle cx="${x}" cy="${y}" r="22" fill="var(--bg)" stroke="var(--ghost)" stroke-width="1.5" stroke-dasharray="1.5 3"/><text x="${x}" y="${y+5}" text-anchor="middle" class="tr-n">${i+1}</text>`;
     return `<g class="tr-node" data-go="tools" role="button" tabindex="0" aria-label="Этап ${i+1}: ${esc(st.title)}">${inner}<text x="${x}" y="164" text-anchor="middle" class="tr-l ${i===ci?'tr-l--now':i>ci?'tr-l--next':''}">${TRAIL_SHORT[i]}</text></g>`};
   return `<svg viewBox="0 0 1152 180" class="trail" role="img" aria-label="Маршрут трека: этап ${cs} из 9">
-    <path d="${solid}" fill="none" stroke="var(--ink)" stroke-width="2"/><path d="${dash}" fill="none" stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="2 8" stroke-linecap="round"/>
+    <path d="${solid}" fill="none" stroke="var(--ink)" stroke-width="2"/><path d="${dash}" fill="none" stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="1 5" stroke-linecap="round"/>
     ${C.stages.map((s,i)=>node(i)).join('')}</svg>`}
 
 function hello(){const h=new Date().getHours();return h<5?'Доброй ночи':h<12?'Доброе утро':h<18?'Добрый день':'Добрый вечер'}
@@ -1545,13 +1560,13 @@ function sparkSvg(ps){const W=420,H=96,n=ps.length;const x=i=>18+(n<2?0:i*(W-36)
 const HC={mint:'#a9cbbf',mintL:'#cfe0da',peach:'#f1ddd5',sun:'#f2c88f',lav:'#d9d4e6',beige:'#e6dccf'};
 const HERO={
   pulse:`<rect x="20" y="40" width="72" height="40" rx="10" fill="var(--bg)"/><rect x="92" y="52" width="7" height="16" rx="2.5" fill="currentColor" stroke="none"/><rect class="hf-fill" x="26" y="46" width="42" height="28" rx="5" fill="${HC.mint}" stroke="none"/><path d="M60 47L49 62h8l-3 12 11-16h-8z" fill="currentColor" stroke="none"/>`,
-  point:`<path d="M16 94c18-10 30 4 46-6s30-12 42-24" stroke-dasharray="2 5"/><circle cx="16" cy="94" r="3" fill="currentColor" stroke="none"/><path d="M60 22c-12 0-21 9-21 21 0 15 21 34 21 34s21-19 21-34c0-12-9-21-21-21z" fill="${HC.peach}"/><circle cx="60" cy="43" r="7" fill="var(--bg)"/>`,
+  point:`<path d="M16 94c18-10 30 4 46-6s30-12 42-24" stroke-dasharray="1 3.4"/><circle cx="16" cy="94" r="3" fill="currentColor" stroke="none"/><path d="M60 22c-12 0-21 9-21 21 0 15 21 34 21 34s21-19 21-34c0-12-9-21-21-21z" fill="${HC.peach}"/><circle cx="60" cy="43" r="7" fill="var(--bg)"/>`,
   radar:`<path d="M22 80a38 38 0 0 1 76 0"/><path d="M22 80a38 38 0 0 1 6.4-21.1" stroke="#c98a7a" stroke-width="4" stroke-linecap="round"/><path d="M39 56l3 3M60 46v4M81 56l-3 3" /><line class="hf-needle" x1="60" y1="80" x2="35" y2="66" stroke-width="2"/><circle cx="60" cy="80" r="4" fill="currentColor" stroke="none"/><rect x="54" y="90" width="11" height="13" rx="2" fill="${HC.sun}"/><path d="M65 94h3v6"/>`,
-  load:`<path d="M60 28v62M46 90h28"/><circle cx="60" cy="28" r="3" fill="currentColor" stroke="none"/><path d="M26 44l68-10"/><path d="M26 44l-10 22M26 44l10 22M94 34l-10 22M94 34l10 22" stroke-dasharray="2 3"/><path d="M14 66h24q-2 9-12 9t-12-9z" fill="${HC.peach}"/><path d="M82 56h24q-2 9-12 9t-12-9z" fill="${HC.mintL}"/><circle cx="21" cy="62" r="4" fill="currentColor" stroke="none"/><circle cx="30" cy="62" r="3.5" fill="currentColor" stroke="none"/><circle cx="26" cy="56" r="3" fill="currentColor" stroke="none"/><circle cx="94" cy="53" r="2.5" fill="currentColor" stroke="none"/>`,
+  load:`<path d="M60 28v62M46 90h28"/><circle cx="60" cy="28" r="3" fill="currentColor" stroke="none"/><path d="M26 44l68-10"/><path d="M26 44l-10 22M26 44l10 22M94 34l-10 22M94 34l10 22" stroke-dasharray="1 2.6"/><path d="M14 66h24q-2 9-12 9t-12-9z" fill="${HC.peach}"/><path d="M82 56h24q-2 9-12 9t-12-9z" fill="${HC.mintL}"/><circle cx="21" cy="62" r="4" fill="currentColor" stroke="none"/><circle cx="30" cy="62" r="3.5" fill="currentColor" stroke="none"/><circle cx="26" cy="56" r="3" fill="currentColor" stroke="none"/><circle cx="94" cy="53" r="2.5" fill="currentColor" stroke="none"/>`,
   stress:`<rect x="40" y="18" width="40" height="84" rx="16" fill="var(--bg)"/><circle cx="60" cy="38" r="9" fill="${HC.mint}"/><circle cx="51" cy="60" r="4"/><circle cx="69" cy="60" r="4" fill="${HC.sun}"/><circle cx="51" cy="74" r="4"/><circle cx="69" cy="74" r="4"/><circle cx="51" cy="88" r="4"/><circle cx="69" cy="88" r="4"/>`,
-  chain:`<rect x="22" y="48" width="14" height="38" rx="3" transform="rotate(-28 29 86)" fill="var(--bg)"/><rect x="42" y="46" width="14" height="40" rx="3" transform="rotate(-14 49 86)" fill="var(--bg)"/><rect x="62" y="44" width="14" height="42" rx="3" fill="${HC.peach}"/><rect x="84" y="44" width="14" height="42" rx="3" stroke-dasharray="2 3"/><path d="M14 86h92"/><path d="M69 36v-10M64 31l5-5 5 5"/>`,
+  chain:`<rect x="22" y="48" width="14" height="38" rx="3" transform="rotate(-28 29 86)" fill="var(--bg)"/><rect x="42" y="46" width="14" height="40" rx="3" transform="rotate(-14 49 86)" fill="var(--bg)"/><rect x="62" y="44" width="14" height="42" rx="3" fill="${HC.peach}"/><rect x="84" y="44" width="14" height="42" rx="3" stroke-dasharray="1 2.6"/><path d="M14 86h92"/><path d="M69 36v-10M64 31l5-5 5 5"/>`,
   recovery:`<path d="M48 40v-7a5 5 0 0 1 5-5h14a5 5 0 0 1 5 5v7"/><rect x="24" y="40" width="72" height="50" rx="9" fill="${HC.mintL}"/><path d="M55 51h10v9h9v10h-9v9H55v-9h-9V60h9z" fill="var(--bg)"/>`,
-  range:`<path d="M22 82a38 38 0 0 1 76 0"/><path d="M35.6 52.9a38 38 0 0 1 48.8 0" stroke="${HC.mint}" stroke-width="5" stroke-linecap="round"/><path d="M26 66l4 2M60 44v5M94 66l-4 2"/><line class="hf-needle" x1="60" y1="82" x2="68" y2="53" stroke-width="2"/><circle cx="60" cy="82" r="4" fill="currentColor" stroke="none"/><path d="M40 96h40" stroke-dasharray="2 4"/>`,
+  range:`<path d="M22 82a38 38 0 0 1 76 0"/><path d="M35.6 52.9a38 38 0 0 1 48.8 0" stroke="${HC.mint}" stroke-width="5" stroke-linecap="round"/><path d="M26 66l4 2M60 44v5M94 66l-4 2"/><line class="hf-needle" x1="60" y1="82" x2="68" y2="53" stroke-width="2"/><circle cx="60" cy="82" r="4" fill="currentColor" stroke="none"/><path d="M40 96h40" stroke-dasharray="1 3"/>`,
   resp:`<path d="M52 30a8 8 0 0 1 16 0"/><path d="M40 46a20 20 0 0 1 40 0v42a8 8 0 0 1-8 8H48a8 8 0 0 1-8-8z" fill="${HC.beige}"/><rect x="48" y="66" width="24" height="18" rx="4" fill="var(--bg)"/><ellipse cx="60" cy="38" rx="11" ry="5" fill="currentColor" stroke="none"/><path d="M40 56h-6v26h6M80 56h6v26h-6"/>`,
   nhv:`${[[24,30,HC.beige],[52,12,HC.mint],[80,22,HC.lav]].map(([x,h,c])=>`<rect x="${x}" y="40" width="18" height="5" rx="1.5" fill="currentColor" stroke="none"/><rect x="${x+1}" y="${88-h}" width="16" height="${h}" fill="${c}" stroke="none"/><rect x="${x}" y="45" width="18" height="44" rx="4"/>`).join('')}`,
   lab:`<path d="M14 84h92"/><path d="M38 84l5 7-3 7M82 84l-5 6 5 7"/><ellipse cx="60" cy="60" rx="10" ry="16" transform="rotate(-8 60 60)" fill="${HC.mintL}"/><circle cx="53" cy="38" r="3" fill="currentColor" stroke="none"/><circle cx="59.5" cy="35.5" r="3" fill="currentColor" stroke="none"/><circle cx="66" cy="37.5" r="2.6" fill="currentColor" stroke="none"/><circle cx="70.5" cy="42" r="2.2" fill="currentColor" stroke="none"/>`,
@@ -1573,7 +1588,7 @@ function weekDots(){const now=new Date();const dow=(now.getDay()+6)%7;const mon=
   const has=new Set(S.pulses.map(p=>p.d));const N=['пн','вт','ср','чт','пт','сб','вс'];
   return N.map((n,i)=>{const d=new Date(mon);d.setDate(mon.getDate()+i);const iso=d.toISOString().slice(0,10);const cls=has.has(iso)?'on':i===dow?'today':i>dow?'later':'';return `<span class="wd wd--${cls||'off'}"><i></i>${n}</span>`}).join('')}
 function vToday(m){const {st,nP}=homeSteps();const main=st[0],second=st[1];const cs=curStage();const navN=navSections().filter(s=>s.ok).length;
-  const mainImg=main.id==='pulse'?`<span class="hero-img hero-img--bat">${bigIco('pulse',300)}</span>`+'':false?`<svg class="hero-wave" width="380" height="380" viewBox="0 0 360 360" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="180" cy="180" r="170" stroke-width="1.2" stroke-dasharray="2 6"/><circle cx="180" cy="180" r="118" stroke-width="1" stroke-dasharray="2 5" opacity=".55"/><path class="hw-line" d="M30 210c30-50 52-70 78-50s40 52 72 10 52-70 80-40 40 30 70 18" stroke-width="2"/><circle class="hw-dot" cx="190" cy="170" r="9" fill="currentColor"/></svg>`:`<span class="hero-img">${bigIco(main.id,300)}</span>`;
+  const mainImg=main.id==='pulse'?`<span class="hero-img hero-img--bat">${bigIco('pulse',300)}</span>`+'':false?`<svg class="hero-wave" width="380" height="380" viewBox="0 0 360 360" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="180" cy="180" r="170" stroke-width="1.2" stroke-dasharray="1 4"/><circle cx="180" cy="180" r="118" stroke-width="1" stroke-dasharray="1 3.4" opacity=".55"/><path class="hw-line" d="M30 210c30-50 52-70 78-50s40 52 72 10 52-70 80-40 40 30 70 18" stroke-width="2"/><circle class="hw-dot" cx="190" cy="170" r="9" fill="currentColor"/></svg>`:`<span class="hero-img">${bigIco(main.id,300)}</span>`;
   m.innerHTML=`<div class="page home">
     <div class="h-top"><h1 class="h-hello">${hello()}${S.name?', '+esc(S.name):''}</h1>${!S.name?`<span class="h-name"><input class="line" id="hNameIn" placeholder="Как к вам обращаться?" aria-label="Ваше имя"><button class="btn btn--sm" id="hNameB">Сохранить</button></span>`:''}
       <button class="h-trail" data-go="tools" aria-label="Маршрут: этап ${cs} из 9"><span class="h-trail__line"><i style="width:${(cs-1)/8*100}%"></i></span>${C.stages.map((s,i)=>`<span class="h-dot ${i<cs-1?'past':i===cs-1?'now':i===8?'end':''}"></span>`).join('')}</button>
@@ -1605,8 +1620,8 @@ function bodyMap(sel,act){act=act||'';return `<svg viewBox="0 0 300 600" class="
   ${ZONES.map(([k,es])=>{const on=sel.includes(k);return `<g class="bz ${on?'on':''} ${act===k?'act':''}" data-zone="${k}" role="button" tabindex="0" aria-pressed="${on}" aria-label="${k}">${es.map(([x,y,rx,ry])=>`<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}"/>`).join('')}</g>`}).join('')}</svg>`}
 
 /* --- Кружки уровня --- */
-const lvlIco=(i,kind)=>kind==='t'?`<svg width="46" height="46" viewBox="0 0 46 46" aria-hidden="true">${[0,1,2,3,4].slice(0,i+1).map(k=>`<circle cx="23" cy="23" r="${20-k*4}" fill="none" stroke="currentColor" stroke-width="${k===i?1.8:1}" ${k?'':'stroke-dasharray="2 3"'}/>`).join('')}</svg>`
-  :`<svg width="46" height="46" viewBox="0 0 46 46" aria-hidden="true"><circle cx="23" cy="23" r="20" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="2 3"/><circle cx="23" cy="23" r="${3+i*4}" fill="currentColor"/></svg>`;
+const lvlIco=(i,kind)=>kind==='t'?`<svg width="46" height="46" viewBox="0 0 46 46" aria-hidden="true">${[0,1,2,3,4].slice(0,i+1).map(k=>`<circle cx="23" cy="23" r="${20-k*4}" fill="none" stroke="currentColor" stroke-width="${k===i?1.8:1}" ${k?'':'stroke-dasharray="1 2.6"'}/>`).join('')}</svg>`
+  :`<svg width="46" height="46" viewBox="0 0 46 46" aria-hidden="true"><circle cx="23" cy="23" r="20" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1 2.6"/><circle cx="23" cy="23" r="${3+i*4}" fill="currentColor"/></svg>`;
 const lvlRow=(key,words,val,kind)=>`<div class="lvl" data-lvl="${key}" role="group">${words.map(([v,w],i)=>`<button type="button" aria-pressed="${val===v}" data-v="${v}">${lvlIco(i,kind)}<span>${w}</span></button>`).join('')}</div>`;
 
 /* --- Карта состояния: по одному шагу --- */
@@ -1667,7 +1682,7 @@ function scaleSvg(){const dr=S.load.filter(x=>x.after<0).sort((a,b)=>a.after-b.a
   const lx=cx-L*Math.cos(ang),ly=cy+L*Math.sin(ang),rx=cx+L*Math.cos(ang),ry=cy-L*Math.sin(ang);
   const pan=(x,y,fill,arr,label)=>{const py=y+96;const st=arr.slice(0,4).map((o,i)=>{const col=i%2,row=Math.floor(i/2);const t=o.name.length>11?o.name.slice(0,10)+'…':o.name;const w=Math.max(58,t.length*7.4+18);const sx=arr.length===1?x-w/2:(col?x+6:x-6-w);const sy=py-30-row*32;
       return `<g class="sc-chip" data-sclist="${S.load.indexOf(o)}" tabindex="0" role="button" aria-label="${esc(o.name)}"><title>${esc(o.name)}</title><rect x="${sx}" y="${sy}" width="${w}" height="28" rx="12" fill="var(--bg)" stroke="var(--ink)"/><text x="${sx+w/2}" y="${sy+19}" text-anchor="middle" class="sc-t">${esc(t)}</text></g>`}).join('');
-    return `<path d="M${x} ${y} L${x-74} ${py} M${x} ${y} L${x+74} ${py}" stroke="var(--ink)" stroke-dasharray="3 3"/><path d="M${x-88} ${py} H${x+88} Q${x+84} ${py+38} ${x} ${py+40} Q${x-84} ${py+38} ${x-88} ${py} Z" fill="${fill}" stroke="var(--ink)" stroke-width="1.4"/>${st}${arr.length>4?`<text x="${x}" y="${py+96}" text-anchor="middle" class="sc-t">и еще ${arr.length-4}</text>`:''}<text x="${x}" y="${py+72}" text-anchor="middle" class="sc-h">${label}</text>`};
+    return `<path d="M${x} ${y} L${x-74} ${py} M${x} ${y} L${x+74} ${py}" stroke="var(--ink)" stroke-dasharray="1.5 3"/><path d="M${x-88} ${py} H${x+88} Q${x+84} ${py+38} ${x} ${py+40} Q${x-84} ${py+38} ${x-88} ${py} Z" fill="${fill}" stroke="var(--ink)" stroke-width="1.4"/>${st}${arr.length>4?`<text x="${x}" y="${py+96}" text-anchor="middle" class="sc-t">и еще ${arr.length-4}</text>`:''}<text x="${x}" y="${py+72}" text-anchor="middle" class="sc-h">${label}</text>`};
   return `<svg viewBox="0 0 720 300" class="scale" role="img" aria-label="Весы: что забирает и что возвращает силы">
     <path d="M${cx} ${cy} V272 M${cx-55} 272 H${cx+55}" stroke="var(--ink)" stroke-width="2" fill="none"/><line x1="${lx}" y1="${ly}" x2="${rx}" y2="${ry}" stroke="var(--ink)" stroke-width="2.4"/><circle cx="${cx}" cy="${cy}" r="6" fill="var(--ink)"/>
     ${pan(lx,ly,'var(--drain)',dr,'Забирает')}${pan(rx,ry,'var(--mint)',rt,'Возвращает')}</svg>
@@ -1701,7 +1716,7 @@ function chainViz(c){if(!c||!CV.some(([k])=>c[k]))return '';const idx=k=>C.CHAIN
 
 /* --- Иконки состояний --- */
 const STATE_ICO={'взвинчен(а)':'<path d="M4 13l3-4 3 6 3-8 3 8 3-4 1 2"/>','пусто, нет сил':'<circle cx="12" cy="12" r="5"/>','тревожно':'<path d="M3 13c2-3 3-3 4.5 0S10 16 12 13s3-3 4.5 0 2.5 3 4.5 0"/>','не могу остановиться':'<path d="M5 12a7 7 0 1112.5 4.3"/><path d="M18 13v3.5h-3.5"/>','не могу уснуть':'<path d="M15 4a8 8 0 105 13A6.5 6.5 0 0115 4z"/><path d="M17 7h3l-3 3h3"/>','раздражение':'<path d="M12 4v4M12 16v4M4 12h4M16 12h4M6.5 6.5l2.8 2.8M14.7 14.7l2.8 2.8M6.5 17.5l2.8-2.8M14.7 9.3l2.8-2.8"/>','голова кипит':'<path d="M7 20v-4a6 6 0 1110 0v4M9 4.5c0-1.5 2-1.5 2-3M13 4.5c0-1.5 2-1.5 2-3"/>'};
-const stateIco=s=>`<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="11" stroke-dasharray="1.5 2.2" opacity=".7"/>${STATE_ICO[s]||''}</svg>`;
+const stateIco=s=>`<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="11" stroke-dasharray="1 2.4" opacity=".7"/>${STATE_ICO[s]||''}</svg>`;
 
 /* --- Коридор зон --- */
 function corridorSvg(ps,z){const W=720,H=300,L=20,Rr=20,band=[[0,'РОВНО','var(--mint)'],[1,'ЧЕРЕЗ УСИЛИЕ','var(--beige)'],[2,'В ДОЛГ','var(--drain)']];const bh=(H-40)/3;
@@ -1834,14 +1849,14 @@ const pracImg=(k,big)=>{const s=big?300:120;
   if(k==='calm')return `<svg class="pimg pimg--calm" width="${s}" height="${s}" viewBox="0 0 200 200" aria-hidden="true"><defs><clipPath id="pc${big?1:0}"><circle cx="100" cy="100" r="96"/></clipPath><linearGradient id="sk${big?1:0}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e7e4ee"/><stop offset="1" stop-color="#f6efe7"/></linearGradient></defs>
     <g clip-path="url(#pc${big?1:0})"><rect width="200" height="200" fill="url(#sk${big?1:0})"/><circle cx="100" cy="112" r="30" fill="#f1ddd5"/>
     <g class="tide"><g class="wv wv1"><path d="M-60 120 q25 -10 50 0 t50 0 t50 0 t50 0 t50 0 t50 0 t50 0 t50 0 t50 0 t50 0 t50 0 t50 0 V240 H-60z" fill="#cfe0da"/></g><g class="wv wv2"><path d="M-60 134 q25 -9 50 0 t50 0 t50 0 t50 0 t50 0 t50 0 t50 0 t50 0 t50 0 t50 0 t50 0 t50 0 V240 H-60z" fill="#a9cbbf"/></g><g class="wv wv3"><path d="M-60 150 q25 -8 50 0 t50 0 t50 0 t50 0 t50 0 t50 0 t50 0 t50 0 t50 0 t50 0 t50 0 t50 0 V240 H-60z" fill="#7fa59a"/></g></g></g>
-    <circle cx="100" cy="100" r="96" fill="none" stroke="var(--ink)" stroke-width="1.2" stroke-dasharray="2 4"/></svg>`;
+    <circle cx="100" cy="100" r="96" fill="none" stroke="var(--ink)" stroke-width="1.2" stroke-dasharray="1 3"/></svg>`;
   if(k==='energy')return `<svg class="pimg pimg--energy" width="${s}" height="${s}" viewBox="0 0 200 200" aria-hidden="true"><defs><clipPath id="pe${big?1:0}"><circle cx="100" cy="100" r="96"/></clipPath></defs>
     <g clip-path="url(#pe${big?1:0})"><rect width="200" height="200" fill="#faf3ea"/><g class="sun"><g class="rays" stroke="#d9a86a" stroke-width="3" stroke-linecap="round">${Array.from({length:12},(_,i)=>{const a=i*30*Math.PI/180;return `<line x1="${100+38*Math.cos(a)}" y1="${120+38*Math.sin(a)}" x2="${100+56*Math.cos(a)}" y2="${120+56*Math.sin(a)}"/>`}).join('')}</g><circle cx="100" cy="120" r="28" fill="#f2c88f"/></g>
     <rect y="130" width="200" height="70" fill="#efe9e3"/><path d="M0 130 H200" stroke="var(--ink)" stroke-width="1.2"/><path d="M20 150 h40 M90 162 h60 M40 176 h30" stroke="#cdbfae" stroke-width="2" stroke-linecap="round"/></g>
-    <circle cx="100" cy="100" r="96" fill="none" stroke="var(--ink)" stroke-width="1.2" stroke-dasharray="2 4"/></svg>`;
+    <circle cx="100" cy="100" r="96" fill="none" stroke="var(--ink)" stroke-width="1.2" stroke-dasharray="1 3"/></svg>`;
   return `<svg class="pimg pimg--anx" width="${s}" height="${s}" viewBox="0 0 200 200" aria-hidden="true"><circle cx="100" cy="100" r="96" fill="#f3f1f7"/><rect x="50" y="50" width="100" height="100" rx="14" fill="none" stroke="var(--ink)" stroke-width="1.6"/>
     ${big?`<g font-family="Golos Text,sans-serif" font-size="11" fill="#6b6965" text-anchor="middle"><text x="100" y="40">вдох</text><text x="166" y="104" transform="rotate(90 166 104)">пауза</text><text x="100" y="170">выдох</text><text x="34" y="104" transform="rotate(-90 34 104)">пауза</text></g>`:''}
-    <circle class="sqdot" cx="50" cy="150" r="9" fill="var(--ink)"/><circle cx="100" cy="100" r="96" fill="none" stroke="var(--ink)" stroke-width="1.2" stroke-dasharray="2 4"/></svg>`};
+    <circle class="sqdot" cx="50" cy="150" r="9" fill="var(--ink)"/><circle cx="100" cy="100" r="96" fill="none" stroke="var(--ink)" stroke-width="1.2" stroke-dasharray="1 3"/></svg>`};
 function pracPicker(){return `<h2 class="prac__h">Выберите, что с вами сейчас</h2><div class="prac__cards">${Object.entries(PRAC).map(([k,v])=>`<button class="prac__card" data-prac="${k}" style="background:${v.color}">${pracImg(k)}<span class="prac__st">${esc(v.state)}</span><span class="prac__nm">${esc(v.name)} · ${esc(v.time)}</span></button>`).join('')}</div>`}
 let PR=null;
 function pracStop(){if(PR){clearTimeout(PR.t);cancelAnimationFrame(PR.raf);PR=null}}
@@ -1913,7 +1928,7 @@ const SPHERES=[['work','Работа'],['home','Семья и дом'],['care','
 const LOADW=[[1,'мало'],[2,'умеренно'],[3,'заметно'],[4,'много'],[5,'предельно']];
 function wheelSvg(v){const cx=160,cy=150,R=110,n=SPHERES.length;const pt=(i,r)=>{const a=-Math.PI/2+i*2*Math.PI/n;return [cx+r*Math.cos(a),cy+r*Math.sin(a)]};
   const poly=SPHERES.map(([k],i)=>pt(i,R*(v[k]||0)/5).join(',')).join(' ');
-  return `<svg viewBox="-120 -6 560 316" role="img" aria-label="Колесо нагрузки">${[1,2,3,4,5].map(r=>`<circle cx="${cx}" cy="${cy}" r="${R*r/5}" fill="none" stroke="var(--line)" ${r===5?'':'stroke-dasharray="2 4"'}/>`).join('')}
+  return `<svg viewBox="-120 -6 560 316" role="img" aria-label="Колесо нагрузки">${[1,2,3,4,5].map(r=>`<circle cx="${cx}" cy="${cy}" r="${R*r/5}" fill="none" stroke="var(--line)" ${r===5?'':'stroke-dasharray="1 3"'}/>`).join('')}
     ${SPHERES.map(([k,l],i)=>{const [x,y]=pt(i,R),[tx,ty]=pt(i,R+22);return `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="var(--line)"/><text class="lbl" x="${tx}" y="${ty+4}" text-anchor="${Math.abs(tx-cx)<10?'middle':tx<cx?'end':'start'}">${l.length>14&&l.includes(' ')?(()=>{const w=l.split(' ');const h=Math.ceil(w.length/2);return `<tspan x="${tx}" dy="-7">${esc(w.slice(0,h).join(' '))}</tspan><tspan x="${tx}" dy="15">${esc(w.slice(h).join(' '))}</tspan>`})():esc(l)}</text>`}).join('')}
     <polygon points="${poly}" fill="var(--lavender)" stroke="var(--text)" stroke-width="1.4" opacity=".9"/></svg>`}
 TOOL.point=(m,t)=>{const p=S.point;p.spheres=p.spheres||{};
@@ -1961,7 +1976,7 @@ function pulseChart(ps){const W=720,H=270,L=96,R=24,Tp=24,B=56;const n=ps.length
   const off=S.pulses.length-ps.length;
   return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="График энергии и напряжения">${[1,2,3,4,5].map(v=>`<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/><text class="lbl" x="${L-10}" y="${y(v)+4}" text-anchor="end">${['','очень мало','мало','средне','много','очень много'][v]}</text>`).join('')}
     <path d="${line}" fill="none" stroke="var(--text)" stroke-width="1.6"/>
-    ${ps.map((p,i)=>`<g class="pt" data-pi="${off+i}" tabindex="0" role="button" aria-label="Отметка ${fmtD(p.d)}"><rect x="${x(i)-14}" y="${Tp-10}" width="28" height="${H-Tp-B+20}" fill="transparent"/><circle cx="${x(i)}" cy="${y(p.tension)}" r="6" fill="var(--bg)" stroke="var(--text)" stroke-dasharray="2 2"/><circle cx="${x(i)}" cy="${y(p.energy)}" r="5" fill="var(--text)"/><text class="lbl" x="${x(i)}" y="${H-30}" text-anchor="middle">${fmtD(p.d)}</text></g>`).join('')}</svg>`}
+    ${ps.map((p,i)=>`<g class="pt" data-pi="${off+i}" tabindex="0" role="button" aria-label="Отметка ${fmtD(p.d)}"><rect x="${x(i)-14}" y="${Tp-10}" width="28" height="${H-Tp-B+20}" fill="transparent"/><circle cx="${x(i)}" cy="${y(p.tension)}" r="6" fill="var(--bg)" stroke="var(--text)" stroke-dasharray="1 2"/><circle cx="${x(i)}" cy="${y(p.energy)}" r="5" fill="var(--text)"/><text class="lbl" x="${x(i)}" y="${H-30}" text-anchor="middle">${fmtD(p.d)}</text></g>`).join('')}</svg>`}
 function bindPulseView(m){$$('.pt',m).forEach(g=>{const show=()=>{const p=S.pulses[+g.dataset.pi];$$('.pt',m).forEach(x=>x.classList.toggle('on',x===g));
   $('#ptDetail',m).innerHTML=`<div class="pt-card"><b>${fmtD(p.d)}${p.ctx?' · '+esc(p.ctx):''}</b><span>Силы: ${esc((ENERGY_W[p.energy-1]||[])[1]||p.energy)} · напряжение: ${esc((TENSION_W[p.tension-1]||[])[1]||p.tension)}</span>${(p.emo||[]).length?`<span>Эмоции: ${esc(p.emo.join(', '))}</span>`:''}${(p.body||[]).length?`<span>Тело: ${esc(p.body.join(', '))}</span>`:''}${p.want?`<span>Хотелось: ${esc(p.want==='продолжать'?'продолжить':'остановиться')}</span>`:''}</div>`};
   g.onclick=show;g.onkeydown=e=>{if(e.key==='Enter')show()}})}
@@ -2009,7 +2024,7 @@ function bodySugg(){const st=w=>w.toLowerCase().replace(/[«»"]/g,'').slice(0,4
   return res}
 function radarRead(){const ic=b=>`<svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="var(--ink)" stroke-width="1.3" aria-hidden="true">${b}</svg>`;
   return `<div class="howread"><div>${ic('<circle cx="14" cy="14" r="5" fill="var(--ink)"/>')}<span><b>Точка - один ваш сигнал</b> Подпись рядом показывает, какой именно</span></div>
-  <div>${ic('<circle cx="14" cy="14" r="11" stroke-dasharray="2 3"/><path d="M14 3v22M3 14h22"/><path d="M14 14V3A11 11 0 0 1 25 14z" fill="var(--mint)"/>')}<span><b>Четверть круга - где проявляется сигнал</b> В теле, в эмоциях, в мыслях или в поведении</span></div>
+  <div>${ic('<circle cx="14" cy="14" r="11" stroke-dasharray="1 2.6"/><path d="M14 3v22M3 14h22"/><path d="M14 14V3A11 11 0 0 1 25 14z" fill="var(--mint)"/>')}<span><b>Четверть круга - где проявляется сигнал</b> В теле, в эмоциях, в мыслях или в поведении</span></div>
   <div>${ic('<circle cx="14" cy="14" r="12" fill="var(--mint)"/><circle cx="14" cy="14" r="8" fill="var(--beige)"/><circle cx="14" cy="14" r="4" fill="var(--lavender)"/>')}<span><b>Кольцо - когда сигнал появляется</b> Внешнее кольцо - в самом начале перегрузки, среднее - когда уже тяжело, центр - когда сил почти не осталось</span></div></div>`}
 function radarMeaning(){const g=z=>S.signals.filter(x=>x.zone===z).map(x=>x.t);
   const Z=[['ранний','ok','Первые звоночки','Эти сигналы появляются, когда нагрузка только начинает расти. Если вы их заметили, у вас еще есть запас сил, и это самый удобный момент, чтобы сбавить темп: сделать паузу, убрать одно дело из списка или попросить помощи. Чем раньше вы отреагируете, тем меньше сил потратите'],
@@ -2026,7 +2041,7 @@ function radarSvg(){const W=720,H=520,cx=360,cy=262,Rr=[230,155,80];
   const cnt={};const dots=S.signals.filter(s=>s.zone).map(s=>{const k=s.type+s.zone;const i=cnt[k]=(cnt[k]||0)+1;const q=i-1,off=q===0?0:(q%2?1:-1)*Math.ceil(q/2)*20;const a=(ang[s.type]+off)*Math.PI/180;const r=zr[s.zone]+(q%2?14:0);return {s,x:cx+r*Math.cos(a),y:cy+r*Math.sin(a)}});
   return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Радар ранних сигналов">
     <circle cx="${cx}" cy="${cy}" r="${Rr[0]}" fill="var(--mint)" opacity=".55"/><circle cx="${cx}" cy="${cy}" r="${Rr[1]}" fill="var(--beige)"/><circle cx="${cx}" cy="${cy}" r="${Rr[2]}" fill="var(--lavender)"/>
-    ${Rr.map(r=>`<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="var(--text)" stroke-dasharray="2 5" opacity=".5"/>`).join('')}
+    ${Rr.map(r=>`<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="var(--text)" stroke-dasharray="1 3.4" opacity=".5"/>`).join('')}
     <line x1="${cx-Rr[0]}" x2="${cx+Rr[0]}" y1="${cy}" y2="${cy}" stroke="var(--line)"/><line y1="${cy-Rr[0]}" y2="${cy+Rr[0]}" x1="${cx}" x2="${cx}" stroke="var(--line)"/>
     <text class="q" x="40" y="44">Тело</text><text class="q" x="${W-40}" y="44" text-anchor="end">Эмоции</text><text class="q" x="${W-40}" y="${H-24}" text-anchor="end">Мысли</text><text class="q" x="40" y="${H-24}">Поведение</text>
     <text class="lbl" x="${cx}" y="${cy-Rr[0]+16}" text-anchor="middle">первые звоночки</text><text class="lbl" x="${cx}" y="${cy-Rr[1]+16}" text-anchor="middle">уже тяжело</text><text class="lbl" x="${cx}" y="${cy+5}" text-anchor="middle">на пределе</text>
@@ -2065,7 +2080,7 @@ function loadSvg(){const W=720,H=460,L=60,R=30,Tp=30,B=50;const x=v=>L+50+(v-1)*
   ${(()=>{const placed=[];return S.load.map(o=>{const k=o.demand+'_'+o.after;const j=cnt[k]=(cnt[k]||0)+1;const dx=(j-1)*16,dy=(j-1)*62;const r=6+o.imp*4;const X=x(o.demand)+dx,Y=y(o.after)+dy;
     const lw=Math.min(220,o.name.length*6.8+10),lx=Math.max(L+lw/2+4,Math.min(W-R-lw/2-4,X));let ly=Y+r+(o.change!=='нет'?22:16);
     for(let g=0;g<8&&placed.some(q=>Math.abs(q.x-lx)<(q.w+lw)/2&&Math.abs(q.y-ly)<17);g++)ly+=18;placed.push({x:lx,y:ly,w:lw});
-    return `<g>${o.change!=='нет'?`<circle cx="${X}" cy="${Y}" r="${r+6}" fill="none" stroke="var(--text)" stroke-dasharray="2 3"/>`:''}<circle cx="${X}" cy="${Y}" r="${r}" fill="var(--text)"/><text class="dot-lbl" x="${lx}" y="${ly}" text-anchor="middle">${esc(o.name)}</text></g>`}).join('')})()}</svg>`}
+    return `<g>${o.change!=='нет'?`<circle cx="${X}" cy="${Y}" r="${r+6}" fill="none" stroke="var(--text)" stroke-dasharray="1 2.6"/>`:''}<circle cx="${X}" cy="${Y}" r="${r}" fill="var(--text)"/><text class="dot-lbl" x="${lx}" y="${ly}" text-anchor="middle">${esc(o.name)}</text></g>`}).join('')})()}</svg>`}
 
 /* 5. Карта стрессоров и рычагов */
 TOOL.stress=(m,t)=>{
@@ -2163,10 +2178,10 @@ function bindAP(root){$$('[data-ap]',root).forEach(el=>{const a=new Audio(AUDIO[
 
 /* ================= ОБРАЗЫ ПРАКТИК ================= */
 const RI={
-  breath:`<g class="rp-orbit"><circle cx="60" cy="60" r="54" fill="none" stroke="var(--ink)" stroke-dasharray="1.5 5" opacity=".45"/><circle cx="60" cy="6" r="2.6" fill="var(--ink)"/></g><circle class="rp-orb rp-orb--3" cx="60" cy="60" r="44" fill="var(--bg)" opacity=".28"/><circle class="rp-orb rp-orb--2" cx="60" cy="60" r="36" fill="var(--bg)" opacity=".55"/><circle class="rp-orb rp-orb--1" cx="60" cy="60" r="27" fill="var(--bg)" stroke="var(--ink)" stroke-width="1.2"/>`,
-  hum:`<g class="rp-waves" fill="none" stroke="var(--ink)" stroke-width="1"><circle cx="60" cy="60" r="30"/><circle cx="60" cy="60" r="30"/><circle cx="60" cy="60" r="30"/></g><g class="rp-orbit"><circle cx="60" cy="60" r="54" fill="none" stroke="var(--ink)" stroke-dasharray="1.5 5" opacity=".45"/><circle cx="60" cy="6" r="2.6" fill="var(--ink)"/></g><circle class="rp-orb rp-orb--3" cx="60" cy="60" r="44" fill="var(--bg)" opacity=".28"/><circle class="rp-orb rp-orb--2" cx="60" cy="60" r="36" fill="var(--bg)" opacity=".55"/><circle class="rp-orb rp-orb--1" cx="60" cy="60" r="27" fill="var(--bg)" stroke="var(--ink)" stroke-width="1.2"/>`,
-  squeeze:`<g class="rp-orbit"><circle cx="60" cy="60" r="54" fill="none" stroke="var(--ink)" stroke-dasharray="1.5 5" opacity=".45"/><circle cx="60" cy="6" r="2.6" fill="var(--ink)"/></g><circle class="rp-orb rp-orb--3" cx="60" cy="60" r="44" fill="var(--bg)" opacity=".28"/><circle class="rp-orb rp-orb--2" cx="60" cy="60" r="36" fill="var(--bg)" opacity=".55"/><circle class="rp-orb rp-orb--1" cx="60" cy="60" r="27" fill="var(--bg)" stroke="var(--ink)" stroke-width="1.2"/>`,
-  look:`<g fill="none" stroke="var(--ink)" stroke-width="1.6" stroke-linecap="round"><path d="M22 38V24h14M84 24h14v14M98 82v14H84M36 96H22V82"/></g><circle class="rp-scan" cx="60" cy="60" r="7" fill="var(--ink)"/><circle cx="60" cy="60" r="28" fill="none" stroke="var(--ink)" stroke-dasharray="2 4" opacity=".5"/>`,
+  breath:`<g class="rp-orbit"><circle cx="60" cy="60" r="54" fill="none" stroke="var(--ink)" stroke-dasharray="1 3.6" opacity=".45"/><circle cx="60" cy="6" r="2.6" fill="var(--ink)"/></g><circle class="rp-orb rp-orb--3" cx="60" cy="60" r="44" fill="var(--bg)" opacity=".28"/><circle class="rp-orb rp-orb--2" cx="60" cy="60" r="36" fill="var(--bg)" opacity=".55"/><circle class="rp-orb rp-orb--1" cx="60" cy="60" r="27" fill="var(--bg)" stroke="var(--ink)" stroke-width="1.2"/>`,
+  hum:`<g class="rp-waves" fill="none" stroke="var(--ink)" stroke-width="1"><circle cx="60" cy="60" r="30"/><circle cx="60" cy="60" r="30"/><circle cx="60" cy="60" r="30"/></g><g class="rp-orbit"><circle cx="60" cy="60" r="54" fill="none" stroke="var(--ink)" stroke-dasharray="1 3.6" opacity=".45"/><circle cx="60" cy="6" r="2.6" fill="var(--ink)"/></g><circle class="rp-orb rp-orb--3" cx="60" cy="60" r="44" fill="var(--bg)" opacity=".28"/><circle class="rp-orb rp-orb--2" cx="60" cy="60" r="36" fill="var(--bg)" opacity=".55"/><circle class="rp-orb rp-orb--1" cx="60" cy="60" r="27" fill="var(--bg)" stroke="var(--ink)" stroke-width="1.2"/>`,
+  squeeze:`<g class="rp-orbit"><circle cx="60" cy="60" r="54" fill="none" stroke="var(--ink)" stroke-dasharray="1 3.6" opacity=".45"/><circle cx="60" cy="6" r="2.6" fill="var(--ink)"/></g><circle class="rp-orb rp-orb--3" cx="60" cy="60" r="44" fill="var(--bg)" opacity=".28"/><circle class="rp-orb rp-orb--2" cx="60" cy="60" r="36" fill="var(--bg)" opacity=".55"/><circle class="rp-orb rp-orb--1" cx="60" cy="60" r="27" fill="var(--bg)" stroke="var(--ink)" stroke-width="1.2"/>`,
+  look:`<g fill="none" stroke="var(--ink)" stroke-width="1.6" stroke-linecap="round"><path d="M22 38V24h14M84 24h14v14M98 82v14H84M36 96H22V82"/></g><circle class="rp-scan" cx="60" cy="60" r="7" fill="var(--ink)"/><circle cx="60" cy="60" r="28" fill="none" stroke="var(--ink)" stroke-dasharray="1 3" opacity=".5"/>`,
   shake:`<defs><clipPath id="rpClip"><circle cx="60" cy="60" r="46"/></clipPath></defs><circle cx="60" cy="60" r="46" fill="var(--bg)"/><g clip-path="url(#rpClip)" fill="none" stroke="var(--ink)" stroke-width="1.5" stroke-linecap="round"><path class="rp-flow rp-flow--1" d="M-16 44 q4 -6 8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0"/><path class="rp-flow rp-flow--2" d="M-16 60 q4 -9 8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0"/><path class="rp-flow rp-flow--3" d="M-16 76 q4 -5 8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0"/></g><circle cx="60" cy="60" r="46" fill="none" stroke="var(--ink)" stroke-width="1.2"/>`,
   walk:`<g class="rp-steps" fill="var(--ink)"><ellipse cx="44" cy="92" rx="7" ry="11"/><ellipse cx="70" cy="74" rx="7" ry="11"/><ellipse cx="48" cy="52" rx="7" ry="11"/><ellipse cx="74" cy="32" rx="7" ry="11"/></g>`,
   cold:`<g class="rp-rip" fill="none" stroke="var(--ink)" stroke-width="1"><ellipse cx="60" cy="100" rx="14" ry="3.5"/><ellipse cx="60" cy="100" rx="14" ry="3.5"/></g><path class="rp-float" d="M60 16c14 20 24 34 24 48a24 24 0 0 1-48 0c0-14 10-28 24-48z" fill="var(--bg)" stroke="var(--ink)" stroke-width="1.3"/><path d="M48 66a12 12 0 0 0 9 11" fill="none" stroke="var(--ink)" stroke-width="1.3" stroke-linecap="round" opacity=".6"/><circle class="rp-fall" cx="60" cy="92" r="2.6" fill="var(--ink)"/>`,
@@ -2183,7 +2198,7 @@ const RI={
   letter:`<rect class="rp-env" x="24" y="38" width="72" height="48" rx="5" fill="var(--bg)" stroke="var(--ink)" stroke-width="1.4"/><path class="rp-env" d="M24 42l36 24 36-24" fill="none" stroke="var(--ink)" stroke-width="1.4"/>`,
   role:`<path d="M24 46c12-8 24-8 36 0 12-8 24-8 36 0-2 22-14 34-36 34S26 68 24 46z" fill="var(--bg)" stroke="var(--ink)" stroke-width="1.4"/><circle class="rp-float" cx="46" cy="56" r="5" fill="var(--ink)"/><circle class="rp-float" cx="74" cy="56" r="5" fill="var(--ink)"/>`,
   sort:`<g fill="var(--bg)" stroke="var(--ink)" stroke-width="1.4"><rect x="18" y="62" width="26" height="30" rx="3"/><rect x="47" y="62" width="26" height="30" rx="3"/><rect x="76" y="62" width="26" height="30" rx="3"/></g><circle class="rp-drop2" cx="60" cy="34" r="7" fill="var(--ink)"/>`,
-  zoom:`<g fill="none" stroke="var(--ink)" stroke-width="1.4"><circle cx="60" cy="60" r="40" stroke-dasharray="2 5" opacity=".5"/><circle cx="60" cy="60" r="26"/></g><circle class="rp-shrink" cx="60" cy="60" r="12" fill="var(--ink)"/>`};
+  zoom:`<g fill="none" stroke="var(--ink)" stroke-width="1.4"><circle cx="60" cy="60" r="40" stroke-dasharray="1 3.4" opacity=".5"/><circle cx="60" cy="60" r="26"/></g><circle class="rp-shrink" cx="60" cy="60" r="12" fill="var(--ink)"/>`};
 const rImg=(k,s)=>`<svg class="rpi rpi--${k}" width="${s||120}" height="${s||120}" viewBox="0 0 120 120" aria-hidden="true">${RI[k]||RI.breath}</svg>`;
 
 /* ================= ПРАКТИКИ ================= */
