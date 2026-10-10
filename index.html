@@ -956,6 +956,25 @@ button.tt{cursor:pointer}
 .hr-i--line::before{content:'';position:absolute;left:0;right:0;top:7px;border-top:2px solid var(--ink)}.hr-i--line::after{content:'';position:absolute;left:8px;top:2px;width:10px;height:10px;border-radius:50%;background:var(--ink)}
 .hr-i--dash::after{content:'';position:absolute;left:6px;top:1px;width:12px;height:12px;border-radius:50%;border:1.5px dashed var(--ink)}
 .hr-i--tap{height:auto;margin-top:1px;color:var(--ink)}
+
+/* обложка инструмента: образ + одна строка */
+.thero{display:grid;grid-template-columns:auto minmax(0,1fr);gap:24px 36px;align-items:center;margin-bottom:28px}
+.thero__img{width:190px;height:190px;border-radius:50%;background:var(--mint);display:grid;place-items:center;color:var(--ink)}
+.thero__txt h1{font-family:var(--serif);font-weight:400;font-size:clamp(32px,3.6vw,46px);line-height:1.05;margin:6px 0 10px;color:var(--ink)}
+.thero__met{font-family:var(--serif);font-size:clamp(19px,1.8vw,23px);line-height:1.35;color:var(--text);margin:0 0 16px;max-width:36ch;text-align:left!important}
+.thero__pills{display:flex;flex-wrap:wrap;gap:8px}
+.tpill{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 14px;border:1px solid var(--line);border-radius:999px;background:var(--bg);font:inherit;font-size:14px;color:var(--ink);cursor:pointer}
+.tpill[aria-expanded="true"]{background:var(--mint);border-color:var(--ink)}
+.tpill .thead__bat{margin:0;flex-basis:22px;width:22px}
+.tpanel{margin-top:12px;padding:14px 18px;background:var(--cream);font-size:15px;line-height:1.55;max-width:60ch}.tpanel p{margin:0 0 6px;text-align:left!important}.tpanel p:last-child{margin:0}
+@media (max-width:640px){.thero{grid-template-columns:minmax(0,1fr);justify-items:start}.thero__img{width:120px;height:120px}.thero__img svg{width:96px;height:96px}}
+@media (prefers-reduced-motion:no-preference){
+  @keyframes heroIn{from{opacity:0;transform:scale(.85) rotate(-12deg)}to{opacity:1;transform:none}}
+  @keyframes floatSoft{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+  .main.enter .thero__img svg{animation:heroIn .9s var(--ease) both}
+  .thero__img{transition:transform .5s var(--ease)}.thero:hover .thero__img{transform:scale(1.04) rotate(-4deg)}
+  .tpanel:not([hidden]){animation:fadeUp .35s var(--ease) both}
+}
 </style>
 </head>
 <body>
@@ -1063,11 +1082,13 @@ const CONTENT = {
   ],
 
 
+  /* Образ-ассоциация в начале каждого инструмента. */
+  metaphor: {'point': 'Как точка «вы здесь» на карте: отмечаем, откуда вы начинаете путь.', 'pulse': 'Как шагомер, только для сил: несколько отметок в неделю, и видно, что вас разряжает.', 'radar': 'Как лампочка топлива: учимся замечать ее, а не ждать, пока бак опустеет.', 'load': 'Как весы: кладем на чаши то, что забирает силы, и то, что их возвращает.', 'stress': 'Как пульт: ищем кнопки, до которых вы можете дотянуться.', 'chain': 'Как домино: находим костяшку, которую можно убрать, чтобы цепочка не упала.', 'recovery': 'Как аптечка: собираем то, что помогает именно вам.', 'range': 'Как спидометр: находим скорость, на которой можно ехать долго.', 'resp': 'Как рюкзак: проверяем, что вы несете за других.', 'nhv': 'Как три банки: смотрим, чего в жизни много, а чего не хватает.', 'lab': 'Как первый шаг по льду: проверяем убеждение маленьким безопасным шагом.', 'peak': 'Как прогноз погоды: заранее готовимся к шторму.', 'nav': 'Как инструкция к любимой вещи: как обращаться с собой в разные дни.'},
   /* Что можно сделать, если сил мало. */
-  lowEnergy: {'point': 'заполните только блок про обычный день, а остальное добавьте позже.', 'pulse': '2-3 раза в неделю отмечайте, чем вы заняты, что чувствуете и сколько у вас сил. Обязательно нужно отметить только силы и напряжение, остальное можно пропустить. Из отметок складывается график, по которому видно, что забирает у вас силы и что их возвращает.', 'radar': 'отметьте один-два сигнала, которые замечаете чаще всего.', 'load': 'добавьте три дела и ответьте только на вопрос, как вы себя чувствуете после них.', 'stress': 'выберите один стрессор и отметьте, насколько можете на него повлиять.', 'chain': 'ответьте только на первые два вопроса, а остальное разберите с психологом.', 'recovery': 'просто выберите свое состояние и попробуйте первый способ из списка.', 'range': 'достаточно посмотреть на картинку, заполнять ничего не нужно.', 'resp': 'разложите только три пункта, которые давят сильнее всего.', 'nhv': 'разложите только три пункта и пропустите вопросы.', 'lab': 'запишите только убеждение, а эксперимент придумайте вместе с психологом.', 'peak': 'выберите период и просто прочитайте, что собралось само.', 'nav': 'ничего делать не нужно, инструкция собирается сама.'},
+  lowEnergy: {'point': 'заполните только блок про обычный день, а остальное добавьте позже.', 'pulse': 'отметьте только силы и напряжение и сохраните.', 'radar': 'отметьте один-два сигнала, которые замечаете чаще всего.', 'load': 'добавьте три дела и ответьте только на вопрос, как вы себя чувствуете после них.', 'stress': 'выберите один стрессор и отметьте, насколько можете на него повлиять.', 'chain': 'ответьте только на первые два вопроса, а остальное разберите с психологом.', 'recovery': 'просто выберите свое состояние и попробуйте первый способ из списка.', 'range': 'достаточно посмотреть на картинку, заполнять ничего не нужно.', 'resp': 'разложите только три пункта, которые давят сильнее всего.', 'nhv': 'разложите только три пункта и пропустите вопросы.', 'lab': 'запишите только убеждение, а эксперимент придумайте вместе с психологом.', 'peak': 'выберите период и просто прочитайте, что собралось само.', 'nav': 'ничего делать не нужно, инструкция собирается сама.'},
   /* Короткая инструкция, которую видит клиент вверху каждого инструмента - один абзац. */
   howShort: {'point': 'Ответьте на вопросы о том, как вы живете сейчас - в основном нажатиями. В конце трека вы сравните ответы с финальными и увидите изменения не по ощущениям, а по факту.',
-    'pulse': '2-3 раза в неделю отметьте, что делаете, что чувствуете и сколько у вас сил. Обязательно только энергия и напряжение. Из отметок складывается график - по нему видно, что забирает силы и что их возвращает.',
+    'pulse': '2-3 раза в неделю отмечайте, чем вы заняты, что чувствуете и сколько у вас сил. Обязательно нужно отметить только силы и напряжение, остальное можно пропустить. Из отметок складывается график, по которому видно, что забирает у вас силы и что их возвращает.',
     'radar': 'Отметьте, что меняется в теле, эмоциях, мыслях и поведении, когда нагрузка растет, и когда это обычно появляется. Так вы научитесь замечать перегрузку на первых звоночках.',
     'load': 'Сначала добавьте дела, которые регулярно повторяются в вашей жизни, например работу, дорогу или заботу о близких. Потом про каждое дело ответьте на четыре коротких вопроса, и внизу страницы появятся весы: на одну чашу лягут дела, которые забирают у вас силы, а на другую - те, что их возвращают.',
     'stress': 'Выберите, что больше всего давит, отметьте, насколько вы можете на это влиять, и запишите один маленький шаг. Карта покажет, где ваши главные рычаги.',
@@ -1273,10 +1294,16 @@ const field=(label,inner,hint)=>`<div class="field"><div class="field__label"><s
 function head(t){
   const lk=ns=>ns.map(n=>`<button data-go="tool" data-arg="${TN[n].id}" class="${isOpen(TN[n].id)?'':'is-closed'}" ${isOpen(TN[n].id)?'':'disabled'}>${n}. ${esc(TN[n].title)}</button>`).join('');
   const h=C.howTo[t.id]||{};
-  return `<button class="back" data-back>${BACK}Назад</button><header class="thead"><p class="eyebrow">${t.role?esc(t.role)+' · ':''}${esc(t.time)}</p><h1>${esc(t.title)}</h1><p class="thead__goal">${esc(t.goal)}</p>
-    <p class="thead__how">${esc(C.howShort[t.id]||'')}</p>${C.lowEnergy[t.id]?`<p class="thead__low"><span class="thead__bat" aria-hidden="true"><i></i></span><span><b>Если сил мало,</b> ${esc(C.lowEnergy[t.id])}</span></p>`:''}
+  return `<button class="back" data-back>${BACK}Назад</button><header class="thero">
+    <div class="thero__img">${bigIco(t.id,150)}</div>
+    <div class="thero__txt"><p class="eyebrow">${t.role?esc(t.role)+' · ':''}${esc(t.time)}</p><h1>${esc(t.title)}</h1>
+      <p class="thero__met">${esc((C.metaphor||{})[t.id]||t.goal)}</p>
+      <div class="thero__pills"><button type="button" class="tpill" data-tp="how" aria-expanded="false">${ico('nav',16)}Как это работает</button>${C.lowEnergy[t.id]?`<button type="button" class="tpill" data-tp="low" aria-expanded="false"><span class="thead__bat" aria-hidden="true"><i></i></span>Если сил мало</button>`:''}</div>
+      <div class="tpanel" data-tpp="how" hidden><p>${esc(t.goal)}</p><p>${esc(C.howShort[t.id]||'')}</p></div>
+      ${C.lowEnergy[t.id]?`<div class="tpanel" data-tpp="low" hidden><p>Если сил мало, ${esc(C.lowEnergy[t.id])}</p></div>`:''}
+    </div></header>
     ${PSY?`<details class="how"><summary>Для психолога: подробно</summary><div class="how__body"><div><p class="how__h">Зачем это клиенту</p><p>${esc(h.why||t.task)}</p></div>${h.steps?`<div><p class="how__h">Шаги</p><ol class="how__steps">${h.steps.map(x=>`<li>${esc(x)}</li>`).join('')}</ol></div>`:''}<div><p class="how__h">Что получится</p><p>${esc(t.result)}</p></div>
-    ${t.uses.length?`<div class="links">Берет данные из: ${lk(t.uses)}</div>`:''}${t.feeds.length?`<div class="links">Передает в: ${lk(t.feeds)}</div>`:''}</div></details>`:''}</header>`}
+    ${t.uses.length?`<div class="links">Берет данные из: ${lk(t.uses)}</div>`:''}${t.feeds.length?`<div class="links">Передает в: ${lk(t.feeds)}</div>`:''}</div></details>`:''}`}
 const wrap=(t,body)=>`<div class="page page--narrow">${head(t)}${body}${PSY&&t.feeds.length?`<div class="links" style="margin-top:40px;padding-top:18px;border-top:1px solid var(--line)">Ваши ответы отсюда используются в: ${t.feeds.map(n=>`<button data-go="tool" data-arg="${TN[n].id}" class="${isOpen(TN[n].id)?'':'is-closed'}" ${isOpen(TN[n].id)?'':'disabled'}>${n}. ${esc(TN[n].title)}</button>`).join('')}</div>`:''}<div style="margin-top:28px;display:flex;gap:12px;flex-wrap:wrap"><button class="btn btn--outline" data-disc="${esc(t.title)}">Хочу обсудить на встрече</button><button class="btn btn--ghost" data-back>${BACK}Назад</button>${RESET[t.id]?`<button class="btn btn--ghost" data-reset="${t.id}" style="margin-left:auto">Очистить этот инструмент</button>`:''}</div></div>`;
 const RESET={point:()=>S.point={},pulse:()=>S.pulses=[],radar:()=>S.signals=[],load:()=>S.load=[],stress:()=>S.stressors=[],chain:()=>S.chains=[],recovery:()=>S.recovery=[],range:()=>S.range={},
   resp:()=>S.resp={place:{},ifStop:{}},nhv:()=>S.nhv={place:{},behind:'',notes:{}},lab:()=>{S.lab=[];S.works=[]},peak:()=>S.peak={}};
@@ -2075,6 +2102,7 @@ function userMenu(){const mm=$('#umenu'),b=$('#userB');const open=mm.hidden;
 document.addEventListener('click',e=>{if(e.target.closest('#userB')){userMenu();return}const mm=$('#umenu');if(mm&&!mm.hidden&&!e.target.closest('#umenu')){mm.hidden=true;$('#userB').setAttribute('aria-expanded','false')}});
 
 (()=>{const mn=document.getElementById('main');mn.classList.add('enter');setTimeout(()=>mn.classList.remove('enter'),1800)})();
+document.addEventListener('click',e=>{const b=e.target.closest('[data-tp]');if(!b)return;const k=b.dataset.tp,box=b.closest('.thero');const open=b.getAttribute('aria-expanded')!=='true';$$('[data-tp]',box).forEach(x=>x.setAttribute('aria-expanded','false'));$$('[data-tpp]',box).forEach(x=>x.hidden=true);if(open){b.setAttribute('aria-expanded','true');$(`[data-tpp="${k}"]`,box).hidden=false}});
 render();if(pendingToast)setTimeout(()=>toast(pendingToast),300);
 })();
 
