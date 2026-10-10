@@ -686,6 +686,8 @@ details.more{margin-top:14px}details.more summary{cursor:pointer;color:var(--mut
 .jar__g i{position:absolute;left:0;right:0;bottom:0}.jar__g b{position:absolute;left:0;right:0;top:10px;font-family:var(--serif);font-weight:400;font-size:22px;color:var(--ink)}
 @media (max-width:520px){.jars{gap:6px}.jar{font-size:12px}.jar__g{height:110px}}
 .zrows{display:grid;gap:10px;margin-bottom:28px}
+.zrow--wide{grid-template-columns:160px minmax(0,1fr)}.zrow--wide .zrow__d{grid-column:2;max-width:none;margin:0;font-size:15px;line-height:1.55;color:var(--text)}
+@media (max-width:640px){.zrow--wide{grid-template-columns:minmax(0,1fr)}.zrow--wide .zrow__d{grid-column:auto}}
 .zrow{display:grid;grid-template-columns:150px minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:center;padding:16px 18px}
 .zrow--ok{background:var(--mint)}.zrow--warn{background:var(--beige)}.zrow--bad{background:var(--drain)}
 .zrow__h{display:flex;align-items:center;gap:10px}.zrow__h b{font-family:var(--serif);font-weight:400;font-size:20px;color:var(--ink)}
@@ -1113,7 +1115,7 @@ function weekSteps(){const st=[];const wk=Date.now()-8*864e5;const nP=S.pulses.f
 function vToday(m){const steps=weekSteps();const cur=steps.findIndex(s=>!s.done);const cs=curStage(),stg=C.stages[cs-1];
   m.innerHTML=`<div class="page page--narrow guided">
     <header class="g-head"><p class="eyebrow">Неделя ${weekNo()} из 12</p><h1>${hello()}${S.name?', '+esc(S.name):''}</h1>
-      <p class="g-lead">Сейчас идет этап «${esc(stg.title)}». ${esc(stg.desc)} Пройдите шаги ниже по порядку и в своем темпе: следующий шаг выделен, а сделанные отмечаются галочкой.</p>
+      <p class="g-lead">Сейчас вы находитесь на этапе «${esc(stg.title)}». ${esc(stg.desc)} Пройдите шаги ниже по порядку и в своем темпе: следующий шаг выделен, а сделанные отмечаются галочкой.</p>
       ${!S.name?`<div class="name-row"><input class="line" id="nameIn" placeholder="Как к вам обращаться?" aria-label="Ваше имя"><button class="btn btn--sm" id="nameB">Сохранить</button></div>`:''}
       <p class="g-host">Программу ведет ${esc(C.guide.name)}. <button class="link" id="hostB">Посмотреть приветствие</button></p></header>
     <section aria-label="Шаги на этой неделе"><h2 class="g-h2">Ваши шаги на этой неделе</h2>
@@ -1451,7 +1453,8 @@ TOOL.radar=(m,t)=>{
     ${S.signals.length?`<div>${S.signals.map((x,k)=>`<div class="item-row" style="grid-template-columns:minmax(0,1fr) auto 32px"><span style="font-size:16px;color:var(--ink)">${esc(x.t)} <span class="muted">· ${esc(x.type)}</span></span>
       <div class="seg" data-zk="${k}">${Object.keys(ZL).map(z=>`<button type="button" aria-pressed="${x.zone===z}" data-z="${z}">${ZL[z]}</button>`).join('')}</div><button class="del" data-dsig="${k}" aria-label="Убрать">×</button></div>`).join('')}</div>`:'<p class="muted">Сначала отметьте сигналы в шаге 1.</p>'}</section>
   <section class="sec"><div class="sec__h"><h2>Мой радар</h2><span class="muted">чем ближе к центру - тем ближе к пределу</span></div>
-    ${S.signals.some(x=>x.zone)?`<div class="viz">${radarSvg()}</div>`:'<p class="muted">Радар появится, когда вы отметите этапы в шаге 2.</p>'}</section>`);
+    ${S.signals.some(x=>x.zone)?`<div class="viz">${radarSvg()}</div>`:'<p class="muted">Радар появится, когда вы отметите этапы в шаге 2.</p>'}</section>
+  ${S.signals.some(x=>x.zone)?radarMeaning():''}`);
   bindDisc(m);
   const toggle=(type,v)=>{const k=S.signals.findIndex(x=>x.type===type&&x.t===v);if(k>=0)S.signals.splice(k,1);else S.signals.push({t:v,type,zone:null});save();const y=window.scrollY;render();window.scrollTo({top:y})};
   $$('.sector[data-type]',m).forEach(sec=>{const type=sec.dataset.type;
@@ -1461,10 +1464,20 @@ TOOL.radar=(m,t)=>{
   $$('[data-zk]',m).forEach(g=>$$('button',g).forEach(b=>b.onclick=()=>{S.signals[+g.dataset.zk].zone=b.dataset.z;save();const y=window.scrollY;render();window.scrollTo({top:y})}));
   $$('[data-dsig]',m).forEach(b=>b.onclick=()=>{S.signals.splice(+b.dataset.dsig,1);save();const y=window.scrollY;render();window.scrollTo({top:y})});
 };
+
+function radarMeaning(){const g=z=>S.signals.filter(x=>x.zone===z).map(x=>x.t);
+  const Z=[['ранний','ok','Первые звоночки','Эти сигналы появляются, когда нагрузка только начинает расти. Если вы их заметили, у вас еще есть запас сил, и это самый удобный момент, чтобы сбавить темп: сделать паузу, убрать одно дело из списка или попросить помощи. Чем раньше вы отреагируете, тем меньше сил потратите.'],
+    ['уже перегружен','warn','Уже тяжело','Эти сигналы означают, что вы уже тратите силы быстрее, чем они восстанавливаются. В такой момент лучше не терпеть до выходных, а снизить нагрузку в тот же день и выбрать способ прийти в себя в «Центре восстановления».'],
+    ['предел','bad','На пределе','Если вы замечаете эти сигналы, сил почти не осталось. Остановитесь, насколько это возможно, откройте «Если сейчас очень тяжело» и напишите психологу, не дожидаясь встречи.']];
+  const early=g('ранний').length;
+  return `<section class="sec"><div class="sec__h"><h2>Что означает ваш радар</h2></div>
+    <p style="font-size:17px;margin-bottom:18px">Радар показывает, как у вас обычно нарастает перегрузка: снаружи находятся сигналы, которые появляются раньше всего, а ближе к центру те, что появляются, когда сил уже почти нет. Главная задача - научиться замечать сигналы из внешнего круга, потому что именно тогда помочь себе проще всего.</p>
+    <div class="zrows">${Z.map(([z,c,t,d])=>{const v=g(z);return `<div class="zrow zrow--${c} zrow--wide"><div class="zrow__h"><span class="zrow__m zrow__m--${c}"></span><b>${t}</b></div><div class="zrow__c"><small>Ваши сигналы</small><div>${v.length?v.map(x=>`<span>${esc(x)}</span>`).join(''):'<em>пока не отмечены</em>'}</div></div><p class="zrow__d">${d}</p></div>`}).join('')}</div>
+    ${early?'':`<div class="note">В первом круге у вас пока нет сигналов. Понаблюдайте в течение недели, что появляется раньше всего, когда нагрузка растет: обычно это мелочи, например вы перестаете делать паузы или начинаете сжимать челюсть. Именно такие мелочи стоит научиться замечать.</div>`}</section>`}
 function radarSvg(){const W=720,H=520,cx=360,cy=262,Rr=[230,155,80];
   const ang={'тело':-135,'эмоции':-45,'мысли':45,'поведение':135};
   const zr={'ранний':(Rr[0]+Rr[1])/2,'уже перегружен':(Rr[1]+Rr[2])/2,'предел':Rr[2]/2};
-  const cnt={};const dots=S.signals.filter(s=>s.zone).map(s=>{const k=s.type+s.zone;const i=cnt[k]=(cnt[k]||0)+1;const a=(ang[s.type]+(i-1)*14-((i-1)%2?7:0))*Math.PI/180;const r=zr[s.zone];return {s,x:cx+r*Math.cos(a),y:cy+r*Math.sin(a)}});
+  const cnt={};const dots=S.signals.filter(s=>s.zone).map(s=>{const k=s.type+s.zone;const i=cnt[k]=(cnt[k]||0)+1;const q=i-1,off=q===0?0:(q%2?1:-1)*Math.ceil(q/2)*20;const a=(ang[s.type]+off)*Math.PI/180;const r=zr[s.zone]+(q%2?14:0);return {s,x:cx+r*Math.cos(a),y:cy+r*Math.sin(a)}});
   return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Радар ранних сигналов">
     <circle cx="${cx}" cy="${cy}" r="${Rr[0]}" fill="var(--mint)" opacity=".55"/><circle cx="${cx}" cy="${cy}" r="${Rr[1]}" fill="var(--beige)"/><circle cx="${cx}" cy="${cy}" r="${Rr[2]}" fill="var(--lavender)"/>
     ${Rr.map(r=>`<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="var(--text)" stroke-dasharray="2 5" opacity=".5"/>`).join('')}
