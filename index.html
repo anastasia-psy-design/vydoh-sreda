@@ -1380,7 +1380,7 @@ function toolPulse(m,t){if(!route.pw)route.pw={step:0,p:{energy:null,tension:nul
     `<h2 class="pw-q">Хочется продолжить это дело или остановиться?</h2><div class="pw-want">${[['продолжать','Продолжить','<path d="M8 6l12 8-12 8z" fill="currentColor"/>'],['остановиться','Остановиться','<path d="M9 7v14M19 7v14" stroke="currentColor" stroke-width="2.4"/>']].map(([v,l,ic])=>`<button type="button" data-want="${v}" aria-pressed="${p.want===v}"><svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">${ic}</svg>${l}</button>`).join('')}</div>`][st];
   m.innerHTML=wrap(t,`<ol class="pw-steps" aria-label="Шаги">${PSTEPS.map(([l],i)=>`<li class="${i<st?'done':i===st?'now':''}"><button type="button" data-step="${i}" ${i===st?'aria-current="step"':''}><span>${i<st?ico('check',18):i+1}</span>${l}</button></li>`).join('')}</ol>
     <div class="panel pw">${body}<div class="pw-nav">${st>0?`<button class="btn btn--ghost" id="pwBack">${BACK}Назад</button>`:'<span></span>'}${st===3?`<span class="pw-nav__r"><button class="btn btn--ghost" id="puQuick">Сохранить сейчас</button><button class="btn btn--primary" id="pwNext">Дальше</button></span>`:st<4?`<button class="btn btn--primary" id="pwNext">Дальше</button>`:`<button class="btn btn--primary" id="puSave">${MARK}Сохранить отметку</button>`}</div></div>
-    <section class="sec"><div class="sec__h"><h2>Энергия и напряжение</h2><span class="muted">${S.pulses.length} ${plural(S.pulses.length,'отметка','отметки','отметок')}</span></div>
+    <section class="sec"><div class="sec__h"><h2>Сверяйтесь с графиком энергии и напряжения</h2><span class="muted">${S.pulses.length} ${plural(S.pulses.length,'отметка','отметки','отметок')}</span></div>
     ${S.pulses.length?pulseView():'<p class="muted">Здесь появится график после первых отметок.</p>'}</section>`);
   bindDisc(m);bindPulseView(m);bindSeg(m,p);
   const keepCtx=()=>{const c=$('#ctx',m);if(c)p.ctx=c.value.trim()};
@@ -1501,7 +1501,7 @@ function vTools(m){const cs=curStage();const stg=C.stages[cs-1];
     const inner=`<span class="tt__ico">${bigIco(id,58)}${dn?`<span class="tt__ok">${ico('check',14)}</span>`:''}${!op?`<span class="tt__lock" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="3" y="6.5" width="8" height="6" rx="1.5"/><path d="M4.8 6.5V5a2.2 2.2 0 014.4 0v1.5"/></svg></span>`:''}</span><span class="tt__t">${esc(t.title)}</span><span class="tt__s">${t.final?'собирается сама':dn?'заполнено':op?esc(t.time):'откроется позже'}</span>`;
     return `<div class="tt-wrap">${op?`<button class="tt tt--${cls}" data-go="tool" data-arg="${id}">${inner}</button>`:`<div class="tt tt--${cls}" aria-disabled="true">${inner}</div>`}${S.psy&&!t.final?`<label class="tt__psy"><input type="checkbox" data-open="${id}" ${S.open[id]?'checked':''}> открыт</label>`:''}</div>`};
   m.innerHTML=`<div class="page rmap">
-    <header class="r-head"><p class="eyebrow">Неделя ${weekNo()} из 12</p><h1>Ваш маршрут</h1>
+    <header class="r-head"><p class="eyebrow">Неделя ${weekNo()} из 12</p><h1>Посмотрите свой маршрут</h1>
       <p class="r-lead">Сейчас вы на этапе «${esc(stg.title)}». Новые инструменты появляются постепенно, после встреч с психологом.</p></header>
     <div class="bat2"><div class="bat2__icon" role="img" aria-label="Пройдено этапов: ${cs-1} из 9"><div class="bat2__body"><div class="bat2__fill" style="--lvl:${Math.round((cs-0.5)/9*100)}%"><span class="bat2__shine"></span></div><span class="bat2__ticks"></span><svg class="bat2__bolt" width="22" height="30" viewBox="0 0 22 30" aria-hidden="true"><path d="M13 1L2 17h7l-2 12 11-16h-7z" fill="var(--ink)"/></svg></div><span class="bat2__nub"></span></div>
       <div class="bat2__txt"><span class="bat2__big">Этап ${cs} из 9</span><span class="bat2__sub">${esc(TRAIL_SHORT[cs-1])}${cs<9?` · дальше ${esc(TRAIL_SHORT[cs])}`:''}</span></div></div>
@@ -1521,11 +1521,11 @@ function vLinks(m){const base=C.publicUrl;
     <div class="note" style="margin-bottom:24px">Ответы клиента хранятся только в его браузере. Вы видите их на встрече, когда клиент показывает экран.</div>
     <ul class="list">${C.stages.filter(s=>s.tools.length).map(s=>{const url=stageLink(s.n);return `<li style="display:grid;gap:8px;justify-content:stretch"><span><b style="font-weight:500">${s.n}. ${esc(s.title)}</b> <span class="muted">· ${esc(s.weeks)} · откроет: ${s.tools.map(id=>T[id].n+'. '+esc(T[id].title)).join(', ')}</span></span>
       <span class="copyrow"><code>${esc(url)}</code><button class="btn btn--sm" data-copy="${esc(url)}">Ссылка</button><button class="btn btn--sm btn--outline" data-copymsg="${esc(url)}">Сообщение со ссылкой</button></span></li>`}).join('')}</ul>
-    <section class="sec"><div class="sec__h"><h2>Сообщение клиенту</h2></div>
+    <section class="sec"><div class="sec__h"><h2>Подготовьте сообщение клиенту</h2></div>
       <textarea class="area" id="msgT" style="min-height:120px">Здравствуйте! После нашей встречи я открыла вам новые инструменты в «Выдохе». Перейдите по ссылке - они появятся в разделе «Маршрут». Достаточно 10-20 минут за неделю, а «Карта состояния» - 2-3 раза в неделю по полминуты.\n\n[ссылка]</textarea>
       <p class="muted" style="margin-top:8px">Кнопка «Сообщение со ссылкой» у нужного этапа подставит ссылку вместо [ссылка].</p><div style="margin-top:12px"><button class="btn btn--sm" id="msgC">Скопировать без ссылки</button></div></section>
-    <section class="sec"><div class="sec__h"><h2>Разговорные слова</h2></div><p style="font-size:16px">Если считаете уместным для клиента, отправьте ему ссылку - в «Карте состояния» среди эмоций появится разговорное «заебался(-ась)». Иногда это снимает напряжение. Убрать: та же ссылка с <code>informal=0</code>.</p><div style="margin-top:12px"><button class="btn btn--sm" data-copy="${esc(base)}?informal=1">Скопировать ссылку</button></div></section>
-    <section class="sec"><div class="sec__h"><h2>Доступ для коллег</h2></div>
+    <section class="sec"><div class="sec__h"><h2>Включите разговорные слова</h2></div><p style="font-size:16px">Если считаете уместным для клиента, отправьте ему ссылку - в «Карте состояния» среди эмоций появится разговорное «заебался(-ась)». Иногда это снимает напряжение. Убрать: та же ссылка с <code>informal=0</code>.</p><div style="margin-top:12px"><button class="btn btn--sm" data-copy="${esc(base)}?informal=1">Скопировать ссылку</button></div></section>
+    <section class="sec"><div class="sec__h"><h2>Дайте доступ коллегам</h2></div>
       <p style="font-size:16px">Режим психолога включается по ссылке <code>${esc(base)}?psy=1</code> и выключается по <code>${esc(base)}?psy=0</code>. Клиентам эту ссылку не отправляйте.</p>
       <div style="margin-top:12px"><button class="btn btn--sm" data-copy="${esc(base)}?psy=1">Скопировать ссылку психолога</button></div></section></div>`;
   $$('[data-copy]',m).forEach(b=>b.onclick=()=>copyText(b.dataset.copy));
@@ -1575,7 +1575,7 @@ const pracImg=(k,big)=>{const s=big?300:120;
   return `<svg class="pimg pimg--anx" width="${s}" height="${s}" viewBox="0 0 200 200" aria-hidden="true"><circle cx="100" cy="100" r="96" fill="#f3f1f7"/><rect x="50" y="50" width="100" height="100" rx="14" fill="none" stroke="var(--ink)" stroke-width="1.6"/>
     ${big?`<g font-family="Golos Text,sans-serif" font-size="11" fill="#6b6965" text-anchor="middle"><text x="100" y="40">вдох</text><text x="166" y="104" transform="rotate(90 166 104)">пауза</text><text x="100" y="170">выдох</text><text x="34" y="104" transform="rotate(-90 34 104)">пауза</text></g>`:''}
     <circle class="sqdot" cx="50" cy="150" r="9" fill="var(--ink)"/><circle cx="100" cy="100" r="96" fill="none" stroke="var(--ink)" stroke-width="1.2" stroke-dasharray="2 4"/></svg>`};
-function pracPicker(){return `<h2 class="prac__h">Что с вами сейчас?</h2><div class="prac__cards">${Object.entries(PRAC).map(([k,v])=>`<button class="prac__card" data-prac="${k}" style="background:${v.color}">${pracImg(k)}<span class="prac__st">${esc(v.state)}</span><span class="prac__nm">${esc(v.name)} · ${esc(v.time)}</span></button>`).join('')}</div>`}
+function pracPicker(){return `<h2 class="prac__h">Выберите, что с вами сейчас</h2><div class="prac__cards">${Object.entries(PRAC).map(([k,v])=>`<button class="prac__card" data-prac="${k}" style="background:${v.color}">${pracImg(k)}<span class="prac__st">${esc(v.state)}</span><span class="prac__nm">${esc(v.name)} · ${esc(v.time)}</span></button>`).join('')}</div>`}
 let PR=null;
 function pracStop(){if(PR){clearTimeout(PR.t);cancelAnimationFrame(PR.raf);PR=null}}
 function pracRun(box,k){pracStop();const v=PRAC[k],seq=v.seq();
@@ -1606,10 +1606,10 @@ function vHard(m){pracStop();const H=C.hard;const p=S.plan=S.plan||{};p.people=p
   const filled=p.signs||p.helps||p.people.length||p.psy;
   m.innerHTML=`<div class="page page--narrow"><header class="thead"><p class="eyebrow">Прямо сейчас</p><h1>${esc(H.title)}</h1><p class="thead__goal">${esc(H.intro)}</p></header>
     <section class="prac" id="prac">${pracPicker()}</section>
-    <section class="sec"><div class="sec__h"><h2>Мой план на тяжелый момент</h2><button class="btn btn--sm btn--outline" id="planEdit">${filled?'Изменить':'Заполнить'}</button></div>
+    <section class="sec"><div class="sec__h"><h2>Подготовьте план на тяжелый момент</h2><button class="btn btn--sm btn--outline" id="planEdit">${filled?'Изменить':'Заполнить'}</button></div>
       <p class="muted" style="margin-bottom:14px">Лучше заполнить заранее - вместе с психологом на первой встрече, когда есть силы. Тогда в тяжелый момент не придется ничего придумывать.</p>
       <div id="planBox">${planView(p,contactHref)}</div></section>
-    <section class="sec"><div class="sec__h"><h2>Написать психологу</h2></div>
+    <section class="sec"><div class="sec__h"><h2>Напишите психологу</h2></div>
       <textarea class="area" id="msgH" style="min-height:80px">${esc(H.msg)}</textarea>
       <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap"><button class="btn btn--primary btn--sm" id="msgHC">${MARK}Скопировать сообщение</button>
         ${p.psy&&contactHref(p.psy)?`<a class="btn btn--sm" href="${esc(contactHref(p.psy))}" target="_blank" rel="noopener">Открыть контакт психолога</a>`:''}</div></section>
@@ -1649,21 +1649,21 @@ function wheelSvg(v){const cx=160,cy=150,R=110,n=SPHERES.length;const pt=(i,r)=>
     ${SPHERES.map(([k,l],i)=>{const [x,y]=pt(i,R),[tx,ty]=pt(i,R+22);return `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="var(--line)"/><text class="lbl" x="${tx}" y="${ty+4}" text-anchor="${Math.abs(tx-cx)<10?'middle':tx<cx?'end':'start'}">${esc(l)}</text>`}).join('')}
     <polygon points="${poly}" fill="var(--lavender)" stroke="var(--text)" stroke-width="1.4" opacity=".9"/></svg>`}
 TOOL.point=(m,t)=>{const p=S.point;p.spheres=p.spheres||{};
-  m.innerHTML=wrap(t,`<section class="dsec"><h2 class="dsec__h">Ваш обычный день</h2><div class="form">
+  m.innerHTML=wrap(t,`<section class="dsec"><h2 class="dsec__h">Отметьте, как проходит ваш обычный день</h2><div class="form">
     ${field('Оцените, сколько у вас сил утром',seg('morning',ENERGY_W,p.morning))}
     ${field('Оцените, сколько сил остается к вечеру',seg('evening',ENERGY_W,p.evening))}
     ${field('Отметьте, как вы спите',seg('sleep',['восстанавливает','так себе','не восстанавливает'],p.sleep))}</div></section>
-  <section class="dsec"><h2 class="dsec__h">Неделя и год</h2><div class="form">
+  <section class="dsec"><h2 class="dsec__h">Отметьте, как вы отдыхаете в течение недели и года</h2><div class="form">
     ${field('Отметьте, восстанавливают ли вас выходные',seg('weekend',['да','частично','нет, уходят на дела'],p.weekend))}
     ${field('Когда вы последний раз отдыхали в отпуске без работы?',seg('vacation',['в последние полгода','больше полугода назад','больше года назад','в отпуске все равно работаю'],p.vacation))}</div></section>
-  <section class="dsec"><h2 class="dsec__h">Нагрузка по сферам жизни</h2><p class="muted" style="margin-bottom:6px">Оцените, сколько сил сейчас уходит на каждую сферу.</p>
+  <section class="dsec"><h2 class="dsec__h">Оцените нагрузку в разных сферах жизни</h2><p class="muted" style="margin-bottom:6px">Оцените, сколько сил сейчас уходит на каждую сферу.</p>
     <div class="wheel-wrap"><div>${SPHERES.map(([k,l])=>`<div class="ld-q"><span>${l}</span><div class="seg" data-sph="${k}">${LOADW.map(([v,w])=>`<button type="button" aria-pressed="${p.spheres[k]===v}" data-v="${v}">${w}</button>`).join('')}</div></div>`).join('')}</div>
     <div class="wheel" id="wheel">${wheelSvg(p.spheres)}</div></div></section>
-  <section class="dsec"><h2 class="dsec__h">Состояние</h2><div class="form">
+  <section class="dsec"><h2 class="dsec__h">Отметьте, что вы чувствуете</h2><div class="form">
     ${field('Отметьте эмоции, которые вы чаще всего испытываете в течение недели',chips('emotions',C.EMOTIONS,p.emotions,{multi:true,max:6})+ownInput('emotions'))}
     ${field('Отметьте ощущения, которые вы замечаете в теле',chips('body',C.BODY,p.body,{multi:true,max:6})+ownInput('body'))}
     ${field('Отметьте, что вы уже пробовали, чтобы облегчить состояние или вернуть силы',chips('tried',C.TRIED,p.tried,{multi:true,max:12})+ownInput('tried'))}</div></section>
-  <section class="dsec"><h2 class="dsec__h">Ваша цель</h2><div class="form">
+  <section class="dsec"><h2 class="dsec__h">Сформулируйте свою цель на три месяца</h2><div class="form">
     ${field('Напишите, что вы хотите изменить за три месяца',`<textarea class="area" id="pChange" placeholder="Своими словами">${esc(p.change||'')}</textarea>`)}
     ${field('Напишите 1-3 признака, по которым поймете, что стало лучше',[0,1,2].map(i=>`<input class="line" data-mk="${i}" placeholder="Например: «засыпаю без мыслей о работе»" value="${esc((p.markers||[])[i]||'')}">`).join(''))}</div></section>
   <div style="margin-top:24px"><button class="btn btn--primary" id="pSave">${MARK}Сохранить диагностику</button></div>`);
@@ -1706,18 +1706,18 @@ TOOL.radar=(m,t)=>{
   const has=(type,v)=>S.signals.some(x=>x.type===type&&x.t===v);
   const unz=S.signals.filter(x=>!x.zone).length;
   m.innerHTML=wrap(t,`<div class="note">Внутренний сканер: остановитесь на 30 секунд и пройдите вниманием по телу. Тяжело или легко? Холодно или горячо? Напряжено или расслаблено? Потом - что с эмоциями, мыслями и поведением.</div>
-  <section class="sec"><div class="sec__h"><h2>Шаг 1. Что вы замечаете, когда нагрузка растет?</h2></div>
+  <section class="sec"><div class="sec__h"><h2>Шаг 1. Отметьте, что вы замечаете, когда нагрузка растет</h2></div>
     <p class="muted" style="margin-bottom:16px">Нажмите на подходящие варианты или допишите свои - они сохраняются сразу. Можно заполнять колонки в любом порядке.</p>
     <div class="sectors">${C.RADAR_TYPES.map(type=>{const sugg=[...new Set([...(type==='тело'?pulseBody:[]),...(C.RADAR_SUGGEST[type]||[])])];const own=S.signals.filter(x=>x.type===type&&!sugg.includes(x.t));
       return `<div class="sector" data-type="${type}"><h3>${type[0].toUpperCase()+type.slice(1)}</h3><p class="muted" style="margin-top:-6px">${TD[type]}</p>
         <div class="chips">${sugg.map(v=>`<button class="chip" aria-pressed="${has(type,v)}" data-tg="${esc(v)}">${esc(v)}</button>`).join('')}${own.map(x=>`<button class="chip" aria-pressed="true" data-tg="${esc(x.t)}">${esc(x.t)}</button>`).join('')}</div>
         <div class="input" style="min-height:44px"><input placeholder="Свое" data-own aria-label="Свой сигнал: ${type}"><button class="btn btn--sm btn--ghost" data-ownadd>+</button></div></div>`}).join('')}</div></section>
-  <section class="sec"><div class="sec__h"><h2>Шаг 2. Когда это обычно появляется?</h2>${unz?`<span class="muted">не отмечено: ${unz}</span>`:''}</div>
+  <section class="sec"><div class="sec__h"><h2>Шаг 2. Отметьте, когда это обычно появляется</h2>${unz?`<span class="muted">не отмечено: ${unz}</span>`:''}</div>
     <p class="muted" style="margin-bottom:14px">Перегрузка нарастает постепенно. Отметьте для каждого сигнала, на каком этапе он у вас обычно появляется:</p>
     <div class="zones" style="margin-bottom:18px">${Object.keys(ZL).map(z=>`<div class="zone-card"><h3 style="margin-top:0">${ZL[z]}</h3><p>${ZD[z]}</p></div>`).join('')}</div>
     ${S.signals.length?`<div>${S.signals.map((x,k)=>`<div class="item-row" style="grid-template-columns:minmax(0,1fr) auto 32px"><span style="font-size:16px;color:var(--ink)">${esc(x.t)} <span class="muted">· ${esc(x.type)}</span></span>
       <div class="seg" data-zk="${k}">${Object.keys(ZL).map(z=>`<button type="button" aria-pressed="${x.zone===z}" data-z="${z}">${ZL[z]}</button>`).join('')}</div><button class="del" data-dsig="${k}" aria-label="Убрать">×</button></div>`).join('')}</div>`:'<p class="muted">Сначала отметьте сигналы в шаге 1.</p>'}</section>
-  <section class="sec"><div class="sec__h"><h2>Мой радар</h2><span class="muted">чем ближе к центру - тем ближе к пределу</span></div>
+  <section class="sec"><div class="sec__h"><h2>Посмотрите на свой радар</h2><span class="muted">чем ближе к центру - тем ближе к пределу</span></div>
     ${S.signals.some(x=>x.zone)?`<div class="viz">${radarSvg()}</div>`:'<p class="muted">Радар появится, когда вы отметите этапы в шаге 2.</p>'}</section>
   ${S.signals.some(x=>x.zone)?radarMeaning():''}`);
   bindDisc(m);
@@ -1735,7 +1735,7 @@ function radarMeaning(){const g=z=>S.signals.filter(x=>x.zone===z).map(x=>x.t);
     ['уже перегружен','warn','Уже тяжело','Эти сигналы означают, что вы уже тратите силы быстрее, чем они восстанавливаются. В такой момент лучше не терпеть до выходных, а снизить нагрузку в тот же день и выбрать способ прийти в себя в «Центре восстановления».'],
     ['предел','bad','На пределе','Если вы замечаете эти сигналы, сил почти не осталось. Остановитесь, насколько это возможно, откройте «Если сейчас очень тяжело» и напишите психологу, не дожидаясь встречи.']];
   const early=g('ранний').length;
-  return `<section class="sec"><div class="sec__h"><h2>Что означает ваш радар</h2></div>
+  return `<section class="sec"><div class="sec__h"><h2>Разберитесь, что означает ваш радар</h2></div>
     <p style="font-size:17px;margin-bottom:18px">Радар показывает, как у вас обычно нарастает перегрузка: снаружи находятся сигналы, которые появляются раньше всего, а ближе к центру те, что появляются, когда сил уже почти нет. Главная задача - научиться замечать сигналы из внешнего круга, потому что именно тогда помочь себе проще всего.</p>
     <div class="zrows">${Z.map(([z,c,t,d])=>{const v=g(z);return `<div class="zrow zrow--${c} zrow--wide"><div class="zrow__h"><span class="zrow__m zrow__m--${c}"></span><b>${t}</b></div><div class="zrow__c"><small>Ваши сигналы</small><div>${v.length?v.map(x=>`<span>${esc(x)}</span>`).join(''):'<em>пока не отмечены</em>'}</div></div><p class="zrow__d">${d}</p></div>`}).join('')}</div>
     ${early?'':`<div class="note">В первом круге у вас пока нет сигналов. Понаблюдайте в течение недели, что появляется раньше всего, когда нагрузка растет: обычно это мелочи, например вы перестаете делать паузы или начинаете сжимать челюсть. Именно такие мелочи стоит научиться замечать.</div>`}</section>`}
@@ -1786,7 +1786,7 @@ function loadSvg(){const W=720,H=460,L=60,R=30,Tp=30,B=50;const x=v=>L+50+(v-1)*
 /* 5. Карта стрессоров и рычагов */
 TOOL.stress=(m,t)=>{
   const cands=S.load.filter(x=>x.after<0&&!S.stressors.some(s=>s.name===x.name)).map(x=>x.name);
-  m.innerHTML=wrap(t,`<section><div class="sec__h"><h2>Стрессоры</h2></div>
+  m.innerHTML=wrap(t,`<section><div class="sec__h"><h2>Добавьте то, что на вас давит</h2></div>
     ${cands.length?`<p class="muted" style="margin-bottom:10px">Из карты нагрузки - то, что забирает силы:</p><div class="chips" style="margin-bottom:14px">${cands.map(c=>`<button class="chip chip--add" data-sc="${esc(c)}">+ ${esc(c)}</button>`).join('')}</div>`:''}
     <div class="input"><input id="stIn" placeholder="Или новый стрессор"><button class="btn btn--sm" id="stAdd">Добавить</button></div>
     <div class="card-list" style="margin-top:20px">${S.stressors.map((s,i)=>`<article class="scard" data-i="${i}"><div class="scard__top"><h3>${esc(s.name)}</h3><button class="del" data-ds="${i}" aria-label="Убрать">×</button></div>
@@ -1798,7 +1798,7 @@ TOOL.stress=(m,t)=>{
         <label>Это скорее${seg('source',['внешнее требование','мое правило'],s.source)}</label></div>
       <div><p class="muted" style="margin-bottom:8px">Что здесь возможно сделать</p><div class="paths">${C.PATHS.map(([k,l,d])=>`<button type="button" class="path" data-path="${k}" aria-pressed="${s.path===k}"><b>${l}</b>${d}</button>`).join('')}</div></div>
       <input class="line" data-act value="${esc(s.action||'')}" placeholder="Конкретный шаг: что именно, с кем, когда"></article>`).join('')}</div></section>
-  <section class="sec"><div class="sec__h"><h2>Где мои рычаги</h2></div>
+  <section class="sec"><div class="sec__h"><h2>Найдите, на что вы можете повлиять</h2></div>
     ${S.stressors.length?`<div class="viz">${inflSvg()}</div><p class="viz-cap">Темные - то, что давит сильнее всего. Ищите их ближе к центру: там ваши рычаги.</p>`:'<p class="muted">Добавьте стрессоры, и появится карта рычагов.</p>'}</section>`);
   bindDisc(m);
   const add=v=>{v=v.trim();if(v&&!S.stressors.some(s=>s.name===v)){S.stressors.push({name:v,power:3,freq:'иногда',time:'сейчас',infl:1,source:'внешнее требование',path:null,action:''});save();render()}};
@@ -1833,7 +1833,7 @@ TOOL.chain=(m,t)=>{const idx=route.sub!=null?route.sub:0;const c=S.chains[idx]?J
     ${i<C.CHAIN.length-1?`<li><div class="chain__gap"><button type="button" class="choice" data-choice="${k}" aria-pressed="${c.choice===k}">здесь можно было иначе?</button></div></li>`:''}`).join('')}</ol>
   <div class="note" style="margin-top:20px"><b style="font-weight:500">Где в этой цепочке у вас был хотя бы маленький выбор?</b> Посмотрите на нее целиком и нажмите «здесь можно было иначе?» между теми шагами, где можно было поступить по-другому: подумать иначе, взять паузу, попросить помощи. Это и есть точка, с которой можно начать менять цепочку.</div>
   <div style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap"><button class="btn btn--primary" id="chSave">${MARK}Сохранить цепочку</button><button class="btn btn--outline" id="chNew">Новая цепочка</button>${c.rule?`<button class="btn" id="toLab">Проверить правило в Лаборатории</button>`:''}</div>
-  ${S.chains.length?`<section class="sec"><div class="sec__h"><h2>Мои цепочки</h2></div><ul class="list">${S.chains.map((x,i)=>`<li><span>${esc(x.situation||'Эпизод')}<br><span class="muted">правило: ${esc(x.rule||'-')}</span></span><button class="btn btn--sm btn--ghost" data-ch="${i}">Открыть</button></li>`).join('')}</ul></section>`:''}`);
+  ${S.chains.length?`<section class="sec"><div class="sec__h"><h2>Вернитесь к своим цепочкам</h2></div><ul class="list">${S.chains.map((x,i)=>`<li><span>${esc(x.situation||'Эпизод')}<br><span class="muted">правило: ${esc(x.rule||'-')}</span></span><button class="btn btn--sm btn--ghost" data-ch="${i}">Открыть</button></li>`).join('')}</ul></section>`:''}`);
   bindDisc(m);$$('[data-cs]',m).forEach(b=>b.onclick=()=>{const a=$(`[data-ck="${b.dataset.cs}"]`,m);a.value=a.value?a.value.replace(/\s*$/,'')+', '+b.dataset.v:b.dataset.v});
   $$('[data-choice]',m).forEach(b=>b.onclick=()=>{c.choice=c.choice===b.dataset.choice?null:b.dataset.choice;$$('[data-choice]',m).forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.choice===c.choice)))});
   $('#chSave').onclick=()=>{$$('[data-ck]',m).forEach(a=>c[a.dataset.ck]=a.value.trim());if(!c.situation){toast('Опишите ситуацию');return}
@@ -1849,13 +1849,13 @@ TOOL.recovery=(m,t)=>{const st={state:route.state||null};
   const score=(mid,state)=>S.recovery.filter(r=>r.m===mid&&r.state===state&&r.after<r.before).length;
   const sugg=st.state?C.METHODS.filter(x=>x.states.includes(st.state)).sort((a,b)=>score(b.id,st.state)-score(a.id,st.state)).slice(0,3):[];
   const kit={};S.recovery.filter(r=>r.keep&&r.after<r.before).forEach(r=>{(kit[r.state]=kit[r.state]||{});kit[r.state][r.m]=(kit[r.state][r.m]||0)+1});
-  m.innerHTML=wrap(t,`<section><div class="sec__h"><h2>Что сейчас происходит?</h2></div>
+  m.innerHTML=wrap(t,`<section><div class="sec__h"><h2>Выберите, что с вами сейчас происходит</h2></div>
     ${(()=>{const l=S.pulses[S.pulses.length-1];if(!l||st.state)return '';const g=l.tension>=4?'взвинчен(а)':l.energy<=2?'пусто, нет сил':null;return g?`<p class="muted" style="margin-bottom:10px">По последней отметке «Карты состояния» (силы ${l.energy}, напряжение ${l.tension}) похоже на «${g}».</p>`:''})()}<div class="states">${C.STATES.map(s=>`<button class="state" data-state="${esc(s)}" aria-pressed="${st.state===s}">${stateIco(s)}<span>${esc(s)}</span></button>`).join('')}</div>
     ${st.state?`<div class="sugg" style="margin-top:20px">${sugg.map(x=>`<div class="method"><p class="eyebrow">${esc(x.channel)} · ${esc(x.time)}${score(x.id,st.state)?' · вам уже помогало':''}</p><h3>${esc(x.title)}</h3><p class="why">${esc(x.how)}</p>
       ${x.channel==='релаксация Анастасии'?(x.audio?`<div class="vnote" data-audio="${esc(x.audio)}"><svg class="vnote__ring" viewBox="0 0 100 100"><circle class="track" cx="50" cy="50" r="49"/><circle class="bar" cx="50" cy="50" r="49" stroke-dasharray="307.88" stroke-dashoffset="307.88"/></svg><button class="vnote__view" aria-label="Слушать"></button><span class="vnote__play"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="23" fill="rgba(24,22,22,.55)"/><path d="M19 15l15 9-15 9z" fill="#fff"/></svg></span></div>`:'<p class="muted">Запись скоро появится</p>'):''}
       <button class="btn btn--sm btn--primary" data-try="${x.id}">${MARK}Попробовать</button></div>`).join('')}</div>`:''}
     <div id="trySlot"></div></section>
-  <section class="sec"><div class="sec__h"><h2>Мой набор</h2></div>
+  <section class="sec"><div class="sec__h"><h2>Соберите свой набор способов восстановиться</h2></div>
     ${Object.keys(kit).length?`<ul class="list">${Object.entries(kit).map(([s,ms])=>`<li><span class="ifthen" style="font-size:20px">В состоянии «${esc(s)}» мне чаще помогает ${Object.entries(ms).sort((a,b)=>b[1]-a[1]).map(([id,n])=>`<em>${esc(MBY[id]?MBY[id].title:id)}</em> (${n})`).join(' и ')}</span></li>`).join('')}</ul>`:'<p class="muted">После нескольких попыток здесь появится: «в состоянии X мне чаще помогают Y и Z».</p>'}</section>`);
   bindDisc(m);
   $$('[data-state]',m).forEach(b=>b.onclick=()=>{route.state=b.dataset.state;render()});
@@ -1877,14 +1877,14 @@ TOOL.range=(m,t)=>{const ps=S.pulses;const z=ps.map((p,i)=>zoneOf(p,ps[i-1]));co
     <div class="zone-card"><b>${c[0]}</b><h3>Устойчивый режим</h3><p>Нагрузка есть, восстановление происходит.</p></div>
     <div class="zone-card"><b>${c[1]}</b><h3>Мобилизация</h3><p>Временно интенсивно, но вы возвращаетесь.</p></div>
     <div class="zone-card"><b>${c[2]}</b><h3>Накопление долга</h3><p>После нагрузки состояние уже не возвращается к исходному.</p></div></div>
-  <section class="sec"><div class="sec__h"><h2>Ваши отметки по зонам</h2></div><div class="viz">${corridorSvg(ps,z)}</div>
+  <section class="sec"><div class="sec__h"><h2>Посмотрите, в каких зонах проходят ваши дни</h2></div><div class="viz">${corridorSvg(ps,z)}</div>
     <p class="viz-cap">Каждая точка - отметка в «Карте состояния». Чем ниже точка, тем меньше было сил.</p></section>
-  <section class="sec"><div class="sec__h"><h2>Что видно вместе</h2></div><dl class="kv">
+  <section class="sec"><div class="sec__h"><h2>Сопоставьте то, что видно в разных инструментах</h2></div><dl class="kv">
     <dt>Ранние сигналы</dt><dd>${esc(S.signals.filter(s=>s.zone==='ранний').map(s=>s.t).join(', ')||'-')}</dd>
     <dt>Что сильнее всего истощает</dt><dd>${esc(S.load.filter(x=>x.after<=-2).map(x=>x.name).join(', ')||'-')}</dd>
     <dt>Что возвращает</dt><dd>${esc(S.load.filter(x=>x.after>=1).map(x=>x.name).join(', ')||'-')}</dd>
     <dt>Главные рычаги</dt><dd>${esc(S.stressors.filter(s=>s.power>=4&&s.infl>=2).map(s=>s.name).join(', ')||'-')}</dd></dl></section>`}
-  <section class="sec"><div class="sec__h"><h2>Вместе с психологом</h2></div><div class="form">
+  <section class="sec"><div class="sec__h"><h2>Обсудите вместе с психологом</h2></div><div class="form">
     ${field('Что переводит вас в мобилизацию и в долг?',`<textarea class="area" data-rq="q1">${esc(r.q1||'')}</textarea>`)}
     ${field('Сколько вы обычно там остаетесь?',`<textarea class="area" data-rq="q2">${esc(r.q2||'')}</textarea>`)}
     ${field('Какие ресурсы помогают пройти сложный период?',`<textarea class="area" data-rq="q3">${esc(r.q3||'')}</textarea>`)}
@@ -1902,7 +1902,7 @@ TOOL.resp=(m,t)=>{const P=S.resp.place;const pool=items().filter(i=>!P[i]);
   <div id="pickBar"></div>
   ${Object.keys(P).length?`<div class="viz">${vennSvg()}</div>`:''}
   <div class="sectors">${C.RESP_SECTORS.map(([k,l])=>`<div class="sector"><h3>${l}</h3><div class="chips">${Object.keys(P).filter(i=>P[i]===k).map(i=>`<button class="chip" aria-pressed="true" data-pick="${esc(i)}">${esc(i)}</button>`).join('')}</div></div>`).join('')}</div>
-  ${Object.keys(P).some(i=>P[i]==='taken')?`<section class="sec"><div class="sec__h"><h2>Что случится, если я перестану это держать?</h2></div>
+  ${Object.keys(P).some(i=>P[i]==='taken')?`<section class="sec"><div class="sec__h"><h2>Подумайте, что случится, если перестать это держать</h2></div>
     ${Object.keys(P).filter(i=>P[i]==='taken').map(i=>`<div class="field"><div class="field__label"><span>${esc(i)}</span></div><textarea class="area" style="min-height:70px" data-stop="${esc(i)}">${esc(S.resp.ifStop[i]||'')}</textarea>
       <div><button class="btn btn--sm" data-tolab="${esc(i)}">Это убеждение - проверить в Лаборатории</button></div></div>`).join('')}</section>`:''}`);
   bindDisc(m);
@@ -1926,7 +1926,7 @@ TOOL.nhv=(m,t)=>{const P=S.nhv.place;S.nhv.notes=S.nhv.notes||{};const N=S.nhv.n
   const costly=Object.keys(P).filter(i=>['want','important','choose'].includes(P[i])).filter(i=>{const x=S.load.find(l=>l.name===i);return x&&x.after<=-1});
   const placed=Object.keys(P).length;
   m.innerHTML=wrap(t,`${!items().length?emptyNote('Пункты подтягиваются из карты нагрузки.',4):''}
-  <section><div class="sec__h"><h2>Шаг 1. Почему вы это делаете?</h2>${pool.length?`<span class="muted">осталось разложить: ${pool.length}</span>`:''}</div>
+  <section><div class="sec__h"><h2>Шаг 1. Разложите дела по тому, почему вы их делаете</h2>${pool.length?`<span class="muted">осталось разложить: ${pool.length}</span>`:''}</div>
   <p style="font-size:17px;margin-bottom:16px">Нажмите на пункт и выберите колонку. Честного ответа достаточно - правильных и неправильных колонок нет.</p>
   ${pool.length?`<div class="pool">${pool.map(i=>`<button class="chip" data-pick="${esc(i)}">${esc(i)}</button>`).join('')}</div>`:''}<div id="pickBar"></div>
   ${placed?jarsHtml():''}<div class="nhv-cols">${C.NHV_COLS.map(([k,l])=>`<div class="nhv-col"><h3>${l}</h3>${Object.keys(P).filter(i=>P[i]===k).map(i=>`<button class="chip" aria-pressed="true" data-pick="${esc(i)}">${esc(i)}</button>`).join('')}</div>`).join('')}</div></section>
@@ -1963,7 +1963,7 @@ TOOL.lab=(m,t)=>{const i=route.sub!=null&&S.lab[route.sub]?route.sub:(S.lab.leng
     <label>Если возникает…<input class="line" data-l="ifx" value="${esc(e.ifx)}"></label><label>…то я делаю<input class="line" data-l="ify" value="${esc(e.ify)}"></label></div>
     <button class="btn btn--primary btn--sm" id="labS" style="margin-top:18px">${MARK}Сохранить</button>
     ${e.ifx&&e.ify?`<p class="ifthen" style="margin-top:20px"><em>Если</em> ${esc(e.ifx)} → <em>я</em> ${esc(e.ify)}</p>`:''}</div>`:emptyNote('Убеждения приходят сюда из «Цепочки перегруза» и «Карты ответственности». Или начните новый эксперимент.')}
-  <section class="sec"><div class="sec__h"><h2>Что уже работает у меня</h2><span class="muted">${S.works.length}</span></div>
+  <section class="sec"><div class="sec__h"><h2>Отметьте, что у вас уже работает</h2><span class="muted">${S.works.length}</span></div>
     <div class="works">${S.works.map((w,k)=>`<span class="tag">${esc(w)}<button data-dw="${k}" aria-label="Убрать">×</button></span>`).join('')}</div>
     <div class="chips" style="margin-top:14px">${C.WORKS_SUGGEST.map(w=>`<button class="chip chip--add" data-aw="${esc(w)}">+ ${esc(w)}</button>`).join('')}</div>
     <div class="input" style="margin-top:10px"><input id="wIn" placeholder="Свое - даже маленькое"><button class="btn btn--sm" id="wAdd">Добавить</button></div></section>`);
@@ -1990,7 +1990,7 @@ function peakDraft(){const P=S.resp.place,N=S.nhv.place;
 const PEAK_F=[['signals','Мои первые сигналы',3],['drain','Что сильнее всего меня истощает',4],['keep','Чего мне нельзя лишаться даже в пик',7],['drop','Что временно можно убрать',10],['danger','Какой уровень нагрузки для меня уже опасен',8],['who','Кого я подключаю',9],['ifthen','Если появляется сигнал X → делаю Y',11]];
 TOOL.peak=(m,t)=>{const p=S.peak;const d=peakDraft();
   m.innerHTML=wrap(t,`${field('Какой сложный период впереди?',chips('situation',C.PEAK_SITUATIONS,p.situation)+`<input class="line" id="sitOwn" placeholder="Или свой вариант" value="${esc(C.PEAK_SITUATIONS.includes(p.situation)?'':p.situation||'')}" style="margin-top:10px">`)}
-  ${p.situation?`<section class="sec"><div class="sec__h"><h2>Протокол: ${esc(p.situation)}</h2><button class="btn btn--sm btn--outline" onclick="window.print()">Распечатать</button></div>
+  ${p.situation?`<section class="sec"><div class="sec__h"><h2>Проверьте свой протокол на период «${esc(p.situation)}»</h2><button class="btn btn--sm btn--outline" onclick="window.print()">Распечатать</button></div>
     <p class="muted" style="margin-bottom:12px">Почти все уже собрано из ваших инструментов. Исправьте своими словами.</p>
     ${PEAK_F.map(([k,l,n])=>`<div class="field"><div class="field__label"><span>${l}</span><span class="muted">из №${n}</span></div><textarea class="area" style="min-height:70px" data-pk="${k}">${esc(p[k]!=null?p[k]:d[k])}</textarea></div>`).join('')}
     <button class="btn btn--primary" id="pkS">${MARK}Сохранить протокол</button></section>`:''}`);
