@@ -2374,7 +2374,7 @@ function vHelp(m){S.seenHelp=1;save();
       <div class="data-actions"><button class="btn btn--primary btn--sm" id="expB">${MARK}Сохранить мои ответы в файл</button>
         <label class="btn btn--sm" for="impF">Загрузить из файла</label><input type="file" id="impF" accept=".json,application/json" hidden>
         <button class="btn btn--sm btn--outline" id="resetB">Сбросить все данные</button></div></div></div>
-    <div class="nav-sec"><div class="nav-sec__n">Если очень тяжело</div><div class="nav-sec__body"><p>Внизу меню всегда есть «Если сейчас очень тяжело»: минута дыхания, ваш личный план на тяжелый момент и быстрая связь с психологом. План лучше заполнить вместе с психологом на первой встрече</p>
+    <div class="nav-sec"><div class="nav-sec__n">Если очень тяжело</div><div class="nav-sec__body"><p>Вверху экрана всегда есть кнопка «Мне тяжело»: минута дыхания, ваш личный план на тяжелый момент и быстрая связь с психологом. План лучше заполнить вместе с психологом на первой встрече</p>
       <div><button class="btn btn--sm" data-go="hard">Открыть</button></div></div></div></div>`;
   $('#expB').onclick=exportData;$('#impF').onchange=e=>{if(e.target.files[0])importData(e.target.files[0])};
   $('#resetB').onclick=()=>confirmBox('Сбросить все данные?','Все ответы во всех инструментах, отметки «Карты состояния», ваш план на тяжелый момент и список «К встрече» будут удалены. Перед этим можно сохранить ответы в файл. Отменить сброс нельзя','Да, сбросить все',()=>{const psy=S.psy;S=blank();S.psy=psy;S.start=new Date().toISOString().slice(0,10);save();go('today');toast('Все данные сброшены')});
