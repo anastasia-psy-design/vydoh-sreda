@@ -4,6 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Выдох - программа при выгорании | InTreatment</title>
+<meta name="description" content="Личный кабинет программы «Выдох» при выгорании: практики, отметки состояния и маршрут на 12 недель">
+<meta name="theme-color" content="#e2e9e9">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/icon-180.png">
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="apple-mobile-web-app-title" content="Выдох">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Выдох · InTreatment">
+<meta property="og:description" content="Личный кабинет программы при выгорании">
+<meta property="og:image" content="https://vydoh-sreda.vercel.app/og.png">
+<meta property="og:url" content="https://vydoh-sreda.vercel.app/">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Golos+Text:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -1686,6 +1698,23 @@ button.tt:hover{transform:translateY(-2px);box-shadow:var(--sh-3);border-color:c
   .dsec .chips>.chip:last-child:not([aria-pressed="true"]),.pw-body .chips>.chip:last-child:not([aria-pressed="true"]){border-color:var(--line)}
 }
 
+@media print{.back,.retbar,.btn,.toast,.thero__pills,.tpanel,.links,.nav-next,.sos-pill,.user,.umenu,.tt__psy,details.psy-more{display:none!important}.page{padding:0!important;max-width:none}.main{background:none!important}.nav-sec{break-inside:avoid}.zrows{box-shadow:none!important}}
+.pw-nav{flex-wrap:wrap;align-items:center}
+.toast{max-width:min(560px,calc(100vw - 32px));bottom:max(24px,env(safe-area-inset-bottom))}
+.rc__h{overflow-wrap:anywhere;hyphens:manual}
+.tt--locked{cursor:help}
+.tt--locked .tt__ico svg.bigico{opacity:.62}
+.tt--locked .tt__t{color:var(--ink)}
+.tt--locked .tt__s{color:var(--muted)}
+.wd--future,.wd.future{color:var(--muted)!important}
+
+/* Заголовки обычным регистром: легче читать при усталости */
+h1,.page h1,.thead h1,.r-head h1,.thero__txt h1,.big-card h2,.keep__head h2,.modal h2,.question h2,.topics h3,.keep-card h3,.mode h2{text-transform:none!important;letter-spacing:0!important}
+.thero__txt h1,.thead h1,.r-head h1{font-size:clamp(30px,3vw,42px)}
+.wd--later{opacity:1;color:var(--muted)}
+.wd--later i{border-color:color-mix(in srgb,var(--ink) 45%,transparent)}
+.rc-voice:empty{display:none}
+
 </style>
 </head>
 <body>
@@ -1979,8 +2008,12 @@ function importData(file){const r=new FileReader();r.onload=()=>{try{const j=JSO
 
 /* ---------- маршрутизация ---------- */
 let route={v:'today'};
+/* Автосохранение: черновики не теряются, если человек отвлекся и ушел со страницы */
+const asT={};function autosave(k,fn){clearTimeout(asT[k]);asT[k]=setTimeout(()=>{fn();save()},350)}
+function keepPulseDraft(){if(route&&route.v==='tool'&&route.arg==='pulse'&&route.pw){const c=document.getElementById('ctx');if(c)route.pw.p.ctx=c.value.trim();const p=route.pw.p;const has=p.energy||p.tension||p.ctx||(p.emo||[]).length||Object.keys(p.bmap||{}).length||p.clarity||p.want;if(has){S.pwDraft=route.pw;save()}}}
+window.addEventListener('pagehide',keepPulseDraft);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')keepPulseDraft()});
 let RET=null;
-function go(v,arg,noPush){if(route&&route.arg!==arg)route.pst=0;if(typeof pracStop==='function')pracStop();if(typeof recStop==='function')recStop();const mn=document.getElementById('main');if(mn){mn.classList.add('enter');clearTimeout(window._ent);window._ent=setTimeout(()=>mn.classList.remove('enter'),1800)}route={v,arg};$('#sidebar').classList.remove('open');if(!noPush)try{history.pushState({v,arg},'')}catch(e){}render();window.scrollTo({top:0})}
+function go(v,arg,noPush){keepPulseDraft();if(route&&route.arg!==arg)route.pst=0;if(typeof pracStop==='function')pracStop();if(typeof recStop==='function')recStop();const mn=document.getElementById('main');if(mn){mn.classList.add('enter');clearTimeout(window._ent);window._ent=setTimeout(()=>mn.classList.remove('enter'),1800)}route={v,arg};$('#sidebar').classList.remove('open');if(!noPush)try{history.pushState({v,arg},'')}catch(e){}render();window.scrollTo({top:0})}
 window.__vy={go:(...a)=>go(...a),get S(){return S},save:()=>save(),render:()=>render(),get route(){return route}};
 window.addEventListener('popstate',e=>{const st=e.state;if(st&&st.v)go(st.v,st.arg,true);else go('today',null,true)});
 try{history.replaceState({v:'today'},'')}catch(e){}
@@ -2112,10 +2145,10 @@ function vToday(m){const {st,nP}=homeSteps();const main=st[0],second=st[1];const
       <div class="h-side">
         ${second?`<button class="h-card h-card--beige" data-go="${second.go}" data-arg="${second.arg}"><span class="h-card__txt"><span class="eyebrow">Если есть еще время</span><span class="h-card__t">${esc(second.title)}</span><span class="h-card__m">${esc(second.time)}</span></span><span class="h-card__img">${second.id==='pulse'?bigIco('pulse',110):bigIco(second.id,110)}</span></button>`
           :`<button class="h-card h-card--beige" data-go="meet"><span class="h-card__txt"><span class="eyebrow">Перед встречей</span><span class="h-card__t">Что хочется обсудить</span><span class="h-card__m">по желанию</span></span><span class="h-card__img"><svg class="bigico" width="110" height="110" viewBox="-2 -2 28 28" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><circle cx="12" cy="12" r="13" stroke-dasharray="1 2.2" opacity=".8"/><path d="M5 7h14v9h-8l-4 3.5V16H5z"/></svg></span></button>`}
-        <button class="h-card h-card--lav" data-go="hard"><span class="h-card__txt"><span class="eyebrow">Когда тяжело</span><span class="h-card__t">Подышать вместе</span><span class="h-card__m">1 минута</span></span><span class="h-card__img"><span class="h-breath"><i></i></span></span></button>
+        <button class="h-card h-card--lav" data-go="hard" data-arg="calm"><span class="h-card__txt"><span class="eyebrow">Когда тяжело</span><span class="h-card__t">Подышать вместе</span><span class="h-card__m">1 минута</span></span><span class="h-card__img"><span class="h-breath"><i></i></span></span></button>
       </div></div>
     <div class="h-strip">
-      <button class="h-weekdots" data-go="tool" data-arg="pulse"><span class="eyebrow">Ваша неделя</span><span class="wds">${weekDots()}</span><span class="h-strip__m">${nP} ${plural(nP,'отметка','отметки','отметок')} из 3</span></button>
+      <button class="h-weekdots" data-go="tool" data-arg="pulse"><span class="eyebrow">Ваша неделя</span><span class="wds">${weekDots()}</span><span class="h-strip__m">${nP?`${nP} ${plural(nP,'отметка','отметки','отметок')} на этой неделе - уже хорошо`:'Отметок на этой неделе пока нет'}</span></button>
       <button class="h-ring" data-go="navself"><svg width="40" height="40" viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="15" fill="none" stroke="var(--soft)" stroke-width="4"/><circle class="ring-bar" cx="18" cy="18" r="15" fill="none" stroke="var(--ink)" stroke-width="4" stroke-dasharray="${Math.max(1,Math.round(navN/11*94))} 100" transform="rotate(-90 18 18)"/></svg>Инструкция к себе</button>
     </div>
   </div>`;
@@ -2137,7 +2170,7 @@ const lvlRow=(key,words,val,kind)=>`<div class="lvl" data-lvl="${key}" role="gro
 
 /* --- Карта состояния: по одному шагу --- */
 const PSTEPS=[['Дело','pulse'],['Тело','body'],['Эмоции','emo'],['Силы','lvl'],['Дальше?','go']];
-function toolPulse(m,t){if(!route.pw)route.pw={step:0,act:null,p:{energy:null,tension:null,clarity:null,want:null,emo:[],body:[],zones:[],bmap:{},ctx:''}};
+function toolPulse(m,t){if(!route.pw&&S.pwDraft){route.pw=S.pwDraft;setTimeout(()=>toast('Вы вернулись к незаконченной отметке'),300)}if(!route.pw)route.pw={step:0,act:null,p:{energy:null,tension:null,clarity:null,want:null,emo:[],body:[],zones:[],bmap:{},ctx:''}};
   const W=route.pw,p=W.p,st=W.step;const emoOpts=[...C.EMOTIONS,...(S.informal?C.INFORMAL:[])];
   const bodyOpts=[...new Set([...C.BODY,...S.signals.filter(x=>x.type==='тело').map(x=>x.t)])];
   const own=(k)=>`<div class="own"><input class="line" data-own="${k}" placeholder="Свое - напишите и нажмите Enter" aria-label="Свое"></div>`;
@@ -2150,17 +2183,17 @@ function toolPulse(m,t){if(!route.pw)route.pw={step:0,act:null,p:{energy:null,te
       <div class="pw-addrow"><input class="line" id="ownZone" placeholder="Своя область, например спина" aria-label="Своя область"><button type="button" class="btn btn--sm" id="ownZoneB">Добавить область</button></div>
       ${act?`<div class="pw-zone"><p class="pw-sub">2. Отметьте, что вы чувствуете в области «${esc(act)}»</p><div class="chips" data-bs>${opts.map(o=>`<button type="button" class="chip" aria-pressed="${cur.includes(o)}" data-v="${esc(o)}">${esc(o)}</button>`).join('')}</div>
         <div class="pw-addrow"><input class="line" id="ownSens" placeholder="Свое ощущение" aria-label="Свое ощущение"><button type="button" class="btn btn--sm" id="ownSensB">Добавить</button></div></div>`:`<p class="muted" style="margin-top:14px">Когда вы выберете область, здесь появятся ощущения для нее</p>`}
-      ${zs.length?`<div class="pw-saved"><p class="pw-sub">Ваши отметки сохраняются сразу</p>${zs.map(k=>`<div class="pw-saved__r"><b>${esc(k)}</b><span>${p.bmap[k].length?esc(p.bmap[k].join(', ')):'ощущение не выбрано'}</span><button type="button" class="del" data-delz="${esc(k)}" aria-label="Убрать ${esc(k)}">×</button></div>`).join('')}</div>`:''}
+      ${zs.length?`<div class="pw-saved"><p class="pw-sub">Отмеченное не потеряется, даже если вы уйдете со страницы</p>${zs.map(k=>`<div class="pw-saved__r"><b>${esc(k)}</b><span>${p.bmap[k].length?esc(p.bmap[k].join(', ')):'ощущение не выбрано'}</span><button type="button" class="del" data-delz="${esc(k)}" aria-label="Убрать ${esc(k)}">×</button></div>`).join('')}</div>`:''}
       </div></div>`})(),
     `<h2 class="pw-q">Отметьте, какие эмоции это вызывает</h2><p class="muted" style="margin:-8px 0 14px">одной-двух достаточно</p>${chipsOf('emo',emoOpts)}${own('emo')}`,
     `<h2 class="pw-q">Оцените, сколько у вас сейчас сил</h2>${lvlRow('energy',ENERGY_W,p.energy,'e')}<h2 class="pw-q" style="margin-top:28px">Оцените, насколько вы напряжены</h2>${lvlRow('tension',TENSION_W,p.tension,'t')}<p class="muted" style="margin:22px 0 8px">Отметьте, насколько ясная сейчас голова</p>${seg('clarity',['ясная','нормально','туман'],p.clarity)}`,
     `<h2 class="pw-q">Прислушайтесь: хочется продолжить это дело или остановиться?</h2><div class="pw-want">${[['продолжать','Продолжить','<path d="M8 6l12 8-12 8z" fill="currentColor"/>'],['остановиться','Остановиться','<path d="M9 7v14M19 7v14" stroke="currentColor" stroke-width="2.4"/>']].map(([v,l,ic])=>`<button type="button" data-want="${v}" aria-pressed="${p.want===v}"><svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">${ic}</svg>${l}</button>`).join('')}</div>`][st];
   m.innerHTML=wrap(t,`<ol class="pw-steps" aria-label="Шаги">${PSTEPS.map(([l],i)=>`<li class="${i<st?'done':i===st?'now':''}"><button type="button" data-step="${i}" ${i===st?'aria-current="step"':''}><span>${i<st?ico('check',18):i+1}</span>${l}</button></li>`).join('')}</ol>
-    <div class="panel pw">${body}<div class="pw-nav">${st>0?`<button class="btn btn--ghost" id="pwBack">${BACK}Назад</button>`:'<span></span>'}${st===3?`<span class="pw-nav__r"><button class="btn btn--ghost" id="puQuick">Сохранить сейчас</button><button class="btn btn--primary" id="pwNext">Дальше</button></span>`:st<4?`<button class="btn btn--primary" id="pwNext">Дальше</button>`:`<button class="btn btn--primary" id="puSave">${MARK}Сохранить отметку</button>`}</div></div>
+    <div class="panel pw">${body}<div class="pw-nav">${st>0?`<button class="btn btn--ghost" id="pwBack">${BACK}Предыдущий шаг</button>`:'<span></span>'}${st===3?`<span class="pw-nav__r"><button class="btn btn--ghost" id="puQuick">Сохранить сейчас</button><button class="btn btn--primary" id="pwNext">Дальше</button></span>`:st<4?`<button class="btn btn--primary" id="pwNext">Дальше</button>`:`<button class="btn btn--primary" id="puSave">${MARK}Сохранить отметку</button>`}</div></div>
     <section class="sec"><div class="sec__h"><h2>Сверяйтесь с графиком энергии и напряжения</h2><span class="muted">${S.pulses.length} ${plural(S.pulses.length,'отметка','отметки','отметок')}</span></div>
     ${S.pulses.length?pulseView():'<p class="muted">Здесь появится график после первых отметок</p>'}</section>`);
   bindDisc(m);bindPulseView(m);bindSeg(m,p);
-  const keepCtx=()=>{const c=$('#ctx',m);if(c)p.ctx=c.value.trim()};
+  const keepCtx=()=>{const c=$('#ctx',m);if(c)p.ctx=c.value.trim()};{const c=$('#ctx',m);if(c)c.addEventListener('input',()=>autosave('pw',()=>{p.ctx=c.value.trim();S.pwDraft=W}))}
   const goStep=n=>{keepCtx();W.step=n;render();window.scrollTo({top:0})};
   $$('[data-step]',m).forEach(b=>b.onclick=()=>goStep(+b.dataset.step));
   $('#pwBack')&&($('#pwBack').onclick=()=>goStep(st-1));$('#pwNext')&&($('#pwNext').onclick=()=>goStep(st+1));
@@ -2182,7 +2215,7 @@ function toolPulse(m,t){if(!route.pw)route.pw={step:0,act:null,p:{energy:null,te
   $('#puQuick')&&($('#puQuick').onclick=()=>$('#puSave2').click());
   const doSave=()=>{if(!p.energy||!p.tension){toast('Отметьте силы и напряжение');W.step=3;render();return}
     const zs=Object.keys(p.bmap);const rec={energy:p.energy,tension:p.tension,clarity:p.clarity,want:p.want,emo:p.emo,body:zs.map(k=>p.bmap[k].length?k+': '+p.bmap[k].join(', '):k),zones:zs,bmap:p.bmap,ctx:p.ctx,d:new Date().toISOString().slice(0,10),t:new Date().toTimeString().slice(0,5)};
-    S.pulses.push(rec);save();route.pw=null;if(RET&&T[RET]){const r=RET;RET=null;toast('Отметка сохранена. Вы вернулись в «'+T[r].title+'»');go('tool',r);return}toast('Отметка сохранена');render();window.scrollTo({top:0})};
+    S.pulses.push(rec);delete S.pwDraft;save();route.pw=null;if(RET&&T[RET]){const r=RET;RET=null;toast('Отметка сохранена. Вы вернулись в «'+T[r].title+'»');go('tool',r);return}toast('Отметка сохранена');render();window.scrollTo({top:0})};
   $('#puSave')&&($('#puSave').onclick=doSave);if($('#puQuick'))$('#puQuick').onclick=doSave;
 }
 
@@ -2291,8 +2324,8 @@ function toolRow(t){const op=isOpen(t.id),dn=done(t.id);
     <span class="tool__goal">${esc(t.goal)}</span></div>`}
 function vTools(m){const cs=curStage();const stg=C.stages[cs-1];
   const tile=id=>{const t=T[id];const op=isOpen(id),dn=done(id);const cls=t.final?'final':dn?'done':op?'open':'locked';
-    const inner=`<span class="tt__ico">${bigIco(id,58)}${dn?`<span class="tt__ok">${ico('check',14)}</span>`:''}${!op?`<span class="tt__lock" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="3" y="6.5" width="8" height="6" rx="1.5"/><path d="M4.8 6.5V5a2.2 2.2 0 014.4 0v1.5"/></svg></span>`:''}</span><span class="tt__t">${esc(t.title)}</span><span class="tt__s">${t.final?'собирается сама':dn?'заполнено':op?esc(t.time):'откроется позже'}</span>`;
-    return `<div class="tt-wrap">${op?`<button class="tt tt--${cls}" data-go="tool" data-arg="${id}">${inner}</button>`:`<div class="tt tt--${cls}" aria-disabled="true">${inner}</div>`}${S.psy&&!t.final?`<label class="tt__psy"><input type="checkbox" data-open="${id}" ${S.open[id]?'checked':''}> открыт</label>`:''}</div>`};
+    const inner=`<span class="tt__ico">${bigIco(id,58)}${dn?`<span class="tt__ok">${ico('check',14)}</span>`:''}${!op?`<span class="tt__lock" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="3" y="6.5" width="8" height="6" rx="1.5"/><path d="M4.8 6.5V5a2.2 2.2 0 014.4 0v1.5"/></svg></span>`:''}</span><span class="tt__t">${esc(t.title)}</span><span class="tt__s">${t.final?'собирается сама':dn?'заполнено':op?esc(t.time):'откроется после встречи'}</span>`;
+    return `<div class="tt-wrap">${op?`<button class="tt tt--${cls}" data-go="tool" data-arg="${id}">${inner}</button>`:`<button type="button" class="tt tt--${cls}" data-locked="${id}" aria-label="${esc(t.title)}: откроется после встречи">${inner}</button>`}${S.psy&&!t.final?`<label class="tt__psy"><input type="checkbox" data-open="${id}" ${S.open[id]?'checked':''}> открыт</label>`:''}</div>`};
   m.innerHTML=`<div class="page rmap">
     <header class="r-head"><p class="eyebrow">Неделя ${weekNo()} из 12</p><h1>Посмотрите свой маршрут</h1>
       <p class="r-lead">Сейчас вы на этапе «${esc(stg.title)}». Новые инструменты появляются постепенно, после встреч с психологом</p></header>
@@ -2304,6 +2337,7 @@ function vTools(m){const cs=curStage();const stg=C.stages[cs-1];
         ${!s.tools.length?`<p class="stg__note">Здесь вы закрепляете то, что уже сработало</p>`:''}
         <div class="stg__tools">${ids.map(tile).join('')}</div></section>`}).join('')}</div></div>`;
   $$('.tt__psy',m).forEach(l=>l.addEventListener('click',e=>e.stopPropagation()));
+  $$('[data-locked]',m).forEach(b=>b.onclick=()=>toast('Этот инструмент откроется после встречи с психологом: он пришлет ссылку'));
   $$('[data-open]',m).forEach(c=>c.onchange=()=>{S.open[c.dataset.open]=c.checked?1:0;save();toast(c.checked?'Инструмент открыт клиенту':'Инструмент скрыт');render()});
 }
 
@@ -2408,7 +2442,7 @@ function vHard(m){pracStop();const H=C.hard;const p=S.plan=S.plan||{};p.people=p
         ${p.psy&&contactHref(p.psy)?`<a class="btn btn--sm" href="${esc(contactHref(p.psy))}" target="_blank" rel="noopener">Открыть контакт психолога</a>`:''}</div></section>
     ${hasA('pause')?`<section class="sec"><div class="sec__h"><h2>Побудьте с голосом Насти</h2></div>${aPlayer('pause')}</section>`:''}
     <p class="emergency">${esc(H.emergency)}</p></div>`;bindAP(m);
-  bindPrac($('#prac'));
+  bindPrac($('#prac'));if(route.arg&&typeof PRAC!=='undefined'&&PRAC[route.arg]){const bx=$('#prac');pracRun(bx,route.arg);setTimeout(()=>bx.scrollIntoView({behavior:'smooth',block:'start'}),60)}
   $('#msgHC').onclick=()=>copyText($('#msgH').value);
   $('#planEdit').onclick=()=>{$('#planBox').innerHTML=`<div class="form">
       ${field('Как я понимаю, что мне становится очень плохо',`<textarea class="area" data-pl="signs" placeholder="${esc(early?'Из вашего радара: '+early:'Например: не сплю вторую ночь, все время плачу, ничего не хочется')}">${esc(p.signs||'')}</textarea>`)}
@@ -2464,6 +2498,8 @@ TOOL.point=(m,t)=>{const p=S.point;p.spheres=p.spheres||{};
   <div style="margin-top:24px"><button class="btn btn--primary" id="pSave">${MARK}Результаты диагностики</button></div><section class="pt-res" id="ptRes" ${p.saved?'':'hidden'}>${p.saved?pointResult(p):''}</section>`);
   bindSeg(m,p);bindOwn(m,p);bindDisc(m);
   $$('[data-sph]',m).forEach(g=>$$('button',g).forEach(b=>b.onclick=()=>{p.spheres[g.dataset.sph]=+b.dataset.v;$$('button',g).forEach(x=>x.setAttribute('aria-pressed',String(x===b)));$('#wheel').innerHTML=wheelSvg(p.spheres);S.point=p;save()}));
+  $('#pChange').addEventListener('input',e=>autosave('pt',()=>{p.change=e.target.value;S.point=p}));$$('[data-mk]',m).forEach(i=>i.addEventListener('input',()=>autosave('pt',()=>{p.markers=$$('[data-mk]',m).map(x=>x.value.trim()).filter(Boolean);S.point=p})));
+  {const g=$('[data-seg="sleepProb"]',m);if(g)g.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;setTimeout(()=>{const ok='со сном все в порядке';let a=p.sleepProb||[];if(b.dataset.v===ok&&a.includes(ok))a=[ok];else if(b.dataset.v!==ok)a=a.filter(x=>x!==ok);p.sleepProb=a;$$('button',g).forEach(x=>x.setAttribute('aria-pressed',String(a.includes(x.dataset.v))));S.point=p;save()},0)})}
   $('#pSave').onclick=()=>{p.change=$('#pChange').value.trim();p.markers=$$('[data-mk]',m).map(i=>i.value.trim()).filter(Boolean);p.energy=p.morning||p.energy;p.load=Math.max(0,...Object.values(p.spheres))||p.load;p.saved=1;S.point=p;save();toast('Диагностика сохранена. В конце трека она встанет рядом с финальной');const r=$('#ptRes',m);r.innerHTML=pointResult(p);r.hidden=false;r.scrollIntoView({behavior:'smooth',block:'start'})};
   pointSteps(m,p);
 };
@@ -2483,7 +2519,7 @@ function pointSteps(m,p){const secs=$$('.dsec',m);if(secs.length!==PT_STEPS.leng
   bar.innerHTML=PT_STEPS.map((t,k)=>`<li><button type="button" class="pw-step" data-ps="${k}"><span>${k+1}</span>${t}</button></li>`).join('');
   secs[0].before(bar);
   const nav=document.createElement('div');nav.className='pt-nav';
-  nav.innerHTML=`<button type="button" class="btn btn--ghost" id="ptPrev">${BACK}Назад</button><span class="pt-count" id="ptCount"></span><button type="button" class="btn btn--primary" id="ptNext">Дальше</button>`;
+  nav.innerHTML=`<button type="button" class="btn btn--ghost" id="ptPrev">${BACK}Предыдущий шаг</button><span class="pt-count" id="ptCount"></span><button type="button" class="btn btn--primary" id="ptNext">Дальше</button>`;
   sv.before(nav);nav.appendChild($('#pSave',m));sv.hidden=true;
   const show=(k,scroll)=>{i=k;route.pst=k;secs.forEach((x,j)=>x.hidden=j!==k);const last=k===secs.length-1;$('#pSave',m).style.display=last?'':'none';$('#ptNext',m).style.display=last?'none':'';$('#ptPrev',m).style.visibility=k?'visible':'hidden';
     $('#ptCount',m).textContent=`Шаг ${k+1} из ${secs.length}`;
@@ -2665,7 +2701,7 @@ function chainSugg(k){const uniq=a=>[...new Set(a.filter(Boolean))];let src=[],l
   if(k==='body'){src=uniq([...S.signals.filter(x=>x.type==='тело').map(x=>x.t),...S.pulses.flatMap(p=>p.body||[])]);lab='Из радара и «Карты состояния»:'}
   if(k==='rule'){src=uniq([...S.signals.filter(x=>x.type==='мысли').map(x=>x.t),...Object.values(S.resp.ifStop||{})]);lab='Из радара и карты ответственности:'}
   return src.length?`<div class="suggest-line">${lab} ${src.slice(0,8).map(v=>`<button type="button" data-cs="${k}" data-v="${esc(v)}">${esc(v)}</button>`).join('')}</div>`:''}
-TOOL.chain=(m,t)=>{const idx=route.sub!=null?route.sub:0;const c=S.chains[idx]?JSON.parse(JSON.stringify(S.chains[idx])):{};
+TOOL.chain=(m,t)=>{const idx=route.sub!=null?route.sub:0;const c=S.chDraft&&S.chDraft.idx===idx?JSON.parse(JSON.stringify(S.chDraft.c)):S.chains[idx]?JSON.parse(JSON.stringify(S.chains[idx])):{};
   m.innerHTML=wrap(t,`${chainViz(S.chains[idx])}<p style="font-size:17px;margin-bottom:24px">Вспомните один конкретный недавний случай, когда вы снова перегрузили себя, - например, «опять работала до полуночи». Ответьте на вопросы по порядку. Серым в полях написаны примеры</p>
   <ol class="chain">${C.CHAIN.map(([k,l,h,ex],i)=>`<li><span class="chain__n">${i+1}</span><div><span class="chain__q">${l}</span><span class="chain__hint">${h}</span><textarea class="area" style="min-height:64px" data-ck="${k}" placeholder="${esc(ex)}">${esc(c[k]||'')}</textarea>${chainSugg(k)}</div></li>
     ${i<C.CHAIN.length-1?`<li><div class="chain__gap"><button type="button" class="choice" data-choice="${k}" aria-pressed="${c.choice===k}">здесь можно было иначе?</button></div></li>`:''}`).join('')}</ol>
@@ -2674,7 +2710,8 @@ TOOL.chain=(m,t)=>{const idx=route.sub!=null?route.sub:0;const c=S.chains[idx]?J
   ${S.chains.length?`<section class="sec"><div class="sec__h"><h2>Вернитесь к своим цепочкам</h2></div><ul class="list">${S.chains.map((x,i)=>`<li><span>${esc(x.situation||'Эпизод')}<br><span class="muted">правило: ${esc(x.rule||'-')}</span></span><button class="btn btn--sm btn--ghost" data-ch="${i}">Открыть</button></li>`).join('')}</ul></section>`:''}`);
   bindDisc(m);$$('[data-cs]',m).forEach(b=>b.onclick=()=>{const a=$(`[data-ck="${b.dataset.cs}"]`,m);a.value=a.value?a.value.replace(/\s*$/,'')+', '+b.dataset.v:b.dataset.v});
   $$('[data-choice]',m).forEach(b=>b.onclick=()=>{c.choice=c.choice===b.dataset.choice?null:b.dataset.choice;$$('[data-choice]',m).forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.choice===c.choice)))});
-  $('#chSave').onclick=()=>{$$('[data-ck]',m).forEach(a=>c[a.dataset.ck]=a.value.trim());if(!c.situation){toast('Опишите ситуацию');return}
+  $$('textarea[data-ck]',m).forEach(a=>a.addEventListener('input',()=>autosave('ch',()=>{$$('textarea[data-ck]',m).forEach(x=>c[x.dataset.ck]=x.value);S.chDraft={idx,c}})));
+  $('#chSave').onclick=()=>{delete S.chDraft;$$('[data-ck]',m).forEach(a=>c[a.dataset.ck]=a.value.trim());if(!c.situation){toast('Опишите ситуацию');return}
     if(S.chains[idx])S.chains[idx]=c;else{S.chains.push(c);route.sub=S.chains.length-1}save();toast('Цепочка сохранена');render()};
   $('#chNew').onclick=()=>{route.sub=S.chains.length;render()};
   $('#toLab')&&($('#toLab').onclick=()=>{S.lab.push({belief:c.rule,pred:'',b0:70,exp:'',observe:'',result:'',b1:null,ifx:'',ify:''});S.open.lab=1;save();go('tool','lab')});
@@ -2703,7 +2740,7 @@ const anyA=()=>Object.keys(AUDIO).some(hasA);
 const DL_ICO='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7.5 10.5L12 15l4.5-4.5M5 19.5h14"/></svg>';
 const VOICE_ICO='<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" aria-hidden="true"><path d="M4 10v4M8 7v10M12 4v16M16 8v8M20 11v2"/></svg>';
 function aPlayer(id,soonText){const a=AUDIO[id];if(!a)return '';
-  if(!hasA(id))return `<div class="ap ap--soon"><span class="ap__ic">${VOICE_ICO}</span><span class="ap__t"><b>«${esc(a.title)}»</b><small>${soonText||'Скоро здесь появится запись Насти'}</small></span></div>`;
+  if(!hasA(id))return '';if(false)return `<div class="ap ap--soon"><span class="ap__ic">${VOICE_ICO}</span><span class="ap__t"><b>«${esc(a.title)}»</b><small>${soonText||'Скоро здесь появится запись Насти'}</small></span></div>`;
   return `<div class="ap" data-ap="${id}"><button type="button" class="ap__play" aria-label="Слушать «${esc(a.title)}»"><svg class="ap__ring" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="22" class="ap__trk"/><circle cx="24" cy="24" r="22" class="ap__bar" stroke-dasharray="138.2" stroke-dashoffset="138.2"/></svg><svg class="ap__i" viewBox="0 0 24 24" aria-hidden="true"><path class="ap__pl" d="M9.5 7.5l8 4.5-8 4.5z"/><g class="ap__pa"><rect x="8" y="7" width="3" height="10" rx="1"/><rect x="13" y="7" width="3" height="10" rx="1"/></g></svg></button>
     <span class="ap__t"><b>«${esc(a.title)}»</b><small>${esc(a.time)} · ${esc(a.about)}</small></span><a class="ap__dl" href="${esc(a.src)}" download aria-label="Скачать «${esc(a.title)}»" title="Скачать себе">${DL_ICO}</a></div>`}
 window._aps=window._aps||[];
@@ -2877,7 +2914,7 @@ function rpDraw(){const s=RPS;if(!s)return;clearTimeout(s.t);clearInterval(s.iv)
   else{const h=typeof st.h==='function'?st.h(s.a):st.h;const t=st.t||'text';side=t==='breath'?`<p class="eyebrow">${esc(h)}</p>`:`<h2 class="rp-h">${esc(h)}</h2>${st.p?`<p class="rp-p">${esc(st.p)}</p>`:''}`;
     if(t==='text'&&st.sec)side+=`<div class="rp-timer"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="21" class="trk"/><circle cx="24" cy="24" r="21" class="bar" id="rpBar" stroke-dasharray="132" stroke-dashoffset="0"/></svg><span id="rpT">${fmtS(st.sec)}</span></div>`;
     if(t==='breath')side+=`<p class="rp-phase" id="rpPh">Приготовьтесь</p><p class="rp-left" id="rpT">${fmtS(st.total)}</p>`;
-    if(t==='count')side+=`<div class="rp-count">${[...Array(st.n)].map((_,k)=>`<button type="button" aria-pressed="${(s.a['c'+s.i]||0)>k}" aria-label="Нашла ${k+1}"></button>`).join('')}</div>`;
+    if(t==='count')side+=`<div class="rp-count">${[...Array(st.n)].map((_,k)=>`<button type="button" aria-pressed="${(s.a['c'+s.i]||0)>k}" aria-label="Найдено: ${k+1}"></button>`).join('')}</div>`;
     if(t==='input'&&st.voice)side+=`<div class="rp-voice" id="rpVoice">${s.voice?`<span class="rp-vchip"><button type="button" class="rp-vplay" id="rpVPlay" aria-label="Прослушать">${'<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 6l11 6-11 6z"/></svg>'}</button>Голосовое письмо · ${fmtS(s.voiceSec||0)}</span><button type="button" class="linkbtn" id="rpRec">Записать заново</button>`:`<button type="button" class="btn btn--outline rp-recb" id="rpRec">${MIC}<span>Наговорить голосом</span></button><span class="rp-rect" id="rpRecT"></span>`}</div>`;
     if(t==='input')side+=st.multi?`<textarea class="area rp-in" id="rpIn" placeholder="${esc(st.ph||'')}">${esc(s.a[st.key]||'')}</textarea>`:`<input class="line rp-in" id="rpIn" placeholder="${esc(st.ph||'')}" value="${esc(s.a[st.key]||'')}">`;
     if(t==='chips'){const v=s.a[st.key];const opts=[...st.opts,...(st.multi?(v||[]).filter(x=>!st.opts.includes(x)):(v&&!st.opts.includes(v)?[v]:[]))];side+=`<div class="chips rp-chips">${opts.map(x=>`<button type="button" class="chip" data-ch="${esc(x)}" aria-pressed="${st.multi?(v||[]).includes(x):v===x}">${esc(x)}</button>`).join('')}</div>${st.own?`<div class="input rp-own"><input class="line" id="rpOwn" placeholder="Свой вариант"><button class="btn btn--sm btn--ghost" id="rpOwnB" type="button">+</button></div>`:''}`}
@@ -2892,7 +2929,7 @@ function rpDraw(){const s=RPS;if(!s)return;clearTimeout(s.t);clearInterval(s.iv)
     if(t==='sum')side+=`<div class="rp-sum">${st.render(s.a)}</div>`;}
   o.innerHTML=`<div class="rp__top"><button type="button" class="rp__x" id="rpX">${BACK}Выйти из практики</button>${dots}</div>
     <div class="rp__body"><div class="rp__img${st&&st.t==='breath'?'':' is-idle'}">${img}</div><div class="rp__side">${side}</div></div>
-    <div class="rp__nav">${s.i>=0?`<button type="button" class="btn btn--ghost" id="rpPrev">Назад</button>`:'<span></span>'}${next?`<button type="button" class="btn btn--primary" id="rpNext">${next}</button>`:''}</div>`;
+    <div class="rp__nav">${s.i>=0?`<button type="button" class="btn btn--ghost" id="rpPrev">Предыдущий шаг</button>`:'<span></span>'}${next?`<button type="button" class="btn btn--primary" id="rpNext">${next}</button>`:''}</div>`;
   $('#rpX').onclick=recStop;$('#rpSnd').onclick=()=>{RSND=!RSND;try{localStorage.setItem('vydoh-snd',RSND?'1':'0')}catch(e){}if(RSND){acx();chime('in')}const b=$('#rpSnd');b.setAttribute('aria-pressed',String(RSND));b.innerHTML=(RSND?SND_ON:SND_OFF)+`<span>${RSND?'Звук включен':'Без звука'}</span>`};
   if(s.i<0&&$('#rpNext'))$('#rpNext').addEventListener('click',()=>{if(RSND)acx()},{capture:true});$('#rpPrev')&&($('#rpPrev').onclick=()=>{rpSave();s.i--;rpDraw()});$('#rpNext')&&($('#rpNext').onclick=()=>{rpSave();s.i++;rpDraw();const sd=$('.rp__side');sd&&sd.focus&&sd.scrollTo&&sd.scrollTo({top:0})});
   $$('[data-rate]',o).forEach(g=>$$('button',g).forEach(b=>b.onclick=()=>{s[g.dataset.rate]=+b.dataset.v;$$('button',g).forEach(x=>x.setAttribute('aria-pressed',String(x===b)))}));
@@ -2988,7 +3025,7 @@ TOOL.range=(m,t)=>{const ps=S.pulses;const z=ps.map((p,i)=>zoneOf(p,ps[i-1]));co
     ${field2('Что помогает вам пройти сложный период?','Люди, привычки, места, способы отдыха. Например: вечерняя прогулка, помощь мамы, отпуск без ноутбука',`<textarea class="area" data-rq="q3">${esc(r.q3||'')}</textarea>`)}
     ${field2('От чего вы первым отказываетесь, когда нагрузка растет?','Обычно первым уходит то, что нас поддерживает: сон, спорт, встречи с друзьями, еда без спешки. Напишите, что уходит у вас',`<textarea class="area" data-rq="q4">${esc(r.q4||'')}</textarea>`)}</div>
     <button class="btn btn--primary" id="rgSave" style="margin-top:16px">${MARK}Сохранить</button></section>`);
-  bindDisc(m);$('#rgSave').onclick=()=>{$$('[data-rq]',m).forEach(a=>r[a.dataset.rq]=a.value.trim());S.range=r;save();toast('Сохранено')};
+  bindDisc(m);$$('[data-rq]',m).forEach(a=>a.addEventListener('input',()=>autosave('rg',()=>{r[a.dataset.rq]=a.value;S.range=r})));$('#rgSave').onclick=()=>{$$('[data-rq]',m).forEach(a=>r[a.dataset.rq]=a.value.trim());S.range=r;save();toast('Сохранено')};
 };
 
 /* 9. Карта ответственности и границ */
@@ -3146,6 +3183,7 @@ function vMeet(m){
 
 
 
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){const mm=document.getElementById('umenu');if(mm&&!mm.hidden){mm.hidden=true;const b=document.getElementById('userB');b&&b.setAttribute('aria-expanded','false');b&&b.focus()}}});
 function userMenu(){const mm=$('#umenu'),b=$('#userB');const open=mm.hidden;
   if(!open){mm.hidden=true;b.setAttribute('aria-expanded','false');return}
   mm.innerHTML=`<label class="umenu__l">Как к вам обращаться?<span class="umenu__row"><input class="line" id="umName" value="${esc(S.name||'')}" placeholder="Ваше имя"><button class="btn btn--sm" id="umSave">Сохранить</button></span></label>

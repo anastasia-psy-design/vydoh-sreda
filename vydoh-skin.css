@@ -483,3 +483,20 @@ button.tt:hover{transform:translateY(-2px);box-shadow:var(--sh-3);border-color:c
   .back{margin-bottom:4px}
   .dsec .chips>.chip:last-child:not([aria-pressed="true"]),.pw-body .chips>.chip:last-child:not([aria-pressed="true"]){border-color:var(--line)}
 }
+
+@media print{.back,.retbar,.btn,.toast,.thero__pills,.tpanel,.links,.nav-next,.sos-pill,.user,.umenu,.tt__psy,details.psy-more{display:none!important}.page{padding:0!important;max-width:none}.main{background:none!important}.nav-sec{break-inside:avoid}.zrows{box-shadow:none!important}}
+.pw-nav{flex-wrap:wrap;align-items:center}
+.toast{max-width:min(560px,calc(100vw - 32px));bottom:max(24px,env(safe-area-inset-bottom))}
+.rc__h{overflow-wrap:anywhere;hyphens:manual}
+.tt--locked{cursor:help}
+.tt--locked .tt__ico svg.bigico{opacity:.62}
+.tt--locked .tt__t{color:var(--ink)}
+.tt--locked .tt__s{color:var(--muted)}
+.wd--future,.wd.future{color:var(--muted)!important}
+
+/* Заголовки обычным регистром: легче читать при усталости */
+h1,.page h1,.thead h1,.r-head h1,.thero__txt h1,.big-card h2,.keep__head h2,.modal h2,.question h2,.topics h3,.keep-card h3,.mode h2{text-transform:none!important;letter-spacing:0!important}
+.thero__txt h1,.thead h1,.r-head h1{font-size:clamp(30px,3vw,42px)}
+.wd--later{opacity:1;color:var(--muted)}
+.wd--later i{border-color:color-mix(in srgb,var(--ink) 45%,transparent)}
+.rc-voice:empty{display:none}
