@@ -2723,8 +2723,21 @@ function pracStop(){if(PR){clearTimeout(PR.t);cancelAnimationFrame(PR.raf);(PR.n
 /* Мягкие звуки практик: волна для «Прилива», тихие тона для вдоха, выдоха и паузы */
 function hpSound(k,mode,sec){if(typeof RSND==='undefined'||!RSND)return;const c=acx();if(!c)return;const t=c.currentTime;
   try{if(k==='calm'&&(mode==='in'||mode==='out')){hpWave(c,t,mode,sec);return}
-    if(mode==='s1'||mode==='s3'){chime('out');return}
-    if(mode==='in'||mode==='s0'||mode==='move')chime('in');else if(mode==='out'||mode==='s2')chime('out')}catch(e){}}
+    if(k==='anxious'){hpBreath(c,t,mode==='s0'?'in':mode==='s2'?'out':'hold',sec);return}
+    if(k==='energy'&&(mode==='in'||mode==='out')){hpBreath(c,t,mode==='in'?'in':'outFast',sec);return}
+    if(mode==='move')chime('in')}catch(e){}}
+/* Дыхание звуком: вдох - мягкий воздушный шум, который нарастает и светлеет; пауза - тихий теплый тон; выдох - шум ниже и тише, плавно уходит */
+function hpBreath(c,t,kind,sec){const N=64,len=Math.floor(c.sampleRate*(sec+.3));
+  const noise=()=>{const b=c.createBuffer(1,len,c.sampleRate),d=b.getChannelData(0);let b0=0,b1=0,b2=0;for(let i=0;i<len;i++){const w=Math.random()*2-1;b0=.99765*b0+w*.099046;b1=.963*b1+w*.2965164;b2=.57*b2+w*1.0526913;d[i]=(b0+b1+b2+w*.1848)*.12}const src=c.createBufferSource();src.buffer=b;return src};
+  const curve=f=>{const a=new Float32Array(N);for(let i=0;i<N;i++)a[i]=Math.max(.0001,f(i/(N-1)));return a};
+  if(kind==='hold'){const g=c.createGain();g.gain.setValueCurveAtTime(curve(x=>Math.sin(Math.PI*Math.min(1,x*1.15))*.05),t,sec);
+    [196,293.66].forEach((f,j)=>{const o=c.createOscillator();o.type='sine';o.frequency.value=f;const og=c.createGain();og.gain.value=j?.35:1;o.connect(og).connect(g);o.start(t);o.stop(t+sec+.1);PR&&(PR.nodes=(PR.nodes||[]).concat(o))});
+    g.connect(c.destination);return}
+  const src=noise(),bp=c.createBiquadFilter(),lp=c.createBiquadFilter(),g=c.createGain();bp.type='bandpass';bp.Q.value=.9;lp.type='lowpass';lp.frequency.value=3200;
+  const fast=kind==='outFast',dur=fast?Math.min(sec,1.1):sec;
+  if(kind==='in'){bp.frequency.setValueCurveAtTime(curve(x=>700+900*x),t,dur);g.gain.setValueCurveAtTime(curve(x=>Math.sin(Math.PI/2*x)**1.5*.55*(x>.92?(1-x)/.08:1)),t,dur)}
+  else{bp.frequency.setValueCurveAtTime(curve(x=>(fast?900:650)-300*x),t,dur);g.gain.setValueCurveAtTime(curve(x=>(fast?(1-x)**2:Math.cos(Math.PI/2*x)**1.4)*(fast?.6:.45)*Math.min(1,x*12)),t,dur)}
+  src.connect(bp).connect(lp).connect(g).connect(c.destination);src.start(t);src.stop(t+dur+.2);PR&&(PR.nodes=(PR.nodes||[]).concat(src))}
 /* Шум прибоя: розовый шум, фильтр «раскрывается» на вдохе, когда волна набегает, и закрывается на выдохе, когда она уходит. Сверху тихая пена на гребне */
 function hpWave(c,t,mode,sec){const len=Math.floor(c.sampleRate*(sec+.4));const mk=()=>{const b=c.createBuffer(2,len,c.sampleRate);for(let ch=0;ch<2;ch++){const d=b.getChannelData(ch);let b0=0,b1=0,b2=0,b3=0,b4=0,b5=0,b6=0;
     for(let i=0;i<len;i++){const w=Math.random()*2-1;b0=.99886*b0+w*.0555179;b1=.99332*b1+w*.0750759;b2=.969*b2+w*.153852;b3=.8665*b3+w*.3104856;b4=.55*b4+w*.5329522;b5=-.7616*b5-w*.016898;d[i]=(b0+b1+b2+b3+b4+b5+b6+w*.5362)*.11;b6=w*.115926}}return b};
@@ -2746,7 +2759,7 @@ function hpClose(silent){pracStop();const o=document.getElementById('hpOv');if(o
 function hpDraw(k,stage){const v=PRAC[k],o=$('#hpOv');if(!o)return;const steps=PSTEP[k];
   const snd=typeof RSND!=='undefined'?`<button type="button" class="rp__snd" id="hpSnd" aria-pressed="${RSND}">${RSND?SND_ON:SND_OFF}<span>${RSND?'Звук включен':'Без звука'}</span></button>`:'';
   let side='',nav='';
-  if(stage==='intro'){side=`<p class="eyebrow">${esc(v.time)}</p><h2 class="rp-h">${esc(v.name)}</h2><ol class="rp-plan">${steps.map(x=>`<li>${esc(x)}</li>`).join('')}</ol><p class="rp-dev">${SND_ON}<span>Можно закрыть глаза: смену вдоха и выдоха подскажет тихий звук</span></p>`;
+  if(stage==='intro'){side=`<p class="eyebrow">${esc(v.time)}</p><h2 class="rp-h">${esc(v.name)}</h2><ol class="rp-plan">${steps.map(x=>`<li>${esc(x)}</li>`).join('')}</ol><p class="rp-dev">${SND_ON}<span>Можно закрыть глаза и дышать вместе со звуком: вдох, пауза и выдох звучат по-разному</span></p>`;
     nav=`<button type="button" class="btn btn--ghost" id="hpOther">Другая практика</button><button type="button" class="btn btn--primary" id="hpGo">Начать</button>`}
   if(stage==='run'){side=`<p class="eyebrow">${esc(v.name)}</p><p class="rp-phase" id="prPh" aria-live="polite">Приготовьтесь</p><ol class="rp-plan rp-plan--run">${steps.map((x,i)=>`<li data-st="${i}">${esc(x)}</li>`).join('')}</ol><div class="prac__prog"><i id="prBar"></i></div>`;
     nav=`<button type="button" class="btn btn--ghost" id="hpOther">Другая практика</button><button type="button" class="btn btn--outline" id="hpStop">Остановить</button>`}
