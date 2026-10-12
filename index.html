@@ -1745,6 +1745,159 @@ h1,.page h1,.thead h1,.r-head h1,.thero__txt h1,.big-card h2,.keep__head h2,.mod
 .hp .rp-phase{min-height:1.2em}
 @media (max-width:560px){.hblk>summary{padding:14px 16px;min-height:64px}.hblk .prac,.hblk__body{padding-left:16px;padding-right:16px}}
 
+/* === Карта состояния v3 (правки Кати) === */
+.pw-why{margin:-6px 0 16px;font-size:15px;line-height:1.5;color:var(--text);max-width:52ch}
+.pw-after{display:inline-flex;align-items:center;gap:8px;margin:0 0 14px;padding:6px 12px 6px 10px;border:1px dashed color-mix(in srgb,var(--ink) 28%,transparent);border-radius:999px;font-size:14px;color:var(--ink);background:var(--bg)}
+.pw-q--n{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 12px}
+.pw-n{flex:none;display:inline-grid;place-items:center;width:30px;height:30px;border:1px solid var(--ink);border-radius:50%;font:500 14px/1 var(--sans);transform:translateY(-3px)}
+.pw-tag{font:500 11px/1 var(--sans);font-style:normal;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:5px 8px;border:1px solid var(--line);border-radius:999px;transform:translateY(-4px)}
+.pw-must .lvl{margin-bottom:30px}
+.pw-opt{margin-top:6px;padding-top:24px;border-top:1px dashed color-mix(in srgb,var(--ink) 22%,transparent)}
+.pw-opt .pw-q{font-size:clamp(19px,1.8vw,23px)}
+.pw-bq{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.pw-bq button{min-height:52px;padding:10px 12px;border:1px solid var(--line);border-radius:var(--r-md,14px);background:var(--bg);font:500 15px/1.25 var(--sans);color:var(--ink);cursor:pointer;transition:background-color .2s,border-color .2s}
+.pw-bq button:hover{border-color:var(--ink)}
+.pw-bq button[aria-pressed="true"]{background:var(--mint);border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.pw-or{display:flex;align-items:center;gap:12px;margin:20px 0 14px;font-size:13px;letter-spacing:.06em;color:var(--muted)}
+.pw-or::before,.pw-or::after{content:"";flex:1;border-top:1px dashed color-mix(in srgb,var(--ink) 22%,transparent)}
+.pw2{display:grid;grid-template-columns:minmax(150px,240px) minmax(0,1fr);gap:clamp(16px,3vw,36px);align-items:start;padding:clamp(16px,2.4vw,28px);background:var(--cream);border:1px solid var(--hair);border-radius:var(--r-xl,16px);background-image:linear-gradient(150deg,var(--glow),rgba(255,255,255,0) 55%)}
+.pw2__fig .bodymap{max-height:min(56vh,440px)}
+.pw2.all .bodymap path{fill:color-mix(in srgb,var(--mint) 75%,var(--bg))}
+.pw2__side{position:sticky;top:calc(var(--header-h,64px) + 12px)}
+.pw2__hint{margin:8px 0 0;padding:16px;border:1px dashed color-mix(in srgb,var(--ink) 22%,transparent);border-radius:var(--r-md,14px);font-size:15px;line-height:1.45;color:var(--text)}
+.pw2__zone{padding:16px;border:1px solid var(--ink);border-radius:var(--r-md,14px);background:var(--bg);animation:pwIn .3s var(--ease,ease)}
+@keyframes pwIn{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:none}}
+.pw2__zh{display:flex;align-items:center;gap:10px;margin:0 0 4px;font:400 22px/1.2 var(--serif);color:var(--ink)}
+.pw2__zh::first-letter{text-transform:uppercase}
+.pw2__zh i{width:10px;height:10px;border-radius:50%;background:#9fc3b7;box-shadow:0 0 0 3px var(--bg),0 0 0 4px var(--ink)}
+.pw2__sens{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:10px}
+.pw2__sens .chip{width:100%;justify-content:center;text-align:center;min-height:42px}
+.pw2__sens .chip[aria-pressed="true"]::before{display:none}
+.pw-saved__z{padding:0;border:0;background:none;font:500 15px var(--sans);color:var(--ink);text-align:left;cursor:pointer;text-decoration:underline dotted;text-underline-offset:4px}
+.pw-zl{margin-top:16px}
+.pw-zl summary{cursor:pointer;font-size:14px;color:var(--text);list-style:none;display:inline-flex;align-items:center;gap:8px}
+.pw-zl summary::-webkit-details-marker{display:none}
+.pw-zl summary::before{content:"+";display:inline-grid;place-items:center;width:20px;height:20px;border:1px solid var(--line);border-radius:50%;font-size:14px}
+.pw-zl[open] summary::before{content:"−"}
+.pw-zl .chips{margin-top:12px}
+.emo10{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.emo10 button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;min-height:104px;padding:12px 6px;border:1px solid var(--line);border-radius:var(--r-md,14px);background:var(--bg);font:500 14px/1.2 var(--sans);color:var(--ink);cursor:pointer;transition:background-color .2s,border-color .2s,transform .2s}
+.emo10 button:hover{border-color:var(--ink);transform:translateY(-1px)}
+.emo10 button[aria-pressed="true"]{background:var(--mint);border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.emo10 svg{color:var(--ink)}
+.pw-seechart{display:flex;align-items:center;gap:10px;margin:18px 0 0;padding:14px 18px;width:100%;border:1px dashed color-mix(in srgb,var(--ink) 25%,transparent);border-radius:var(--r-md,14px);background:transparent;font:500 15px var(--sans);color:var(--ink);cursor:pointer;text-align:left}
+.pw-seechart:hover{background:var(--bg)}
+.pw-ok{display:flex;gap:16px;align-items:center;padding:20px 22px;margin-bottom:8px;border:1px solid var(--ink);border-radius:var(--r-lg,16px);background:var(--mint);background-image:linear-gradient(150deg,var(--glow),rgba(255,255,255,0) 60%)}
+.pw-ok h2{margin:0 0 4px;font:400 26px/1.15 var(--serif);color:var(--ink)}
+.pw-ok p{margin:0;font-size:15px;color:var(--ink)}
+.pw-ok__i{flex:none;display:grid;place-items:center;width:46px;height:46px;border-radius:50%;background:var(--bg);border:1px solid var(--ink)}
+.pw-done__nav{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+.pviz svg{display:block;width:100%;height:auto}
+.pviz .pt{cursor:pointer}
+.pviz .pt__bg{fill:transparent;transition:fill .2s}
+.pviz .pt:hover .pt__bg,.pviz .pt.on .pt__bg{fill:color-mix(in srgb,var(--mint) 35%,transparent)}
+.pviz .pt.on .pt__bg{stroke:var(--ink);stroke-width:.8;stroke-dasharray:1 3}
+.pviz .pt:focus{outline:none}.pviz .pt:focus-visible .pt__bg{stroke:var(--focus);stroke-width:2}
+.pviz .pl-row{font-size:15px;fill:var(--ink)}
+.pleg{display:grid;gap:8px;margin-top:14px;padding-top:14px;border-top:1px dashed color-mix(in srgb,var(--ink) 22%,transparent)}
+.pleg p{display:flex;align-items:center;gap:10px;margin:0;font-size:14px;line-height:1.4;color:var(--text)}
+.pleg__s{flex:none;width:14px;height:14px;border-radius:50%;border:1px solid var(--ink)}
+.pleg__s--e{background:var(--mint)}.pleg__s--t{background:var(--drain)}
+@media (max-width:640px){
+  .pw-bq{grid-template-columns:1fr;gap:8px}
+  .pw-bq button{min-height:46px}
+  .pw2{grid-template-columns:118px minmax(0,1fr);gap:12px;padding:12px}
+  .pw2__fig .bodymap{max-height:none}
+  .pw2__side{position:static}
+  .pw2__zone{padding:12px}
+  .pw2__zh{font-size:19px}
+  .pw2__sens{grid-template-columns:1fr;gap:6px}
+  .pw2__sens .chip{min-height:38px;font-size:14px}
+  .pw2__zone .pw-addrow{flex-direction:column;align-items:stretch}
+  .emo10{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .emo10 button{flex-direction:row;justify-content:flex-start;min-height:56px;padding:8px 12px;gap:10px;text-align:left}
+  .emo10 svg{width:30px;height:30px;flex:none}
+  .pviz .pl-row{font-size:20px}
+  .pviz .lbl{font-size:17px}
+  .pw-ok{padding:16px}
+}
+
+.pw2>.pw-saved{grid-column:1/-1;margin-top:0}
+.pw-saved__r .del{justify-self:end}
+@media (max-width:640px){
+  .pw2{grid-template-columns:104px minmax(0,1fr)}
+  .pw2__zone .pw-sub{font-size:13px;font-weight:400;color:var(--text);margin-bottom:8px}
+  .pw2__sens .chip{min-height:34px;padding:6px 8px;font-size:13.5px}
+  .pw2__zone .pw-addrow .line{font-size:14px}
+  .pw-saved__r{grid-template-columns:auto minmax(0,1fr) 28px;gap:8px;font-size:14px}
+}
+
+.pviz .pt circle,.viz svg .pviz .pt:hover circle,.pviz svg g:hover circle{transform:none!important;stroke-width:.8!important}
+.pviz .pt.on rect{fill-opacity:1}
+.pviz .lbl{font-size:13px;fill:var(--text)}
+@media (max-width:640px){.pviz .pl-row{font-size:14px}.pviz .lbl{font-size:12px}}
+
+/* Центр восстановления: ровная сетка состояний */
+.states{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.state{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;width:100%;min-height:112px;padding:14px 10px;border-radius:var(--r-md,14px);text-align:center;line-height:1.25}
+.state svg{flex:none}
+@media (max-width:640px){
+  .states{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .state{flex-direction:row;justify-content:flex-start;min-height:60px;padding:8px 10px 8px 8px;gap:8px;text-align:left;font-size:14.5px}
+  .state svg{width:30px;height:30px}
+  .states>.state:last-child:nth-child(odd){grid-column:1/-1}
+}
+
+@media (min-width:1100px){.states{grid-template-columns:repeat(7,minmax(0,1fr));gap:8px}.state{min-height:124px;padding:14px 6px;font-size:15px}}
+@media (min-width:641px) and (max-width:1099px){.states>.state:nth-child(4n+3):last-child{grid-column:span 2}}
+
+@media (min-width:641px){.state{justify-content:flex-start;padding-top:22px}}
+
+/* Диагностика: нумерация, жирные вопросы, единые разделители, интерактивное колесо */
+:root{--dash:1px dashed color-mix(in srgb,var(--ink) 22%,transparent)}
+.pt-steps~.dsec .form{counter-reset:q}
+.pt-steps~.dsec .field{counter-increment:q;border-top:var(--dash)!important;padding:22px 0}
+.pt-steps~.dsec .field:first-child{border-top:0!important}
+.pt-steps~.dsec .field__label{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.pt-steps~.dsec .field__label>span:first-child{display:flex;align-items:baseline;gap:12px;font-weight:500;font-size:17px;line-height:1.35;color:var(--ink)}
+.pt-steps~.dsec .field__label>span:first-child::before{content:counter(q);flex:none;display:inline-grid;place-items:center;width:28px;height:28px;border:1px solid var(--ink);border-radius:50%;font-size:13px;font-weight:500;transform:translateY(-1px)}
+.pt-steps~.dsec .dsec__h{padding-bottom:14px;margin-bottom:6px;border-bottom:1px solid var(--line)}
+.wh-box{max-width:640px;margin:8px auto 0}
+.wheel--big{position:static!important}
+.wheel--live{cursor:pointer;touch-action:manipulation}
+.wh-dot{fill:var(--bg);stroke:var(--ink);stroke-width:1;transition:r .2s var(--ease,ease),fill .2s}
+.wh-dot:hover{fill:var(--mint);r:6}
+.wh-dot.on{fill:var(--ink)}
+.wh-dot:focus{outline:none}.wh-dot:focus-visible{stroke:var(--focus);stroke-width:2.5}
+.wheel .wh-w{font-weight:500;fill:var(--ink)}
+.wh-scale{display:flex;align-items:center;gap:10px;justify-content:center;margin-top:6px;font-size:13px;color:var(--muted)}
+.wh-scale i{width:90px;height:8px;border-radius:4px;background:linear-gradient(90deg,transparent,var(--lavender));border:1px solid var(--line)}
+@media (min-width:641px){.pt-steps~.dsec .chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:8px}
+  .pt-steps~.dsec .chips .chip{width:100%;justify-content:center;text-align:center;white-space:normal;min-height:46px;line-height:1.2}
+  .pt-steps~.dsec .chips .chip[aria-pressed="true"]::before{display:none}}
+@media (max-width:640px){.pt-steps~.dsec .field__label{flex-direction:column;gap:4px}.pt-steps~.dsec .field__label>span:first-child{font-size:16px}
+  .pt-steps~.dsec .field__label>span.muted{padding-left:40px}
+  .pt-steps~.dsec .chips{grid-template-columns:repeat(2,minmax(0,1fr))!important}.pt-steps~.dsec .chips>.chip:last-child:nth-child(3n+1){grid-column:auto}
+  .pt-steps~.dsec .chips>.chip:last-child:nth-child(odd){grid-column:1/-1}
+  .wh-box{margin:0 -8px}}
+
+.pt-res>p.muted:last-child{margin-top:16px}
+
+.wh-num circle{fill:var(--bg);stroke:var(--ink);stroke-width:1}
+.wh-num text{font:500 12px var(--sans);fill:var(--ink)}
+.wh-num.on circle{fill:var(--lavender)}
+.wh-leg{list-style:none;margin:10px 0 0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 10px}
+.wh-leg li{display:grid;grid-template-columns:22px minmax(0,1fr);column-gap:8px;align-items:center;font-size:13.5px;line-height:1.25;color:var(--ink)}
+.wh-leg li span{grid-row:span 2;display:grid;place-items:center;width:22px;height:22px;border:1px solid var(--ink);border-radius:50%;font-size:11px}
+.wh-leg li.on span{background:var(--lavender)}
+.wh-leg b{font-weight:400;font-size:12.5px;color:var(--muted)}
+.wh-leg li.on b{color:var(--ink);font-weight:500}
+@media (max-width:640px){.wh-box{margin:0}.wh-scale{font-size:12px}
+  .pt-nav{display:grid;grid-template-columns:auto 1fr;gap:10px}.pt-nav .pt-count{display:none}.pt-nav #ptNext{justify-self:end}
+  .pt-nav #pSave{grid-column:1/-1}}
+
+@media (min-width:641px){.pt-steps~.dsec .chips{grid-template-columns:repeat(4,minmax(0,1fr))}}
+
 </style>
 </head>
 <body>
@@ -2069,7 +2222,7 @@ const field=(label,inner,hint)=>`<div class="field"><div class="field__label"><s
 function head(t){
   const lk=ns=>ns.map(n=>`<button data-go="tool" data-arg="${TN[n].id}" class="${isOpen(TN[n].id)?'':'is-closed'}" ${isOpen(TN[n].id)?'':'disabled'}>${n}. ${esc(TN[n].title)}</button>`).join('');
   const h=C.howTo[t.id]||{};
-  return `<button class="back" data-back>${BACK}Назад</button>${RET&&RET!==t.id&&T[RET]?`<button class="retbar" data-go="tool" data-arg="${RET}">${BACK}Вернуться в «${esc(T[RET].title)}»</button>`:''}<header class="thero">
+  return `<button class="back" ${t.id==='pulse'?'data-go="today"':'data-back'}>${BACK}${t.id==='pulse'?'Вернуться на «Сегодня»':'Назад'}</button>${RET&&RET!==t.id&&T[RET]?`<button class="retbar" data-go="tool" data-arg="${RET}">${BACK}Вернуться в «${esc(T[RET].title)}»</button>`:''}<header class="thero">
     <div class="thero__img" style="background:${HBG[t.id]||'var(--mint)'}">${bigIco(t.id,150)}</div>
     <div class="thero__txt"><p class="eyebrow">${t.role?esc(t.role)+' · ':''}${esc(t.time)}</p><h1>${esc(t.title)}</h1>
       <p class="thero__met">${esc((C.metaphor||{})[t.id]||t.goal)}</p>
@@ -2079,7 +2232,7 @@ function head(t){
     </div></header>
     ${PSY?`<details class="how"><summary>Для психолога: подробно</summary><div class="how__body"><div><p class="how__h">Зачем это клиенту</p><p>${esc(h.why||t.task)}</p></div>${h.steps?`<div><p class="how__h">Шаги</p><ol class="how__steps">${h.steps.map(x=>`<li>${esc(x)}</li>`).join('')}</ol></div>`:''}<div><p class="how__h">Что получится</p><p>${esc(t.result)}</p></div>
     ${t.uses.length?`<div class="links">Берет данные из: ${lk(t.uses)}</div>`:''}${t.feeds.length?`<div class="links">Передает в: ${lk(t.feeds)}</div>`:''}</div></details>`:''}`}
-const wrap=(t,body)=>`<div class="page page--narrow">${head(t)}${body}${PSY&&t.feeds.length?`<div class="links" style="margin-top:40px;padding-top:18px;border-top:1px solid var(--line)">Ваши ответы отсюда используются в: ${t.feeds.map(n=>`<button data-go="tool" data-arg="${TN[n].id}" class="${isOpen(TN[n].id)?'':'is-closed'}" ${isOpen(TN[n].id)?'':'disabled'}>${n}. ${esc(TN[n].title)}</button>`).join('')}</div>`:''}<div style="margin-top:28px;display:flex;gap:12px;flex-wrap:wrap"><button class="btn btn--outline" data-disc="${esc(t.title)}">Хочу обсудить на встрече</button><button class="btn btn--ghost" data-back>${BACK}Назад</button>${RESET[t.id]?`<button class="btn btn--ghost" data-reset="${t.id}" style="margin-left:auto">Очистить этот инструмент</button>`:''}</div></div>`;
+const wrap=(t,body)=>`<div class="page page--narrow">${head(t)}${body}<div style="margin-top:28px;display:flex;gap:12px;flex-wrap:wrap"><button class="btn btn--outline" data-disc="${esc(t.title)}">Сохранить, чтобы обсудить на встрече</button>${t.id==='pulse'?'':`<button class="btn btn--ghost" data-back>${BACK}Назад</button>`}${RESET[t.id]?`<button class="btn btn--ghost" data-reset="${t.id}" style="margin-left:auto">Очистить этот инструмент</button>`:''}</div></div>`;
 const RESET={point:()=>S.point={},pulse:()=>S.pulses=[],radar:()=>S.signals=[],load:()=>S.load=[],stress:()=>S.stressors=[],chain:()=>S.chains=[],recovery:()=>S.recovery=[],range:()=>S.range={},
   resp:()=>S.resp={place:{},ifStop:{}},nhv:()=>S.nhv={place:{},behind:'',notes:{}},lab:()=>{S.lab=[];S.works=[]},peak:()=>S.peak={}};
 function confirmBox(title,text,ok,onOk){const b=document.createElement('div');b.className='modal-back';
@@ -2200,53 +2353,81 @@ const lvlRow=(key,words,val,kind)=>`<div class="lvl" data-lvl="${key}" role="gro
 
 /* --- Карта состояния: по одному шагу --- */
 const PSTEPS=[['Дело','pulse'],['Тело','body'],['Эмоции','emo'],['Силы','lvl'],['Дальше?','go']];
-function toolPulse(m,t){if(!route.pw&&S.pwDraft){route.pw=S.pwDraft;setTimeout(()=>toast('Вы вернулись к незаконченной отметке'),300)}if(!route.pw)route.pw={step:0,act:null,p:{energy:null,tension:null,clarity:null,want:null,emo:[],body:[],zones:[],bmap:{},ctx:''}};
-  const W=route.pw,p=W.p,st=W.step;const emoOpts=[...C.EMOTIONS,...(S.informal?C.INFORMAL:[])];
-  const bodyOpts=[...new Set([...C.BODY,...S.signals.filter(x=>x.type==='тело').map(x=>x.t)])];
+const PW_SENS=['напряжение','тяжесть','зажатость','боль','дрожь','легкость'];
+const PW_QUICK=[['все','Все тело'],['уст','Общая усталость'],['нет','Ничего особенного']];
+/* Эмоции - лица из тонких линий: брови, глаза, рот */
+const EMO10=[['спокойствие','M9 15.5q3 1.6 6 0','',''],['радость','M8.5 14.5q3.5 3.4 7 0','',''],['интерес','M10 15.5h4','M8 8.4l2.2-.8M16 8.4l-2.2-.8',''],['облегчение','M9 15q3 2 6 0','','M8 10.5q1.2-.9 2.4 0M13.6 10.5q1.2-.9 2.4 0'],['усталость','M9.5 16h5','','M8 11h2.6M13.4 11h2.6'],
+  ['тревога','M9 16.4q1.5-1.2 3 0t3 0','M8 8.6l2.4 .9M16 8.6l-2.4 .9',''],['раздражение','M9 16.6q3-1.6 6 0','M8 8l2.6 1.4M16 8l-2.6 1.4',''],['грусть','M9 16.8q3-2.4 6 0','M8 9.4l2.4-1M16 9.4l-2.4-1',''],['апатия','M9 16h6','','M8 11.2h2.6M13.4 11.2h2.6'],['злость','M9 17q3-2.6 6 0','M7.6 7.6l3 1.8M16.4 7.6l-3 1.8','']];
+const emoFace=(e)=>{const f=EMO10.find(x=>x[0]===e);if(!f)return '';const [,mouth,brow,eyes]=f;return `<svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.15" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="10.4"/>${eyes?`<path d="${eyes}"/>`:'<circle cx="9.3" cy="11" r=".9" fill="currentColor" stroke="none"/><circle cx="14.7" cy="11" r=".9" fill="currentColor" stroke="none"/>'}${brow?`<path d="${brow}"/>`:''}<path d="${mouth}"/></svg>`};
+function toolPulse(m,t){
+  if(!route.pw&&!route.pwDone&&S.pwDraft){route.pw=S.pwDraft;setTimeout(()=>toast('Вы вернулись к незаконченной отметке'),300)}
+  if(route.pwDone)return pulseDone(m,t);
+  if(!route.pw)route.pw={step:0,act:null,p:{energy:null,tension:null,clarity:null,want:null,emo:[],body:[],zones:[],bmap:{},ctx:'',bq:null}};
+  const W=route.pw,p=W.p,st=W.step;
   const own=(k)=>`<div class="own"><input class="line" data-own="${k}" placeholder="Свое - напишите и нажмите Enter" aria-label="Свое"></div>`;
-  const chipsOf=(k,opts)=>`<div class="chips" data-ck="${k}">${[...new Set([...opts,...p[k]])].map(o=>`<button type="button" class="chip" aria-pressed="${p[k].includes(o)}" data-v="${esc(o)}">${esc(o)}</button>`).join('')}</div>`;
+  const after=p.ctx?`<p class="pw-after">${ico('pulse',16)}${/^после\s/i.test(p.ctx)?esc(p.ctx[0].toUpperCase()+p.ctx.slice(1)):`После «${esc(p.ctx)}»`}</p>`:'';
+  const num=(n,q,tag)=>`<h2 class="pw-q pw-q--n"><span class="pw-n">${n}</span>${q}${tag?`<em class="pw-tag">${tag}</em>`:''}</h2>`;
   const body=[
-    `<button type="button" class="pw-quick" id="pwQuick">${ico('pulse',18)}Мало сил? Отметьте только силы и напряжение</button><h2 class="pw-q">Напишите, чем вы сейчас заняты или только что занимались</h2><input class="line pw-in" id="ctx" value="${esc(p.ctx)}" placeholder="Например: после планерки">${items().length?`<div class="suggest-line">${items().map(i=>`<button type="button" data-ctx="${esc(i)}">${esc(i)}</button>`).join('')}</div>`:''}`,
-    (()=>{const zs=Object.keys(p.bmap),act=W.act,cur=act?(p.bmap[act]||[]):[];const opts=[...new Set([...SENS,...cur])];
-      return `<h2 class="pw-q">Отметьте, где в теле вы что-то чувствуете</h2><div class="pw-body"><div class="pw-body__fig">${bodyMap(zs,act)}</div><div class="pw-body__side">
-      <p class="pw-sub">1. Выберите область на силуэте или в списке</p><div class="chips" data-zk>${[...new Set([...ZONES.map(z=>z[0]),...zs])].map(k=>`<button type="button" class="chip ${zs.includes(k)?'has':''}" aria-pressed="${act===k}" data-zone="${esc(k)}">${esc(k)}${p.bmap[k]&&p.bmap[k].length?` · ${p.bmap[k].length}`:''}</button>`).join('')}</div>
-      <div class="pw-addrow"><input class="line" id="ownZone" placeholder="Своя область, например спина" aria-label="Своя область"><button type="button" class="btn btn--sm" id="ownZoneB">Добавить область</button></div>
-      ${act?`<div class="pw-zone"><p class="pw-sub">2. Отметьте, что вы чувствуете в области «${esc(act)}»</p><div class="chips" data-bs>${opts.map(o=>`<button type="button" class="chip" aria-pressed="${cur.includes(o)}" data-v="${esc(o)}">${esc(o)}</button>`).join('')}</div>
-        <div class="pw-addrow"><input class="line" id="ownSens" placeholder="Свое ощущение" aria-label="Свое ощущение"><button type="button" class="btn btn--sm" id="ownSensB">Добавить</button></div></div>`:`<p class="muted" style="margin-top:14px">Когда вы выберете область, здесь появятся ощущения для нее</p>`}
-      ${zs.length?`<div class="pw-saved"><p class="pw-sub">Отмеченное не потеряется, даже если вы уйдете со страницы</p>${zs.map(k=>`<div class="pw-saved__r"><b>${esc(k)}</b><span>${p.bmap[k].length?esc(p.bmap[k].join(', ')):'ощущение не выбрано'}</span><button type="button" class="del" data-delz="${esc(k)}" aria-label="Убрать ${esc(k)}">×</button></div>`).join('')}</div>`:''}
-      </div></div>`})(),
-    `<h2 class="pw-q">Отметьте, какие эмоции это вызывает</h2><p class="muted" style="margin:-8px 0 14px">одной-двух достаточно</p>${chipsOf('emo',emoOpts)}${own('emo')}`,
-    `<h2 class="pw-q">Оцените, сколько у вас сейчас сил</h2>${lvlRow('energy',ENERGY_W,p.energy,'e')}<h2 class="pw-q" style="margin-top:28px">Оцените, насколько вы напряжены</h2>${lvlRow('tension',TENSION_W,p.tension,'t')}<p class="muted" style="margin:22px 0 8px">Отметьте, насколько ясная сейчас голова</p>${seg('clarity',['ясная','нормально','туман'],p.clarity)}`,
-    `<h2 class="pw-q">Прислушайтесь: хочется продолжить это дело или остановиться?</h2><div class="pw-want">${[['продолжать','Продолжить','<path d="M8 6l12 8-12 8z" fill="currentColor"/>'],['остановиться','Остановиться','<path d="M9 7v14M19 7v14" stroke="currentColor" stroke-width="2.4"/>']].map(([v,l,ic])=>`<button type="button" data-want="${v}" aria-pressed="${p.want===v}"><svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">${ic}</svg>${l}</button>`).join('')}</div>`][st];
+    `<button type="button" class="pw-quick" id="pwQuick">${ico('pulse',18)}Мало сил? Отметьте только силы и напряжение</button><h2 class="pw-q">Напишите, чем вы сейчас заняты или только что занимались</h2><p class="pw-why">Так мы увидим, какие дела забирают у вас силы, а какие их возвращают</p><input class="line pw-in" id="ctx" value="${esc(p.ctx)}" placeholder="Например: после планерки">${items().length?`<div class="suggest-line">${items().map(i=>`<button type="button" data-ctx="${esc(i)}">${esc(i)}</button>`).join('')}</div>`:''}`,
+    (()=>{const zs=Object.keys(p.bmap),act=W.act,cur=act?(p.bmap[act]||[]):[];const opts=[...new Set([...PW_SENS,...cur])];
+      return `${after}<h2 class="pw-q">Отметьте, где в теле вы что-то чувствуете</h2>
+      <div class="pw-bq" role="group" aria-label="Быстрый ответ">${PW_QUICK.map(([k,l])=>`<button type="button" data-bq="${k}" aria-pressed="${p.bq===k}">${l}</button>`).join('')}</div>
+      <p class="pw-or"><span>или выберите область на силуэте</span></p>
+      <div class="pw2${p.bmap['все тело']?' all':''}"><div class="pw2__fig">${bodyMap(zs,act)}</div><div class="pw2__side">
+        ${act?`<div class="pw2__zone"><p class="pw2__zh"><i></i>${esc(act)}</p><p class="pw-sub">Отметьте, что вы чувствуете здесь</p><div class="pw2__sens" data-bs>${opts.map(o=>`<button type="button" class="chip" aria-pressed="${cur.includes(o)}" data-v="${esc(o)}">${esc(o)}</button>`).join('')}</div>
+          <div class="pw-addrow"><input class="line" id="ownSens" placeholder="Свое ощущение" aria-label="Свое ощущение"><button type="button" class="btn btn--sm" id="ownSensB">Добавить</button></div></div>`
+        :`<p class="pw2__hint">Нажмите на область тела, и здесь появятся ощущения для нее</p>`}
+      </div>${zs.length?`<div class="pw-saved">${zs.map(k=>`<div class="pw-saved__r"><button type="button" class="pw-saved__z" data-zone="${esc(k)}">${esc(k)}</button><span>${p.bmap[k].length?esc(p.bmap[k].join(', ')):'ощущение не выбрано'}</span><button type="button" class="del" data-delz="${esc(k)}" aria-label="Убрать ${esc(k)}">×</button></div>`).join('')}</div>`:''}</div>
+      <details class="pw-zl"${zs.some(z=>z!=='все тело'&&!ZONES.some(x=>x[0]===z))?' open':''}><summary>Выбрать область списком или добавить свою</summary><div class="chips" data-zk>${[...new Set([...ZONES.map(z=>z[0]),...zs.filter(z=>z!=='все тело')])].map(k=>`<button type="button" class="chip" aria-pressed="${act===k}" data-zone="${esc(k)}">${esc(k)}</button>`).join('')}</div>
+        <div class="pw-addrow"><input class="line" id="ownZone" placeholder="Своя область, например спина" aria-label="Своя область"><button type="button" class="btn btn--sm" id="ownZoneB">Добавить область</button></div></details>`})(),
+    (()=>{const base=EMO10.map(x=>x[0]);const extra=[...(S.informal?C.INFORMAL:[]),...p.emo.filter(e=>!base.includes(e)&&!(S.informal&&C.INFORMAL.includes(e)))];
+      return `${after}<h2 class="pw-q">Отметьте, какие эмоции это вызывает</h2><p class="pw-why">Одной-двух достаточно</p>
+      <div class="emo10" data-ck="emo">${base.map(e=>`<button type="button" aria-pressed="${p.emo.includes(e)}" data-v="${esc(e)}">${emoFace(e)}<span>${esc(e)}</span></button>`).join('')}</div>
+      ${extra.length?`<div class="chips" data-ck="emo" style="margin-top:12px">${extra.map(o=>`<button type="button" class="chip" aria-pressed="${p.emo.includes(o)}" data-v="${esc(o)}">${esc(o)}</button>`).join('')}</div>`:''}${own('emo')}`})(),
+    `${after}<div class="pw-must">${num(1,'Оцените, сколько у вас сейчас сил','обязательно')}${lvlRow('energy',ENERGY_W,p.energy,'e')}${num(2,'Оцените, насколько вы напряжены','обязательно')}${lvlRow('tension',TENSION_W,p.tension,'t')}</div>
+     <div class="pw-opt">${num(3,'Отметьте, насколько ясная сейчас голова','по желанию')}${seg('clarity',['ясная','нормально','туман'],p.clarity)}</div>`,
+    `${after}<h2 class="pw-q">Прислушайтесь: хочется продолжить это дело или остановиться?</h2><div class="pw-want">${[['продолжать','Продолжить','<path d="M8 6l12 8-12 8z" fill="currentColor"/>'],['остановиться','Остановиться','<path d="M9 7v14M19 7v14" stroke="currentColor" stroke-width="2.4"/>']].map(([v,l,ic])=>`<button type="button" data-want="${v}" aria-pressed="${p.want===v}"><svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">${ic}</svg>${l}</button>`).join('')}</div>`][st];
   m.innerHTML=wrap(t,`<ol class="pw-steps" aria-label="Шаги">${PSTEPS.map(([l],i)=>`<li class="${i<st?'done':i===st?'now':''}"><button type="button" data-step="${i}" ${i===st?'aria-current="step"':''}><span>${i<st?ico('check',18):i+1}</span>${l}</button></li>`).join('')}</ol>
     <div class="panel pw">${body}<div class="pw-nav">${st>0?`<button class="btn btn--ghost" id="pwBack">${BACK}Предыдущий шаг</button>`:'<span></span>'}${st===3?`<span class="pw-nav__r"><button class="btn btn--ghost" id="puQuick">Сохранить сейчас</button><button class="btn btn--primary" id="pwNext">Дальше</button></span>`:st<4?`<button class="btn btn--primary" id="pwNext">Дальше</button>`:`<button class="btn btn--primary" id="puSave">${MARK}Сохранить отметку</button>`}</div></div>
-    <section class="sec"><div class="sec__h"><h2>Сверяйтесь с графиком энергии и напряжения</h2><span class="muted">${S.pulses.length} ${plural(S.pulses.length,'отметка','отметки','отметок')}</span></div>
-    ${S.pulses.length?pulseView():'<p class="muted">Здесь появится график после первых отметок</p>'}</section>`);
-  bindDisc(m);bindPulseView(m);bindSeg(m,p);
+    ${st===0&&S.pulses.length?`<button type="button" class="pw-seechart" id="pwChart">${ico('pulse',16)}Посмотреть график прошлых отметок · ${S.pulses.length}</button>`:''}`);
+  bindDisc(m);bindSeg(m,p);
   const keepCtx=()=>{const c=$('#ctx',m);if(c)p.ctx=c.value.trim()};{const c=$('#ctx',m);if(c)c.addEventListener('input',()=>autosave('pw',()=>{p.ctx=c.value.trim();S.pwDraft=W}))}
   const goStep=n=>{keepCtx();W.step=n;render();window.scrollTo({top:0})};
   $$('[data-step]',m).forEach(b=>b.onclick=()=>goStep(+b.dataset.step));
   $('#pwBack')&&($('#pwBack').onclick=()=>goStep(st-1));$('#pwNext')&&($('#pwNext').onclick=()=>goStep(st+1));
-  $$('[data-ctx]',m).forEach(b=>b.onclick=()=>{$('#ctx').value=b.dataset.ctx});
-  const keep=()=>{const y=window.scrollY;render();window.scrollTo({top:y})};
-  const togZone=k=>{if(!p.bmap[k])p.bmap[k]=[];W.act=k;keep()};
+  $('#pwChart')&&($('#pwChart').onclick=()=>{keepCtx();keepPulseDraft();route.pwDone='view';render();window.scrollTo({top:0})});
+  $$('[data-ctx]',m).forEach(b=>b.onclick=()=>{$('#ctx').value=b.dataset.ctx;p.ctx=b.dataset.ctx});
+  const keep=()=>{const y=window.scrollY;S.pwDraft=W;save();render();window.scrollTo({top:y})};
+  const togZone=k=>{if(!p.bmap[k])p.bmap[k]=[];W.act=k;if(p.bq==='нет')p.bq=null;keep()};
+  $$('[data-bq]',m).forEach(b=>b.onclick=()=>{const k=b.dataset.bq;if(p.bq===k){p.bq=null;if(k!=='нет'){delete p.bmap['все тело'];W.act=null}keep();return}p.bq=k;
+    if(k==='нет'){p.bmap={};W.act=null;keep();setTimeout(()=>goStep(2),380);return}
+    p.bmap['все тело']=p.bmap['все тело']||[];if(k==='уст'&&!p.bmap['все тело'].includes('усталость'))p.bmap['все тело'].push('усталость');W.act='все тело';keep()});
   $('#ownZoneB')&&($('#ownZoneB').onclick=()=>{const v=$('#ownZone').value.trim().toLowerCase();if(v)togZone(v)});
   $('#ownZone')&&($('#ownZone').onkeydown=e=>{if(e.key==='Enter')$('#ownZoneB').click()});
   const bs=$('[data-bs]',m);if(bs)bs.onclick=e=>{const b=e.target.closest('button');if(!b)return;const a=p.bmap[W.act],v=b.dataset.v,i=a.indexOf(v);i>=0?a.splice(i,1):a.push(v);keep()};
   $('#ownSensB')&&($('#ownSensB').onclick=()=>{const v=$('#ownSens').value.trim();if(v&&!p.bmap[W.act].includes(v)){p.bmap[W.act].push(v);keep()}});
   $('#ownSens')&&($('#ownSens').onkeydown=e=>{if(e.key==='Enter')$('#ownSensB').click()});
-  $$('[data-delz]',m).forEach(b=>b.onclick=()=>{delete p.bmap[b.dataset.delz];if(W.act===b.dataset.delz)W.act=null;keep()});
+  $$('[data-delz]',m).forEach(b=>b.onclick=()=>{const k=b.dataset.delz;delete p.bmap[k];if(k==='все тело')p.bq=null;if(W.act===k)W.act=null;keep()});
   $$('[data-zone]',m).forEach(el=>{el.onclick=()=>togZone(el.dataset.zone);el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();togZone(el.dataset.zone)}}});
-  $$('[data-ck]',m).forEach(g=>g.onclick=e=>{const b=e.target.closest('button');if(!b)return;const a=p[g.dataset.ck],v=b.dataset.v,i=a.indexOf(v);i>=0?a.splice(i,1):a.push(v);b.setAttribute('aria-pressed',String(i<0))});
+  $$('[data-ck]',m).forEach(g=>g.onclick=e=>{const b=e.target.closest('button');if(!b)return;const a=p.emo,v=b.dataset.v,i=a.indexOf(v);i>=0?a.splice(i,1):a.push(v);b.setAttribute('aria-pressed',String(i<0));autosave('pw',()=>{S.pwDraft=W})});
   $$('[data-own]',m).forEach(inp=>inp.onkeydown=e=>{if(e.key!=='Enter')return;e.preventDefault();const v=inp.value.trim();if(v&&!p[inp.dataset.own].includes(v)){p[inp.dataset.own].push(v);render()}});
-  $$('[data-lvl]',m).forEach(g=>$$('button',g).forEach(b=>b.onclick=()=>{p[g.dataset.lvl]=+b.dataset.v;$$('button',g).forEach(x=>x.setAttribute('aria-pressed',String(x===b)))}));
+  $$('[data-lvl]',m).forEach(g=>$$('button',g).forEach(b=>b.onclick=()=>{p[g.dataset.lvl]=+b.dataset.v;$$('button',g).forEach(x=>x.setAttribute('aria-pressed',String(x===b)));autosave('pw',()=>{S.pwDraft=W})}));
   $$('[data-want]',m).forEach(b=>b.onclick=()=>{p.want=p.want===b.dataset.want?null:b.dataset.want;$$('[data-want]',m).forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.want===p.want)))});
   $('#pwQuick')&&($('#pwQuick').onclick=()=>goStep(3));
-  $('#puQuick')&&($('#puQuick').onclick=()=>$('#puSave2').click());
-  const doSave=()=>{if(!p.energy||!p.tension){toast('Отметьте силы и напряжение');W.step=3;render();return}
+  const doSave=()=>{keepCtx();if(!p.energy||!p.tension){toast('Отметьте силы и напряжение');W.step=3;render();return}
     const zs=Object.keys(p.bmap);const rec={energy:p.energy,tension:p.tension,clarity:p.clarity,want:p.want,emo:p.emo,body:zs.map(k=>p.bmap[k].length?k+': '+p.bmap[k].join(', '):k),zones:zs,bmap:p.bmap,ctx:p.ctx,d:new Date().toISOString().slice(0,10),t:new Date().toTimeString().slice(0,5)};
-    S.pulses.push(rec);delete S.pwDraft;save();route.pw=null;if(RET&&T[RET]){const r=RET;RET=null;toast('Отметка сохранена. Вы вернулись в «'+T[r].title+'»');go('tool',r);return}toast('Отметка сохранена');render();window.scrollTo({top:0})};
-  $('#puSave')&&($('#puSave').onclick=doSave);if($('#puQuick'))$('#puQuick').onclick=doSave;
+    S.pulses.push(rec);delete S.pwDraft;save();route.pw=null;if(RET&&T[RET]){const r=RET;RET=null;toast('Отметка сохранена. Вы вернулись в «'+T[r].title+'»');go('tool',r);return}
+    route.pwDone='saved';render();window.scrollTo({top:0})};
+  $('#puSave')&&($('#puSave').onclick=doSave);$('#puQuick')&&($('#puQuick').onclick=doSave);
+}
+/* Экран после сохранения: здесь и только здесь появляется график */
+function pulseDone(m,t){const saved=route.pwDone==='saved',last=S.pulses[S.pulses.length-1];
+  m.innerHTML=wrap(t,`${saved?`<div class="pw-ok"><span class="pw-ok__i">${ico('check',22)}</span><div><h2>Отметка сохранена</h2><p>${last?`Силы - ${esc((ENERGY_W[last.energy-1]||[])[1]||'')}, напряжение - ${esc((TENSION_W[last.tension-1]||[])[1]||'')}${last.ctx?`, после «${esc(last.ctx)}»`:''}`:''}</p></div></div>`:''}
+    <section class="sec"><div class="sec__h"><h2>Посмотрите, как меняются ваши силы</h2><span class="muted">${S.pulses.length} ${plural(S.pulses.length,'отметка','отметки','отметок')}</span></div>${S.pulses.length?pulseView():'<p class="muted">Здесь появится график после первой отметки</p>'}</section>
+    <div class="pw-done__nav"><button class="btn btn--primary" id="pdHome">${BACK}Вернуться на «Сегодня»</button><button class="btn btn--ghost" id="pdNew">${saved?'Сделать еще одну отметку':S.pwDraft?'Вернуться к отметке':'Сделать отметку'}</button></div>`);
+  bindDisc(m);bindPulseView(m);
+  $('#pdHome').onclick=()=>{route.pwDone=null;go('today')};
+  $('#pdNew').onclick=()=>{route.pwDone=null;route.pw=null;render();window.scrollTo({top:0})};
 }
 
 /* --- Весы нагрузки --- */
@@ -2333,7 +2514,7 @@ function videoModal(){const b=document.createElement('div');b.className='modal-b
 
 /* ================= ИНСТРУМЕНТЫ ================= */
 function nav(){
-  const cur=route.v==='tool'?(route.arg==='nav'?'navself':'tools'):route.v;
+  const cur=route.v==='tool'?(route.arg==='nav'?'navself':route.arg==='pulse'?'today':'tools'):route.v;
   const n=(v,l,c)=>`<button class="nav" data-go="${v}" ${cur===v?'aria-current="page"':''}>${l}${c?`<span class="count">${c}</span>`:''}</button>`;
   $('#sidebar').innerHTML=n('today','Сегодня')+n('tools','Маршрут и инструменты')+n('navself','Инструкция к себе')+n('meet','К встрече',S.discuss.length||'')+(anyA()?n('audio','Записи Насти'):'')+
    (PSY?`<div class="nav-group">Для психолога</div>`+n('links','Ссылки для клиента'):'')+
@@ -2395,7 +2576,7 @@ function vHelp(m){S.seenHelp=1;save();
   m.innerHTML=`<div class="page page--narrow"><header class="thead"><p class="eyebrow">Коротко о главном</p><h1>Как здесь все устроено</h1>
     <p class="thead__goal">Это ваше место для работы между встречами. Оно не заменяет встречи с психологом, а помогает приходить на них с наблюдениями, а не с «ну как-то так прошла неделя»</p></header>
     <div class="nav-sec"><div class="nav-sec__n">Ритм</div><div class="nav-sec__body"><p>${esc(C.rhythm)}. Между встречами:</p>
-      <ul class="plain"><li>2-3 раза в неделю - «Карта состояния», по полминуты;</li><li>один-два открытых инструмента - 10-20 минут за неделю;</li><li>«Центр восстановления» - когда нужно;</li><li>«Хочу обсудить на встрече» - все, что цепляет</li></ul>
+      <ul class="plain"><li>2-3 раза в неделю - «Карта состояния», по полминуты;</li><li>один-два открытых инструмента - 10-20 минут за неделю;</li><li>«Центр восстановления» - когда нужно;</li><li>«Сохранить, чтобы обсудить на встрече» - все, что цепляет</li></ul>
       <p class="muted">Если неделя была тяжелой и вы ничего не сделали - это не провал, а материал для встречи</p></div></div>
     <div class="nav-sec"><div class="nav-sec__n">Маршрут</div><div class="nav-sec__body"><p>Трек идет по девяти этапам. Инструменты открывает психолог: после встречи он пришлет ссылку - перейдите по ней, и новые инструменты появятся в «Маршруте». Все, что вы заполняете, связано между собой и в конце соберется в «Инструкцию к себе»</p></div></div>
     <div class="nav-sec" id="data"><div class="nav-sec__n">Ваши данные</div><div class="nav-sec__body">
@@ -2532,11 +2713,22 @@ const TOOL={};
 /* 1. Стартовая диагностика */
 const SPHERES=[['work','Работа'],['home','Семья и дом'],['care','Забота о других'],['money','Деньги'],['stress','Тревога и неопределенность'],['health','Здоровье']];
 const LOADW=[[1,'мало'],[2,'умеренно'],[3,'заметно'],[4,'много'],[5,'предельно']];
-function wheelSvg(v){const cx=160,cy=150,R=110,n=SPHERES.length;const pt=(i,r)=>{const a=-Math.PI/2+i*2*Math.PI/n;return [cx+r*Math.cos(a),cy+r*Math.sin(a)]};
-  const poly=SPHERES.map(([k],i)=>pt(i,R*(v[k]||0)/5).join(',')).join(' ');
-  return `<svg viewBox="-120 -6 560 316" role="img" aria-label="Колесо нагрузки">${[1,2,3,4,5].map(r=>`<circle cx="${cx}" cy="${cy}" r="${R*r/5}" fill="none" stroke="var(--line)" ${r===5?'':'stroke-dasharray="1 3"'}/>`).join('')}
-    ${SPHERES.map(([k,l],i)=>{const [x,y]=pt(i,R),[tx,ty]=pt(i,R+22);return `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="var(--line)"/><text class="lbl" x="${tx}" y="${ty+4}" text-anchor="${Math.abs(tx-cx)<10?'middle':tx<cx?'end':'start'}">${l.length>14&&l.includes(' ')?(()=>{const w=l.split(' ');const h=Math.ceil(w.length/2);return `<tspan x="${tx}" dy="-7">${esc(w.slice(0,h).join(' '))}</tspan><tspan x="${tx}" dy="15">${esc(w.slice(h).join(' '))}</tspan>`})():esc(l)}</text>`}).join('')}
-    <polygon points="${poly}" fill="var(--lavender)" stroke="var(--text)" stroke-width="1.4" opacity=".9"/></svg>`}
+function wheelSvg(v,live){const cx=160,cy=150,R=110,n=SPHERES.length;const cmp=live&&window.matchMedia&&matchMedia('(max-width:640px)').matches;const pt=(i,r)=>{const a=-Math.PI/2+i*2*Math.PI/n;return [cx+r*Math.cos(a),cy+r*Math.sin(a)]};
+  const has=SPHERES.some(([k])=>v[k]);const poly=SPHERES.map(([k],i)=>pt(i,R*(v[k]||0)/5).join(',')).join(' ');
+  const word=k=>v[k]?(LOADW.find(x=>x[0]===v[k])||[])[1]:'';
+  return `<svg viewBox="${cmp?'14 6 292 290':'-120 -6 560 316'}" role="${live?'group':'img'}" aria-label="Колесо нагрузки"${live?' class="wheel--live"':''}>${live?`<circle cx="${cx}" cy="${cy}" r="${R+14}" fill="transparent" class="wh-area"/>`:''}${[1,2,3,4,5].map(r=>`<circle cx="${cx}" cy="${cy}" r="${R*r/5}" fill="none" stroke="var(--line)" ${r===5?'':'stroke-dasharray="1 3"'} pointer-events="none"/>`).join('')}
+    ${SPHERES.map(([k,l],i)=>{const [x,y]=pt(i,R),[tx,ty]=pt(i,R+22);const anc=Math.abs(tx-cx)<10?'middle':tx<cx?'end':'start';const w=live&&word(k)?word(k):'';
+      const lab=l.length>14&&l.includes(' ')?(()=>{const ws=l.split(' ');const h=Math.ceil(ws.length/2);return `<tspan x="${tx}" dy="${w?-14:-7}">${esc(ws.slice(0,h).join(' '))}</tspan><tspan x="${tx}" dy="15">${esc(ws.slice(h).join(' '))}</tspan>`})():`<tspan x="${tx}" dy="${w?-7:0}">${esc(l)}</tspan>`;
+      if(cmp){const [bx,by]=pt(i,R+20);return `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="var(--line)" pointer-events="none"/><g class="wh-num${v[k]?' on':''}" pointer-events="none"><circle cx="${bx}" cy="${by}" r="11"/><text x="${bx}" y="${by+4.5}" text-anchor="middle">${i+1}</text></g>`}
+      return `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="var(--line)" pointer-events="none"/><text class="lbl" x="${tx}" y="${ty+4}" text-anchor="${anc}" pointer-events="none">${lab}${w?`<tspan x="${tx}" dy="15" class="wh-w">${esc(w)}</tspan>`:''}</text>`}).join('')}
+    ${has?`<polygon points="${poly}" fill="var(--lavender)" stroke="var(--text)" stroke-width="1.4" opacity=".9" pointer-events="none"/>`:''}
+    ${live?SPHERES.map(([k,l],i)=>[1,2,3,4,5].map(lv=>{const [x,y]=pt(i,R*lv/5),on=v[k]===lv;return `<circle class="wh-dot${on?' on':''}" cx="${x}" cy="${y}" r="${on?7:3.2}" data-wk="${k}" data-wv="${lv}" tabindex="0" role="button" aria-pressed="${on}" aria-label="${esc(l)}: ${LOADW[lv-1][1]}"/>`}).join('')).join(''):''}</svg>${cmp?`<ol class="wh-leg">${SPHERES.map(([k,l],i)=>`<li class="${v[k]?'on':''}"><span>${i+1}</span>${esc(l)}<b>${esc(word(k)||'не отмечено')}</b></li>`).join('')}</ol>`:''}`}
+function bindWheel(box,v,onSet){const draw=()=>{box.innerHTML=wheelSvg(v,true)};draw();
+  const set=(k,lv)=>{v[k]=lv;draw();onSet&&onSet();const f=box.querySelector(`[data-wk="${k}"][data-wv="${lv}"]`);if(f&&box._kb)f.focus()};
+  box.addEventListener('click',e=>{const svg=box.querySelector('svg');if(!svg||!e.target.closest('svg'))return;const d=e.target.closest('[data-wk]');if(d){set(d.dataset.wk,+d.dataset.wv);return}
+    const pt=svg.createSVGPoint();pt.x=e.clientX;pt.y=e.clientY;const q=pt.matrixTransform(svg.getScreenCTM().inverse());const dx=q.x-160,dy=q.y-150,dist=Math.hypot(dx,dy);if(dist>124||dist<6)return;
+    let a=Math.atan2(dy,dx)+Math.PI/2;if(a<0)a+=2*Math.PI;const i=Math.round(a/(2*Math.PI/SPHERES.length))%SPHERES.length;set(SPHERES[i][0],Math.max(1,Math.min(5,Math.round(dist/22))))});
+  box.addEventListener('keydown',e=>{const d=e.target.closest('[data-wk]');if(!d)return;if(e.key==='Enter'||e.key===' '){e.preventDefault();box._kb=1;set(d.dataset.wk,+d.dataset.wv)}})}
 TOOL.point=(m,t)=>{const p=S.point;p.spheres=p.spheres||{};
   m.innerHTML=wrap(t,`<section class="dsec"><h2 class="dsec__h">Отметьте, как проходит ваш обычный день</h2><div class="form">
     ${field('Оцените, сколько у вас сил утром',seg('morning',ENERGY_W,p.morning))}
@@ -2546,9 +2738,8 @@ TOOL.point=(m,t)=>{const p=S.point;p.spheres=p.spheres||{};
   <section class="dsec"><h2 class="dsec__h">Отметьте, как вы отдыхаете в течение недели и года</h2><div class="form">
     ${field('Отметьте, восстанавливают ли вас выходные',seg('weekend',['да','частично','нет, уходят на дела'],p.weekend))}
     ${field('Когда вы последний раз отдыхали в отпуске без работы?',seg('vacation',['в последние полгода','больше полугода назад','больше года назад','в отпуске все равно работаю'],p.vacation))}</div></section>
-  <section class="dsec"><h2 class="dsec__h">Оцените нагрузку в разных сферах жизни</h2><p class="muted" style="margin-bottom:6px">Оцените, сколько сил сейчас уходит на каждую сферу</p>
-    <div class="wheel-wrap"><div>${SPHERES.map(([k,l])=>`<div class="ld-q"><span>${l}</span><div class="seg" data-sph="${k}">${LOADW.map(([v,w])=>`<button type="button" aria-pressed="${p.spheres[k]===v}" data-v="${v}">${w}</button>`).join('')}</div></div>`).join('')}</div>
-    <div class="wheel" id="wheel">${wheelSvg(p.spheres)}</div></div></section>
+  <section class="dsec"><h2 class="dsec__h">Оцените нагрузку в разных сферах жизни</h2><p class="pw-why" style="margin-top:4px">Нажмите на луч каждой сферы: чем дальше от центра, тем больше сил на нее уходит</p>
+    <div class="wh-box"><div class="wheel wheel--big" id="wheel"></div><div class="wh-scale" aria-hidden="true"><span>центр - мало сил</span><i></i><span>край - предельно</span></div></div></section>
   <section class="dsec"><h2 class="dsec__h">Отметьте, что вы чувствуете</h2><div class="form">
     ${field('Отметьте эмоции, которые вы чаще всего испытываете в течение недели',chips('emotions',C.EMOTIONS,p.emotions,{multi:true,max:6})+ownInput('emotions'))}
     ${field('Отметьте ощущения, которые вы замечаете в теле',chips('body',C.BODY,p.body,{multi:true,max:6})+ownInput('body'))}
@@ -2558,7 +2749,7 @@ TOOL.point=(m,t)=>{const p=S.point;p.spheres=p.spheres||{};
     ${field('Напишите 1-3 признака, по которым поймете, что стало лучше',[0,1,2].map(i=>`<input class="line" data-mk="${i}" placeholder="Например: «засыпаю без мыслей о работе»" value="${esc((p.markers||[])[i]||'')}">`).join(''))}</div></section>
   <div style="margin-top:24px"><button class="btn btn--primary" id="pSave">${MARK}Результаты диагностики</button></div><section class="pt-res" id="ptRes" ${p.saved?'':'hidden'}>${p.saved?pointResult(p):''}</section>`);
   bindSeg(m,p);bindOwn(m,p);bindDisc(m);
-  $$('[data-sph]',m).forEach(g=>$$('button',g).forEach(b=>b.onclick=()=>{p.spheres[g.dataset.sph]=+b.dataset.v;$$('button',g).forEach(x=>x.setAttribute('aria-pressed',String(x===b)));$('#wheel').innerHTML=wheelSvg(p.spheres);S.point=p;save()}));
+  bindWheel($('#wheel',m),p.spheres,()=>{S.point=p;save()});
   $('#pChange').addEventListener('input',e=>autosave('pt',()=>{p.change=e.target.value;S.point=p}));$$('[data-mk]',m).forEach(i=>i.addEventListener('input',()=>autosave('pt',()=>{p.markers=$$('[data-mk]',m).map(x=>x.value.trim()).filter(Boolean);S.point=p})));
   {const g=$('[data-seg="sleepProb"]',m);if(g)g.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;setTimeout(()=>{const ok='со сном все в порядке';let a=p.sleepProb||[];if(b.dataset.v===ok&&a.includes(ok))a=[ok];else if(b.dataset.v!==ok)a=a.filter(x=>x!==ok);p.sleepProb=a;$$('button',g).forEach(x=>x.setAttribute('aria-pressed',String(a.includes(x.dataset.v))));S.point=p;save()},0)})}
   $('#pSave').onclick=()=>{p.change=$('#pChange').value.trim();p.markers=$$('[data-mk]',m).map(i=>i.value.trim()).filter(Boolean);p.energy=p.morning||p.energy;p.load=Math.max(0,...Object.values(p.spheres))||p.load;p.saved=1;S.point=p;save();toast('Диагностика сохранена. В конце трека она встанет рядом с финальной');const r=$('#ptRes',m);r.innerHTML=pointResult(p);r.hidden=false;r.scrollIntoView({behavior:'smooth',block:'start'})};
@@ -2601,16 +2792,20 @@ const ENERGY_W=[[1,'на нуле'],[2,'мало'],[3,'средне'],[4,'хор
 const TENSION_W=[[1,'спокойно'],[2,'слегка'],[3,'заметно'],[4,'сильно'],[5,'на взводе']];
 TOOL.pulse=toolPulse;
 const fmtD=d=>{if(!d)return '';const a=d.split('-');return a[2]+'.'+a[1]};
-function pulseView(){const ps=S.pulses.slice(-14);const last=S.pulses.slice(-3),prev=S.pulses.slice(-6,-3);
-  let trend='';if(prev.length){const av=a=>a.reduce((x,p)=>x+p.energy,0)/a.length;const d=av(last)-av(prev);trend=d>.4?'Энергия в последних отметках растет':d<-.4?'Энергия в последних отметках снижается':'Энергия в последних отметках держится примерно на одном уровне'}
-  return `${trend?`<p class="trend">${trend}</p>`:''}<div class="howread"><div><span class="hr-i hr-i--line"></span><span><b>Линия с точками - ваши силы</b> Чем выше точка, тем больше сил было в тот момент</span></div><div><span class="hr-i hr-i--dash"></span><span><b>Пунктирный кружок - напряжение</b> Чем выше кружок, тем сильнее вы были напряжены</span></div><div><span class="hr-i hr-i--tap">${ico('pulse',16)}</span><span><b>Нажмите на точку</b>, чтобы увидеть, что вы делали и что чувствовали. Ищите дела, после которых линия опускается, а кружок поднимается</span></div></div>${S.pulses.length<3?`<p class="note" style="margin-bottom:12px">Пока отметок мало. После трех-четырех отметок станет видно, как меняются ваши силы и что на них влияет</p>`:''}
-    <div class="viz">${pulseChart(ps)}</div><div id="ptDetail"></div>`}
-function pulseChart(ps){const W=720,H=270,L=96,R=24,Tp=24,B=56;const n=ps.length;const x=i=>L+(n<2?(W-L-R)/2:i*(W-L-R)/(n-1)),y=v=>Tp+(5-v)*(H-Tp-B)/4;
-  const line=ps.map((p,i)=>`${i?'L':'M'}${x(i).toFixed(1)} ${y(p.energy).toFixed(1)}`).join(' ');
+function pulseView(){const mob=window.matchMedia&&matchMedia('(max-width:640px)').matches;const ps=S.pulses.slice(mob?-7:-10);const last=S.pulses.slice(-3),prev=S.pulses.slice(-6,-3);
+  let trend='';if(prev.length){const av=a=>a.reduce((x,p)=>x+p.energy,0)/a.length;const d=av(last)-av(prev);trend=d>.4?'Сил в последних отметках становится больше':d<-.4?'Сил в последних отметках становится меньше':'Сил в последних отметках примерно столько же, сколько раньше'}
+  return `${trend?`<p class="trend">${trend}</p>`:''}<div class="viz pviz">${pulseChart(ps)}</div><div id="ptDetail"></div>
+    <div class="pleg"><p><span class="pleg__s pleg__s--e"></span>Зеленый кружок - ваши силы. Чем он больше, тем больше было сил</p><p><span class="pleg__s pleg__s--t"></span>Розовый кружок - напряжение. Чем он больше, тем сильнее вы были напряжены</p><p>${ico('pulse',15)}Нажмите на день, чтобы увидеть, что вы делали и что чувствовали</p></div>
+    ${S.pulses.length<3?`<p class="note" style="margin-top:14px">После трех-четырех отметок станет видно, какие дела забирают силы, а какие их возвращают</p>`:''}`}
+function pulseChart(ps){const mob=window.matchMedia&&matchMedia('(max-width:640px)').matches;const n=ps.length,L=mob?96:118,R=4,W=mob?380:720,cw=Math.min(mob?44:72,(W-L-R)/Math.max(n,1)),x0=L+((W-L-R)-cw*n)/2;const yE=58,yT=142,H=212;const rr=v=>mob?3+v*2.9:5+v*3.6;
   const off=S.pulses.length-ps.length;
-  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="График энергии и напряжения">${[1,2,3,4,5].map(v=>`<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/><text class="lbl" x="${L-10}" y="${y(v)+4}" text-anchor="end">${['','очень мало','мало','средне','много','очень много'][v]}</text>`).join('')}
-    <path d="${line}" fill="none" stroke="var(--text)" stroke-width="1.6"/>
-    ${ps.map((p,i)=>`<g class="pt" data-pi="${off+i}" tabindex="0" role="button" aria-label="Отметка ${fmtD(p.d)}"><rect x="${x(i)-14}" y="${Tp-10}" width="28" height="${H-Tp-B+20}" fill="transparent"/><circle cx="${x(i)}" cy="${y(p.tension)}" r="6" fill="var(--bg)" stroke="var(--text)" stroke-dasharray="1 2"/><circle cx="${x(i)}" cy="${y(p.energy)}" r="5" fill="var(--text)"/><text class="lbl" x="${x(i)}" y="${H-30}" text-anchor="middle">${fmtD(p.d)}</text></g>`).join('')}</svg>`}
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Силы и напряжение по дням">
+    <text class="lbl pl-row" x="0" y="${yE+5}">Силы</text><text class="lbl pl-row" x="0" y="${yT+5}">Напряжение</text>
+    <line x1="${L-8}" x2="${W-R}" y1="${(yE+yT)/2}" y2="${(yE+yT)/2}" stroke="var(--line)" stroke-dasharray="1 4"/>
+    ${ps.map((p,i)=>{const cx=x0+cw*i+cw/2;return `<g class="pt" data-pi="${off+i}" tabindex="0" role="button" aria-label="Отметка ${fmtD(p.d)}: силы ${p.energy} из 5, напряжение ${p.tension} из 5"><rect x="${cx-cw/2+2}" y="6" width="${cw-4}" height="${H-12}" rx="10" class="pt__bg"/>
+      <circle cx="${cx}" cy="${yE}" r="${rr(5)}" fill="none" stroke="var(--line)" stroke-dasharray="1 3"/><circle cx="${cx}" cy="${yE}" r="${rr(p.energy)}" fill="var(--mint)" stroke="var(--ink)" stroke-width=".8"/>
+      <circle cx="${cx}" cy="${yT}" r="${rr(5)}" fill="none" stroke="var(--line)" stroke-dasharray="1 3"/><circle cx="${cx}" cy="${yT}" r="${rr(p.tension)}" fill="var(--drain)" stroke="var(--ink)" stroke-width=".8"/>
+      <text class="lbl" x="${cx}" y="${H-14}" text-anchor="middle">${fmtD(p.d)}</text></g>`}).join('')}</svg>`}
 function bindPulseView(m){$$('.pt',m).forEach(g=>{const show=()=>{const p=S.pulses[+g.dataset.pi];$$('.pt',m).forEach(x=>x.classList.toggle('on',x===g));
   $('#ptDetail',m).innerHTML=`<div class="pt-card"><b>${fmtD(p.d)}${p.ctx?' · '+esc(p.ctx):''}</b><span>Силы: ${esc((ENERGY_W[p.energy-1]||[])[1]||p.energy)} · напряжение: ${esc((TENSION_W[p.tension-1]||[])[1]||p.tension)}</span>${(p.emo||[]).length?`<span>Эмоции: ${esc(p.emo.join(', '))}</span>`:''}${(p.body||[]).length?`<span>Тело: ${esc(p.body.join(', '))}</span>`:''}${p.want?`<span>Хотелось: ${esc(p.want==='продолжать'?'продолжить':'остановиться')}</span>`:''}</div>`};
   g.onclick=show;g.onkeydown=e=>{if(e.key==='Enter')show()}})}
@@ -3236,7 +3431,7 @@ TOOL.nav=(m,t)=>{const secs=navSections();const n=secs.filter(s=>s.ok).length;
 /* ================= К ВСТРЕЧЕ ================= */
 function vMeet(m){
   m.innerHTML=`<div class="page page--narrow"><header class="thead"><p class="eyebrow">Перед сессией</p><h1>К встрече</h1><p class="thead__goal">Психолог увидит только этот список, а не все ваши ответы</p></header>
-    ${S.discuss.length?`<ul class="list">${S.discuss.map((d,i)=>`<li><span>${esc(d)}</span><button class="btn btn--ghost btn--sm" data-x="${i}">Обсудили</button></li>`).join('')}</ul>`:'<p class="muted">Пока ничего. В каждом инструменте внизу есть кнопка «Хочу обсудить на встрече»</p>'}
+    ${S.discuss.length?`<ul class="list">${S.discuss.map((d,i)=>`<li><span>${esc(d)}</span><button class="btn btn--ghost btn--sm" data-x="${i}">Обсудили</button></li>`).join('')}</ul>`:'<p class="muted">Пока ничего. В каждом инструменте внизу есть кнопка «Сохранить, чтобы обсудить на встрече»</p>'}
     <div class="input" style="margin-top:16px"><input id="mIn" placeholder="Добавить свой пункт"><button class="btn btn--sm" id="mAdd">Добавить</button></div></div>`;
   $$('[data-x]',m).forEach(b=>b.onclick=()=>{S.discuss.splice(+b.dataset.x,1);save();render()});
   const add=()=>{const v=$('#mIn').value.trim();if(v){S.discuss.push(v);save();render()}};$('#mAdd').onclick=add;$('#mIn').onkeydown=e=>{if(e.key==='Enter')add()};
