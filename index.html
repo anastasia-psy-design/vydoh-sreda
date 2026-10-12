@@ -1898,6 +1898,94 @@ h1,.page h1,.thead h1,.r-head h1,.thero__txt h1,.big-card h2,.keep__head h2,.mod
 
 @media (min-width:641px){.pt-steps~.dsec .chips{grid-template-columns:repeat(4,minmax(0,1fr))}}
 
+/* Маршрут: вертикальная лента с пунктиром */
+.r-rel{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:18px 0 6px;max-width:760px}
+.r-rel>div{display:grid;gap:4px;padding:14px 16px;border:var(--dash);border-radius:var(--r-md,14px)}
+.r-rel b{display:flex;align-items:center;gap:8px;font-weight:500;font-size:15px;color:var(--ink)}
+.r-rel span{font-size:14px;line-height:1.45;color:var(--text)}
+.rtl{list-style:none;margin:28px 0 0;padding:0;position:relative;max-width:900px}
+.rtl__i{position:relative;display:grid;grid-template-columns:44px minmax(0,1fr);gap:20px;padding-bottom:30px}
+.rtl__i::before{content:"";position:absolute;left:21px;top:44px;bottom:0;border-left:1.5px dashed color-mix(in srgb,var(--ink) 30%,transparent)}
+.rtl__i:last-child::before{display:none}
+.rtl--past::before{border-left-style:solid;border-left-color:var(--ink)}
+.rtl__n{position:relative;z-index:1;display:grid;place-items:center;width:44px;height:44px;border-radius:50%;border:1px solid var(--ink);background:var(--bg);font:500 15px var(--sans);color:var(--ink)}
+.rtl--past .rtl__n{background:var(--ink);color:var(--bg)}
+.rtl--next .rtl__n{border-style:dashed;border-color:color-mix(in srgb,var(--ink) 40%,transparent);color:var(--muted)}
+.rtl--now .rtl__n{background:var(--mint);box-shadow:0 0 0 6px var(--bg),0 0 0 7px var(--ink)}
+.rtl__c{padding-top:2px;min-width:0}
+.rtl__w{margin:0 0 4px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.rtl__w b{font-weight:500;color:var(--ink)}
+.rtl__t{margin:0 0 12px;font:400 clamp(22px,2vw,27px)/1.2 var(--serif);color:var(--ink)}
+.rtl--next .rtl__t{color:var(--text)}
+.rtl__d{margin:-4px 0 14px;font-size:15px;line-height:1.5;color:var(--text);max-width:60ch}
+.rtl--now .rtl__c{padding:22px 24px 24px;margin-top:-14px;border:1px solid var(--ink);border-radius:var(--r-lg,16px);background:var(--mint);background-image:linear-gradient(150deg,var(--glow),rgba(255,255,255,0) 60%);box-shadow:var(--sh-3)}
+.rtl__tools{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.rtl__tools .tt-wrap{min-width:0}
+@media (max-width:640px){
+  .r-rel{grid-template-columns:1fr}
+  .rtl__i{grid-template-columns:34px minmax(0,1fr);gap:12px;padding-bottom:24px}
+  .rtl__i::before{left:16px;top:34px}
+  .rtl__n{width:34px;height:34px;font-size:13px}
+  .rtl--now .rtl__c{padding:16px;margin-top:-10px}
+  .rtl__tools{grid-template-columns:1fr}
+}
+
+.rtl__tools .tt-wrap{display:flex}
+.rtl__tools .tt{display:grid;grid-template-columns:58px minmax(0,1fr);grid-template-rows:auto auto;column-gap:14px;row-gap:2px;align-items:center;width:100%!important;min-width:0;min-height:86px;height:100%;padding:12px 16px 12px 12px}
+.rtl__tools .tt__ico{grid-row:1/3}
+.rtl__tools .tt__t{align-self:end}
+.rtl__tools .tt__s{margin-top:0;align-self:start}
+.rtl--next .tt--locked{background:transparent}
+@media (max-width:640px){.rtl__tools .tt{grid-template-columns:46px minmax(0,1fr);min-height:72px;padding:10px 12px 10px 10px}.rtl__tools .tt__ico>svg{width:46px;height:46px}}
+
+/* Карта нагрузки: чаши весов */
+.ldb{margin-top:8px;user-select:none;-webkit-user-select:none}
+.ldz{border:var(--dash);border-radius:var(--r-lg,16px);padding:16px;transition:background-color .2s,border-color .2s,box-shadow .2s}
+.ldz__h{margin:0;font:400 21px/1.2 var(--serif);color:var(--ink)}
+.ldz__sub{margin:4px 0 0;font-size:14px;color:var(--text)}
+.ldz__cards{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;min-height:44px;align-content:flex-start}
+.ldz__empty{margin:0;align-self:center;font-size:14px;color:var(--muted)}
+.ldz--u{background:var(--bg)}
+.ldb__pans{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:-6px}
+.ldb__pans .ldz{min-height:170px;border-style:solid;border-color:var(--hair);border-radius:0 0 50% 50%/0 0 26% 26%;padding:18px 18px 34px;box-shadow:var(--sh-3)}
+.ldz--d{background:color-mix(in srgb,var(--drain) 70%,var(--bg))}
+.ldz--r{background:color-mix(in srgb,var(--mint) 80%,var(--bg))}
+.ldb.has-sel .ldb__pans .ldz,.ldb.has-sel .ldz--u{border-color:var(--ink);border-style:dashed;cursor:pointer}
+.ldz.is-over{border-color:var(--ink)!important;border-style:solid!important;box-shadow:0 0 0 3px color-mix(in srgb,var(--ink) 12%,transparent),var(--sh-3)}
+.ldb__beam{display:block;width:100%;max-width:720px;height:auto;margin:6px auto 0}
+.ldb__arm{transform-origin:360px 34px;transition:transform .7s cubic-bezier(.3,1.4,.5,1)}
+.ldc{display:inline-flex;align-items:center;gap:8px;max-width:100%;min-height:40px;padding:6px 8px 6px 6px;border:1px solid var(--line);border-radius:12px;background:var(--bg);box-shadow:0 1px 2px rgba(45,44,42,.06);font-size:15px;color:var(--ink);cursor:grab;touch-action:none;transition:box-shadow .2s,border-color .2s,opacity .2s,transform .2s}
+.ldc:hover{border-color:var(--ink)}
+.ldc:focus{outline:none}.ldc:focus-visible{box-shadow:0 0 0 2px var(--focus)}
+.ldc__grip{flex:none;width:8px;height:16px;background-image:radial-gradient(circle,var(--muted) 1.1px,transparent 1.3px);background-size:4px 4px;opacity:.8}
+.ldc__n{min-width:0;overflow-wrap:anywhere}
+.ldc__s{flex:none;padding:2px 8px;border:1px solid var(--line);border-radius:999px;background:transparent;font:500 12px var(--sans);color:var(--text);cursor:pointer}
+.ldc__s[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.ldc.is-sel{border-color:var(--ink);box-shadow:0 0 0 2px var(--ink)}
+.ldc.is-drag{opacity:.35;border-style:dashed}
+.ldc--ghost{position:fixed;left:0;top:0;z-index:9999;pointer-events:none;box-shadow:0 18px 38px -14px rgba(45,44,42,.45);border-color:var(--ink)}
+.ldc.just{animation:ldIn .5s var(--ease,ease)}
+@keyframes ldIn{0%{transform:scale(.9);box-shadow:0 0 0 0 var(--ink)}60%{transform:scale(1.04)}100%{transform:none}}
+.ldb.is-dragging .ldc{cursor:grabbing}
+@media (max-width:640px){
+  .ldb__pans{gap:8px}
+  .ldb__pans .ldz{padding:12px 10px 26px;min-height:150px}
+  .ldz__h{font-size:18px}
+  .ldz__cards{gap:6px}
+  .ldc{font-size:14px;min-height:38px}
+  .ldb__pans .ldc{width:100%}
+}
+
+.ldb__beam{overflow:visible;max-width:none;margin:4px 0 0}
+.ldb__arm{transform-origin:360px 34px;transition:transform .7s cubic-bezier(.3,1.3,.5,1)}
+.ldb__str{transition:transform .7s cubic-bezier(.3,1.3,.5,1)}
+.ldb__pans{margin-top:-2px}
+.ldb__pans>.ldz{transition:transform .7s cubic-bezier(.3,1.3,.5,1),background-color .2s,border-color .2s,box-shadow .2s}
+#ldb+.trend{margin-top:34px}
+.ldb__pans .ldc{flex-wrap:wrap}
+.ldc__n{flex:1 1 auto;overflow-wrap:normal;word-break:normal}
+@media (max-width:640px){.ldb__pans .ldc__n{flex-basis:calc(100% - 20px)}.ldb__pans .ldc__s{margin-left:16px}}
+
 </style>
 </head>
 <body>
@@ -2008,12 +2096,12 @@ const CONTENT = {
   /* Образ-ассоциация в начале каждого инструмента. */
   metaphor: {'point': 'Как точка «вы здесь» на карте: отмечаем, откуда вы начинаете путь', 'pulse': 'Как шагомер, только для сил: несколько отметок в неделю, и видно, что вас разряжает', 'radar': 'Как лампочка топлива: учимся замечать ее, а не ждать, пока бак опустеет', 'load': 'Как весы: кладем на чаши то, что забирает силы, и то, что их возвращает', 'stress': 'Как пульт: ищем кнопки, благодаря которым вы сможете управлять состоянием', 'chain': 'Как домино: находим костяшку, которую можно убрать, чтобы цепочка не упала', 'recovery': 'Как аптечка: собираем то, что помогает именно вам', 'range': 'Как спидометр: находим скорость, на которой можно ехать долго', 'resp': 'Как рюкзак: проверяем, что вы несете за других', 'nhv': 'Как три банки: смотрим, чего в жизни много, а чего не хватает', 'lab': 'Как первый шаг по льду: проверяем убеждение маленьким безопасным шагом', 'peak': 'Как прогноз погоды: заранее готовимся к шторму', 'nav': 'Как инструкция к любимой вещи: как обращаться с собой в разные дни'},
   /* Что можно сделать, если сил мало. */
-  lowEnergy: {'point': 'заполните только блок про обычный день, а остальное добавьте позже', 'pulse': 'отметьте только силы и напряжение и сохраните', 'radar': 'отметьте один-два сигнала, которые замечаете чаще всего', 'load': 'добавьте три дела и ответьте только на вопрос, как вы себя чувствуете после них', 'stress': 'выберите один стрессор и отметьте, насколько можете на него повлиять', 'chain': 'ответьте только на первые два вопроса, а остальное разберите с психологом', 'recovery': 'просто выберите свое состояние и попробуйте первый способ из списка', 'range': 'достаточно посмотреть на картинку, заполнять ничего не нужно', 'resp': 'разложите только три пункта, которые давят сильнее всего', 'nhv': 'разложите только три пункта и пропустите вопросы', 'lab': 'запишите только убеждение, а эксперимент придумайте вместе с психологом', 'peak': 'выберите период и просто прочитайте, что собралось само', 'nav': 'ничего делать не нужно, инструкция собирается сама'},
+  lowEnergy: {'point': 'заполните только блок про обычный день, а остальное добавьте позже', 'pulse': 'отметьте только силы и напряжение и сохраните', 'radar': 'отметьте один-два сигнала, которые замечаете чаще всего', 'load': 'добавьте три дела и разложите их по чашам весов', 'stress': 'выберите один стрессор и отметьте, насколько можете на него повлиять', 'chain': 'ответьте только на первые два вопроса, а остальное разберите с психологом', 'recovery': 'просто выберите свое состояние и попробуйте первый способ из списка', 'range': 'достаточно посмотреть на картинку, заполнять ничего не нужно', 'resp': 'разложите только три пункта, которые давят сильнее всего', 'nhv': 'разложите только три пункта и пропустите вопросы', 'lab': 'запишите только убеждение, а эксперимент придумайте вместе с психологом', 'peak': 'выберите период и просто прочитайте, что собралось само', 'nav': 'ничего делать не нужно, инструкция собирается сама'},
   /* Короткая инструкция, которую видит клиент вверху каждого инструмента - один абзац. */
   howShort: {'point': 'Ответьте на вопросы о том, как вы живете сейчас - в основном нажатиями. В конце трека вы сравните ответы с финальными и увидите изменения не по ощущениям, а по факту',
     'pulse': '2-3 раза в неделю отмечайте, чем вы заняты, что чувствуете и сколько у вас сил. Обязательно нужно отметить только силы и напряжение, остальное можно пропустить. Из отметок складывается график, по которому видно, что забирает у вас силы и что их возвращает',
     'radar': 'Отметьте, что меняется в теле, эмоциях, мыслях и поведении, когда нагрузка растет, и когда это обычно появляется. Так вы научитесь замечать перегрузку на первых звоночках',
-    'load': 'Сначала добавьте дела, которые регулярно повторяются в вашей жизни, например работу, дорогу или заботу о близких. Потом про каждое дело ответьте на четыре коротких вопроса, и внизу страницы появятся весы: на одну чашу лягут дела, которые забирают у вас силы, а на другую - те, что их возвращают',
+    'load': 'Сначала добавьте дела, которые регулярно повторяются в вашей жизни, например работу, дорогу или заботу о близких. Потом разложите их по чашам весов: на одну - дела, которые забирают у вас силы, на другую - те, что их возвращают. Весы сразу покажут, что перевешивает',
     'stress': 'Выберите, что больше всего давит, отметьте, насколько вы можете на это влиять, и запишите один маленький шаг. Карта покажет, где ваши главные рычаги',
     'chain': 'Вспомните один недавний случай, когда вы снова перегрузили себя, и ответьте на вопросы по порядку. Потом отметьте место, где можно было поступить иначе. Первую цепочку лучше разобрать с психологом',
     'recovery': 'Выберите, что с вами сейчас, и попробуйте один из предложенных способов. Отметьте, стало ли легче. Со временем здесь соберется ваш личный набор: что помогает именно вам',
@@ -2319,7 +2407,7 @@ function vToday(m){const {st,nP}=homeSteps();const main=st[0],second=st[1];const
   m.innerHTML=`<div class="page home">
     <div class="h-top"><h1 class="h-hello">${hello()}${S.name?', '+esc(S.name):''}</h1>${!S.name?`<span class="h-name"><input class="line" id="hNameIn" placeholder="Как к вам обращаться?" aria-label="Ваше имя"><button class="btn btn--sm" id="hNameB">Сохранить</button></span>`:''}
       <button class="h-trail" data-go="tools" aria-label="Маршрут: этап ${cs} из 9"><span class="h-trail__line"><i style="width:${(cs-1)/8*100}%"></i></span>${C.stages.map((s,i)=>`<span class="h-dot ${i<cs-1?'past':i===cs-1?'now':i===8?'end':''}"></span>`).join('')}</button>
-      <button class="h-week" data-go="tools">неделя ${weekNo()} из 12</button></div>
+      <button class="h-week" data-go="tools" title="Открыть весь маршрут">неделя ${weekNo()} из 12 · маршрут</button></div>
     ${!S.seenHelp?`<button class="h-first" data-go="help"><span>${ico('nav',20)}</span>Впервые здесь? Посмотрите, как все устроено, это займет две минуты</button>`:''}
     <div class="h-grid">
       <button class="h-main" data-go="${main.go}" data-arg="${main.arg}">${mainImg}
@@ -2539,14 +2627,16 @@ function vTools(m){const cs=curStage();const stg=C.stages[cs-1];
     return `<div class="tt-wrap">${op?`<button class="tt tt--${cls}" data-go="tool" data-arg="${id}">${inner}</button>`:`<button type="button" class="tt tt--${cls}" data-locked="${id}" aria-label="${esc(t.title)}: откроется после встречи">${inner}</button>`}${S.psy&&!t.final?`<label class="tt__psy"><input type="checkbox" data-open="${id}" ${S.open[id]?'checked':''}> открыт</label>`:''}</div>`};
   m.innerHTML=`<div class="page rmap">
     <header class="r-head"><p class="eyebrow">Неделя ${weekNo()} из 12</p><h1>Посмотрите свой маршрут</h1>
-      <p class="r-lead">Сейчас вы на этапе «${esc(stg.title)}». Новые инструменты появляются постепенно, после встреч с психологом</p></header>
+      <p class="r-lead">Сейчас вы на этапе «${esc(stg.title)}». Новые инструменты появляются постепенно, после встреч с психологом</p>
+      <div class="r-rel"><div><b>${ico('pulse',16)}Сегодня</b><span>Одно главное дело на день. Оно берется из текущего этапа маршрута</span></div><div><b>${ico('point',16)}Маршрут</b><span>Вся программа на 12 недель: где вы сейчас и что откроется дальше</span></div></div></header>
     <div class="bat2"><div class="bat2__icon" role="img" aria-label="Пройдено этапов: ${cs-1} из 9"><div class="bat2__body"><div class="bat2__fill" style="--lvl:${Math.round((cs-0.5)/9*100)}%"><span class="bat2__shine"></span></div><span class="bat2__ticks"></span><svg class="bat2__bolt" width="22" height="30" viewBox="0 0 22 30" aria-hidden="true"><path d="M13 1L2 17h7l-2 12 11-16h-7z" fill="var(--ink)"/></svg></div><span class="bat2__nub"></span></div>
       <div class="bat2__txt"><span class="bat2__big">Этап ${cs} из 9</span><span class="bat2__sub">${esc(TRAIL_SHORT[cs-1])}${cs<9?` · дальше ${esc(TRAIL_SHORT[cs])}`:''}</span></div></div>
-    <div class="stgs">${C.stages.map((s,i)=>{const stt=i<cs-1?'past':i===cs-1?'now':'next';const ids=s.tools.length?s.tools:['lab','range'];
-      return `<section class="stg stg--${stt}" style="--d:${i*0.05}s"><div class="stg__h"><span class="stg__n">${stt==='past'?ico('check',16):s.n}</span><span class="stg__w">${esc(s.weeks)}${stt==='now'?' · вы здесь':''}</span></div>
-        <h2 class="stg__t">${esc(s.title)}</h2>${stt==='now'?`<p class="stg__d">${esc(s.desc)}</p>`:''}
+    <ol class="rtl">${C.stages.map((s,i)=>{const stt=i<cs-1?'past':i===cs-1?'now':'next';const ids=s.tools.length?s.tools:['lab','range'];
+      return `<li class="rtl__i rtl--${stt}" id="stg${s.n}"><span class="rtl__n" aria-hidden="true">${stt==='past'?ico('check',16):s.n}</span><div class="rtl__c">
+        <p class="rtl__w">Этап ${s.n} · ${esc(s.weeks)}${stt==='now'?' · <b>вы здесь</b>':stt==='next'?' · откроется позже':''}</p>
+        <h2 class="rtl__t">${esc(s.title)}</h2>${stt==='now'?`<p class="rtl__d">${esc(s.desc)}</p>`:''}
         ${!s.tools.length?`<p class="stg__note">Здесь вы закрепляете то, что уже сработало</p>`:''}
-        <div class="stg__tools">${ids.map(tile).join('')}</div></section>`}).join('')}</div></div>`;
+        <div class="rtl__tools">${ids.map(tile).join('')}</div></div></li>`}).join('')}</ol></div>`;
   $$('.tt__psy',m).forEach(l=>l.addEventListener('click',e=>e.stopPropagation()));
   $$('[data-locked]',m).forEach(b=>b.onclick=()=>toast('Этот инструмент откроется после встречи с психологом: он пришлет ссылку'));
   $$('[data-open]',m).forEach(c=>c.onchange=()=>{S.open[c.dataset.open]=c.checked?1:0;save();toast(c.checked?'Инструмент открыт клиенту':'Инструмент скрыт');render()});
@@ -2878,24 +2968,56 @@ function radarSvg(){const W=720,H=520,cx=360,cy=262,Rr=[230,155,80];
 
 /* 4. Карта нагрузки и ресурсов */
 const AFTER=[[-2,'сильно забирает'],[-1,'забирает'],[0,'нейтрально'],[1,'возвращает'],[2,'сильно возвращает']];
+/* Весы: доска с чашами. Дела перетаскивают или кладут нажатием, карточки никуда не исчезают */
+const ldPan=x=>x.after<0?'d':x.after>0?'r':'u';
+function ldTilt(){const dr=S.load.filter(x=>x.after<0),rt=S.load.filter(x=>x.after>0);const wD=dr.reduce((a,x)=>a+(-x.after)*x.demand,0),wR=rt.reduce((a,x)=>a+x.after*(x.imp+1),0);return Math.max(-8,Math.min(8,(wD-wR)*1.1))}
+function beamSvg(){const ang=ldTilt(),dy=Math.round(180*Math.sin(ang*Math.PI/180));
+  return `<svg viewBox="0 0 720 120" class="ldb__beam" aria-hidden="true" data-dy="${dy}"><path d="M360 34 V124" stroke="var(--ink)" stroke-width="1.6" fill="none"/><g class="ldb__arm" style="transform:rotate(${-ang}deg)"><line x1="180" y1="34" x2="540" y2="34" stroke="var(--ink)" stroke-width="2"/></g><g class="ldb__str" style="transform:translateY(${dy}px)"><path d="M180 34 V122" stroke="var(--ink)" stroke-dasharray="1.5 3"/></g><g class="ldb__str" style="transform:translateY(${-dy}px)"><path d="M540 34 V122" stroke="var(--ink)" stroke-dasharray="1.5 3"/></g><circle cx="360" cy="34" r="6" fill="var(--bg)" stroke="var(--ink)" stroke-width="1.6"/></svg>`}
+function ldHang(box){const sv=box.querySelector('.ldb__beam');if(!sv)return;const k=sv.getBoundingClientRect().width/720,dy=+sv.dataset.dy*k;const ps=box.querySelectorAll('.ldb__pans>.ldz');if(ps[0])ps[0].style.transform=`translateY(${dy}px)`;if(ps[1])ps[1].style.transform=`translateY(${-dy}px)`}
+function ldBoard(){const card=(x,i)=>{const p=ldPan(x),strong=Math.abs(x.after)>=2;return `<div class="ldc ldc--${p}" data-li="${i}" tabindex="0" role="button" aria-label="${esc(x.name)}"><span class="ldc__grip" aria-hidden="true"></span><span class="ldc__n">${esc(x.name)}</span>${p!=='u'?`<button type="button" class="ldc__s" data-strong="${i}" aria-pressed="${strong}" title="${p==='d'?'Забирает очень много сил':'Возвращает очень много сил'}">${p==='d'?'сильно':'очень'}</button>`:''}</div>`};
+  const zone=(k,h,sub)=>{const a=S.load.map((x,i)=>[x,i]).filter(([x])=>ldPan(x)===k);return `<div class="ldz ldz--${k}" data-pan="${k}"><p class="ldz__h">${h}</p>${sub?`<p class="ldz__sub">${sub}</p>`:''}<div class="ldz__cards">${a.map(([x,i])=>card(x,i)).join('')}${a.length?'':`<p class="ldz__empty">${k==='u'?'Все дела разложены':'Перетащите сюда дело'}</p>`}</div></div>`};
+  return `${zone('u','Дела','Перетащите каждое дело на чашу или нажмите на дело, а затем на чашу')}${beamSvg()}<div class="ldb__pans">${zone('d','Забирает силы','')}${zone('r','Возвращает силы','')}</div>`}
+function bindBoard(box,onChange){let sel=null,drag=null;
+  const draw=()=>{const old=box.querySelectorAll('.ldb__pans>.ldz');const tr=[...old].map(x=>x.style.transform);box.innerHTML=ldBoard();const nw=box.querySelectorAll('.ldb__pans>.ldz');nw.forEach((x,j)=>x.style.transform=tr[j]||'');const sv=box.querySelector('.ldb__beam');if(sv&&box._ang!=null){const a=box.querySelector('.ldb__arm');const t=a.style.transform;a.style.transform=`rotate(${-box._ang}deg)`;const st=sv.querySelectorAll('.ldb__str');const ts=[...st].map(x=>x.style.transform);st[0].style.transform=`translateY(${box._dy}px)`;st[1].style.transform=`translateY(${-box._dy}px)`;requestAnimationFrame(()=>requestAnimationFrame(()=>{a.style.transform=t;st[0].style.transform=ts[0];st[1].style.transform=ts[1];ldHang(box)}))}else requestAnimationFrame(()=>ldHang(box));box._ang=ldTilt();box._dy=sv?+sv.dataset.dy:0;if(sel!=null){const c=box.querySelector(`[data-li="${sel}"]`);c?c.classList.add('is-sel'):sel=null}box.classList.toggle('has-sel',sel!=null)};
+  const move=(i,k,flash)=>{const x=S.load[i];if(!x)return;const was=ldPan(x);if(k==='d')x.after=x.after<0?x.after:-1;else if(k==='r')x.after=x.after>0?x.after:1;else x.after=0;sel=null;save();draw();
+    const c=box.querySelector(`[data-li="${i}"]`);if(c&&flash&&was!==k){c.classList.add('just');c.focus({preventScroll:true})}onChange&&onChange()};
+  draw();
+  box.addEventListener('click',e=>{const s=e.target.closest('[data-strong]');if(s){const x=S.load[+s.dataset.strong];x.after=Math.abs(x.after)>=2?Math.sign(x.after):Math.sign(x.after)*2;save();draw();onChange&&onChange();return}
+    if(box._dragged){box._dragged=0;return}
+    const c=e.target.closest('[data-li]');if(c){const i=+c.dataset.li;sel=sel===i?null:i;draw();return}
+    const z=e.target.closest('[data-pan]');if(z&&sel!=null)move(sel,z.dataset.pan,true)});
+  box.addEventListener('keydown',e=>{const c=e.target.closest('[data-li]');if(!c)return;const i=+c.dataset.li;
+    if(e.key==='Enter'||e.key===' '){e.preventDefault();sel=sel===i?null:i;draw();const n=box.querySelector(`[data-li="${i}"]`);n&&n.focus()}
+    if(e.key==='ArrowLeft'){e.preventDefault();move(i,ldPan(S.load[i])==='r'?'u':'d',true)}if(e.key==='ArrowRight'){e.preventDefault();move(i,ldPan(S.load[i])==='d'?'u':'r',true)}});
+  box.addEventListener('pointerdown',e=>{const c=e.target.closest('[data-li]');if(!c||e.target.closest('[data-strong]')||e.button>0)return;const r=c.getBoundingClientRect();
+    drag={i:+c.dataset.li,el:c,x0:e.clientX,y0:e.clientY,dx:e.clientX-r.left,dy:e.clientY-r.top,w:r.width,on:false,id:e.pointerId}});
+  window._ldbOff&&window._ldbOff();const pm=e=>{if(!drag||e.pointerId!==drag.id)return;if(!drag.on){if(Math.hypot(e.clientX-drag.x0,e.clientY-drag.y0)<6)return;drag.on=true;
+      const g=drag.el.cloneNode(true);g.classList.add('ldc--ghost');g.style.width=drag.w+'px';document.body.appendChild(g);drag.g=g;drag.el.classList.add('is-drag');box.classList.add('is-dragging')}
+    e.preventDefault();if(e.clientY>innerHeight-70)window.scrollBy(0,14);else if(e.clientY<90)window.scrollBy(0,-14);drag.g.style.transform=`translate(${e.clientX-drag.dx}px,${e.clientY-drag.dy}px) rotate(-2deg)`;
+    const z=document.elementFromPoint(e.clientX,e.clientY);const pz=z&&z.closest&&z.closest('[data-pan]');$$('[data-pan]',box).forEach(x=>x.classList.toggle('is-over',x===pz))};window.addEventListener('pointermove',pm,{passive:false});
+  const end=e=>{if(!drag||e.pointerId!==drag.id)return;const d=drag;drag=null;if(!d.on)return;box._dragged=1;setTimeout(()=>box._dragged=0,50);d.g.remove();box.classList.remove('is-dragging');
+    const z=document.elementFromPoint(e.clientX,e.clientY);const pz=z&&z.closest&&z.closest('[data-pan]');if(pz&&box.contains(pz))move(d.i,pz.dataset.pan,true);else draw()};
+  window.addEventListener('pointerup',end);window.addEventListener('pointercancel',end);window._ldbOff=()=>{window.removeEventListener('pointermove',pm);window.removeEventListener('pointerup',end);window.removeEventListener('pointercancel',end)}}
 TOOL.load=(m,t)=>{
   m.innerHTML=wrap(t,`<section><div class="sec__h"><h2>Шаг 1. Добавьте дела, которые регулярно повторяются в вашей жизни</h2></div>
     <div class="input"><input id="ldIn" placeholder="Например: совещания, ребенок, дорога…"><button class="btn btn--sm" id="ldAdd">Добавить</button></div>
-    <div class="chips" style="margin-top:12px">${C.LOAD_SUGGEST.filter(s=>!items().includes(s)).map(s=>`<button class="chip chip--add" data-ls="${esc(s)}">+ ${esc(s)}</button>`).join('')}</div>
-    ${S.load.length?`<h2 class="g-sub">Шаг 2. Ответьте про каждое дело на четыре вопроса</h2><p class="muted">Вспоминайте обычную неделю, а не самый тяжелый день</p>`:''}
-    <div style="margin-top:12px">${S.load.map((x,i)=>`<div class="ld-item" data-i="${i}"><div class="ld-item__head"><span class="item-row__name">${esc(x.name)} ${(()=>{const n=S.pulses.filter(p=>p.ctx===x.name).length;return n?`<span class="badge b-q" style="vertical-align:middle">в «Карте состояния» ${n}×</span>`:''})()}</span><button class="del" data-dl="${i}" aria-label="Убрать">×</button></div>
+    <div class="chips" style="margin-top:12px">${C.LOAD_SUGGEST.filter(s=>!items().includes(s)).map(s=>`<button class="chip chip--add" data-ls="${esc(s)}">+ ${esc(s)}</button>`).join('')}</div></section>
+  ${S.load.length?`<section class="sec"><div class="sec__h"><h2>Шаг 2. Разложите дела по чашам весов</h2></div><p class="pw-why">Вспоминайте обычную неделю, а не самый тяжелый день. Если дело забирает или возвращает очень много сил, нажмите «сильно» или «очень»</p>
+    <div class="ldb" id="ldb"></div>
+    <p class="trend" id="scaleC">${S.load.some(x=>x.after)?scaleCap():''}</p>
+    <details class="more"><summary>Уточнить каждое дело: сколько сил забирает, насколько важно, можно ли изменить</summary>
+    <div>${S.load.map((x,i)=>`<div class="ld-item" data-i="${i}"><div class="ld-item__head"><span class="item-row__name">${esc(x.name)} ${(()=>{const n=S.pulses.filter(p=>p.ctx===x.name).length;return n?`<span class="badge b-q" style="vertical-align:middle">в «Карте состояния» ${n}×</span>`:''})()}</span><button class="del" data-dl="${i}" aria-label="Убрать">×</button></div>
       <div class="ld-q"><span>Сколько сил это забирает?</span>${seg('demand',[[1,'почти не забирает'],[2,'немного'],[3,'средне'],[4,'много'],[5,'очень много']],x.demand)}</div>
-      <div class="ld-q"><span>Как вы обычно себя чувствуете после?</span>${seg('after',[[-2,'опустошен(а)'],[-1,'устал(а)'],[0,'так же, как до'],[1,'чуть лучше'],[2,'наполнен(а)']],x.after)}</div>
       <div class="ld-q"><span>Насколько это важно для вас?</span>${seg('imp',[[1,'не очень'],[2,'важно'],[3,'очень важно']],x.imp)}</div>
-      <div class="ld-q"><span>Можно ли здесь что-то изменить?</span>${seg('change',['да','частично','нет'],x.change)}</div></div>`).join('')}</div></section>
-  <section class="sec"><div class="sec__h"><h2>Шаг 3. Посмотрите, что забирает у вас силы, а что их возвращает</h2></div>
-    <div class="viz" id="scaleV">${scaleSvg()}</div>${S.load.some(x=>x.after)?`<p class="trend" id="scaleC">${scaleCap()}</p><details class="more"><summary>Показать подробную карту: сколько сил забирает каждое дело и насколько оно для вас важно</summary><div class="viz" id="quadV">${loadSvg()}</div><p class="viz-cap">Слева направо - сколько сил забирает. Снизу вверх - как вы себя чувствуете после: от «опустошен(а)» до «наполнен(а)». Чем крупнее кружок, тем это важнее для вас. Пунктирное кольцо - здесь что-то можно изменить</p></details>`:(S.load.length?'':'<p class="muted">Добавьте в шаге 1 три-пять дел, и здесь появятся весы</p>')}</section>`);
+      <div class="ld-q"><span>Можно ли здесь что-то изменить?</span>${seg('change',['да','частично','нет'],x.change)}</div></div>`).join('')}</div></details></section>
+  ${S.load.some(x=>x.after)?`<section class="sec"><div class="sec__h"><h2>Шаг 3. Посмотрите подробную карту</h2></div><p class="pw-why">Здесь видно, сколько сил забирает каждое дело и насколько оно для вас важно</p><div class="viz" id="quadV">${loadSvg()}</div><p class="viz-cap">Слева направо - сколько сил забирает. Снизу вверх - как вы себя чувствуете после: от «опустошен(а)» до «наполнен(а)». Чем крупнее кружок, тем это важнее для вас. Пунктирное кольцо - здесь что-то можно изменить</p></section>`:''}`:'<p class="muted" style="margin-top:18px">Добавьте три-пять дел, и появятся весы</p>'}`);
   bindDisc(m);
-  const add=v=>{v=v.trim();if(v&&!items().includes(v)){S.load.push({name:v,demand:3,after:0,imp:2,change:'частично'});save();render()}};
+  const add=v=>{v=v.trim();if(v&&!items().includes(v)){S.load.push({name:v,demand:3,after:0,imp:2,change:'частично'});save();const y=window.scrollY;render();window.scrollTo({top:y})}};
   $('#ldAdd').onclick=()=>add($('#ldIn').value);$('#ldIn').onkeydown=e=>{if(e.key==='Enter')add(e.target.value)};
   $$('[data-ls]',m).forEach(b=>b.onclick=()=>add(b.dataset.ls));
-  {const sv=$('#scaleV',m);if(sv){const hit=e=>{const g=e.target.closest('[data-sclist]');if(!g)return;if(e.type==='keydown'&&e.key!=='Enter'&&e.key!==' ')return;e.preventDefault();$$('.sc-list li',sv).forEach(l=>l.classList.toggle('hl',l.dataset.sci===g.dataset.sclist));const li=$(`.sc-list li[data-sci="${g.dataset.sclist}"]`,sv);if(li)li.scrollIntoView({behavior:'smooth',block:'nearest'})};sv.addEventListener('click',hit);sv.addEventListener('keydown',hit)}}
-  $$('.ld-item',m).forEach(r=>{const x=S.load[+r.dataset.i];bindSeg(r,x,()=>{save();const a=$('#scaleV',m);const hasC=!!$('#scaleC',m);if(hasC!==S.load.some(o=>o.after)){const y=window.scrollY;render();window.scrollTo({top:y});return}if(a){a.innerHTML=scaleSvg();const c=$('#scaleC',m);if(c)c.textContent=scaleCap()}const q=$('#quadV',m);if(q)q.innerHTML=loadSvg()})});
+  const refresh=()=>{const c=$('#scaleC',m);if(c)c.textContent=S.load.some(o=>o.after)?scaleCap():'';const q=$('#quadV',m);if(q)q.innerHTML=loadSvg();else if(S.load.some(o=>o.after)){const y=window.scrollY;render();window.scrollTo({top:y})}};
+  const bx=$('#ldb',m);if(bx)bindBoard(bx,refresh);
+  $$('.ld-item',m).forEach(r=>{const x=S.load[+r.dataset.i];bindSeg(r,x,()=>{save();const b=$('#ldb',m);if(b){const a=$('.ldb__beam',b);if(a){a.outerHTML=beamSvg();ldHang(b)}}refresh()})});
   $$('[data-dl]',m).forEach(b=>b.onclick=()=>{S.load.splice(+b.dataset.dl,1);save();render()});
 };
 function loadSvg(){const W=720,H=460,L=60,R=30,Tp=30,B=50;const x=v=>L+50+(v-1)*(W-L-R-100)/4,y=v=>Tp+40+(2-v)*(H-Tp-B-80)/4;
