@@ -866,3 +866,55 @@ h1,.page h1,.thead h1,.r-head h1,.thero__txt h1,.big-card h2,.keep__head h2,.mod
 }
 
 @media (max-width:640px){.pmini__t b{overflow:visible;text-overflow:clip;font-size:11.5px;hyphens:none;word-break:normal}.pmini__x{display:none}.pmini__i{padding:8px 2px}}
+
+/* === Новая система ответов (концепция «Меньше овалов. Больше воздуха») === */
+/* 01 Шкала */
+.scl{max-width:560px;padding-top:2px}
+.scl__v{display:flex;align-items:baseline;justify-content:space-between;gap:14px;min-height:34px;margin:0 0 14px}
+.scl__w{font:400 22px/1.2 var(--serif);color:var(--ink)}
+.scl--empty .scl__w{font:400 15px/1.4 var(--sans);color:var(--muted)}
+.scl__n{font-size:12px;color:var(--muted)}
+.scl__track{position:relative;height:36px;margin:0 10px;display:flex;align-items:center}
+.scl__base,.scl__fill{position:absolute;left:0;height:3px;border-radius:10px;pointer-events:none}
+.scl__base{width:100%;background:#e2e3df}
+.scl__fill{background:#657d73;transition:width .2s var(--ease,ease)}
+.scl .seg{position:absolute;inset:0;display:flex!important;align-items:center;justify-content:space-between;gap:0;pointer-events:none;background:none;border:0;padding:0;width:auto!important;grid-auto-flow:unset!important}
+.scl .seg button{width:7px!important;height:7px!important;min-height:0!important;min-width:0!important;padding:0!important;margin:0!important;border:0!important;border-radius:50%!important;background:#c5c9c4!important;font-size:0!important;color:transparent!important;box-shadow:none!important;transform:none!important}
+.scl .seg button::before{display:none!important}
+.scl .seg button[aria-pressed="true"]{background:#49685c!important}
+.scl__r{position:relative;z-index:1;width:100%;margin:0;background:transparent;-webkit-appearance:none;appearance:none;cursor:pointer;height:36px}
+.scl__r::-webkit-slider-runnable-track{height:3px;background:transparent}
+.scl__r::-moz-range-track{height:3px;background:transparent}
+.scl__r::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;margin-top:-8.5px;border-radius:50%;background:#2d4d43;border:4px solid #fff;box-shadow:0 0 0 1.5px #2d4d43,0 4px 10px -4px rgba(0,0,0,.4);transition:opacity .2s,transform .15s}
+.scl__r::-moz-range-thumb{width:12px;height:12px;border-radius:50%;background:#2d4d43;border:4px solid #fff;box-shadow:0 0 0 1.5px #2d4d43}
+.scl__r:active::-webkit-slider-thumb{transform:scale(1.12)}
+.scl--empty .scl__r::-webkit-slider-thumb{opacity:0}
+.scl--empty .scl__r::-moz-range-thumb{opacity:0}
+.scl__r:focus{outline:none}.scl__r:focus-visible{outline:3px solid #718b83;outline-offset:3px;border-radius:8px}
+.scl__ends{display:flex;justify-content:space-between;margin-top:8px;font-size:12px;color:#88857e}
+/* 02 Один ответ - список */
+.ans-radio .seg,.ans-check .chips{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:0!important;width:100%!important;max-width:560px;background:none;border:0;padding:0}
+.ans-check .chips{grid-template-columns:repeat(2,minmax(0,1fr))!important;column-gap:28px!important;max-width:none}
+.ans-radio .seg button,.ans-check .chips .chip{display:flex!important;align-items:center;justify-content:flex-start!important;gap:13px;width:100%!important;min-height:54px!important;padding:9px 4px!important;margin:0!important;border:0!important;border-bottom:1px solid var(--line)!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;transform:none!important;font:400 15px/1.35 var(--sans)!important;color:var(--text)!important;text-align:left!important;white-space:normal!important}
+.ans-radio .seg button:last-child{border-bottom:0!important}
+.ans-radio .seg button:hover,.ans-check .chips .chip:hover{background:#f9fbfa!important}
+.ans-radio .seg button::before,.ans-check .chips .chip::before{content:""!important;display:block!important;flex:none;width:19px;height:19px;margin:0!important;border:1.5px solid #bbbcb7;border-radius:50%;background:#fff;position:static!important;transform:none!important;opacity:1!important;transition:border-width .15s,border-color .15s,background .15s}
+.ans-check .chips .chip::before{border-radius:5px}
+.ans-radio .seg button[aria-pressed="true"]::before{border:5.5px solid #506b5f}
+.ans-check .chips .chip[aria-pressed="true"]::before{border-color:#506b5f;background:#506b5f url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-7' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/13px no-repeat}
+.ans-radio .seg button[aria-pressed="true"],.ans-check .chips .chip[aria-pressed="true"]{color:#24493e!important;font-weight:500!important}
+.ans-check .own{margin-top:10px}
+@media (max-width:640px){
+  .ans-check .chips{grid-template-columns:minmax(0,1fr)!important}
+  .ans-radio .seg button,.ans-check .chips .chip{min-height:50px!important;font-size:15px!important}
+  .scl{max-width:none}.scl__track{margin:0 8px}
+}
+
+.ans-radio .seg button::before,.ans-check .chips .chip::before{width:19px!important;height:19px!important;min-width:19px!important;border:1.5px solid #bbbcb7!important;border-radius:50%!important;background:#fff!important;box-shadow:none!important}
+.ans-check .chips .chip::before{border-radius:5px!important}
+.ans-radio .seg button[aria-pressed="true"]::before{border:5.5px solid #506b5f!important}
+.ans-check .chips .chip[aria-pressed="true"]::before{border-color:#506b5f!important;background:#506b5f url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-7' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/13px no-repeat!important}
+
+.ans-radio .seg,.ans-check .chips{grid-auto-flow:row!important;grid-auto-columns:auto!important}
+.pt-steps~.dsec .ans-check .chips{grid-template-columns:repeat(2,minmax(0,1fr))!important;column-gap:28px!important;gap:0 28px!important}
+@media (max-width:640px){.pt-steps~.dsec .ans-check .chips{grid-template-columns:minmax(0,1fr)!important}.pt-steps~.dsec .ans-check .chips>.chip{grid-column:auto!important}}
