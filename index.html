@@ -1996,6 +1996,19 @@ h1,.page h1,.thead h1,.r-head h1,.thero__txt h1,.big-card h2,.keep__head h2,.mod
 .hp__img .prac__play svg{height:min(50vh,380px)!important;width:auto!important;max-width:100%}
 @media (max-width:760px){.hp__img .prac__play svg{height:min(30vh,224px)!important}}
 
+/* «Выдохнуть»: ровный блок плана и выход на главную */
+.hplan__h{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding-bottom:16px;margin-bottom:18px;border-bottom:1px solid var(--line)}
+.hplan__h h2{margin:0 0 6px;font:400 clamp(22px,2vw,27px)/1.2 var(--serif);color:var(--ink)}
+.hplan__h p{margin:0;font-size:15px;line-height:1.5;color:var(--text)}
+.hplan__h .btn{flex:none;margin-top:2px}
+.plan-nav{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;padding-top:18px;border-top:var(--dash)}
+.hard-nav{display:flex;margin-top:28px}
+.page--narrow .thead h1{text-wrap:balance}
+@media (max-width:640px){.hplan__h{flex-direction:column;gap:12px}.hard-nav .btn,.plan-nav .btn--primary{flex:1 1 100%;justify-content:center}}
+
+.hplan__h p{max-width:none}
+.hplan__h>div{flex:1 1 auto;min-width:0}
+
 </style>
 </head>
 <body>
@@ -2041,8 +2054,8 @@ const CONTENT = {
 
   /* ТЯЖЕЛЫЙ МОМЕНТ - вместо телефонов доверия: дыхание, личный план, связь с психологом. */
   hard: {
-    title:'Если вам сейчас тяжело',
-    intro:'Если вам сейчас тяжело, сделайте короткую дыхательную практику. Это займет одну минуту',
+    title:'Если вам сейчас нужна поддержка, сделайте короткую дыхательную практику',
+    intro:'Это займет одну минуту',
     msg:'Здравствуйте! Мне сейчас очень тяжело. Можем ли мы связаться раньше встречи?',
     emergency:'Если есть угроза жизни - вашей или чужой - звоните 112.'
   },
@@ -2426,7 +2439,7 @@ function vToday(m){const {st,nP}=homeSteps();const main=st[0],second=st[1];const
       <div class="h-side">
         ${second?`<button class="h-card h-card--beige" data-go="${second.go}" data-arg="${second.arg}"><span class="h-card__txt"><span class="eyebrow">Если есть еще время</span><span class="h-card__t">${esc(second.title)}</span><span class="h-card__m">${esc(second.time)}</span></span><span class="h-card__img">${second.id==='pulse'?bigIco('pulse',110):bigIco(second.id,110)}</span></button>`
           :`<button class="h-card h-card--beige" data-go="meet"><span class="h-card__txt"><span class="eyebrow">Перед встречей</span><span class="h-card__t">Что хочется обсудить</span><span class="h-card__m">по желанию</span></span><span class="h-card__img"><svg class="bigico" width="110" height="110" viewBox="-2 -2 28 28" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><circle cx="12" cy="12" r="13" stroke-dasharray="1 2.2" opacity=".8"/><path d="M5 7h14v9h-8l-4 3.5V16H5z"/></svg></span></button>`}
-        <button class="h-card h-card--lav" data-go="hard" data-arg="calm"><span class="h-card__txt"><span class="eyebrow">Когда тяжело</span><span class="h-card__t">Подышать вместе</span><span class="h-card__m">1 минута</span></span><span class="h-card__img"><span class="h-breath"><i></i></span></span></button>
+        <button class="h-card h-card--lav" data-go="hard" data-arg="calm"><span class="h-card__txt"><span class="eyebrow">Когда нужна поддержка</span><span class="h-card__t">Подышать вместе</span><span class="h-card__m">1 минута</span></span><span class="h-card__img"><span class="h-breath"><i></i></span></span></button>
       </div></div>
     <div class="h-strip">
       <button class="h-weekdots" data-go="tool" data-arg="pulse"><span class="eyebrow">Ваша неделя</span><span class="wds">${weekDots()}</span><span class="h-strip__m">${nP?`${nP} ${plural(nP,'отметка','отметки','отметок')} на этой неделе - уже хорошо`:'Отметок на этой неделе пока нет'}</span></button>
@@ -2795,17 +2808,16 @@ function vHard(m){pracStop();const H=C.hard;const p=S.plan=S.plan||{};p.people=p
   m.innerHTML=`<div class="page page--narrow"><button class="back" data-back>${BACK}Назад</button><header class="thead"><h1>${esc(H.title)}</h1><p class="thead__goal">${esc(H.intro)}</p></header>
     <details class="hblk" open><summary><span class="hblk__n">1</span><span class="hblk__t">Прямо сейчас<small>выберите, на что похоже ваше состояние</small></span></summary>
       <section class="prac" id="prac">${pracPicker()}</section></details>
-    <details class="hblk" id="hblkPlan"${route.arg==='plan'?' open':''}><summary><span class="hblk__n">2</span><span class="hblk__t">Подготовиться заранее<small>план на тяжелый момент и сообщение психологу</small></span></summary>
+    <details class="hblk" id="hblkPlan"${route.arg==='plan'?' open':''}><summary><span class="hblk__n">2</span><span class="hblk__t">На будущее<small>план на трудный день и связь с психологом</small></span></summary>
       <div class="hblk__body">
-      <div class="sec__h"><h2>Подготовьте план на тяжелый момент</h2><button class="btn btn--sm btn--outline" id="planEdit">${filled?'Изменить':'Заполнить'}</button></div>
-      <p class="muted" style="margin-bottom:14px">Лучше заполнить заранее, вместе с психологом на первой встрече, когда есть силы. Тогда в тяжелый момент не придется ничего придумывать</p>
+      <div class="hplan__h"><div><h2>Составьте план на трудный день</h2><p>Лучше заполнить заранее, вместе с психологом на первой встрече, когда есть силы. Тогда в трудный момент не придется ничего придумывать</p></div><button class="btn btn--sm btn--outline" id="planEdit">${filled?'Изменить':'Заполнить'}</button></div>
       <div id="planBox">${planView(p,contactHref)}</div>
       <div class="sec__h" style="margin-top:34px"><h2>Напишите психологу</h2></div>
       <label class="sr-only" for="msgH">Сообщение психологу</label><textarea class="area" id="msgH" style="min-height:80px">${esc(H.msg)}</textarea>
       <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap"><button class="btn btn--primary btn--sm" id="msgHC">${MARK}Скопировать сообщение</button>
         ${p.psy&&contactHref(p.psy)?`<a class="btn btn--sm" href="${esc(contactHref(p.psy))}" target="_blank" rel="noopener">Открыть контакт психолога</a>`:''}</div>
       ${hasA('pause')?`<div class="sec__h" style="margin-top:34px"><h2>Побудьте с голосом Насти</h2></div>${aPlayer('pause')}`:''}</div></details>
-    <p class="emergency">${esc(H.emergency)}</p></div>`;bindAP(m);
+    <div class="hard-nav"><button class="btn btn--primary" data-go="today">${BACK}Вернуться на «Сегодня»</button></div></div>`;bindAP(m);
   bindPrac($('#prac'));if(route.arg&&PRAC[route.arg])setTimeout(()=>hpOpen(route.arg),80);
   $('#msgHC').onclick=()=>copyText($('#msgH').value);
   const Q=(n,l,h,inner)=>`<li><span class="plan-q__n">${n}</span><div class="plan-q__b"><p class="plan-q__l">${l}</p>${h?`<p class="plan-q__h">${h}</p>`:''}${inner}</div></li>`;
@@ -2815,15 +2827,16 @@ function vHard(m){pracStop();const H=C.hard;const p=S.plan=S.plan||{};p.people=p
       ${Q(3,'Кому я могу написать или позвонить','Имя и телефон или @ник в Telegram','<div id="ppl"></div><button type="button" class="btn btn--sm btn--ghost" id="pplAdd">+ Добавить человека</button>')}
       ${Q(4,'Как связаться с моим психологом между встречами','',`<div class="pin-row"><input class="pin" data-pl="psy" placeholder="Телефон или @ник" value="${esc(p.psy||'')}"></div><textarea class="area" data-pl="psyNote" style="min-height:70px" placeholder="О чем договорились: например, писать в любое время, отвечу в течение дня">${esc(p.psyNote||'')}</textarea>`)}
       ${Q(5,'Что я могу сделать, чтобы обезопасить себя','по желанию',`<textarea class="area" data-pl="safe" placeholder="Например: не оставаться одной, убрать подальше то, чем могу навредить себе">${esc(p.safe||'')}</textarea>`)}
-      </ol><button class="btn btn--primary btn--sm" id="planSave" style="margin-top:14px">${MARK}Сохранить план</button>`;
+      </ol><div class="plan-nav"><button class="btn btn--primary" id="planSave">${MARK}Сохранить план</button><button class="btn btn--ghost" id="planCancel">Отменить</button></div>`;
+    $('#planCancel').onclick=()=>{const y=window.scrollY;route.arg='plan';render();window.scrollTo({top:y})};
     const people=p.people.map(x=>({...x}));
     const drawP=()=>{$('#ppl').innerHTML=people.map((x,i)=>`<div class="pin-row"><input class="pin" data-pn="${i}" placeholder="Имя" aria-label="Имя" value="${esc(x.name||'')}"><input class="pin" data-pc="${i}" placeholder="Телефон или @ник" aria-label="Телефон или ник" value="${esc(x.contact||'')}"></div>`).join('')};
     if(!people.length)people.push({name:'',contact:''});drawP();
     const keep=()=>{$$('[data-pn]').forEach(i=>people[+i.dataset.pn].name=i.value);$$('[data-pc]').forEach(i=>people[+i.dataset.pc].contact=i.value)};
     $('#pplAdd').onclick=()=>{keep();people.push({name:'',contact:''});drawP()};
-    $('#planSave').onclick=()=>{$$('[data-pl]').forEach(i=>p[i.dataset.pl]=i.value.trim());keep();p.people=people.map(x=>({name:(x.name||'').trim(),contact:(x.contact||'').trim()})).filter(x=>x.name||x.contact);save();toast('План сохранен');const y=window.scrollY;route.arg='plan';render();window.scrollTo({top:y})}};
+    $('#planSave').onclick=()=>{$$('[data-pl]').forEach(i=>p[i.dataset.pl]=i.value.trim());keep();p.people=people.map(x=>({name:(x.name||'').trim(),contact:(x.contact||'').trim()})).filter(x=>x.name||x.contact);save();toast('План сохранен. Он всегда здесь, в «Выдохнуть»');route.arg='plan';render();const b=$('#hblkPlan');if(b)b.scrollIntoView({block:'start'})}};
 }
-function planView(p,href){if(!(p.signs||p.helps||(p.people||[]).length||p.psy))return '<div class="empty"><p style="font-size:16px">План пока не заполнен. Нажмите «Заполнить»: пять коротких вопросов</p></div>';
+function planView(p,href){if(!(p.signs||p.helps||(p.people||[]).length||p.psy))return '<div class="empty"><p style="font-size:16px">План пока не заполнен. Нажмите «Заполнить» - это пять коротких вопросов</p></div>';
   let n=0;const row=(l,v)=>v?`<li><span class="plan-q__n">${++n}</span><div class="plan-q__b"><p class="plan-q__l">${l}</p><div class="plan-q__v">${v}</div></div></li>`:'';
   return `<ol class="plan-q plan-q--view">`+row('Как я понимаю, что мне очень плохо',esc(p.signs||''))+row('Что мне помогает',esc(p.helps||''))+
     row('Кому написать или позвонить',(p.people||[]).map(x=>{const h=href(x.contact);return `<p>${esc(x.name)} ${h?`<a class="link" href="${esc(h)}" target="_blank" rel="noopener">${esc(x.contact)}</a>`:esc(x.contact||'')}</p>`}).join(''))+

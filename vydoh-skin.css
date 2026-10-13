@@ -781,3 +781,16 @@ h1,.page h1,.thead h1,.r-head h1,.thero__txt h1,.big-card h2,.keep__head h2,.mod
 .hp__img .prac__play{height:auto!important}
 .hp__img .prac__play svg{height:min(50vh,380px)!important;width:auto!important;max-width:100%}
 @media (max-width:760px){.hp__img .prac__play svg{height:min(30vh,224px)!important}}
+
+/* «Выдохнуть»: ровный блок плана и выход на главную */
+.hplan__h{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding-bottom:16px;margin-bottom:18px;border-bottom:1px solid var(--line)}
+.hplan__h h2{margin:0 0 6px;font:400 clamp(22px,2vw,27px)/1.2 var(--serif);color:var(--ink)}
+.hplan__h p{margin:0;font-size:15px;line-height:1.5;color:var(--text)}
+.hplan__h .btn{flex:none;margin-top:2px}
+.plan-nav{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;padding-top:18px;border-top:var(--dash)}
+.hard-nav{display:flex;margin-top:28px}
+.page--narrow .thead h1{text-wrap:balance}
+@media (max-width:640px){.hplan__h{flex-direction:column;gap:12px}.hard-nav .btn,.plan-nav .btn--primary{flex:1 1 100%;justify-content:center}}
+
+.hplan__h p{max-width:none}
+.hplan__h>div{flex:1 1 auto;min-width:0}
