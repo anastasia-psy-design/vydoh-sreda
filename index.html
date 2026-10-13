@@ -2009,6 +2009,78 @@ h1,.page h1,.thead h1,.r-head h1,.thero__txt h1,.big-card h2,.keep__head h2,.mod
 .hplan__h p{max-width:none}
 .hplan__h>div{flex:1 1 auto;min-width:0}
 
+/* === Карта пути === */
+.pm{margin:8px 0 8px}
+.pm-road{list-style:none;margin:0;padding:0;position:relative;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+.pm-road::before{content:"";position:absolute;left:44px;right:12%;top:43px;border-top:1.5px dashed color-mix(in srgb,var(--ink) 32%,transparent)}
+.pm-st{position:relative;display:flex;flex-direction:column;align-items:flex-start;min-width:0}
+.pm-node{position:relative;z-index:1;width:86px;height:86px;border-radius:50%;display:grid;place-items:center;background:var(--bg);border:1px solid var(--ink);box-shadow:0 0 0 8px var(--cream);color:var(--ink)}
+.pm-node .bigico{width:58px;height:58px}
+.pm-node>i{position:absolute;top:-5px;right:-5px;display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--ink);color:var(--bg);font:500 12px/1 var(--sans);font-style:normal}
+.pm-st--now .pm-node{background:var(--mint);box-shadow:0 0 0 8px var(--cream),0 0 0 9px var(--ink)}
+.pm-st--done .pm-node>i{background:#4f7d6f}
+.pm-st--next .pm-node{border-style:dashed;border-color:color-mix(in srgb,var(--ink) 40%,transparent)}
+.pm-st--next .pm-node>i{background:var(--bg);color:var(--ink);border:1px dashed color-mix(in srgb,var(--ink) 45%,transparent)}
+.pm-loop{position:absolute;left:-5px;bottom:-3px;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--bg);border:1px solid var(--ink)}
+.pm-card{display:flex;flex-direction:column;align-items:flex-start;gap:0;margin-top:22px;width:100%;flex:1;padding:18px 18px 20px;border-radius:var(--r-lg,16px);border:1px solid var(--hair);background-image:linear-gradient(150deg,var(--glow),rgba(255,255,255,0) 60%);box-shadow:var(--sh-3)}
+.pm-st:nth-child(1) .pm-card{background-color:var(--beige)}.pm-st:nth-child(2) .pm-card{background-color:var(--mint)}.pm-st:nth-child(3) .pm-card{background-color:var(--lavender)}.pm-st:nth-child(4) .pm-card{background-color:color-mix(in srgb,var(--beige) 55%,var(--bg))}
+.pm-st--next .pm-card{background-color:var(--bg)!important;border-style:dashed;box-shadow:none}
+.pm-when{font-size:11.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.pm-card h3{margin:0 0 8px;font:400 21px/1.15 var(--serif);color:var(--ink)}
+.pm-card p{margin:0;font-size:14.5px;line-height:1.45;color:var(--text)}
+.pm-tag{display:inline-flex;align-items:center;gap:6px;margin-top:14px;padding:5px 10px;border-radius:999px;border:var(--dash);font-size:13px;color:var(--ink);background:color-mix(in srgb,var(--bg) 60%,transparent)}
+.pm-dots{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin-top:14px}
+.pm-dots b{width:10px;height:10px;border-radius:50%;border:1px solid var(--ink)}
+.pm-dots b.p{background:var(--ink)}.pm-dots b.c{background:var(--mint);box-shadow:0 0 0 2px var(--bg),0 0 0 3px var(--ink)}
+.pm-dots span{margin-left:6px;font-size:13px;color:var(--ink)}
+.pm-act{margin-top:16px}
+.pm-card .pm-act{margin-top:auto;transform:translateY(0)}
+.pm-card>.pm-tag+.pm-act,.pm-card>.pm-dots+.pm-act{margin-top:16px}
+.pm-rail{display:flex;align-items:center;gap:20px;width:100%;margin-top:26px;padding:18px 22px;border:0;border-radius:var(--r-lg,16px);background:var(--lavender);background-image:linear-gradient(100deg,var(--glow),rgba(255,255,255,0) 55%);font:inherit;color:var(--ink);text-align:left;cursor:pointer;box-shadow:var(--sh-3)}
+.pm-breath{flex:none;display:grid;place-items:center;width:60px;height:60px;border-radius:50%;border:1px dashed var(--ink)}
+.pm-breath i{width:28px;height:28px;border-radius:50%;background:var(--bg);animation:pmBr 8s ease-in-out infinite}
+@keyframes pmBr{0%,100%{transform:scale(.8)}50%{transform:scale(1.35)}}
+@media (prefers-reduced-motion:reduce){.pm-breath i{animation:none}}
+.pm-rail__t{display:grid;gap:4px;min-width:0}.pm-rail__t b{font:400 22px/1.15 var(--serif)}.pm-rail__t span{font-size:15px;color:var(--text)}
+.pm-pill{margin-left:auto;flex:none;padding:10px 18px;border-radius:999px;background:var(--bg);border:1px solid var(--hair);font-size:15px}
+/* Стартовый экран */
+.pstart{max-width:1160px}
+.pstart h1{margin:12px 0 12px;font:400 clamp(34px,4vw,52px)/1.08 var(--serif);color:var(--ink)}
+.pstart__lead{margin:0 0 40px;max-width:60ch;font-size:18px;line-height:1.5;color:var(--text)}
+.pstart__cta{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:36px}
+.pstart__note{margin:14px 0 0;font-size:14px;color:var(--muted)}
+/* Мини-путь на «Сегодня» */
+.pmini{position:relative;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:0 0 22px}
+.pmini::before{content:"";position:absolute;left:30px;right:30px;top:50%;border-top:1.5px dashed color-mix(in srgb,var(--ink) 25%,transparent)}
+.pmini__i{position:relative;z-index:1;display:flex;align-items:center;gap:12px;min-width:0;padding:10px 14px 10px 10px;border:1px solid var(--hair);border-radius:var(--r-md,14px);background:var(--bg);font:inherit;color:var(--ink);text-align:left;cursor:pointer;transition:border-color .2s,transform .2s}
+.pmini__i:hover{border-color:var(--ink);transform:translateY(-1px)}
+.pmini__n{flex:none;display:grid;place-items:center;width:32px;height:32px;border-radius:50%;border:1px solid var(--ink);font-size:13px;font-weight:500}
+.pmini--done .pmini__n{background:#4f7d6f;border-color:#4f7d6f;color:#fff}
+.pmini--now .pmini__n{background:var(--mint)}
+.pmini--now{border-color:var(--ink)}
+.pmini--next{border-style:dashed;color:var(--text)}
+.pmini--next .pmini__n{border-style:dashed}
+.pmini__t{display:grid;min-width:0}.pmini__t b{font-weight:500;font-size:14.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.pmini__t small{font-size:12.5px;color:var(--muted)}
+.rtl-h{margin:44px 0 0;font:400 clamp(23px,2vw,29px)/1.2 var(--serif);color:var(--ink)}
+@media (max-width:1000px){.pm-road{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:28px}.pm-road::before{display:none}}
+@media (max-width:640px){
+  .pm-road{grid-template-columns:1fr;gap:0}
+  .pm-road::before{display:block;left:35px;right:auto;top:40px;bottom:60px;border-top:0;border-left:1.5px dashed color-mix(in srgb,var(--ink) 32%,transparent)}
+  .pm-st{display:grid;grid-template-columns:70px minmax(0,1fr);gap:14px;padding-bottom:16px}
+  .pm-node{width:70px;height:70px}.pm-node .bigico{width:46px;height:46px}.pm-tools svg{width:36px;height:36px}
+  .pm-card{margin-top:0;padding:14px 14px 16px}
+  .pm-card h3{font-size:19px}
+  .pm-rail{flex-wrap:wrap;gap:12px;padding:16px}.pm-pill{margin-left:0}
+  .pstart__lead{font-size:16px;margin-bottom:26px}
+  .pstart__cta .btn{flex:1 1 100%;justify-content:center}
+  .pmini{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+  .pmini::before{top:24px}
+  .pmini__i{flex-direction:column;align-items:center;gap:6px;padding:8px 4px;text-align:center}
+  .pmini__t b{font-size:12px;white-space:normal;line-height:1.15}.pmini__t small{font-size:11px;line-height:1.2}
+}
+
+@media (max-width:640px){.pmini__t b{overflow:visible;text-overflow:clip;font-size:11.5px;hyphens:none;word-break:normal}.pmini__x{display:none}.pmini__i{padding:8px 2px}}
+
 </style>
 </head>
 <body>
@@ -2425,13 +2497,35 @@ function homeSteps(){const wk=Date.now()-8*864e5;const nP=S.pulses.filter(p=>new
 function weekDots(){const now=new Date();const dow=(now.getDay()+6)%7;const mon=new Date(now);mon.setDate(now.getDate()-dow);
   const has=new Set(S.pulses.map(p=>p.d));const N=['пн','вт','ср','чт','пт','сб','вс'];
   return N.map((n,i)=>{const d=new Date(mon);d.setDate(mon.getDate()+i);const iso=d.toISOString().slice(0,10);const cls=has.has(iso)?'on':i===dow?'today':i>dow?'later':'';return `<span class="wd wd--${cls||'off'}"><i></i>${n}</span>`}).join('')}
-function vToday(m){const {st,nP}=homeSteps();const main=st[0],second=st[1];const cs=curStage();const navN=navSections().filter(s=>s.ok).length;
+
+/* ================= КАРТА ПУТИ: 4 шага + «Выдохнуть» рядом всегда ================= */
+const TOOLS_SVG=(s)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5" stroke-dasharray="1.5 2"/></svg>`;
+function pathInfo(){const pd=!!(S.point&&S.point.saved);const wk=Date.now()-7*864e5;const nP=S.pulses.filter(p=>new Date(p.d).getTime()>=wk).length;const cs=curStage();const navN=navSections().filter(s=>s.ok).length;
+  return [
+    {k:'point',n:1,st:pd?'done':'now',img:bigIco('point',58),when:'Неделя 1 · 10-15 минут',t:'Стартовая диагностика',why:'Ваша точка А. В конце программы вы пройдете ее еще раз и увидите, что изменилось',tag:pd?'пройдена':'один раз',mini:pd?'пройдена':'начать',act:pd?['Посмотреть результаты','tool','point']:['Начать','tool','point']},
+    {k:'pulse',n:2,st:pd?'now':'next',loop:1,img:bigIco('pulse',58),when:'Все 12 недель · 1 минута',t:'Отметка «Как вы сейчас?»',why:'Главная привычка. 2-3 раза в неделю отмечайте, как вы, и из отметок сложится график ваших сил',tag:pd?`на этой неделе ${nP} из 3`:'после диагностики',mini:pd?`${Math.min(nP,3)} из 3`:'позже',act:['Отметить','tool','pulse']},
+    {k:'tools',n:3,st:pd?'now':'next',img:`<span class="pm-tools">${TOOLS_SVG(44)}</span>`,when:'Недели 1-12 · после встреч',t:'Инструменты по этапам',why:'Каждый этап вы обсуждаете на встрече, и после нее психолог открывает вам новые инструменты',dots:cs,mini:`этап ${cs} из 9`,act:['Открыть маршрут','tools','']},
+    {k:'nav',n:4,st:navN>=9||weekNo()>=11?'now':'next',img:bigIco('nav',58),when:'Неделя 12',t:'Инструкция к себе',why:'Все ваши ответы сами соберутся в личную инструкцию, которая останется с вами',tag:`собрано ${navN} из 11`,mini:`${navN} из 11`,act:['Посмотреть','navself','']}]}
+function pathMap(withActs){const P=pathInfo();
+  return `<div class="pm"><ol class="pm-road">${P.map(s=>`<li class="pm-st pm-st--${s.st}"><span class="pm-node"><i>${s.st==='done'?ico('check',13):s.n}</i>${s.img}${s.loop?`<span class="pm-loop" title="Повторяется"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M20 12a8 8 0 11-2.3-5.6"/><path d="M20 4v4h-4"/></svg></span>`:''}</span>
+    <div class="pm-card"><span class="pm-when">${s.when}</span><h3>${s.t}</h3><p>${s.why}</p>${s.dots?`<div class="pm-dots" aria-label="Этап ${s.dots} из 9">${C.stages.map((x,i)=>`<b class="${i<s.dots-1?'p':i===s.dots-1?'c':''}"></b>`).join('')}<span>этап ${s.dots} из 9</span></div>`:`<span class="pm-tag">${s.st==='done'?ico('check',13):''}${s.tag}</span>`}
+      ${withActs&&s.st!=='next'?`<button class="btn btn--sm ${s.st==='now'?'btn--primary':'btn--outline'} pm-act" data-go="${s.act[1]}" ${s.act[2]?`data-arg="${s.act[2]}"`:''}>${s.act[0]}</button>`:''}</div></li>`).join('')}</ol>
+    <button class="pm-rail" data-go="hard"><span class="pm-breath"><i></i></span><span class="pm-rail__t"><b>И всегда рядом - «Выдохнуть»</b><span>Минута дыхания и ваш план на трудный день. Кнопка всегда вверху экрана</span></span><span class="pm-pill">Выдохнуть</span></button></div>`}
+function pathMini(){const P=pathInfo();
+  return `<nav class="pmini" aria-label="Ваш путь">${P.map(s=>`<button class="pmini__i pmini--${s.st}" data-go="${s.act[1]}" ${s.act[2]?`data-arg="${s.act[2]}"`:''}><span class="pmini__n">${s.st==='done'?ico('check',14):s.n}</span><span class="pmini__t"><b>${s.k==='pulse'?'Отметки':s.k==='tools'?'Инструменты':s.k==='nav'?'Инструкция<span class="pmini__x"> к себе</span>':'Диагностика'}</b><small>${s.mini}</small></span></button>`).join('')}</nav>`}
+function vStart(m){m.innerHTML=`<div class="page pstart"><p class="eyebrow">InTreatment · Выдох · 12 недель</p><h1>Посмотрите, как устроен ваш путь</h1>
+  <p class="pstart__lead">Мы проведем вас по шагам. Сейчас нужен только первый - стартовая диагностика. Остальное откроется само, когда придет время</p>
+  ${pathMap(false)}
+  <div class="pstart__cta"><button class="btn btn--primary" id="psGo">Начать с диагностики</button><button class="btn btn--ghost" id="psLater">Сначала осмотреться</button></div>
+  <p class="pstart__note">Эта карта всегда есть в разделе «Маршрут и инструменты»</p></div>`;
+  $('#psGo').onclick=()=>{S.seenMap=1;S.seenHelp=1;save();go('tool','point')};$('#psLater').onclick=()=>{S.seenMap=1;S.seenHelp=1;save();render();window.scrollTo({top:0})}}
+
+function vToday(m){if(!S.seenMap){vStart(m);return}const {st,nP}=homeSteps();const main=st[0],second=st[1];const cs=curStage();const navN=navSections().filter(s=>s.ok).length;
   const mainImg=main.id==='pulse'?`<span class="hero-img hero-img--bat">${bigIco('pulse',300)}</span>`+'':false?`<svg class="hero-wave" width="380" height="380" viewBox="0 0 360 360" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="180" cy="180" r="170" stroke-width="1.2" stroke-dasharray="1 4"/><circle cx="180" cy="180" r="118" stroke-width="1" stroke-dasharray="1 3.4" opacity=".55"/><path class="hw-line" d="M30 210c30-50 52-70 78-50s40 52 72 10 52-70 80-40 40 30 70 18" stroke-width="2"/><circle class="hw-dot" cx="190" cy="170" r="9" fill="currentColor"/></svg>`:`<span class="hero-img">${bigIco(main.id,300)}</span>`;
   m.innerHTML=`<div class="page home">
     <div class="h-top"><h1 class="h-hello">${hello()}${S.name?', '+esc(S.name):''}</h1>${!S.name?`<span class="h-name"><input class="line" id="hNameIn" placeholder="Как к вам обращаться?" aria-label="Ваше имя"><button class="btn btn--sm" id="hNameB">Сохранить</button></span>`:''}
-      <button class="h-trail" data-go="tools" aria-label="Маршрут: этап ${cs} из 9"><span class="h-trail__line"><i style="width:${(cs-1)/8*100}%"></i></span>${C.stages.map((s,i)=>`<span class="h-dot ${i<cs-1?'past':i===cs-1?'now':i===8?'end':''}"></span>`).join('')}</button>
       <button class="h-week" data-go="tools" title="Открыть весь маршрут">неделя ${weekNo()} из 12 · маршрут</button></div>
-    ${!S.seenHelp?`<button class="h-first" data-go="help"><span>${ico('nav',20)}</span>Впервые здесь? Посмотрите, как все устроено, это займет две минуты</button>`:''}
+    ${pathMini()}
     <div class="h-grid">
       <button class="h-main" data-go="${main.go}" data-arg="${main.arg}">${mainImg}
         <span class="eyebrow">Главное сегодня</span><span class="h-main__t">${esc(main.title)}</span>
@@ -2649,11 +2743,11 @@ function vTools(m){const cs=curStage();const stg=C.stages[cs-1];
     const inner=`<span class="tt__ico">${bigIco(id,58)}${dn?`<span class="tt__ok">${ico('check',14)}</span>`:''}${!op?`<span class="tt__lock" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="3" y="6.5" width="8" height="6" rx="1.5"/><path d="M4.8 6.5V5a2.2 2.2 0 014.4 0v1.5"/></svg></span>`:''}</span><span class="tt__t">${esc(t.title)}</span><span class="tt__s">${t.final?'собирается сама':dn?'заполнено':op?esc(t.time):'откроется после встречи'}</span>`;
     return `<div class="tt-wrap">${op?`<button class="tt tt--${cls}" data-go="tool" data-arg="${id}">${inner}</button>`:`<button type="button" class="tt tt--${cls}" data-locked="${id}" aria-label="${esc(t.title)}: откроется после встречи">${inner}</button>`}${S.psy&&!t.final?`<label class="tt__psy"><input type="checkbox" data-open="${id}" ${S.open[id]?'checked':''}> открыт</label>`:''}</div>`};
   m.innerHTML=`<div class="page rmap">
-    <header class="r-head"><p class="eyebrow">Неделя ${weekNo()} из 12</p><h1>Посмотрите свой маршрут</h1>
+    <header class="r-head"><p class="eyebrow">Неделя ${weekNo()} из 12</p><h1>Посмотрите свой путь</h1>
       <p class="r-lead">Сейчас вы на этапе «${esc(stg.title)}». Новые инструменты появляются постепенно, после встреч с психологом</p>
-      <div class="r-rel"><div><b>${ico('pulse',16)}Сегодня</b><span>Одно главное дело на день. Оно берется из текущего этапа маршрута</span></div><div><b>${ico('point',16)}Маршрут</b><span>Вся программа на 12 недель: где вы сейчас и что откроется дальше</span></div></div></header>
-    <div class="bat2"><div class="bat2__icon" role="img" aria-label="Пройдено этапов: ${cs-1} из 9"><div class="bat2__body"><div class="bat2__fill" style="--lvl:${Math.round((cs-0.5)/9*100)}%"><span class="bat2__shine"></span></div><span class="bat2__ticks"></span><svg class="bat2__bolt" width="22" height="30" viewBox="0 0 22 30" aria-hidden="true"><path d="M13 1L2 17h7l-2 12 11-16h-7z" fill="var(--ink)"/></svg></div><span class="bat2__nub"></span></div>
-      <div class="bat2__txt"><span class="bat2__big">Этап ${cs} из 9</span><span class="bat2__sub">${esc(TRAIL_SHORT[cs-1])}${cs<9?` · дальше ${esc(TRAIL_SHORT[cs])}`:''}</span></div></div>
+</header>
+    ${pathMap(true)}
+    <h2 class="rtl-h">Пройдите этапы вместе с психологом</h2>
     <ol class="rtl">${C.stages.map((s,i)=>{const stt=i<cs-1?'past':i===cs-1?'now':'next';const ids=s.tools.length?s.tools:['lab','range'];
       return `<li class="rtl__i rtl--${stt}" id="stg${s.n}"><span class="rtl__n" aria-hidden="true">${stt==='past'?ico('check',16):s.n}</span><div class="rtl__c">
         <p class="rtl__w">Этап ${s.n} · ${esc(s.weeks)}${stt==='now'?' · <b>вы здесь</b>':stt==='next'?' · откроется позже':''}</p>
