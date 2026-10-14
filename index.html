@@ -2123,6 +2123,37 @@ button.meet__t:hover{background:var(--cream)}
 
 @media (prefers-reduced-motion:no-preference){.rp-rise{animation:rpRise 6s ease-in-out infinite alternate;transform-box:view-box}@keyframes rpRise{from{transform:translateY(12px)}to{transform:translateY(0)}}}
 
+/* Радар: две вкладки вместо двух шагов */
+.rz-tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:6px 0 14px}
+.rz-tab{display:flex;align-items:center;gap:12px;padding:14px 16px;border:1px solid var(--line);border-radius:var(--r-md,14px);background:var(--bg);font:inherit;color:var(--ink);text-align:left;cursor:pointer;transition:border-color .2s,background-color .2s}
+.rz-tab span:last-child{display:grid;gap:2px}.rz-tab b{font-weight:500;font-size:16px}.rz-tab small{font-size:13px;color:var(--muted)}
+.rz-n{flex:none;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;border:1px solid var(--ink);font-size:13px}
+.rz-tab--early[aria-selected="true"]{background:var(--mint);border-color:var(--ink)}
+.rz-tab--lim[aria-selected="true"]{background:var(--drain);border-color:var(--ink)}
+.rz-q{margin:0 0 16px;font-size:15px;color:var(--ink)}
+.rz-chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 12px}
+.rz-chip{min-height:40px;padding:8px 14px;border:1px solid var(--line);border-radius:12px;background:var(--bg);font:inherit;font-size:14.5px;color:var(--ink);cursor:pointer;transition:background-color .2s,border-color .2s}
+.rz-chip:hover{border-color:color-mix(in srgb,var(--ink) 45%,transparent)}
+.rz-chip.z-early{background:var(--mint);border-color:#a6c8bc}
+.rz-chip.z-lim{background:var(--drain);border-color:#e0b8aa}
+.rz-chip.z-mid{background:var(--beige);border-color:#d8cbbd}
+.rz-chip[aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.rz-leg{display:flex;flex-wrap:wrap;gap:16px;font-size:13px;color:var(--muted)}
+.rz-leg span{display:inline-flex;align-items:center;gap:6px}.rz-leg i{width:12px;height:12px;border-radius:4px;border:1px solid var(--line)}
+.rz-leg i.z-early{background:var(--mint)}.rz-leg i.z-lim{background:var(--drain)}.rz-leg i.z-mid{background:var(--beige)}
+@media (max-width:640px){.rz-tabs{gap:6px}.rz-tab{flex-direction:column;align-items:flex-start;gap:8px;padding:12px}.rz-tab b{font-size:15px}}
+/* Колесо: мягкие точки вместо черных */
+.wh-dot{fill:var(--bg)!important;stroke:#b9c4bf!important;stroke-width:1!important}
+.wh-dot:hover{fill:var(--mint)!important;stroke:#657d73!important}
+.wh-dot.on{fill:#7fa59a!important;stroke:#fff!important;stroke-width:2!important;r:6px}
+
+.rz-sectors .rz-sec{background:var(--bg)!important;background-image:none!important;border:1px solid var(--line)}
+.zrow__m--bad{background:#e0a896!important;border-color:#e0a896!important}
+.zrow__m--ok{background:#a6c8bc!important;border-color:#a6c8bc!important}
+.zrow__m--warn{background:#d8c3a8!important;border-color:#d8c3a8!important}
+
+.sectors.rz-sectors>.sector.rz-sec:nth-child(n){background:var(--bg)!important;background-image:none!important;box-shadow:none;border:1px solid var(--line)}
+
 </style>
 </head>
 <body>
@@ -2237,7 +2268,7 @@ const CONTENT = {
   /* Короткая инструкция, которую видит клиент вверху каждого инструмента - один абзац. */
   howShort: {'point': 'Ответьте на вопросы о том, как вы живете сейчас - в основном нажатиями. В конце трека вы сравните ответы с финальными и увидите изменения не по ощущениям, а по факту',
     'pulse': '2-3 раза в неделю отмечайте, чем вы заняты, что чувствуете и сколько у вас сил. Обязательно нужно отметить только силы и напряжение, остальное можно пропустить. Из отметок складывается график, по которому видно, что забирает у вас силы и что их возвращает',
-    'radar': 'Отметьте, что меняется в теле, эмоциях, мыслях и поведении, когда нагрузка растет, и когда это обычно появляется. Так вы научитесь замечать перегрузку на первых звоночках',
+    'radar': 'Сначала отметьте первые звоночки - что вы замечаете в теле, эмоциях, мыслях и поведении, когда нагрузка только начинает расти. Потом отметьте, что бывает, когда вы уже на пределе. Так вы научитесь останавливаться вовремя',
     'load': 'Сначала добавьте дела, которые регулярно повторяются в вашей жизни, например работу, дорогу или заботу о близких. Потом разложите их по чашам весов: на одну - дела, которые забирают у вас силы, на другую - те, что их возвращают. Весы сразу покажут, что перевешивает',
     'stress': 'Выберите, что больше всего давит, отметьте, насколько вы можете на это влиять, и запишите один маленький шаг. Карта покажет, где ваши главные рычаги',
     'chain': 'Вспомните один недавний случай, когда вы снова перегрузили себя, и ответьте на вопросы по порядку. Потом отметьте место, где можно было поступить иначе. Первую цепочку лучше разобрать с психологом',
@@ -2256,7 +2287,7 @@ const CONTENT = {
     pulse:{ why:'Когда живешь в перегрузке, о своем состоянии часто узнаешь задним числом - когда уже «накрыло». Короткие отметки показывают, как на самом деле меняются силы и напряжение в течение недели и что этому предшествует. Из этих отметок потом собираются почти все остальные инструменты',
       steps:['2-3 раза в неделю - или в моменте, когда что-то произошло, - откройте «Карта состояния»','Отметьте энергию и напряжение. Это все, что обязательно','Если есть силы, отметьте остальное: ясность головы, чего хочется, что происходило, эмоции, ощущения в теле','Нажмите «Сохранить момент». Пропущенные дни ничего не значат - заполняйте, когда получается'] },
     radar:{ why:'Обычно о перегрузе узнаешь, когда уже «больше не могу». Но тело, эмоции, мысли и поведение начинают меняться раньше. Если знать свои первые звоночки, можно остановиться, пока это еще легко, а не когда уже приходится восстанавливаться неделями',
-      steps:['Шаг 1: в четырех колонках отметьте, что вы замечаете, когда нагрузка растет. Можно выбрать из подсказок или дописать свое','Шаг 2: для каждого сигнала выберите, когда он обычно появляется - на первых звоночках, когда уже тяжело или на пределе','Радар соберется сам. Возвращайтесь и дополняйте его, когда замечаете что-то новое'] },
+      steps:['Вкладка «Первые звоночки»: отметьте 2-5 сигналов, которые появляются в самом начале перегрузки','Вкладка «На пределе»: отметьте, что бывает, когда сил почти не осталось','Ниже появится разбор: что делать, когда вы замечаете эти сигналы'] },
     load:{ why:'Нагрузку обычно меряют временем. Но больше всего сил может забирать то, что занимает пятнадцать минут, а не восемь часов. Здесь вы увидите, что в вашей жизни на самом деле истощает, а что возвращает силы, - и где можно что-то изменить',
       steps:['Добавьте то, что регулярно повторяется в вашей жизни: работу, людей, дела, дорогу, отдых. Можно нажать на подсказки или написать свое','Для каждого пункта ответьте на четыре вопроса. Думайте об обычной неделе, а не о самом тяжелом дне','Внизу появится карта: что истощает, что дает ресурс, а что «тихо подтачивает»'] },
     stress:{ why:'Когда «напрягает все», непонятно, с чего начать. Если разобрать стрессоры по одному, становится видно: на что-то можно повлиять напрямую, что-то - разделить с другими, а с чем-то пока можно только бережнее обходиться. Это возвращает ощущение, что вы не беспомощны',
@@ -2989,7 +3020,7 @@ function wheelSvg(v,live){const cx=160,cy=150,R=110,n=SPHERES.length;const cmp=l
       const lab=l.length>14&&l.includes(' ')?(()=>{const ws=l.split(' ');const h=Math.ceil(ws.length/2);return `<tspan x="${tx}" dy="${w?-14:-7}">${esc(ws.slice(0,h).join(' '))}</tspan><tspan x="${tx}" dy="15">${esc(ws.slice(h).join(' '))}</tspan>`})():`<tspan x="${tx}" dy="${w?-7:0}">${esc(l)}</tspan>`;
       if(cmp){const [bx,by]=pt(i,R+20);return `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="var(--line)" pointer-events="none"/><g class="wh-num${v[k]?' on':''}" pointer-events="none"><circle cx="${bx}" cy="${by}" r="11"/><text x="${bx}" y="${by+4.5}" text-anchor="middle">${i+1}</text></g>`}
       return `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="var(--line)" pointer-events="none"/><text class="lbl" x="${tx}" y="${ty+4}" text-anchor="${anc}" pointer-events="none">${lab}${w?`<tspan x="${tx}" dy="15" class="wh-w">${esc(w)}</tspan>`:''}</text>`}).join('')}
-    ${has?`<polygon points="${poly}" fill="var(--lavender)" stroke="var(--text)" stroke-width="1.4" opacity=".9" pointer-events="none"/>`:''}
+    ${has?`<polygon points="${poly}" fill="var(--lavender)" stroke="#7fa59a" stroke-width="1.4" opacity=".9" pointer-events="none"/>`:''}
     ${live?SPHERES.map(([k,l],i)=>[1,2,3,4,5].map(lv=>{const [x,y]=pt(i,R*lv/5),on=v[k]===lv;return `<circle class="wh-dot${on?' on':''}" cx="${x}" cy="${y}" r="${on?7:3.2}" data-wk="${k}" data-wv="${lv}" tabindex="0" role="button" aria-pressed="${on}" aria-label="${esc(l)}: ${LOADW[lv-1][1]}"/>`}).join('')).join(''):''}</svg>${cmp?`<ol class="wh-leg">${SPHERES.map(([k,l],i)=>`<li class="${v[k]?'on':''}"><span>${i+1}</span>${esc(l)}<b>${esc(word(k)||'не отмечено')}</b></li>`).join('')}</ol>`:''}`}
 function bindWheel(box,v,onSet){const draw=()=>{box.innerHTML=wheelSvg(v,true)};draw();
   const set=(k,lv)=>{v[k]=lv;draw();onSet&&onSet();const f=box.querySelector(`[data-wk="${k}"][data-wv="${lv}"]`);if(f&&box._kb)f.focus()};
@@ -3088,32 +3119,32 @@ const ZL={'ранний':'Первые звоночки','уже перегру�
 const ZD={'ранний':'нагрузка только начала копиться, вы еще справляетесь','уже перегружен':'сил заметно меньше, но вы продолжаете через силу','предел':'«больше не могу» - пора срочно останавливаться'};
 const TD={'тело':'ощущения, напряжение, сон, аппетит','эмоции':'что чувствуете чаще обычного','мысли':'какие фразы крутятся в голове','поведение':'что начинаете делать или перестаете'};
 TOOL.radar=(m,t)=>{
-  const bodyS=bodySugg();
-  const has=(type,v)=>S.signals.some(x=>x.type===type&&x.t===v);
-  const unz=S.signals.filter(x=>!x.zone).length;
-  m.innerHTML=wrap(t,`<div class="note">Внутренний сканер: остановитесь на 30 секунд и пройдите вниманием по телу. Тяжело или легко? Холодно или горячо? Напряжено или расслаблено? Потом - что с эмоциями, мыслями и поведением</div>
-  <section class="sec"><div class="sec__h"><h2>Шаг 1. Отметьте, что с вами происходит, когда общая нагрузка растет</h2></div>
-    <p class="muted" style="margin-bottom:16px">Нажмите на подходящие варианты или допишите свои - они сохраняются сразу. Можно заполнять колонки в любом порядке</p>
-    <div class="sectors">${C.RADAR_TYPES.map(type=>{const sugg=type==='тело'?bodyS:[...new Set(C.RADAR_SUGGEST[type]||[])];const own=S.signals.filter(x=>x.type===type&&!sugg.includes(x.t));
-      return `<div class="sector" data-type="${type}"><h3>${type[0].toUpperCase()+type.slice(1)}</h3><p class="muted" style="margin-top:-6px">${TD[type]}${type==='тело'&&S.pulses.some(p=>(p.body||[]).length)?'. Здесь есть и то, что вы отмечали в «Карте состояния»':''}</p>
-        <div class="chips">${sugg.map(v=>`<button class="chip" aria-pressed="${has(type,v)}" data-tg="${esc(v)}">${esc(v)}</button>`).join('')}${own.map(x=>`<button class="chip" aria-pressed="true" data-tg="${esc(x.t)}">${esc(x.t)}</button>`).join('')}</div>
-        <div class="input" style="min-height:44px"><input placeholder="Свое" data-own aria-label="Свой сигнал: ${type}"><button class="btn btn--sm btn--ghost" data-ownadd>+</button></div></div>`}).join('')}</div></section>
-  <section class="sec"><div class="sec__h"><h2>Шаг 2. Отметьте, когда это обычно появляется</h2>${unz?`<span class="muted">не отмечено: ${unz}</span>`:''}</div>
-    <p class="muted" style="margin-bottom:14px">Перегрузка нарастает постепенно. Отметьте для каждого сигнала, на каком этапе он у вас обычно появляется:</p>
-    <div class="zones" style="margin-bottom:18px">${Object.keys(ZL).map(z=>`<div class="zone-card"><h3 style="margin-top:0">${ZL[z]}</h3><p>${ZD[z]}</p></div>`).join('')}</div>
-    ${S.signals.length?`<div>${S.signals.map((x,k)=>`<div class="item-row" style="grid-template-columns:minmax(0,1fr) auto 32px"><span style="font-size:16px;color:var(--ink)">${esc(x.t)} <span class="muted">· ${esc(x.type)}</span></span>
-      <div class="seg" data-zk="${k}">${Object.keys(ZL).map(z=>`<button type="button" aria-pressed="${x.zone===z}" data-z="${z}">${ZL[z]}</button>`).join('')}</div><button class="del" data-dsig="${k}" aria-label="Убрать">×</button></div>`).join('')}</div>`:'<p class="muted">Сначала отметьте сигналы в шаге 1.</p>'}</section>
-  <section class="sec"><div class="sec__h"><h2>Посмотрите на свой радар</h2></div>
-    ${S.signals.some(x=>x.zone)?`<p style="font-size:17px;margin-bottom:14px">Радар устроен как мишень: чем ближе сигнал к центру, тем меньше у вас остается сил, когда он появляется</p>${radarRead()}<div class="viz">${radarSvg()}</div>`:'<p class="muted">Радар появится, когда вы отметите этапы в шаге 2</p>'}</section>
-  ${S.signals.some(x=>x.zone)?radarMeaning():''}`);
+  const bodyS=bodySugg();const RZ=route.rz||'ранний';
+  const zOf=(type,v)=>{const x=S.signals.find(x=>x.type===type&&x.t===v);return x?x.zone||'ранний':null};
+  const zc=z=>z==='предел'?'z-lim':z==='уже перегружен'?'z-mid':z?'z-early':'';
+  const nE=S.signals.filter(x=>(x.zone||'ранний')==='ранний').length,nL=S.signals.filter(x=>x.zone==='предел').length;
+  m.innerHTML=wrap(t,`<section class="sec"><div class="sec__h"><h2>Отметьте свои сигналы перегрузки</h2></div>
+    <p class="pw-why">Перегрузка нарастает постепенно. Важно заметить два момента: что появляется в самом начале и что бывает, когда сил уже почти не осталось</p>
+    <div class="rz-tabs" role="tablist">
+      <button type="button" role="tab" class="rz-tab rz-tab--early" aria-selected="${RZ==='ранний'}" data-rz="ранний"><span class="rz-n">1</span><span><b>Первые звоночки</b><small>что вы замечаете в самом начале${nE?` · отмечено ${nE}`:''}</small></span></button>
+      <button type="button" role="tab" class="rz-tab rz-tab--lim" aria-selected="${RZ==='предел'}" data-rz="предел"><span class="rz-n">2</span><span><b>На пределе</b><small>что бывает, когда сил почти нет${nL?` · отмечено ${nL}`:''}</small></span></button>
+    </div>
+    <p class="rz-q">${RZ==='предел'?'Нажмите на то, что появляется, когда вы уже на пределе':'Нажмите на то, что вы замечаете первым, когда нагрузка начинает расти'}. Достаточно 2-5 вариантов</p>
+    <div class="sectors rz-sectors">${C.RADAR_TYPES.map(type=>{const sugg=type==='тело'?bodyS:[...new Set(C.RADAR_SUGGEST[type]||[])];const own=S.signals.filter(x=>x.type===type&&!sugg.includes(x.t)).map(x=>x.t);
+      return `<div class="sector rz-sec" data-type="${type}"><h3>${type[0].toUpperCase()+type.slice(1)}</h3><p class="muted" style="margin-top:-6px">${TD[type]}</p>
+        <div class="rz-chips">${[...sugg,...own].map(v=>{const z=zOf(type,v);return `<button type="button" class="rz-chip ${zc(z)}" aria-pressed="${z===RZ}" data-tg="${esc(v)}">${esc(v)}</button>`}).join('')}</div>
+        <div class="input" style="min-height:44px"><input placeholder="Свое" data-own aria-label="Свой сигнал: ${type}"><button class="btn btn--sm btn--ghost" data-ownadd>+</button></div></div>`}).join('')}</div>
+    <div class="rz-leg"><span><i class="z-early"></i>первые звоночки</span><span><i class="z-lim"></i>на пределе</span>${S.signals.some(x=>x.zone==='уже перегружен')?'<span><i class="z-mid"></i>уже тяжело</span>':''}</div>
+    ${RZ==='ранний'&&nE?`<button type="button" class="btn btn--primary" data-rz="предел" style="margin-top:18px">Дальше: что бывает на пределе</button>`:''}</section>
+  ${S.signals.length?radarMeaning():''}`);
   bindDisc(m);
-  const toggle=(type,v)=>{const k=S.signals.findIndex(x=>x.type===type&&x.t===v);if(k>=0)S.signals.splice(k,1);else S.signals.push({t:v,type,zone:null});save();const y=window.scrollY;render();window.scrollTo({top:y})};
+  const keep=()=>{save();const y=window.scrollY;render();window.scrollTo({top:y})};
+  const toggle=(type,v)=>{const k=S.signals.findIndex(x=>x.type===type&&x.t===v);if(k>=0){if((S.signals[k].zone||'ранний')===RZ)S.signals.splice(k,1);else S.signals[k].zone=RZ}else S.signals.push({t:v,type,zone:RZ});keep()};
+  $$('[data-rz]',m).forEach(b=>b.onclick=()=>{route.rz=b.dataset.rz;const y=window.scrollY;render();const tb=$('.rz-tabs',m);if(b.classList.contains('btn')&&tb)tb.scrollIntoView({behavior:'smooth',block:'start'});else window.scrollTo({top:y})});
   $$('.sector[data-type]',m).forEach(sec=>{const type=sec.dataset.type;
     $$('[data-tg]',sec).forEach(b=>b.onclick=()=>toggle(type,b.dataset.tg));
-    const inp=$('[data-own]',sec),add=()=>{const v=inp.value.trim();if(v&&!has(type,v))toggle(type,v)};
+    const inp=$('[data-own]',sec),add=()=>{const v=inp.value.trim();if(v&&!S.signals.some(x=>x.type===type&&x.t===v)){S.signals.push({t:v,type,zone:RZ});keep()}};
     $('[data-ownadd]',sec).onclick=add;inp.onkeydown=e=>{if(e.key==='Enter')add()}});
-  $$('[data-zk]',m).forEach(g=>$$('button',g).forEach(b=>b.onclick=()=>{S.signals[+g.dataset.zk].zone=b.dataset.z;save();const y=window.scrollY;render();window.scrollTo({top:y})}));
-  $$('[data-dsig]',m).forEach(b=>b.onclick=()=>{S.signals.splice(+b.dataset.dsig,1);save();const y=window.scrollY;render();window.scrollTo({top:y})});
 };
 
 function bodySugg(){const st=w=>w.toLowerCase().replace(/[«»"]/g,'').slice(0,4);const zones={},plain=[];
@@ -3132,11 +3163,11 @@ function radarMeaning(){const g=z=>S.signals.filter(x=>x.zone===z).map(x=>x.t);
   const Z=[['ранний','ok','Первые звоночки','Эти сигналы появляются, когда нагрузка только начинает расти. Если вы их заметили, у вас еще есть запас сил, и это самый удобный момент, чтобы сбавить темп: сделать паузу, убрать одно дело из списка или попросить помощи. Чем раньше вы отреагируете, тем меньше сил потратите'],
     ['уже перегружен','warn','Уже тяжело','Эти сигналы означают, что вы уже тратите силы быстрее, чем они восстанавливаются. В такой момент лучше не терпеть до выходных, а снизить нагрузку в тот же день и выбрать способ прийти в себя в «Центре восстановления»'],
     ['предел','bad','На пределе','Если вы замечаете эти сигналы, сил почти не осталось. Остановитесь, насколько это возможно, откройте «Выдохнуть» и напишите психологу, не дожидаясь встречи']];
-  const early=g('ранний').length;
-  return `<section class="sec"><div class="sec__h"><h2>Разберитесь, что означает ваш радар</h2></div>
-    <p style="font-size:17px;margin-bottom:18px">Радар показывает, как у вас обычно нарастает перегрузка: снаружи находятся сигналы, которые появляются раньше всего, а ближе к центру те, что появляются, когда сил уже почти нет. Главная задача - научиться замечать сигналы из внешнего круга, потому что именно тогда помочь себе проще всего</p>
-    <div class="zrows">${Z.map(([z,c,t,d])=>{const v=g(z);return `<div class="zrow zrow--${c} zrow--wide"><div class="zrow__h"><span class="zrow__m zrow__m--${c}"></span><b>${t}</b></div><div class="zrow__c"><small>Ваши сигналы</small><div>${v.length?v.map(x=>`<span>${esc(x)}</span>`).join(''):'<em>пока не отмечены</em>'}</div></div><p class="zrow__d">${d}</p></div>`}).join('')}</div>
-    ${early?'':`<div class="note">В первом круге у вас пока нет сигналов. Понаблюдайте в течение недели, что появляется раньше всего, когда нагрузка растет: обычно это мелочи, например вы перестаете делать паузы или начинаете сжимать челюсть. Именно такие мелочи стоит научиться замечать</div>`}</section>`}
+  const early=g('ранний').length;const ZZ=Z.filter(([z])=>z!=='уже перегружен'||g(z).length);
+  return `<section class="sec"><div class="sec__h"><h2>Посмотрите, что означают ваши сигналы</h2></div>
+    <p class="pw-why">Главное - научиться замечать первые звоночки: в этот момент помочь себе проще всего</p>
+    <div class="zrows">${ZZ.map(([z,c,t,d])=>{const v=g(z);return `<div class="zrow zrow--${c} zrow--wide"><div class="zrow__h"><span class="zrow__m zrow__m--${c}"></span><b>${t}</b></div><div class="zrow__c"><small>Ваши сигналы</small><div>${v.length?v.map(x=>`<span>${esc(x)}</span>`).join(''):'<em>пока не отмечены</em>'}</div></div><p class="zrow__d">${d}</p></div>`}).join('')}</div>
+    ${early?'':`<div class="note">Первых звоночков у вас пока нет. Понаблюдайте в течение недели, что появляется раньше всего, когда нагрузка растет: обычно это мелочи, например вы перестаете делать паузы или начинаете сжимать челюсть. Именно такие мелочи стоит научиться замечать</div>`}</section>`}
 function radarSvg(){const W=720,H=520,cx=360,cy=262,Rr=[230,155,80];
   const ang={'тело':-135,'эмоции':-45,'мысли':45,'поведение':135};
   const zr={'ранний':(Rr[0]+Rr[1])/2,'уже перегружен':(Rr[1]+Rr[2])/2,'предел':Rr[2]/2};

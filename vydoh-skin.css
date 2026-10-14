@@ -980,3 +980,34 @@ button.meet__t:hover{background:var(--cream)}
 .rp-vmini{display:inline-flex;align-items:center;gap:6px;margin-left:6px;padding:3px 10px;border:1px solid var(--line);border-radius:999px;background:var(--bg);font:inherit;font-size:13px;color:var(--ink);cursor:pointer}
 
 @media (prefers-reduced-motion:no-preference){.rp-rise{animation:rpRise 6s ease-in-out infinite alternate;transform-box:view-box}@keyframes rpRise{from{transform:translateY(12px)}to{transform:translateY(0)}}}
+
+/* Радар: две вкладки вместо двух шагов */
+.rz-tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:6px 0 14px}
+.rz-tab{display:flex;align-items:center;gap:12px;padding:14px 16px;border:1px solid var(--line);border-radius:var(--r-md,14px);background:var(--bg);font:inherit;color:var(--ink);text-align:left;cursor:pointer;transition:border-color .2s,background-color .2s}
+.rz-tab span:last-child{display:grid;gap:2px}.rz-tab b{font-weight:500;font-size:16px}.rz-tab small{font-size:13px;color:var(--muted)}
+.rz-n{flex:none;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;border:1px solid var(--ink);font-size:13px}
+.rz-tab--early[aria-selected="true"]{background:var(--mint);border-color:var(--ink)}
+.rz-tab--lim[aria-selected="true"]{background:var(--drain);border-color:var(--ink)}
+.rz-q{margin:0 0 16px;font-size:15px;color:var(--ink)}
+.rz-chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 12px}
+.rz-chip{min-height:40px;padding:8px 14px;border:1px solid var(--line);border-radius:12px;background:var(--bg);font:inherit;font-size:14.5px;color:var(--ink);cursor:pointer;transition:background-color .2s,border-color .2s}
+.rz-chip:hover{border-color:color-mix(in srgb,var(--ink) 45%,transparent)}
+.rz-chip.z-early{background:var(--mint);border-color:#a6c8bc}
+.rz-chip.z-lim{background:var(--drain);border-color:#e0b8aa}
+.rz-chip.z-mid{background:var(--beige);border-color:#d8cbbd}
+.rz-chip[aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.rz-leg{display:flex;flex-wrap:wrap;gap:16px;font-size:13px;color:var(--muted)}
+.rz-leg span{display:inline-flex;align-items:center;gap:6px}.rz-leg i{width:12px;height:12px;border-radius:4px;border:1px solid var(--line)}
+.rz-leg i.z-early{background:var(--mint)}.rz-leg i.z-lim{background:var(--drain)}.rz-leg i.z-mid{background:var(--beige)}
+@media (max-width:640px){.rz-tabs{gap:6px}.rz-tab{flex-direction:column;align-items:flex-start;gap:8px;padding:12px}.rz-tab b{font-size:15px}}
+/* Колесо: мягкие точки вместо черных */
+.wh-dot{fill:var(--bg)!important;stroke:#b9c4bf!important;stroke-width:1!important}
+.wh-dot:hover{fill:var(--mint)!important;stroke:#657d73!important}
+.wh-dot.on{fill:#7fa59a!important;stroke:#fff!important;stroke-width:2!important;r:6px}
+
+.rz-sectors .rz-sec{background:var(--bg)!important;background-image:none!important;border:1px solid var(--line)}
+.zrow__m--bad{background:#e0a896!important;border-color:#e0a896!important}
+.zrow__m--ok{background:#a6c8bc!important;border-color:#a6c8bc!important}
+.zrow__m--warn{background:#d8c3a8!important;border-color:#d8c3a8!important}
+
+.sectors.rz-sectors>.sector.rz-sec:nth-child(n){background:var(--bg)!important;background-image:none!important;box-shadow:none;border:1px solid var(--line)}
