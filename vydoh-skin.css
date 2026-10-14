@@ -918,3 +918,41 @@ h1,.page h1,.thead h1,.r-head h1,.thero__txt h1,.big-card h2,.keep__head h2,.mod
 .ans-radio .seg,.ans-check .chips{grid-auto-flow:row!important;grid-auto-columns:auto!important}
 .pt-steps~.dsec .ans-check .chips{grid-template-columns:repeat(2,minmax(0,1fr))!important;column-gap:28px!important;gap:0 28px!important}
 @media (max-width:640px){.pt-steps~.dsec .ans-check .chips{grid-template-columns:minmax(0,1fr)!important}.pt-steps~.dsec .ans-check .chips>.chip{grid-column:auto!important}}
+
+/* Линейные символы состояний */
+.sym{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px 12px;margin-top:6px}
+.sym--5{grid-template-columns:repeat(5,minmax(0,1fr))}
+.sym .chip{display:flex!important;flex-direction:column;align-items:center;gap:10px;width:100%!important;min-height:0!important;padding:4px 2px!important;margin:0!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;transform:none!important;color:var(--ink)!important;font:400 15px/1.25 var(--serif)!important;text-align:center!important;white-space:normal!important}
+.sym .chip::before{display:none!important}
+.sym__c{display:grid;place-items:center;width:84px;height:84px;border-radius:50%;background:color-mix(in srgb,var(--beige) 70%,var(--bg));color:var(--ink);transition:background-color .2s,box-shadow .2s,transform .2s}
+.sym .chip:nth-child(3n+1) .sym__c{background:color-mix(in srgb,var(--mint) 85%,var(--bg))}
+.sym .chip:nth-child(3n+2) .sym__c{background:color-mix(in srgb,var(--beige) 75%,var(--bg))}
+.sym .chip:nth-child(3n) .sym__c{background:color-mix(in srgb,var(--lavender) 70%,var(--bg))}
+.sym__c svg{width:38px;height:38px}
+.sym .chip:hover .sym__c{transform:translateY(-2px)}
+.sym .chip[aria-pressed="true"] .sym__c{background:var(--mint)!important;box-shadow:0 0 0 1.5px var(--ink),0 0 0 6px var(--bg),0 0 0 7px color-mix(in srgb,var(--ink) 25%,transparent)}
+.sym .chip[aria-pressed="true"] .sym__t{font-weight:500}
+.sym .chip:not(:has(.sym__c))::before{content:""!important;display:block!important;width:84px;height:84px;border-radius:50%;background:color-mix(in srgb,var(--beige) 70%,var(--bg)) radial-gradient(circle,var(--ink) 2px,transparent 2.5px)!important;border:0!important;position:static!important}
+.sym .chip:not(:has(.sym__c))[aria-pressed="true"]::before{background:var(--mint) radial-gradient(circle,var(--ink) 2px,transparent 2.5px)!important;box-shadow:0 0 0 1.5px var(--ink)}
+.sym__hint{margin:12px 0 0;font-size:13px;color:var(--muted)}
+.ans-note{display:grid;gap:6px;margin-top:16px;max-width:560px}
+.ans-note>span{font-size:14px;color:var(--text)}
+@media (max-width:640px){
+  .sym{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:14px 6px}
+  .sym .chip{font-size:13px!important;gap:7px}
+  .sym__c,.sym .chip:not(:has(.sym__c))::before{width:62px!important;height:62px!important}
+  .sym__c svg{width:30px;height:30px}
+}
+
+/* К встрече: пункты открывают инструмент */
+.meet{list-style:none;margin:18px 0 0;padding:0;border-top:1px solid var(--line)}
+.meet__i{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:10px 0;border-bottom:1px solid var(--line)}
+.meet__t{display:flex;align-items:center;gap:14px;flex:1;min-width:0;padding:6px 4px;border:0;background:none;font:inherit;font-size:16px;color:var(--ink);text-align:left;cursor:pointer;border-radius:10px}
+button.meet__t:hover{background:var(--cream)}
+.meet__ico{flex:none;display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--mint)}
+.meet__open{margin-left:auto;font-size:14px;color:var(--muted);white-space:nowrap}
+.meet__t--txt{cursor:default}
+.meet-done{margin-top:30px}
+.meet-done summary{cursor:pointer;font-size:15px;color:var(--text)}
+.meet-done .meet__t{color:var(--text)}
+@media (max-width:640px){.meet__i{flex-wrap:wrap}.meet__open{display:none}.meet__i>.btn{margin-left:58px}}
