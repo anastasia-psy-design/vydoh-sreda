@@ -1019,3 +1019,18 @@ button.meet__t:hover{background:var(--cream)}
 .wh-dot.on{fill:#a9a59e!important;stroke:var(--bg)!important;stroke-width:2!important;r:5.5px}
 .wheel .wh-w{fill:#8a8680!important;font-weight:400!important}
 .wheel line,.wheel circle:not(.wh-dot){stroke:#e6e3de}
+
+/* Колесо: без россыпи кружков, тонкие кольца, одна точка на сферу */
+.wheel circle:not(.wh-dot){stroke:#ebe8e3!important;stroke-dasharray:none!important}
+.wheel line{stroke:#ebe8e3!important}
+.wh-dot{fill:transparent!important;stroke:none!important;r:10px}
+.wh-dot:hover{fill:rgba(47,45,42,.06)!important}
+.wh-dot.on{fill:#8f8b84!important;stroke:var(--bg)!important;stroke-width:2.5!important;r:5px}
+.wheel polygon{fill:rgba(47,45,42,.045)!important;stroke:#a9a59e!important;stroke-width:1!important}
+.wheel .lbl{fill:#5f5c57}
+.wheel .wh-w{fill:#9a968f!important;font-size:12px}
+
+.wheel .wh-num circle{stroke:#cfcbc5!important;fill:var(--bg)}
+.wheel .wh-num.on circle{fill:#efedea!important}
+.wh-leg li.on span{background:#efedea!important}
+.wh-leg li span{border-color:#cfcbc5!important}
