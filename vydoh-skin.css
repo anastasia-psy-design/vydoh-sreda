@@ -1011,3 +1011,11 @@ button.meet__t:hover{background:var(--cream)}
 .zrow__m--warn{background:#d8c3a8!important;border-color:#d8c3a8!important}
 
 .sectors.rz-sectors>.sector.rz-sec:nth-child(n){background:var(--bg)!important;background-image:none!important;box-shadow:none;border:1px solid var(--line)}
+
+/* Колесо нагрузки: мягкие серые тона */
+.wheel polygon{fill:rgba(47,45,42,.06)!important;stroke:#b8b4ad!important;stroke-width:1.2!important;opacity:1!important}
+.wh-dot{fill:var(--bg)!important;stroke:#d6d3cd!important;stroke-width:1!important}
+.wh-dot:hover{fill:#efedea!important;stroke:#a9a59e!important}
+.wh-dot.on{fill:#a9a59e!important;stroke:var(--bg)!important;stroke-width:2!important;r:5.5px}
+.wheel .wh-w{fill:#8a8680!important;font-weight:400!important}
+.wheel line,.wheel circle:not(.wh-dot){stroke:#e6e3de}
