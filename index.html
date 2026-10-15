@@ -2177,6 +2177,47 @@ button.meet__t:hover{background:var(--cream)}
 .wh-leg li.on span{background:#efedea!important}
 .wh-leg li span{border-color:#cfcbc5!important}
 
+/* === Главная «Воздух и маршрут» === */
+.hg{max-width:1040px}
+.hg__wk{margin:6px 0 0;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.hg__h{margin:14px 0 40px;font:400 clamp(36px,4.4vw,54px)/1.05 var(--serif);color:var(--ink);letter-spacing:-.01em}
+.hg__name{display:flex;gap:8px;margin:-26px 0 30px;max-width:420px}
+.hg__path{position:relative;display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+.hg__path::before{content:"";position:absolute;left:12.5%;right:12.5%;top:9px;height:1px;background:#d9d5cf}
+.hg__p{position:relative;display:flex;flex-direction:column;align-items:center;gap:0;padding:0 4px 4px;border:0;background:none;font:inherit;color:var(--ink);cursor:pointer;text-align:center}
+.hg__p i{position:relative;z-index:1;display:grid;place-items:center;width:19px;height:19px;margin-bottom:14px;border-radius:50%;background:var(--bg);border:1px solid #bdb8b1;color:#fff;font-style:normal;transition:transform .2s}
+.hg__p--done i{background:#a9a59e;border-color:#a9a59e}
+.hg__p--now i{border-color:var(--ink)}
+.hg__p.is-cur i{background:var(--ink);border-color:var(--ink);box-shadow:0 0 0 7px var(--bg),0 0 0 8px #cfcac3}
+.hg__p:hover i{transform:scale(1.12)}
+.hg__num{font-size:11px;letter-spacing:.18em;color:var(--muted);margin-bottom:4px}
+.hg__p b{font:400 19px/1.2 var(--serif);color:var(--ink)}
+.hg__p--later b{color:#8f8b84}
+.hg__p small{margin-top:3px;font-size:13px;color:var(--muted)}
+.hg__card{position:relative;margin-top:30px;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);align-items:center;gap:30px;padding:clamp(28px,4vw,48px) clamp(24px,4.4vw,52px);border-radius:26px;background:var(--bg);box-shadow:0 1px 2px rgba(0,0,0,.03),0 30px 60px -40px rgba(47,45,42,.35);animation:hgIn .5s var(--ease,ease) both}
+@keyframes hgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.hg__card::before{content:"";position:absolute;top:-9px;left:calc(var(--x) - 9px);width:18px;height:18px;background:var(--bg);transform:rotate(45deg);border-radius:3px}
+.hg__txt h2{margin:14px 0 14px;font:400 clamp(32px,3.6vw,46px)/1.06 var(--serif);color:var(--ink)}
+.hg__txt p{margin:0 0 28px;max-width:38ch;font-size:16px;line-height:1.55;color:var(--text)}
+.hg__art{justify-self:center;position:relative;display:grid;place-items:center;width:clamp(180px,22vw,250px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 35% 30%,var(--bg),var(--mint) 72%)}
+.hg__art::after{content:"";position:absolute;inset:-14px;border-radius:50%;border:1px dashed #cfd8d5}
+.hg__art .bigico{width:58%;height:58%}
+.hg__quiet{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin-top:34px;border-top:1px solid #e6e2dc}
+.hg__q{display:flex;gap:14px;align-items:flex-start;padding:20px 8px 4px 4px;border:0;background:none;font:inherit;text-align:left;color:var(--ink);cursor:pointer}
+.hg__q+.hg__q{padding-left:24px;border-left:1px solid #e6e2dc}
+.hg__q b{display:block;font:400 19px/1.2 var(--serif)}.hg__q small{display:block;margin-top:3px;font-size:13.5px;color:var(--muted)}
+.hg__qi{flex:none;display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:var(--bg);border:1px solid #e6e2dc}
+.hg__q:hover .hg__qi{border-color:var(--ink)}
+@media (max-width:760px){
+  .hg__h{margin-bottom:28px}
+  .hg__p b{font-size:14px}.hg__p small{font-size:11px;line-height:1.25}.hg__num{display:none}.hg__p i{margin-bottom:10px}
+  .hg__card{grid-template-columns:1fr;gap:18px;padding:26px 22px 28px}
+  .hg__art{order:-1;width:120px;justify-self:start}.hg__art::after{inset:-8px}
+  .hg__txt h2{margin:10px 0}.hg__txt p{margin-bottom:20px;font-size:15px}
+  .hg__btn{width:100%;justify-content:center}
+  .hg__quiet{grid-template-columns:1fr}.hg__q+.hg__q{padding-left:4px;border-left:0;border-top:1px solid #e6e2dc}.hg__q{padding:16px 4px}
+}
+
 </style>
 </head>
 <body>
@@ -2441,7 +2482,22 @@ const plural=(n,a,b,c)=>{const m10=n%10,m100=n%100;return m10===1&&m100!==11?a:m
 function discuss(t){if(!S.discuss.includes(t)){S.discuss.push(t);save();nav();toast('Добавлено в «К встрече»')}else toast('Уже есть в «К встрече»')}
 const isOpen=id=>S.psy||!!S.open[id]||id==='nav';
 const items=()=>S.load.map(x=>x.name);
-function done(id){return ({point:!!S.point.saved,pulse:S.pulses.length>=3,radar:S.signals.length>=3,load:S.load.length>=3,stress:S.stressors.length>=1,chain:S.chains.length>=1,recovery:S.recovery.length>=2,range:S.pulses.length>=6,resp:Object.keys(S.resp.place).length>=3,nhv:Object.keys(S.nhv.place).length>=3,lab:S.lab.some(l=>l.result),peak:!!S.peak.situation,nav:false})[id]}
+function tStatus(id){const any=v=>v?'work':'none';const pk=S.peak||{};
+  switch(id){
+    case 'point':return S.point.saved?'done':any(Object.keys(S.point).filter(k=>!['spheres','ownSph'].includes(k)).length||Object.keys(S.point.spheres||{}).length);
+    case 'pulse':return S.pulses.length>=6?'done':any(S.pulses.length);
+    case 'radar':{const e=S.signals.filter(x=>(x.zone||'ранний')==='ранний').length,l=S.signals.filter(x=>x.zone==='предел').length;return e>=2&&l>=1?'done':any(S.signals.length)}
+    case 'load':{const p=S.load.filter(x=>x.after).length;return p>=3?'done':any(S.load.length)}
+    case 'stress':{const r=S.stressors.filter(s=>s.power!=null&&s.infl!=null).length;return r>=2&&S.stressors.some(s=>s.path)?'done':any(S.stressors.length)}
+    case 'chain':return S.chains.some(c=>['situation','rule','emotion','action','cost'].filter(k=>c[k]).length>=4)?'done':any(S.chains.length)
+    case 'recovery':return S.recovery.length>=2?'done':any(S.recovery.length)
+    case 'range':return S.range.q1&&S.pulses.length>=6?'done':any(S.range.q1||S.range.q2)
+    case 'resp':{const n=Object.keys(S.resp.place).length;return n>=5?'done':any(n)}
+    case 'nhv':{const n=Object.keys(S.nhv.place).length;return n>=5?'done':any(n)}
+    case 'lab':return S.lab.some(l=>l.result)?'done':any(S.lab.length)
+    case 'peak':return pk.situation&&pk.saved?'done':any(pk.situation)
+    default:return 'none'}}
+function done(id){return tStatus(id)==='done'}
 /* ---------- ссылки от психолога, доступ психолога, неделя ---------- */
 let PSY=false, pendingToast='';
 try{PSY=localStorage.getItem('vydoh-psy')==='1'}catch(e){}
@@ -2608,27 +2664,35 @@ function homeSteps(){const wk=Date.now()-8*864e5;const nP=S.pulses.filter(p=>new
 function weekDots(){const now=new Date();const dow=(now.getDay()+6)%7;const mon=new Date(now);mon.setDate(now.getDate()-dow);
   const has=new Set(S.pulses.map(p=>p.d));const N=['пн','вт','ср','чт','пт','сб','вс'];
   return N.map((n,i)=>{const d=new Date(mon);d.setDate(mon.getDate()+i);const iso=d.toISOString().slice(0,10);const cls=has.has(iso)?'on':i===dow?'today':i>dow?'later':'';return `<span class="wd wd--${cls||'off'}"><i></i>${n}</span>`}).join('')}
-function vToday(m){const {st,nP}=homeSteps();const main=st[0],second=st[1];const cs=curStage();const navN=navSections().filter(s=>s.ok).length;
-  const mainImg=main.id==='pulse'?`<span class="hero-img hero-img--bat">${bigIco('pulse',300)}</span>`+'':false?`<svg class="hero-wave" width="380" height="380" viewBox="0 0 360 360" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="180" cy="180" r="170" stroke-width="1.2" stroke-dasharray="1 4"/><circle cx="180" cy="180" r="118" stroke-width="1" stroke-dasharray="1 3.4" opacity=".55"/><path class="hw-line" d="M30 210c30-50 52-70 78-50s40 52 72 10 52-70 80-40 40 30 70 18" stroke-width="2"/><circle class="hw-dot" cx="190" cy="170" r="9" fill="currentColor"/></svg>`:`<span class="hero-img">${bigIco(main.id,300)}</span>`;
-  m.innerHTML=`<div class="page home">
-    <div class="h-top"><h1 class="h-hello">${hello()}${S.name?', '+esc(S.name):''}</h1>${!S.name?`<span class="h-name"><input class="line" id="hNameIn" placeholder="Как к вам обращаться?" aria-label="Ваше имя"><button class="btn btn--sm" id="hNameB">Сохранить</button></span>`:''}
-      <button class="h-trail" data-go="tools" aria-label="Маршрут: этап ${cs} из 9"><span class="h-trail__line"><i style="width:${(cs-1)/8*100}%"></i></span>${C.stages.map((s,i)=>`<span class="h-dot ${i<cs-1?'past':i===cs-1?'now':i===8?'end':''}"></span>`).join('')}</button>
-      <button class="h-week" data-go="tools" title="Открыть весь маршрут">неделя ${weekNo()} из 12 · маршрут</button></div>
-    ${!S.seenHelp?`<button class="h-first" data-go="help"><span>${ico('nav',20)}</span>Впервые здесь? Посмотрите, как все устроено, это займет две минуты</button>`:''}
-    <div class="h-grid">
-      <button class="h-main" data-go="${main.go}" data-arg="${main.arg}">${mainImg}
-        <span class="eyebrow">Главное сегодня</span><span class="h-main__t">${esc(main.title)}</span>
-        <span class="h-main__a"><span class="t-btn">${esc(main.btn)}</span><span>${esc(main.time)}</span></span></button>
-      <div class="h-side">
-        ${second?`<button class="h-card h-card--beige" data-go="${second.go}" data-arg="${second.arg}"><span class="h-card__txt"><span class="eyebrow">Если есть еще время</span><span class="h-card__t">${esc(second.title)}</span><span class="h-card__m">${esc(second.time)}</span></span><span class="h-card__img">${second.id==='pulse'?bigIco('pulse',110):bigIco(second.id,110)}</span></button>`
-          :`<button class="h-card h-card--beige" data-go="meet"><span class="h-card__txt"><span class="eyebrow">Перед встречей</span><span class="h-card__t">Что хочется обсудить</span><span class="h-card__m">по желанию</span></span><span class="h-card__img"><svg class="bigico" width="110" height="110" viewBox="-2 -2 28 28" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><circle cx="12" cy="12" r="13" stroke-dasharray="1 2.2" opacity=".8"/><path d="M5 7h14v9h-8l-4 3.5V16H5z"/></svg></span></button>`}
-        <button class="h-card h-card--lav" data-go="hard" data-arg="calm"><span class="h-card__txt"><span class="eyebrow">Когда нужна поддержка</span><span class="h-card__t">Подышать вместе</span><span class="h-card__m">1 минута</span></span><span class="h-card__img"><span class="h-breath"><i></i></span></span></button>
-      </div></div>
-    <div class="h-strip">
-      <button class="h-weekdots" data-go="tool" data-arg="pulse"><span class="eyebrow">Ваша неделя</span><span class="wds">${weekDots()}</span><span class="h-strip__m">${nP?`${nP} ${plural(nP,'отметка','отметки','отметок')} на этой неделе - уже хорошо`:'Отметок на этой неделе пока нет'}</span></button>
-      <button class="h-ring" data-go="navself"><svg width="40" height="40" viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="15" fill="none" stroke="var(--soft)" stroke-width="4"/><circle class="ring-bar" cx="18" cy="18" r="15" fill="none" stroke="var(--ink)" stroke-width="4" stroke-dasharray="${Math.max(1,Math.round(navN/11*94))} 100" transform="rotate(-90 18 18)"/></svg>Инструкция к себе</button>
-    </div>
-  </div>`;
+/* Главная «Воздух и маршрут»: линия из 4 шагов и одно дело на сейчас */
+const WHY={radar:'Научитесь замечать перегрузку на первых звоночках, пока помочь себе проще всего',load:'Посмотрите, какие дела забирают у вас силы, а какие их возвращают',stress:'Отделите то, на что вы можете повлиять, от того, что не в ваших руках',chain:'Найдите правило, которое заставляет вас перегружаться',recovery:'Соберите свой набор способов прийти в себя',range:'Найдите свою нагрузку, при которой хватает сил',resp:'Разделите, что ваше, а что можно отдать',nhv:'Отделите «надо» от «хочу» и «важно»',lab:'Проверьте одно маленькое изменение на практике',peak:'Подготовьтесь к следующему сложному периоду заранее'};
+function homePath(){const pd=!!(S.point&&S.point.saved);const wk=Date.now()-7*864e5;const nP=S.pulses.filter(p=>new Date(p.d).getTime()>=wk).length;const cs=curStage();
+  const cur=(C.stages[cs-1]||{tools:[]}).tools;const open=C.tools.filter(t=>isOpen(t.id)&&!t.final&&!['point','pulse'].includes(t.id));
+  const todo=open.filter(t=>tStatus(t.id)!=='done').sort((a,b)=>(cur.includes(b.id)?1:0)-(cur.includes(a.id)?1:0));
+  const last=cs>=9;
+  const P=[{k:'point',name:'Диагностика',st:pd?'done':'now',sub:pd?'пройдена':'сейчас · 15 минут',go:['tool','point']},
+    {k:'pulse',name:'Отметки',st:pd?'now':'later',sub:pd?`${Math.min(nP,3)} из 3 на неделе`:'2-3 раза в неделю',go:['tool','pulse']},
+    {k:'tools',name:'Инструменты',st:pd?(todo.length?'now':'done'):'later',sub:pd?`этап ${cs} из 9`:'после встреч',go:['tools','']},
+    {k:'final',name:'Итог',st:last?'now':'later',sub:last?'неделя 12':'неделя 12',go:['navself','']}];
+  let i,card;
+  if(!pd){i=0;card={eb:'Шаг 1 из 4 · 10-15 минут',t:'Пройдите стартовую диагностику',p:'Это ваша точка А. В конце программы вы пройдете ее еще раз и увидите, что изменилось',b:'Начать',go:['tool','point'],art:'point'}}
+  else if(nP<2||!todo.length){i=1;card={eb:'Шаг 2 из 4 · 1 минута',t:'Как вы сейчас?',p:nP?`На этой неделе уже ${nP} ${plural(nP,'отметка','отметки','отметок')} - это хорошо. Из отметок складывается график, по которому видно, что вас разряжает`:'Отметьте силы и напряжение. Из отметок складывается график, по которому видно, что вас разряжает',b:'Отметить',go:['tool','pulse'],art:'pulse'}}
+  else{const t=todo[0];i=2;card={eb:`Шаг 3 из 4 · ${t.time}`,t:t.title,p:WHY[t.id]||t.goal,b:tStatus(t.id)==='work'?'Продолжить':'Начать',go:['tool',t.id],art:t.id}}
+  if(last&&pd&&!todo.length){i=3;card={eb:'Шаг 4 из 4 · итог',t:'Заберите «Инструкцию к себе»',p:'Все ваши ответы собрались в личную инструкцию. Итоговую диагностику психолог пришлет по ссылке',b:'Открыть',go:['navself',''],art:'nav'}}
+  return {P,i,card,nP}}
+function vToday(m){const {P,i,card}=homePath();
+  m.innerHTML=`<div class="page hg">
+    <p class="hg__wk">Неделя ${weekNo()} из 12</p><h1 class="hg__h">${hello()}${S.name?', '+esc(S.name):''}</h1>
+    ${!S.name?`<span class="h-name hg__name"><input class="line" id="hNameIn" placeholder="Как к вам обращаться?" aria-label="Ваше имя"><button class="btn btn--sm" id="hNameB">Сохранить</button></span>`:''}
+    <nav class="hg__path" aria-label="Ваш путь">${P.map((p,k)=>`<button class="hg__p hg__p--${p.st}${k===i?' is-cur':''}" data-go="${p.go[0]}" ${p.go[1]?`data-arg="${p.go[1]}"`:''}><i>${p.st==='done'&&k!==i?ico('check',11):''}</i><span class="hg__num">0${k+1}</span><b>${p.name}</b><small>${p.sub}</small></button>`).join('')}</nav>
+    <div class="hg__card" style="--x:${i*25+12.5}%"><div class="hg__txt"><span class="eyebrow">${card.eb}</span><h2>${esc(card.t)}</h2><p>${esc(card.p)}</p>
+      <button class="btn btn--primary hg__btn" data-go="${card.go[0]}" ${card.go[1]?`data-arg="${card.go[1]}"`:''}>${card.b}</button></div>
+      <div class="hg__art" aria-hidden="true">${bigIco(card.art,150)}</div></div>
+    <div class="hg__quiet">
+      <button class="hg__q" data-go="hard"><span class="hg__qi"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="12" cy="12" r="9" stroke-dasharray="1.5 2.5"/><circle cx="12" cy="12" r="4"/></svg></span><span><b>Выдохнуть</b><small>минута дыхания, когда нужна поддержка</small></span></button>
+      <button class="hg__q" data-go="meet"><span class="hg__qi"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M5 6h14v9h-8l-4 3.5V15H5z"/></svg></span><span><b>К встрече</b><small>${S.discuss.length?S.discuss.length+' '+plural(S.discuss.length,'пункт','пункта','пунктов')+' для обсуждения':'что хочется обсудить'}</small></span></button>
+      <button class="hg__q" data-go="tools"><span class="hg__qi"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 18c3-8 6-1 8-6s5-6 8-6"/><circle cx="4" cy="18" r="1.5"/><circle cx="20" cy="6" r="1.5"/></svg></span><span><b>Весь маршрут</b><small>этап ${curStage()} из 9</small></span></button>
+    </div></div>`;
   const hb=$('#hNameB');if(hb){const sv=()=>{const v=$('#hNameIn').value.trim();if(v){S.name=v;save();render();toast('Приятно познакомиться, '+v)}};hb.onclick=sv;$('#hNameIn').onkeydown=e=>{if(e.key==='Enter')sv()}}
 }
 
@@ -2822,14 +2886,14 @@ function nav(){
 
 /* ================= МАРШРУТ И ИНСТРУМЕНТЫ ================= */
 function toolRow(t){const op=isOpen(t.id),dn=done(t.id);
-  const st=t.final?'<span class="badge b-q">собирается сама</span>':dn?'<span class="badge b-ok">заполнено</span>':S.open[t.id]?'<span class="badge b-warn">открыт</span>':'<span class="badge b-q">откроется позже</span>';
+  const st=t.final?'<span class="badge b-q">собирается сама</span>':dn?'<span class="badge b-ok">готово</span>':tStatus(t.id)==='work'?'<span class="badge b-warn">в работе</span>':S.open[t.id]?'<span class="badge b-warn">открыт</span>':'<span class="badge b-q">откроется позже</span>';
   return `<div class="tool tool--in ${dn?'is-done':''} ${t.central?'is-central':''} ${op?'':'is-locked'}" ${op?`data-go="tool" data-arg="${t.id}" role="button" tabindex="0" style="cursor:pointer"`:''}>
     <span class="tool__num" title="${t.n}">${ico(dn?'check':t.id,18)}</span><span class="tool__title">${esc(t.title)}</span>
     ${S.psy&&!t.final?`<label class="tool-toggle" data-stop><input type="checkbox" data-open="${t.id}" ${S.open[t.id]?'checked':''}> открыт клиенту</label>`:`<span class="tool__st">${st}</span>`}
     <span class="tool__goal">${esc(t.goal)}</span></div>`}
 function vTools(m){const cs=curStage();const stg=C.stages[cs-1];
   const tile=id=>{const t=T[id];const op=isOpen(id),dn=done(id);const cls=t.final?'final':dn?'done':op?'open':'locked';
-    const inner=`<span class="tt__ico">${bigIco(id,58)}${dn?`<span class="tt__ok">${ico('check',14)}</span>`:''}${!op?`<span class="tt__lock" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="3" y="6.5" width="8" height="6" rx="1.5"/><path d="M4.8 6.5V5a2.2 2.2 0 014.4 0v1.5"/></svg></span>`:''}</span><span class="tt__t">${esc(t.title)}</span><span class="tt__s">${t.final?'собирается сама':dn?'заполнено':op?esc(t.time):'откроется после встречи'}</span>`;
+    const inner=`<span class="tt__ico">${bigIco(id,58)}${dn?`<span class="tt__ok">${ico('check',14)}</span>`:''}${!op?`<span class="tt__lock" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="3" y="6.5" width="8" height="6" rx="1.5"/><path d="M4.8 6.5V5a2.2 2.2 0 014.4 0v1.5"/></svg></span>`:''}</span><span class="tt__t">${esc(t.title)}</span><span class="tt__s">${t.final?'собирается сама':dn?'готово':op?(tStatus(id)==='work'?'в работе · '+esc(t.time):esc(t.time)):'откроется после встречи'}</span>`;
     return `<div class="tt-wrap">${op?`<button class="tt tt--${cls}" data-go="tool" data-arg="${id}">${inner}</button>`:`<button type="button" class="tt tt--${cls}" data-locked="${id}" aria-label="${esc(t.title)}: откроется после встречи">${inner}</button>`}${S.psy&&!t.final?`<label class="tt__psy"><input type="checkbox" data-open="${id}" ${S.open[id]?'checked':''}> открыт</label>`:''}</div>`};
   m.innerHTML=`<div class="page rmap">
     <header class="r-head"><p class="eyebrow">Неделя ${weekNo()} из 12</p><h1>Посмотрите свой маршрут</h1>
@@ -3775,7 +3839,7 @@ TOOL.peak=(m,t)=>{const p=S.peak;const d=peakDraft();
     <button class="btn btn--primary" id="pkS">${MARK}Сохранить протокол</button></section>`:''}`);
   bindDisc(m);bindSeg(m,p,()=>{save();render()});
   $('#sitOwn').onchange=e=>{if(e.target.value.trim()){p.situation=e.target.value.trim();save();render()}};
-  $('#pkS')&&($('#pkS').onclick=()=>{$$('[data-pk]',m).forEach(a=>p[a.dataset.pk]=a.value.trim());save();toast('Протокол сохранен')});
+  $('#pkS')&&($('#pkS').onclick=()=>{$$('[data-pk]',m).forEach(a=>p[a.dataset.pk]=a.value.trim());p.saved=1;save();toast('Протокол сохранен')});
 };
 
 /* 13. Инструкция к себе */
