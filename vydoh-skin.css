@@ -1075,3 +1075,20 @@ button.meet__t:hover{background:var(--cream)}
   .hg__btn{width:100%;justify-content:center}
   .hg__quiet{grid-template-columns:1fr}.hg__q+.hg__q{padding-left:4px;border-left:0;border-top:1px solid #e6e2dc}.hg__q{padding:16px 4px}
 }
+
+/* Панель психолога: клиенты */
+.cl{margin-bottom:10px}
+.cl-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.cl-head h2,.cl-login h2{margin:0;font:400 clamp(23px,2vw,28px)/1.2 var(--serif);color:var(--ink)}
+.cl-login{display:grid;gap:10px;padding:22px;border:var(--dash);border-radius:var(--r-lg,16px)}
+.cl-list{list-style:none;margin:0;padding:0}
+.cl-row{display:grid;grid-template-columns:minmax(0,1.1fr) auto auto;gap:18px;align-items:center;padding:16px 0;border-bottom:1px solid var(--line)}
+.cl-who b{display:block;font-weight:500;font-size:16px;color:var(--ink)}.cl-who small{font-size:13px;color:var(--muted)}
+.cl-stages{display:flex;gap:4px}
+.cl-st{width:28px;height:28px;border-radius:50%;border:1px solid #d6d3cd;background:var(--bg);font:500 12px var(--sans);color:var(--muted);cursor:pointer;padding:0;transition:background-color .15s,border-color .15s}
+.cl-st:hover{border-color:var(--ink);color:var(--ink)}
+.cl-st.on{background:#e9e7e3;border-color:#cfcbc5;color:var(--ink)}
+.cl-st.cur{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.cl-act{display:flex;gap:6px;align-items:center}
+.cl-add{margin-top:18px}.cl-note{margin-top:10px;font-size:13px}
+@media (max-width:900px){.cl-row{grid-template-columns:1fr;gap:10px}.cl-stages{flex-wrap:wrap}}

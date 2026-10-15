@@ -2218,6 +2218,23 @@ button.meet__t:hover{background:var(--cream)}
   .hg__quiet{grid-template-columns:1fr}.hg__q+.hg__q{padding-left:4px;border-left:0;border-top:1px solid #e6e2dc}.hg__q{padding:16px 4px}
 }
 
+/* Панель психолога: клиенты */
+.cl{margin-bottom:10px}
+.cl-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.cl-head h2,.cl-login h2{margin:0;font:400 clamp(23px,2vw,28px)/1.2 var(--serif);color:var(--ink)}
+.cl-login{display:grid;gap:10px;padding:22px;border:var(--dash);border-radius:var(--r-lg,16px)}
+.cl-list{list-style:none;margin:0;padding:0}
+.cl-row{display:grid;grid-template-columns:minmax(0,1.1fr) auto auto;gap:18px;align-items:center;padding:16px 0;border-bottom:1px solid var(--line)}
+.cl-who b{display:block;font-weight:500;font-size:16px;color:var(--ink)}.cl-who small{font-size:13px;color:var(--muted)}
+.cl-stages{display:flex;gap:4px}
+.cl-st{width:28px;height:28px;border-radius:50%;border:1px solid #d6d3cd;background:var(--bg);font:500 12px var(--sans);color:var(--muted);cursor:pointer;padding:0;transition:background-color .15s,border-color .15s}
+.cl-st:hover{border-color:var(--ink);color:var(--ink)}
+.cl-st.on{background:#e9e7e3;border-color:#cfcbc5;color:var(--ink)}
+.cl-st.cur{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.cl-act{display:flex;gap:6px;align-items:center}
+.cl-add{margin-top:18px}.cl-note{margin-top:10px;font-size:13px}
+@media (max-width:900px){.cl-row{grid-template-columns:1fr;gap:10px}.cl-stages{flex-wrap:wrap}}
+
 </style>
 </head>
 <body>
@@ -2504,6 +2521,7 @@ try{PSY=localStorage.getItem('vydoh-psy')==='1'}catch(e){}
 (function(){const q=new URLSearchParams(location.search);let ch=false;
   if(q.has('psy')){PSY=q.get('psy')!=='0';try{PSY?localStorage.setItem('vydoh-psy','1'):localStorage.removeItem('vydoh-psy')}catch(e){}ch=true;pendingToast=PSY?'Включен доступ психолога':'Доступ психолога выключен'}
   if(q.has('informal')){S.informal=q.get('informal')!=='0';ch=true;pendingToast=S.informal?'В «Карте состояния» добавлены разговорные слова':'Разговорные слова убраны'}
+  if(q.has('c')&&/^[a-f0-9]{24,}$/.test(q.get('c'))){S.ctoken=q.get('c');ch=true;pendingToast='Добро пожаловать! Новые этапы будут открываться здесь сами, после встреч с психологом'}
   if(q.has('open')){const added=[];q.get('open').split(',').map(x=>+x).forEach(n=>{const t=TN[n];if(t&&!S.open[t.id]){S.open[t.id]=1;added.push(t.title)}});
     if(added.length)pendingToast='Психолог открыл: '+added.join(', ');ch=true}
   if(!S.start)S.start=new Date().toISOString().slice(0,10);
@@ -2512,6 +2530,15 @@ try{PSY=localStorage.getItem('vydoh-psy')==='1'}catch(e){}
 function weekNo(){const d=Math.floor((Date.now()-new Date(S.start).getTime())/864e5);return Math.min(12,Math.max(1,Math.floor(d/7)+1))}
 const STAGE_OF=Object.fromEntries(C.stages.flatMap(s=>s.tools.map(id=>[id,s.n])));
 function curStage(){let c=1;C.stages.forEach(s=>{if(s.tools.some(id=>S.open[id]&&id!=='nav'))c=Math.max(c,s.n)});if(S.open.lab&&S.open.range&&c<8&&S.open.nhv)c=8;return c}
+/* Личная ссылка клиента: этапы открывает психолог в своей панели, кабинет подтягивает их сам */
+const API=(location.hostname.endsWith('vercel.app')||location.hostname==='localhost')?'/api/vydoh':(C.publicUrl||'https://vydoh-sreda.vercel.app/').replace(/\/$/,'')+'/api/vydoh';
+function stageTools(n){return C.stages.filter(s=>s.n<=n).flatMap(s=>s.tools)}
+let _sync=0;
+async function syncOpen(){if(!S.ctoken||location.protocol==='file:'||Date.now()-_sync<20000)return;_sync=Date.now();
+  try{const r=await fetch(API+'?a=client&t='+S.ctoken,{cache:'no-store'});if(!r.ok)return;const d=await r.json();
+    const added=[];stageTools(d.stage||1).forEach(id=>{if(!S.open[id]){S.open[id]=1;added.push(T[id].title)}});S.cstage=d.stage;
+    if(added.length){save();render();const st=C.stages[(d.stage||1)-1];toast(`Психолог открыл новый этап «${st?st.title:''}»: ${added.join(', ')}`)}}catch(e){}}
+setTimeout(syncOpen,600);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')syncOpen()});setInterval(syncOpen,5*60*1000);
 function stageLink(sn){const ids=C.stages.filter(s=>s.n<=sn).flatMap(s=>s.tools);const nums=ids.map(id=>T[id].n).filter(n=>n!==13);return C.publicUrl+'?open='+nums.join(',')}
 function copyText(t){const ok=()=>toast('Скопировано');if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(ok,()=>fallback());else fallback();
   function fallback(){const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');ok()}catch(e){toast('Не получилось скопировать - выделите и скопируйте вручную')}a.remove()}}
@@ -2915,10 +2942,13 @@ function vTools(m){const cs=curStage();const stg=C.stages[cs-1];
 /* ================= ССЫЛКИ ДЛЯ КЛИЕНТА (психолог) ================= */
 function vLinks(m){const base=C.publicUrl;
   m.innerHTML=`<div class="page page--narrow"><header class="thead"><p class="eyebrow">Для психолога</p><h1>Ссылки для клиента</h1>
-    <p class="thead__goal">После встречи отправьте клиенту ссылку нужного этапа. Он перейдет по ней - и у него откроются инструменты этого и предыдущих этапов. Его прежние ответы сохранятся</p></header>
+    <p class="thead__goal">У каждого клиента одна постоянная ссылка. После встречи отметьте этап в его строке - инструменты откроются у клиента сами, когда он зайдет в кабинет</p></header>
+    <section class="cl" id="clBox"><p class="muted">Загружаю список клиентов…</p></section>
+    <details class="more" style="margin-top:34px"><summary>Запасной способ: ссылки на этапы без панели</summary>
     <div class="note" style="margin-bottom:24px">Ответы клиента хранятся только в его браузере. Вы видите их на встрече, когда клиент показывает экран</div>
     <ul class="list">${C.stages.filter(s=>s.tools.length).map(s=>{const url=stageLink(s.n);return `<li style="display:grid;gap:8px;justify-content:stretch"><span><b style="font-weight:500">${s.n}. ${esc(s.title)}</b> <span class="muted">· ${esc(s.weeks)} · откроет: ${s.tools.map(id=>T[id].n+'. '+esc(T[id].title)).join(', ')}</span></span>
       <span class="copyrow"><code>${esc(url)}</code><button class="btn btn--sm" data-copy="${esc(url)}">Ссылка</button><button class="btn btn--sm btn--outline" data-copymsg="${esc(url)}">Сообщение со ссылкой</button></span></li>`}).join('')}</ul>
+    </details>
     <section class="sec"><div class="sec__h"><h2>Подготовьте сообщение клиенту</h2></div>
       <textarea class="area" id="msgT" style="min-height:120px">Здравствуйте! После нашей встречи я открыла вам новые инструменты в «Выдохе». Перейдите по ссылке - они появятся в разделе «Маршрут». Достаточно 10-20 минут за неделю, а «Карта состояния» - 2-3 раза в неделю по полминуты.\n\n[ссылка]</textarea>
       <p class="muted" style="margin-top:8px">Кнопка «Сообщение со ссылкой» у нужного этапа подставит ссылку вместо [ссылка].</p><div style="margin-top:12px"><button class="btn btn--sm" id="msgC">Скопировать без ссылки</button></div></section>
@@ -2927,8 +2957,35 @@ function vLinks(m){const base=C.publicUrl;
       <p style="font-size:16px">Режим психолога включается по ссылке <code>${esc(base)}?psy=1</code> и выключается по <code>${esc(base)}?psy=0</code>. Клиентам эту ссылку не отправляйте</p>
       <div style="margin-top:12px"><button class="btn btn--sm" data-copy="${esc(base)}?psy=1">Скопировать ссылку психолога</button></div></section></div>`;
   $$('[data-copy]',m).forEach(b=>b.onclick=()=>copyText(b.dataset.copy));
+  clPanel($('#clBox',m));
   $('#msgC').onclick=()=>copyText($('#msgT').value);
   $$('[data-copymsg]',m).forEach(b=>b.onclick=()=>copyText($('#msgT').value.replace('[ссылка]',b.dataset.copymsg)));
+}
+
+/* Панель психолога: клиенты и этапы */
+let PSYKEY='';try{PSYKEY=localStorage.getItem('vydoh-psykey')||''}catch(e){}
+async function psyApi(a,data){const r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json','X-Psy-Key':PSYKEY},body:JSON.stringify(Object.assign({a},data||{}))});let j={};try{j=await r.json()}catch(e){}if(!r.ok)throw Object.assign(new Error(j.error||'err'),{status:r.status});return j}
+function clLink(c){return (C.publicUrl||'https://vydoh-sreda.vercel.app/').replace(/\/$/,'')+'/?c='+c.token}
+async function clPanel(box){if(!box)return;
+  const login=msg=>{box.innerHTML=`<div class="cl-login"><h2>Войдите в панель клиентов</h2><p class="muted">${msg||'Введите ключ психолога. Он нужен один раз на этом устройстве'}</p><div class="input"><input id="clKey" type="password" placeholder="Ключ психолога" autocomplete="off"><button class="btn btn--sm btn--primary" id="clKeyB">Войти</button></div></div>`;
+    const go=()=>{PSYKEY=$('#clKey',box).value.trim();try{localStorage.setItem('vydoh-psykey',PSYKEY)}catch(e){}clPanel(box)};$('#clKeyB',box).onclick=go;$('#clKey',box).onkeydown=e=>{if(e.key==='Enter')go()}};
+  if(location.protocol==='file:'){box.innerHTML='<p class="note">Панель клиентов работает на сайте vydoh-sreda.vercel.app</p>';return}
+  if(!PSYKEY)return login();
+  let list;try{list=(await psyApi('list')).clients}catch(e){if(e.status===401)return login('Ключ не подошел. Проверьте и введите еще раз');box.innerHTML=`<p class="note">${e.status===503?'Хранилище еще не подключено. Как только оно появится, здесь будет список клиентов':'Не получилось загрузить список. Проверьте интернет и обновите страницу'}</p>`;return}
+  const st=n=>C.stages[n-1]||{title:''};
+  box.innerHTML=`<div class="cl-head"><h2>Клиенты программы</h2><span class="muted">${list.length} ${plural(list.length,'клиент','клиента','клиентов')}</span></div>
+    ${list.length?`<ul class="cl-list">${list.map(c=>`<li class="cl-row" data-id="${c.id}"><div class="cl-who"><b>${esc(c.label)}</b><small>${c.seen?'заходил(а) '+fmtD(c.seen):'еще не заходил(а)'} · сейчас этап ${c.stage}: «${esc(st(c.stage).title)}»</small></div>
+      <div class="cl-stages" role="group" aria-label="Открыто этапов">${C.stages.map(s=>`<button type="button" class="cl-st${s.n<=c.stage?' on':''}${s.n===c.stage?' cur':''}" data-st="${s.n}" title="${s.n}. ${esc(s.title)}" aria-label="Открыть до этапа ${s.n}: ${esc(s.title)}">${s.n}</button>`).join('')}</div>
+      <div class="cl-act"><button class="btn btn--sm btn--outline" data-cllink="${esc(clLink(c))}">Ссылка</button><button class="btn btn--sm btn--ghost" data-clmsg="${esc(clLink(c))}">Сообщение</button><button class="del" data-cldel="${c.id}" aria-label="Удалить ${esc(c.label)}">×</button></div></li>`).join('')}</ul>`:'<p class="muted">Пока никого нет. Добавьте первого клиента: подойдут инициалы или псевдоним</p>'}
+    <div class="input cl-add"><input id="clNew" placeholder="Инициалы или псевдоним клиента" maxlength="40"><button class="btn btn--sm btn--primary" id="clNewB">Добавить клиента</button></div>
+    <p class="muted cl-note">Нажмите на номер этапа, чтобы открыть клиенту все этапы до него. Ответы клиента остаются в его браузере, на сервере хранится только номер этапа</p>`;
+  const add=async()=>{const v=$('#clNew',box).value.trim();if(!v)return;try{const r=await psyApi('add',{label:v});copyText(clLink(r.client));toast('Клиент добавлен, ссылка скопирована');clPanel(box)}catch(e){toast('Не получилось добавить. Попробуйте еще раз')}};
+  $('#clNewB',box).onclick=add;$('#clNew',box).onkeydown=e=>{if(e.key==='Enter')add()};
+  $$('[data-st]',box).forEach(b=>b.onclick=async()=>{const row=b.closest('[data-id]'),n=+b.dataset.st;$$('[data-st]',row).forEach(x=>{const k=+x.dataset.st;x.classList.toggle('on',k<=n);x.classList.toggle('cur',k===n)});
+    try{await psyApi('set',{id:row.dataset.id,stage:n});toast(`Открыто до этапа ${n}: «${st(n).title}». Клиент увидит при следующем входе`);clPanel(box)}catch(e){toast('Не сохранилось. Проверьте интернет');clPanel(box)}});
+  $$('[data-cllink]',box).forEach(b=>b.onclick=()=>copyText(b.dataset.cllink));
+  $$('[data-clmsg]',box).forEach(b=>b.onclick=()=>copyText(`Здравствуйте! Это ваш личный кабинет программы «Выдох»: ${b.dataset.clmsg}\nСохраните ссылку в закладки или добавьте на экран телефона. Новые инструменты будут появляться в нем сами, после наших встреч`));
+  $$('[data-cldel]',box).forEach(b=>b.onclick=()=>confirmBox('Удалить клиента из панели?','Его ссылка перестанет открывать новые этапы. Ответы в его браузере не пострадают','Удалить',async()=>{try{await psyApi('del',{id:b.dataset.cldel});clPanel(box)}catch(e){toast('Не получилось удалить')}}));
 }
 
 /* ================= КАК ЗДЕСЬ ВСЕ УСТРОЕНО ================= */
