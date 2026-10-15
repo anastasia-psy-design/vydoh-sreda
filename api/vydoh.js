@@ -6,6 +6,8 @@ const KEY = 'vydoh:clients';
 const kvUrl = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
 const kvTok = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
 const blobTok = process.env.BLOB_READ_WRITE_TOKEN;
+const blobOn = !!(blobTok || process.env.BLOB_STORE_ID);
+const tk = () => (blobTok ? { token: blobTok } : {});
 const PSY_KEY = process.env.PSY_KEY || '';
 
 async function kv(cmd) {
@@ -15,10 +17,10 @@ async function kv(cmd) {
 }
 async function load() {
   if (kvUrl && kvTok) { const v = await kv(['GET', KEY]); return v ? JSON.parse(v) : []; }
-  if (blobTok) {
+  if (blobOn) {
     const { get } = require('@vercel/blob');
     const pre = 'vydoh/' + (process.env.STORE_PREFIX || 'p') + '/';
-    const r = await get(pre + 'clients.json', { access: process.env.BLOB_ACCESS || 'private', useCache: false, token: blobTok }).catch(() => null);
+    const r = await get(pre + 'clients.json', { access: process.env.BLOB_ACCESS || 'private', useCache: false, ...tk() }).catch(() => null);
     if (!r || !r.stream) return [];
     const txt = await new Response(r.stream).text();
     try { return JSON.parse(txt) } catch (e) { return [] }
@@ -27,10 +29,10 @@ async function load() {
 }
 async function store(arr) {
   if (kvUrl && kvTok) return kv(['SET', KEY, JSON.stringify(arr)]);
-  if (blobTok) {
+  if (blobOn) {
     const { put } = require('@vercel/blob');
     const pre = 'vydoh/' + (process.env.STORE_PREFIX || 'p') + '/';
-    return put(pre + 'clients.json', JSON.stringify(arr), { access: process.env.BLOB_ACCESS || 'private', addRandomSuffix: false, allowOverwrite: true, contentType: 'application/json', token: blobTok, cacheControlMaxAge: 0 });
+    return put(pre + 'clients.json', JSON.stringify(arr), { access: process.env.BLOB_ACCESS || 'private', addRandomSuffix: false, allowOverwrite: true, contentType: 'application/json', cacheControlMaxAge: 0, ...tk() });
   }
   throw Object.assign(new Error('no-store'), { code: 503 });
 }
@@ -47,7 +49,7 @@ module.exports = async (req, res) => {
     let body = req.body || {};
     if (typeof body === 'string') { try { body = JSON.parse(body) } catch (e) { body = {} } }
     const a = q.a || body.a;
-    if (a === 'ping') return res.status(200).json({ ok: true, store: !!((kvUrl && kvTok) || blobTok), key: !!PSY_KEY });
+    if (a === 'ping') return res.status(200).json({ ok: true, store: !!((kvUrl && kvTok) || blobOn), key: !!PSY_KEY });
     if (a === 'client') {
       const t = String(q.t || '');
       if (!/^[a-f0-9]{24,}$/.test(t)) return res.status(400).json({ error: 'bad' });
