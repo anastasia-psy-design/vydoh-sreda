@@ -2969,7 +2969,7 @@ function clLink(c){return (C.publicUrl||'https://vydoh-sreda.vercel.app/').repla
 async function clPanel(box){if(!box)return;
   const login=msg=>{box.innerHTML=`<div class="cl-login"><h2>Войдите в панель клиентов</h2><p class="muted">${msg||'Введите ключ психолога. Он нужен один раз на этом устройстве'}</p><div class="input"><input id="clKey" type="password" placeholder="Ключ психолога" autocomplete="off"><button class="btn btn--sm btn--primary" id="clKeyB">Войти</button></div></div>`;
     const go=()=>{PSYKEY=$('#clKey',box).value.trim();try{localStorage.setItem('vydoh-psykey',PSYKEY)}catch(e){}clPanel(box)};$('#clKeyB',box).onclick=go;$('#clKey',box).onkeydown=e=>{if(e.key==='Enter')go()}};
-  if(location.protocol==='file:'){box.innerHTML='<p class="note">Панель клиентов работает на сайте vydoh-sreda.vercel.app</p>';return}
+  if(location.protocol==='file:'||!/vercel\.app$|^localhost$/.test(location.hostname)){box.innerHTML='<div class="cl-login"><h2>Откройте панель на сайте</h2><p class="muted">Здесь, в предпросмотре, панель клиентов не работает: ей нужен доступ к хранилищу на сайте</p><a class="btn btn--primary" style="justify-self:start" href="https://vydoh-sreda.vercel.app/?psy=1" target="_blank" rel="noopener">Открыть vydoh-sreda.vercel.app</a></div>';return}
   if(!PSYKEY)return login();
   let list;try{list=(await psyApi('list')).clients}catch(e){if(e.status===401)return login('Ключ не подошел. Проверьте и введите еще раз');box.innerHTML=`<p class="note">${e.status===503?'Хранилище еще не подключено. Как только оно появится, здесь будет список клиентов':'Не получилось загрузить список. Проверьте интернет и обновите страницу'}</p>`;return}
   const st=n=>C.stages[n-1]||{title:''};
