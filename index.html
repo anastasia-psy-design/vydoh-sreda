@@ -2224,7 +2224,7 @@ button.meet__t:hover{background:var(--cream)}
 .cl-head h2,.cl-login h2{margin:0;font:400 clamp(23px,2vw,28px)/1.2 var(--serif);color:var(--ink)}
 .cl-login{display:grid;gap:10px;padding:22px;border:var(--dash);border-radius:var(--r-lg,16px)}
 .cl-list{list-style:none;margin:0;padding:0}
-.cl-row{display:grid;grid-template-columns:minmax(0,1.1fr) auto auto;gap:18px;align-items:center;padding:16px 0;border-bottom:1px solid var(--line)}
+.cl-row{display:grid;grid-template-columns:minmax(0,1.1fr) auto auto auto;gap:18px;align-items:center;padding:16px 0;border-bottom:1px solid var(--line)}
 .cl-who b{display:block;font-weight:500;font-size:16px;color:var(--ink)}.cl-who small{font-size:13px;color:var(--muted)}
 .cl-stages{display:flex;gap:4px}
 .cl-st{width:28px;height:28px;border-radius:50%;border:1px solid #d6d3cd;background:var(--bg);font:500 12px var(--sans);color:var(--muted);cursor:pointer;padding:0;transition:background-color .15s,border-color .15s}
@@ -2234,6 +2234,9 @@ button.meet__t:hover{background:var(--cream)}
 .cl-act{display:flex;gap:6px;align-items:center}
 .cl-add{margin-top:18px}.cl-note{margin-top:10px;font-size:13px}
 @media (max-width:900px){.cl-row{grid-template-columns:1fr;gap:10px}.cl-stages{flex-wrap:wrap}}
+
+.cl-inf{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);white-space:nowrap;cursor:pointer}
+.cl-inf input{accent-color:#7a766f}
 
 </style>
 </head>
@@ -2536,7 +2539,7 @@ function stageTools(n){return C.stages.filter(s=>s.n<=n).flatMap(s=>s.tools)}
 let _sync=0;
 async function syncOpen(){if(!S.ctoken||location.protocol==='file:'||Date.now()-_sync<20000)return;_sync=Date.now();
   try{const r=await fetch(API+'?a=client&t='+S.ctoken,{cache:'no-store'});if(!r.ok)return;const d=await r.json();
-    const added=[];stageTools(d.stage||1).forEach(id=>{if(!S.open[id]){S.open[id]=1;added.push(T[id].title)}});S.cstage=d.stage;
+    const added=[];stageTools(d.stage||1).forEach(id=>{if(!S.open[id]){S.open[id]=1;added.push(T[id].title)}});S.cstage=d.stage;if(typeof d.informal==='boolean'&&S.informal!==d.informal){S.informal=d.informal;save();if(!added.length)render()}
     if(added.length){save();render();const st=C.stages[(d.stage||1)-1];toast(`Психолог открыл новый этап «${st?st.title:''}»: ${added.join(', ')}`)}}catch(e){}}
 setTimeout(syncOpen,600);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')syncOpen()});setInterval(syncOpen,5*60*1000);
 function stageLink(sn){const ids=C.stages.filter(s=>s.n<=sn).flatMap(s=>s.tools);const nums=ids.map(id=>T[id].n).filter(n=>n!==13);return C.publicUrl+'?open='+nums.join(',')}
@@ -2952,7 +2955,7 @@ function vLinks(m){const base=C.publicUrl;
     <section class="sec"><div class="sec__h"><h2>Подготовьте сообщение клиенту</h2></div>
       <textarea class="area" id="msgT" style="min-height:120px">Здравствуйте! После нашей встречи я открыла вам новые инструменты в «Выдохе». Перейдите по ссылке - они появятся в разделе «Маршрут». Достаточно 10-20 минут за неделю, а «Карта состояния» - 2-3 раза в неделю по полминуты.\n\n[ссылка]</textarea>
       <p class="muted" style="margin-top:8px">Кнопка «Сообщение со ссылкой» у нужного этапа подставит ссылку вместо [ссылка].</p><div style="margin-top:12px"><button class="btn btn--sm" id="msgC">Скопировать без ссылки</button></div></section>
-    <section class="sec"><div class="sec__h"><h2>Включите разговорные слова</h2></div><p style="font-size:16px">Если считаете уместным для клиента, отправьте ему ссылку - в «Карте состояния» среди эмоций появится разговорное «за@бался(-ась)». Иногда это снимает напряжение. Убрать: та же ссылка с <code>informal=0</code></p><div style="margin-top:12px"><button class="btn btn--sm" data-copy="${esc(base)}?informal=1">Скопировать ссылку</button></div></section>
+    <section class="sec"><div class="sec__h"><h2>Разговорные слова</h2></div><p style="font-size:16px">Если считаете уместным, включите клиенту галочку «разговорные слова» в его строке выше - в «Карте состояния» среди эмоций появится «за@бался(-ась)». Иногда это снимает напряжение</p></section>
     <section class="sec"><div class="sec__h"><h2>Дайте доступ коллегам</h2></div>
       <p style="font-size:16px">Режим психолога включается по ссылке <code>${esc(base)}?psy=1</code> и выключается по <code>${esc(base)}?psy=0</code>. Клиентам эту ссылку не отправляйте</p>
       <div style="margin-top:12px"><button class="btn btn--sm" data-copy="${esc(base)}?psy=1">Скопировать ссылку психолога</button></div></section></div>`;
@@ -2976,6 +2979,7 @@ async function clPanel(box){if(!box)return;
   box.innerHTML=`<div class="cl-head"><h2>Клиенты программы</h2><span class="muted">${list.length} ${plural(list.length,'клиент','клиента','клиентов')}</span></div>
     ${list.length?`<ul class="cl-list">${list.map(c=>`<li class="cl-row" data-id="${c.id}"><div class="cl-who"><b>${esc(c.label)}</b><small>${c.seen?'заходил(а) '+fmtD(c.seen):'еще не заходил(а)'} · сейчас этап ${c.stage}: «${esc(st(c.stage).title)}»</small></div>
       <div class="cl-stages" role="group" aria-label="Открыто этапов">${C.stages.map(s=>`<button type="button" class="cl-st${s.n<=c.stage?' on':''}${s.n===c.stage?' cur':''}" data-st="${s.n}" title="${s.n}. ${esc(s.title)}" aria-label="Открыть до этапа ${s.n}: ${esc(s.title)}">${s.n}</button>`).join('')}</div>
+      <label class="cl-inf" title="Разговорное «за@бался(-ась)» среди эмоций в «Карте состояния»"><input type="checkbox" data-clinf="${c.id}" ${c.informal?'checked':''}> разговорные слова</label>
       <div class="cl-act"><button class="btn btn--sm btn--outline" data-cllink="${esc(clLink(c))}">Ссылка</button><button class="btn btn--sm btn--ghost" data-clmsg="${esc(clLink(c))}">Сообщение</button><button class="del" data-cldel="${c.id}" aria-label="Удалить ${esc(c.label)}">×</button></div></li>`).join('')}</ul>`:'<p class="muted">Пока никого нет. Добавьте первого клиента: подойдут инициалы или псевдоним</p>'}
     <div class="input cl-add"><input id="clNew" placeholder="Инициалы или псевдоним клиента" maxlength="40"><button class="btn btn--sm btn--primary" id="clNewB">Добавить клиента</button></div>
     <p class="muted cl-note">Нажмите на номер этапа, чтобы открыть клиенту все этапы до него. Ответы клиента остаются в его браузере, на сервере хранится только номер этапа</p>`;
@@ -2984,6 +2988,7 @@ async function clPanel(box){if(!box)return;
   $$('[data-st]',box).forEach(b=>b.onclick=async()=>{const row=b.closest('[data-id]'),n=+b.dataset.st;$$('[data-st]',row).forEach(x=>{const k=+x.dataset.st;x.classList.toggle('on',k<=n);x.classList.toggle('cur',k===n)});
     try{await psyApi('set',{id:row.dataset.id,stage:n});toast(`Открыто до этапа ${n}: «${st(n).title}». Клиент увидит при следующем входе`);clPanel(box)}catch(e){toast('Не сохранилось. Проверьте интернет');clPanel(box)}});
   $$('[data-cllink]',box).forEach(b=>b.onclick=()=>copyText(b.dataset.cllink));
+  $$('[data-clinf]',box).forEach(cb=>cb.onchange=async()=>{try{await psyApi('set',{id:cb.dataset.clinf,informal:cb.checked});toast(cb.checked?'Разговорные слова включены. Клиент увидит их при следующем входе':'Разговорные слова выключены')}catch(e){cb.checked=!cb.checked;toast('Не сохранилось. Проверьте интернет')}});
   $$('[data-clmsg]',box).forEach(b=>b.onclick=()=>copyText(`Здравствуйте! Это ваш личный кабинет программы «Выдох»: ${b.dataset.clmsg}\nСохраните ссылку в закладки или добавьте на экран телефона. Новые инструменты будут появляться в нем сами, после наших встреч`));
   $$('[data-cldel]',box).forEach(b=>b.onclick=()=>confirmBox('Удалить клиента из панели?','Его ссылка перестанет открывать новые этапы. Ответы в его браузере не пострадают','Удалить',async()=>{try{await psyApi('del',{id:b.dataset.cldel});clPanel(box)}catch(e){toast('Не получилось удалить')}}));
 }

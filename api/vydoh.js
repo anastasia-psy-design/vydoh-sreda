@@ -36,7 +36,7 @@ async function store(arr) {
   }
   throw Object.assign(new Error('no-store'), { code: 503 });
 }
-const pub = c => ({ id: c.id, label: c.label, token: c.token, stage: c.stage, created: c.created, seen: c.seen || null });
+const pub = c => ({ id: c.id, label: c.label, token: c.token, stage: c.stage, informal: !!c.informal, created: c.created, seen: c.seen || null });
 
 module.exports = async (req, res) => {
   res.setHeader('Cache-Control', 'no-store');
@@ -58,7 +58,7 @@ module.exports = async (req, res) => {
       if (!c) return res.status(404).json({ error: 'nf' });
       const today = new Date().toISOString().slice(0, 10);
       if (c.seen !== today) { c.seen = today; await store(arr).catch(() => {}); }
-      return res.status(200).json({ label: c.label, stage: c.stage });
+      return res.status(200).json({ label: c.label, stage: c.stage, informal: !!c.informal });
     }
     // дальше только для психолога
     const key = req.headers['x-psy-key'] || body.key;
@@ -73,7 +73,8 @@ module.exports = async (req, res) => {
     }
     if (a === 'set') {
       const c = arr.find(x => x.id === body.id); if (!c) return res.status(404).json({ error: 'nf' });
-      const st = Math.max(1, Math.min(9, parseInt(body.stage, 10) || 1)); c.stage = st;
+      if (body.stage != null) c.stage = Math.max(1, Math.min(9, parseInt(body.stage, 10) || 1));
+      if (body.informal != null) c.informal = !!body.informal;
       await store(arr); return res.status(200).json({ client: pub(c) });
     }
     if (a === 'del') {

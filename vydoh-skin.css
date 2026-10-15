@@ -1092,3 +1092,6 @@ button.meet__t:hover{background:var(--cream)}
 .cl-act{display:flex;gap:6px;align-items:center}
 .cl-add{margin-top:18px}.cl-note{margin-top:10px;font-size:13px}
 @media (max-width:900px){.cl-row{grid-template-columns:1fr;gap:10px}.cl-stages{flex-wrap:wrap}}
+
+.cl-inf{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);white-space:nowrap;cursor:pointer}
+.cl-inf input{accent-color:#7a766f}
