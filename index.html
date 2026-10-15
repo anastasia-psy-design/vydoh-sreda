@@ -2238,6 +2238,29 @@ button.meet__t:hover{background:var(--cream)}
 .cl-inf{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);white-space:nowrap;cursor:pointer}
 .cl-inf input{accent-color:#7a766f}
 
+/* График-батарейки */
+.bats{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:12px 10px;padding:22px 18px;border:1px solid var(--line);border-radius:var(--r-lg,16px);background:var(--bg)}
+.bat{display:flex;flex-direction:column;align-items:center;gap:8px;padding:10px 4px;border:0;border-radius:12px;background:none;font:inherit;color:var(--ink);cursor:pointer;text-align:center;transition:background-color .2s}
+.bat:hover,.bat.on{background:var(--cream)}
+.bat__w{font-size:13px;color:var(--text)}
+.bat__b{position:relative;display:block;width:40px;height:78px;border:1.5px solid var(--ink);border-radius:9px;padding:3px}
+.bat__b::before{content:"";position:absolute;top:-6px;left:50%;width:14px;height:4px;margin-left:-7px;border-radius:2px 2px 0 0;background:var(--ink)}
+.bat__b i{position:absolute;left:3px;right:3px;bottom:3px;height:calc(var(--f) - 6px);min-height:4px;border-radius:5px;background:var(--c);transition:height .6s var(--ease,ease)}
+.bat__c{font-size:13.5px;line-height:1.25;max-width:100%;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.bat__c em{font-style:normal;color:var(--muted)}
+.bat__d{font-size:12px;color:var(--muted)}
+.bat-mini{position:relative;display:inline-block;flex:none;width:12px;height:20px;border:1px solid var(--ink);border-radius:3px;vertical-align:middle}
+.bat-mini::after{content:"";position:absolute;left:1.5px;right:1.5px;bottom:1.5px;height:calc(var(--f) - 3px);border-radius:1.5px;background:var(--c)}
+.bat-leg{display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px;margin-top:12px;font-size:13px;color:var(--text)}
+.bat-leg>span{display:inline-flex;align-items:center;gap:8px}
+.bat-sum{display:grid;gap:8px;margin:0 0 16px}
+.bat-sum p{display:flex;align-items:center;gap:12px;margin:0;font-size:16px;color:var(--ink)}
+@media (max-width:640px){.bats{grid-template-columns:repeat(auto-fill,minmax(76px,1fr));padding:16px 10px}.bat__b{width:34px;height:66px}}
+
+.bat__c,.bat__w,.bat__d{border:0!important;outline:0!important;background:none!important;padding:0!important;min-height:0!important}
+.bat-mini::after{display:none}
+.bat-mini i{position:absolute;left:1.5px;right:1.5px;bottom:1.5px;border-radius:1.5px}
+
 </style>
 </head>
 <body>
@@ -2810,8 +2833,8 @@ function toolPulse(m,t){
 }
 /* Экран после сохранения: здесь и только здесь появляется график */
 function pulseDone(m,t){const saved=route.pwDone==='saved',last=S.pulses[S.pulses.length-1];
-  m.innerHTML=wrap(t,`${saved?`<div class="pw-ok"><span class="pw-ok__i">${ico('check',22)}</span><div><h2>Отметка сохранена</h2><p>${last?`Силы - ${esc((ENERGY_W[last.energy-1]||[])[1]||'')}, напряжение - ${esc((TENSION_W[last.tension-1]||[])[1]||'')}${last.ctx?`, после «${esc(last.ctx)}»`:''}`:''}</p></div></div>`:''}
-    <section class="sec"><div class="sec__h"><h2>Посмотрите, как меняются ваши силы</h2><span class="muted">${S.pulses.length} ${plural(S.pulses.length,'отметка','отметки','отметок')}</span></div>${S.pulses.length?pulseView():'<p class="muted">Здесь появится график после первой отметки</p>'}</section>
+  m.innerHTML=wrap(t,`${saved?`<div class="pw-ok"><span class="pw-ok__i">${ico('check',22)}</span><div><h2>Отметка сохранена</h2><p>${last?pulseSentence(last):''}</p></div></div>`:''}
+    <section class="sec"><div class="sec__h"><h2>Посмотрите, после каких дел у вас больше или меньше сил</h2><span class="muted">${S.pulses.length} ${plural(S.pulses.length,'отметка','отметки','отметок')}</span></div>${S.pulses.length?pulseView():'<p class="muted">Здесь появится график после первой отметки</p>'}</section>
     <div class="pw-done__nav"><button class="btn btn--primary" id="pdHome">${BACK}Вернуться на «Сегодня»</button><button class="btn btn--ghost" id="pdNew">${saved?'Сделать еще одну отметку':S.pwDraft?'Вернуться к отметке':'Сделать отметку'}</button></div>`);
   bindDisc(m);bindPulseView(m);
   $('#pdHome').onclick=()=>{route.pwDone=null;go('today')};
@@ -3245,20 +3268,27 @@ const ENERGY_W=[[1,'на нуле'],[2,'мало'],[3,'средне'],[4,'дос
 const TENSION_W=[[1,'спокойно'],[2,'слегка'],[3,'заметно'],[4,'сильно'],[5,'на взводе']];
 TOOL.pulse=toolPulse;
 const fmtD=d=>{if(!d)return '';const a=d.split('-');return a[2]+'.'+a[1]};
-function pulseView(){const mob=window.matchMedia&&matchMedia('(max-width:640px)').matches;const ps=S.pulses.slice(mob?-7:-10);const last=S.pulses.slice(-3),prev=S.pulses.slice(-6,-3);
-  let trend='';if(prev.length){const av=a=>a.reduce((x,p)=>x+p.energy,0)/a.length;const d=av(last)-av(prev);trend=d>.4?'Сил в последних отметках становится больше':d<-.4?'Сил в последних отметках становится меньше':'Сил в последних отметках примерно столько же, сколько раньше'}
-  return `${trend?`<p class="trend">${trend}</p>`:''}<div class="viz pviz">${pulseChart(ps)}</div><div id="ptDetail"></div>
-    <div class="pleg"><p><span class="pleg__s pleg__s--e"></span>Зеленый кружок - ваши силы. Чем он больше, тем больше было сил</p><p><span class="pleg__s pleg__s--t"></span>Розовый кружок - напряжение. Чем он больше, тем сильнее вы были напряжены</p><p>${ico('pulse',15)}Нажмите на день, чтобы увидеть, что вы делали и что чувствовали</p></div>
-    ${S.pulses.length<3?`<p class="note" style="margin-top:14px">После трех-четырех отметок станет видно, какие дела забирают силы, а какие их возвращают</p>`:''}`}
-function pulseChart(ps){const mob=window.matchMedia&&matchMedia('(max-width:640px)').matches;const n=ps.length,L=mob?96:118,R=4,W=mob?380:720,cw=Math.min(mob?44:72,(W-L-R)/Math.max(n,1)),x0=L+((W-L-R)-cw*n)/2;const yE=58,yT=142,H=212;const rr=v=>mob?3+v*2.9:5+v*3.6;
-  const off=S.pulses.length-ps.length;
-  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Силы и напряжение по дням">
-    <text class="lbl pl-row" x="0" y="${yE+5}">Силы</text><text class="lbl pl-row" x="0" y="${yT+5}">Напряжение</text>
-    <line x1="${L-8}" x2="${W-R}" y1="${(yE+yT)/2}" y2="${(yE+yT)/2}" stroke="var(--line)" stroke-dasharray="1 4"/>
-    ${ps.map((p,i)=>{const cx=x0+cw*i+cw/2;return `<g class="pt" data-pi="${off+i}" tabindex="0" role="button" aria-label="Отметка ${fmtD(p.d)}: силы ${p.energy} из 5, напряжение ${p.tension} из 5"><rect x="${cx-cw/2+2}" y="6" width="${cw-4}" height="${H-12}" rx="10" class="pt__bg"/>
-      <circle cx="${cx}" cy="${yE}" r="${rr(5)}" fill="none" stroke="var(--line)" stroke-dasharray="1 3"/><circle cx="${cx}" cy="${yE}" r="${rr(p.energy)}" fill="var(--mint)" stroke="var(--ink)" stroke-width=".8"/>
-      <circle cx="${cx}" cy="${yT}" r="${rr(5)}" fill="none" stroke="var(--line)" stroke-dasharray="1 3"/><circle cx="${cx}" cy="${yT}" r="${rr(p.tension)}" fill="var(--drain)" stroke="var(--ink)" stroke-width=".8"/>
-      <text class="lbl" x="${cx}" y="${H-14}" text-anchor="middle">${fmtD(p.d)}</text></g>`}).join('')}</svg>`}
+/* Одна фраза о сохраненной отметке: дело → силы и напряжение → желание */
+const E_TXT=['почти не осталось сил','осталось мало сил','сил средне','сил достаточно','сил много'];
+const T_TXT=['вы спокойны','напряжение небольшое','напряжение заметное','напряжение сильное','вы на взводе'];
+function pulseSentence(p){const e=E_TXT[p.energy-1]||'',t=T_TXT[p.tension-1]||'';
+  const head=p.ctx?`Занимались делом «${esc(p.ctx)}» - после него ${e}, ${t}`:`Отметили, что сейчас ${e}, ${t}`;
+  const w=p.want==='остановиться'?'. Хотелось сделать паузу':p.want==='продолжать'?'. Хотелось продолжать':'';return head+w}
+/* График-батарейки: чем полнее батарейка, тем больше сил; цвет показывает напряжение */
+const BAT_C=['#cfe0da','#dde6df','#efe6d6','#f1d9cc','#ecc6b8'];
+function pulseView(){const mob=window.matchMedia&&matchMedia('(max-width:640px)').matches;const ps=S.pulses.slice(mob?-5:-8);
+  const by={};S.pulses.filter(p=>p.ctx).forEach(p=>{const k=p.ctx.trim().toLowerCase();(by[k]=by[k]||{n:p.ctx,a:[]}).a.push(p.energy)});
+  const avg=Object.values(by).filter(x=>x.a.length).map(x=>({n:x.n,v:x.a.reduce((a,b)=>a+b,0)/x.a.length}));
+  const lo=avg.filter(x=>x.v<=2).sort((a,b)=>a.v-b.v)[0],hi=avg.filter(x=>x.v>=4).sort((a,b)=>b.v-a.v)[0];
+  const sum=S.pulses.length>=3&&(lo||hi)?`<div class="bat-sum">${lo?`<p><span class="bat-mini"><i style="height:20%;background:${BAT_C[3]}"></i></span>Меньше всего сил остается после дела «${esc(lo.n)}»</p>`:''}${hi?`<p><span class="bat-mini"><i style="height:80%;background:${BAT_C[0]}"></i></span>Больше всего сил остается после дела «${esc(hi.n)}»</p>`:''}</div>`:'';
+  return `${sum}<div class="bats">${pulseChart(ps)}</div><div id="ptDetail"></div>
+    <div class="bat-leg"><span><span class="bat-mini"><i style="height:80%;background:${BAT_C[0]}"></i></span>спокойно</span><span><span class="bat-mini"><i style="height:80%;background:${BAT_C[4]}"></i></span>напряженно</span><span class="muted">Нажмите на батарейку, чтобы увидеть подробности</span></div>
+    ${S.pulses.length<3?`<p class="note" style="margin-top:14px">Сделайте еще ${3-S.pulses.length} ${plural(3-S.pulses.length,'отметку','отметки','отметок')} после разных дел, и станет видно, какие из них забирают силы, а какие возвращают</p>`:''}`}
+function pulseChart(ps){const off=S.pulses.length-ps.length;
+  return ps.map((p,i)=>`<button type="button" class="pt bat" data-pi="${off+i}" aria-label="${fmtD(p.d)}: ${esc(pulseSentence(p))}">
+    <span class="bat__w">${esc((ENERGY_W[p.energy-1]||[])[1]||'')}</span>
+    <span class="bat__b" style="--f:${p.energy*20}%;--c:${BAT_C[(p.tension||1)-1]}"><i></i></span>
+    <span class="bat__c">${p.ctx?esc(p.ctx):'<em>без дела</em>'}</span><span class="bat__d">${fmtD(p.d)}${p.t?' · '+p.t:''}</span></button>`).join('')}
 function bindPulseView(m){$$('.pt',m).forEach(g=>{const show=()=>{const p=S.pulses[+g.dataset.pi];$$('.pt',m).forEach(x=>x.classList.toggle('on',x===g));
   $('#ptDetail',m).innerHTML=`<div class="pt-card"><b>${fmtD(p.d)}${p.ctx?' · '+esc(p.ctx):''}</b><span>Силы: ${esc((ENERGY_W[p.energy-1]||[])[1]||p.energy)} · напряжение: ${esc((TENSION_W[p.tension-1]||[])[1]||p.tension)}</span>${(p.emo||[]).length?`<span>Эмоции: ${esc(p.emo.join(', '))}</span>`:''}${(p.body||[]).length?`<span>Тело: ${esc(p.body.join(', '))}</span>`:''}${p.want?`<span>Хотелось: ${esc(p.want==='продолжать'?'продолжить':'остановиться')}</span>`:''}</div>`};
   g.onclick=show;g.onkeydown=e=>{if(e.key==='Enter')show()}})}
