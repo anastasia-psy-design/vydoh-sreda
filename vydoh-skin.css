@@ -1375,3 +1375,9 @@ body{background:var(--page);font-size:15px;line-height:1.5}
 /* мелкие подписи: 13px серым, без капса */
 .eyebrow,.isl__row small,.droad__lbl,.zrow__c small,.mlist__h,.mcol__s,.vg h3,.nav-sec__n b,.nh__wk,.hg__wk,.rtl__w,.mcard__k{text-transform:none!important;letter-spacing:0!important;font-size:13px!important;color:var(--muted)}
 @media (max-width:860px){.page{margin:0;width:100%;border-left:0;border-right:0}}
+
+.ew-svg.is-fam{cursor:pointer}.ew-svg.is-fam .ews{cursor:pointer}
+.ew-back--under{margin-top:14px;justify-self:center}
+
+.ew-svg .ew-back svg{width:16px!important;height:16px!important;max-width:none;animation:none;display:inline-block}
+.ew-back--under{white-space:nowrap;min-height:44px;padding:8px 18px 8px 12px;font-size:15px}

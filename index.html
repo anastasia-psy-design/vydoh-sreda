@@ -2518,6 +2518,12 @@ body{background:var(--page);font-size:15px;line-height:1.5}
 .eyebrow,.isl__row small,.droad__lbl,.zrow__c small,.mlist__h,.mcol__s,.vg h3,.nav-sec__n b,.nh__wk,.hg__wk,.rtl__w,.mcard__k{text-transform:none!important;letter-spacing:0!important;font-size:13px!important;color:var(--muted)}
 @media (max-width:860px){.page{margin:0;width:100%;border-left:0;border-right:0}}
 
+.ew-svg.is-fam{cursor:pointer}.ew-svg.is-fam .ews{cursor:pointer}
+.ew-back--under{margin-top:14px;justify-self:center}
+
+.ew-svg .ew-back svg{width:16px!important;height:16px!important;max-width:none;animation:none;display:inline-block}
+.ew-back--under{white-space:nowrap;min-height:44px;padding:8px 18px 8px 12px;font-size:15px}
+
 </style>
 </head>
 <body>
@@ -2923,8 +2929,9 @@ function bindEw(m,p){const box=$('#ew',m);if(!box)return;p.emotions=p.emotions||
   const drawSel=()=>{const e=$('#ewSel',m);e.innerHTML=p.emotions.length?`<span class="ew-sel__h">Вы выбрали</span>${p.emotions.map(x=>`<button type="button" class="ew-chip" data-ewx="${esc(x)}" style="--c:${(EWF[x]||{c:['#e6e3de']}).c[0]}">${esc(x)}<span aria-hidden="true">×</span></button>`).join('')}`:'';
     $$('[data-ewx]',e).forEach(b=>b.onclick=()=>{p.emotions=p.emotions.filter(x=>x!==b.dataset.ewx);S.point=p;save();draw()})};
   const draw=()=>{const f=fam&&EW.find(x=>x.n===fam);
-    box.innerHTML=`${f?`<div class="ew-top"><button type="button" class="ew-back" id="ewBack">${BACK}Все чувства</button><p class="ew-note">${esc(f.note)} Выберите оттенки снаружи или само чувство в центре</p></div>`:''}<div class="ew-svg${f?' is-fam':''}">${ewSvg(p.emotions,fam)}</div>`;
-    const bk=$('#ewBack',box);if(bk)bk.onclick=()=>{fam=null;draw()};
+    box.innerHTML=`${f?`<div class="ew-top"><p class="ew-note">${esc(f.note)} Выберите оттенки снаружи или само чувство в центре</p></div>`:''}<div class="ew-svg${f?' is-fam':''}">${ewSvg(p.emotions,fam)}${f?`<button type="button" class="ew-back ew-back--under" id="ewBack">${BACK}Вернуться ко всем чувствам</button>`:''}</div>`;
+    const back=()=>{fam=null;draw()};const bk=$('#ewBack',box);if(bk)bk.onclick=back;
+    if(f){const sv=$('.ew-svg',box);sv.onclick=e=>{if(!e.target.closest('[data-ew]')&&!e.target.closest('#ewBack'))back()};sv.onkeydown=e=>{if(e.key==='Escape')back()}}
     $$('[data-ew]',box).forEach(g=>{const act=()=>{const v=g.dataset.ew;if(g.dataset.act==='fam'){fam=v;draw();return}const k=v.toLowerCase(),i=p.emotions.indexOf(k);i>=0?p.emotions.splice(i,1):p.emotions.push(k);S.point=p;save();draw()};
       g.onclick=act;g.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();act()}}});
     drawSel()};
