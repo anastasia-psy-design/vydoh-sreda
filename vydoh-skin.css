@@ -1139,3 +1139,31 @@ button.meet__t:hover{background:var(--cream)}
 .pt-steps~.dsec .scl--empty .scl__w{font-size:14.5px;color:var(--muted)}
 .pt-steps~.dsec .ans-note>span{font-size:14.5px;color:var(--muted)}
 .pt-steps~.dsec .own{margin-top:2px}
+
+/* Круг эмоций */
+.ew{display:grid;gap:12px}
+.ew-svg{display:grid;place-items:center;padding:clamp(12px,2.4vw,24px);border:1px solid var(--line);border-radius:var(--r-lg,16px);background:var(--bg)}
+.ew-svg svg{display:block;width:100%;max-width:440px;height:auto;animation:ewIn .35s var(--ease,ease) both}
+.ew-svg.is-fam svg{max-width:520px}
+@keyframes ewIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:none}}
+.ews{cursor:pointer;outline:none}
+.ews path,.ews>circle:first-child{stroke:var(--bg);stroke-width:2;transition:filter .2s}
+.ews text{font-family:var(--sans);fill:var(--ink);pointer-events:none}
+.ews--core text{font-family:var(--serif)}
+.ews:hover path,.ews:hover>circle:first-child{filter:brightness(.95)}
+.ews:focus-visible path{stroke:var(--focus);stroke-width:3}
+.ews.on path,.ews.on>circle:first-child{filter:brightness(.88);stroke:var(--ink);stroke-width:1.5}
+.ews.on text{font-weight:500}
+.ews__dot{fill:var(--ink)}
+.ew-c{font-family:var(--sans);fill:var(--muted)}
+.ew-top{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px}
+.ew-back{display:inline-flex;align-items:center;gap:6px;padding:6px 12px 6px 8px;border:1px solid var(--line);border-radius:999px;background:var(--bg);font:inherit;font-size:14px;color:var(--ink);cursor:pointer}
+.ew-note{margin:0;font-size:14.5px;color:var(--text);flex:1;min-width:220px}
+.ew-sel{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.ew-sel:empty{display:none}
+.ew-sel__h{font-size:14px;color:var(--muted);margin-right:4px}
+.ew-chip{display:inline-flex;align-items:center;gap:8px;padding:7px 10px 7px 14px;border:1px solid var(--line);border-radius:999px;background:var(--c);font:inherit;font-size:14.5px;color:var(--ink);cursor:pointer}
+.ew-chip span{color:var(--muted);font-size:16px;line-height:1}
+@media (max-width:640px){.ew-svg{padding:8px}}
+
+@media (max-width:640px){.ew-svg{padding:2px}.ew-svg svg,.ew-svg.is-fam svg{max-width:none}}
