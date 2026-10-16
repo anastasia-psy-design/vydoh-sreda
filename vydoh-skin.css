@@ -1334,7 +1334,7 @@ button.meet__t:hover{background:var(--cream)}
 .ews path{stroke:var(--bg);stroke-width:2.5}
 .ews--core text{font-family:var(--serif);letter-spacing:.01em}
 .ews--ring text{font-family:var(--sans)}
-.ews.on path{filter:brightness(.88) saturate(1.15);stroke:#8fad99;stroke-width:3}
+.ews.on path{filter:brightness(.84) saturate(1.2);stroke:rgba(45,44,42,.35);stroke-width:1.2}
 .ews.on text{font-weight:500}
 .ew-c{font-family:var(--serif)!important;fill:var(--text)!important}
 

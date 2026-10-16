@@ -2476,7 +2476,7 @@ button.meet__t:hover{background:var(--cream)}
 .ews path{stroke:var(--bg);stroke-width:2.5}
 .ews--core text{font-family:var(--serif);letter-spacing:.01em}
 .ews--ring text{font-family:var(--sans)}
-.ews.on path{filter:brightness(.88) saturate(1.15);stroke:#8fad99;stroke-width:3}
+.ews.on path{filter:brightness(.84) saturate(1.2);stroke:rgba(45,44,42,.35);stroke-width:1.2}
 .ews.on text{font-weight:500}
 .ew-c{font-family:var(--serif)!important;fill:var(--text)!important}
 
@@ -2904,16 +2904,16 @@ const SYM={'спокойствие':'<path d="M3 10c3-2.5 6-2.5 9 0s6 2.5 9 0M3 
  'Отпуск или выходные':'<path d="M12 21V9"/><path d="M12 9C9 5 5 5 3.5 7.5 6 7 8.5 7.5 12 9zM12 9c3-4 7-4 8.5-1.5C18 7 15.5 7.5 12 9zM12 9c-.5-3.5 1-6 3.5-6.5"/><path d="M6 21h12"/>','Не отвечать по работе вечером':'<path d="M15.5 4.5A7.5 7.5 0 1019.5 15 6 6 0 0115.5 4.5z"/><path d="M4 4l16 16"/>','Чекапы, анализы':'<path d="M9 3v7l-4.5 8a2 2 0 001.8 3h11.4a2 2 0 001.8-3L15 10V3"/><path d="M8 3h8M7 15h10"/>','Спорт':'<path d="M7 8v8M17 8v8M4 10v4M20 10v4M7 12h10"/>','Прогулки, природа':'<path d="M12 21v-5"/><path d="M12 3l-5 7h3l-4 6h12l-4-6h3z"/>','Медитации, дыхание':'<circle cx="12" cy="6" r="2.2"/><path d="M5 18c2-1 3.5-3 4-6h6c.5 3 2 5 4 6"/><path d="M4 18h16"/>','Цифровой детокс':'<rect x="7" y="3" width="10" height="18" rx="2"/><path d="M4 4l16 16"/>','Планирование':'<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 9h16M9 3v4M15 3v4M8 13l2 2 4-4"/>','Потерпеть до конца проекта':'<path d="M5 21V4"/><path d="M5 4h11l-2.5 3.5L16 11H5"/>'};
 const symIco=v=>`<svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${SYM[v]||'<circle cx="12" cy="12" r="2" fill="currentColor"/>'}</svg>`;
 function symPick(name,opts,val,hint){val=val||[];const all=[...new Set([...opts,...val])];return `${hint?`<p class="sym__hint">${hint}</p>`:''}<div class="sym sym--${opts.length%4===0?4:5}" data-seg="${name}" data-multi="true" data-max="99">${all.map(o=>`<button type="button" class="chip" aria-pressed="${val.includes(o)}" data-v="${esc(o)}"><span class="sym__c">${symIco(o)}</span><span class="sym__t">${esc(o)}</span></button>`).join('')}</div>`}
-/* Круг эмоций: 8 базовых чувств в центре и по три оттенка в кольцах, все видно сразу. Цвета - из дизайн-системы InTreatment: зеленый accent/activity, бейджи warning и danger, mint, beige, lilac */
+/* Круг эмоций: 8 базовых чувств в центре и по три оттенка в кольцах, все видно сразу. Цвета - мягкая палитра InTreatment */
 const EW=[
- {n:'Радость',c:['#d8bf86','#e6d3a8','#efe2c2','#f6ecd6'],m:['Восторг','Умиротворение','Гордость']},
- {n:'Доверие',c:['#82ad91','#b8d5c0','#d9ebe0','#eef4ef'],m:['Принятие','Теплота','Спокойствие']},
- {n:'Страх',c:['#b3abc9','#cbc5dc','#dbd7e7','#eeecf3'],m:['Тревога','Неуверенность','Паника']},
- {n:'Удивление',c:['#d9b598','#e6cbb5','#efdccd','#f6ece3'],m:['Изумление','Растерянность','Любопытство']},
- {n:'Грусть',c:['#9fb4b6','#bfcfd0','#d4dfe0','#e2e9e9'],m:['Разочарование','Одиночество','Тоска']},
- {n:'Отвращение',c:['#a9aea8','#c5c9c4','#dadcd8','#eaebe8'],m:['Неприязнь','Брезгливость','Презрение']},
- {n:'Злость',c:['#d4a097','#e3bcb4','#eed3ce','#f6e3e0'],m:['Раздражение','Обида','Негодование']},
- {n:'Ожидание',c:['#c9b9a6','#dacdbf','#e6ddd3','#efe9e3'],m:['Интерес','Нетерпение','Предвкушение']}];
+ {n:'Радость',c:['#dcc58e','#e7d6aa','#efe3c6','#f6efe0'],m:['Восторг','Умиротворение','Гордость']},
+ {n:'Доверие',c:['#a9c6bd','#c3d8d1','#d9e6e2','#ebf2f0'],m:['Принятие','Теплота','Спокойствие']},
+ {n:'Страх',c:['#b9b0cc','#cec7dc','#e0dbe9','#efecf4'],m:['Тревога','Неуверенность','Паника']},
+ {n:'Удивление',c:['#dcbfa0','#e7d2bb','#efe1d3','#f6eee6'],m:['Изумление','Растерянность','Любопытство']},
+ {n:'Грусть',c:['#a9b9c8','#c3cfda','#d9e1e8','#ebf0f3'],m:['Разочарование','Одиночество','Тоска']},
+ {n:'Отвращение',c:['#b4bfae','#cbd3c6','#dde2d9','#edf0ea'],m:['Неприязнь','Брезгливость','Презрение']},
+ {n:'Злость',c:['#d9a99a','#e5c2b6','#eed7cf','#f6e9e4'],m:['Раздражение','Обида','Негодование']},
+ {n:'Ожидание',c:['#d2c2ad','#dfd3c3','#e9e1d6','#f3eee8'],m:['Интерес','Нетерпение','Предвкушение']}];
 const EWF={};EW.forEach(f=>{EWF[f.n.toLowerCase()]=f;f.m.forEach(x=>EWF[x.toLowerCase()]=f)});
 const EW_R=[62,172,236,298,360];
 function ewSvg(sel){const P=(r,a)=>{const t=a*Math.PI/180;return [(r*Math.sin(t)).toFixed(2),(-r*Math.cos(t)).toFixed(2)]};
@@ -4436,7 +4436,7 @@ TOOL.nav=(m,t)=>{S.navOwn=S.navOwn||{};const I=islands();const has=x=>x.ok||(S.n
 
 /* ================= МАТЕРИАЛЫ: раскрыть тему глубже ================= */
 const MAT=[
- {id:'sleep',stage:2,kind:'read',time:'3 минуты',rel:['recovery','point'],title:'Подготовьте вечер ко сну',lead:'Сон - это не пауза в жизни, а время, когда восстанавливаются тело и психика',
+ {id:'sleep',stage:2,kind:'read',time:'3 минуты',rel:['recovery'],title:'Подготовьте вечер ко сну',lead:'Сон - это не пауза в жизни, а время, когда восстанавливаются тело и психика',
   text:['Когда сна мало, хуже работают внимание и память, сложнее справляться с эмоциями, и любая нагрузка ощущается тяжелее','Вечером организм начинает вырабатывать мелатонин - гормон, который помогает уснуть. Ему нужны темнота и спокойствие, а яркий свет экранов, кофеин и алкоголь мешают'],
   check:{h:'Отметьте, что у вас уже есть',items:['Ложусь и встаю примерно в одно время, даже в выходные','За час до сна убираю телефон и яркий свет','В спальне темно и прохладно','Кофе и крепкий чай - только до обеда','Не использую алкоголь, чтобы уснуть','Днем есть движение, но не поздно вечером','Перед сном есть спокойный ритуал: душ, книга, дыхание']},
   fields:[['try','Что одно вы попробуете на этой неделе?']],note:'Если сон не восстанавливает несколько недель подряд, обсудите это с психологом или врачом'},
