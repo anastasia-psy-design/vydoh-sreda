@@ -2524,6 +2524,29 @@ body{background:var(--page);font-size:15px;line-height:1.5}
 .ew-svg .ew-back svg{width:16px!important;height:16px!important;max-width:none;animation:none;display:inline-block}
 .ew-back--under{white-space:nowrap;min-height:44px;padding:8px 18px 8px 12px;font-size:15px}
 
+/* Главный экран целиком помещается в один экран компьютера */
+.hg__top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 28px}
+@media (min-width:861px){
+  .page.hg{padding:clamp(20px,3.2vh,36px) clamp(28px,3vw,48px);margin-top:16px;margin-bottom:16px}
+  .hg__h{margin:6px 0 0;font-size:clamp(30px,min(2.8vw,5.4vh),44px)}
+  .hg__name{margin:0;max-width:360px;flex:0 1 360px}
+  .hg__path{margin-top:clamp(16px,3vh,30px)}
+  .hg__num{display:none}
+  .hg__p i{margin-bottom:8px}.hg__p b{font-size:17px}.hg__p small{font-size:12.5px;margin-top:1px}
+  .hg__card{margin-top:clamp(14px,2.4vh,26px);gap:24px;padding:clamp(18px,3vh,32px) clamp(24px,3vw,44px)}
+  .hg__txt h2{margin:8px 0;font-size:clamp(26px,min(2.4vw,4.6vh),38px)}
+  .hg__txt p{margin:0 0 clamp(14px,2.2vh,22px);font-size:15px;line-height:1.5}
+  .hg__art{width:clamp(110px,min(13vw,22vh),190px)}.hg__art::after{inset:-10px}
+  .hg__quiet{margin-top:clamp(12px,2.2vh,24px)}
+  .hg__q{padding:clamp(10px,1.8vh,16px) 8px 0 4px}.hg__q b{font-size:17px}.hg__qi{width:34px;height:34px}
+}
+
+@media (min-width:861px) and (max-height:680px){
+  .page.hg{margin-top:10px;margin-bottom:10px;padding-top:16px;padding-bottom:16px}
+  .hg__q small{display:none}.hg__q{align-items:center}
+  .hg__p small{display:none}
+}
+
 </style>
 </head>
 <body>
@@ -3067,8 +3090,8 @@ function homePath(){const pd=!!(S.point&&S.point.saved);const wk=Date.now()-7*86
   return {P,i,card,nP}}
 function vToday(m){const {P,i,card}=homePath();
   m.innerHTML=`<div class="page hg">
-    <p class="hg__wk">Неделя ${weekNo()} из 12</p><h1 class="hg__h">${hello()}${S.name?', '+esc(S.name):''}</h1>
-    ${!S.name?`<span class="h-name hg__name"><input class="line" id="hNameIn" placeholder="Как к вам обращаться?" aria-label="Ваше имя"><button class="btn btn--sm" id="hNameB">Сохранить</button></span>`:''}
+    <div class="hg__top"><div><p class="hg__wk">Неделя ${weekNo()} из 12</p><h1 class="hg__h">${hello()}${S.name?', '+esc(S.name):''}</h1></div>
+    ${!S.name?`<span class="h-name hg__name"><input class="line" id="hNameIn" placeholder="Как к вам обращаться?" aria-label="Ваше имя"><button class="btn btn--sm" id="hNameB">Сохранить</button></span>`:''}</div>
     <nav class="hg__path" aria-label="Ваш путь">${P.map((p,k)=>`<button class="hg__p hg__p--${p.st}${k===i?' is-cur':''}" data-go="${p.go[0]}" ${p.go[1]?`data-arg="${p.go[1]}"`:''}><i>${p.st==='done'&&k!==i?ico('check',11):''}</i><span class="hg__num">0${k+1}</span><b>${p.name}</b><small>${p.sub}</small></button>`).join('')}</nav>
     <div class="hg__card" style="--x:${i*25+12.5}%"><div class="hg__txt"><span class="eyebrow">${card.eb}</span><h2>${esc(card.t)}</h2><p>${esc(card.p)}</p>
       <button class="btn btn--primary hg__btn" data-go="${card.go[0]}" ${card.go[1]?`data-arg="${card.go[1]}"`:''}>${card.b}</button></div>
