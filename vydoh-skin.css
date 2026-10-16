@@ -1328,3 +1328,14 @@ button.meet__t:hover{background:var(--cream)}
 @media (min-width:1100px){.bmk-g__i{grid-template-columns:repeat(2,minmax(0,1fr))}}
 
 .mlist .mcard__s{display:none}.mlist .mcard{min-height:0}
+
+/* Круг эмоций: 8 чувств и оттенки в кольцах */
+.ew-svg svg{max-width:560px}
+.ews path{stroke:var(--bg);stroke-width:2.5}
+.ews--core text{font-family:var(--serif);letter-spacing:.01em}
+.ews--ring text{font-family:var(--sans)}
+.ews.on path{filter:brightness(.84) saturate(1.2);stroke:rgba(45,44,42,.35);stroke-width:1.2}
+.ews.on text{font-weight:500}
+.ew-c{font-family:var(--serif)!important;fill:var(--text)!important}
+
+@media (max-width:600px){.ew-svg{padding:4px}}
