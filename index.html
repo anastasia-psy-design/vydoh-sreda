@@ -2310,6 +2310,167 @@ button.meet__t:hover{background:var(--cream)}
 
 @media (max-width:640px){.ew-svg{padding:2px}.ew-svg svg,.ew-svg.is-fam svg{max-width:none}}
 
+/* ===== Маркеры тела, ценности, дорожная карта, карта себя, материалы ===== */
+.bmk{display:grid;grid-template-columns:minmax(180px,250px) minmax(0,1fr);gap:clamp(18px,3vw,40px);align-items:start;margin-top:8px}
+.bmk__fig{position:sticky;top:84px;display:grid;gap:8px;justify-items:center;padding:16px 12px;border:1px solid var(--hair,var(--line));border-radius:18px;background:var(--cream)}
+.bmk__fig .bodymap{max-height:420px}
+.bmk__cap{font-size:13px;line-height:1.4;color:var(--muted);text-align:center}
+.bmk--tense .bz.on ellipse{fill:#efcfc3;stroke:#c98a7a}
+.bmk--ok .bz.on ellipse{fill:#cfe2db;stroke:#8fb5a8}
+.bmk--all.bmk--tense .bodymap>path{fill:color-mix(in srgb,var(--drain) 55%,var(--bg))}
+.bmk--all.bmk--ok .bodymap>path{fill:color-mix(in srgb,var(--mint) 70%,var(--bg))}
+.bmk__list{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;min-width:0}
+.bmk-own input,.isl__in input,.vrow__step input{min-width:0;flex:1}
+.bmk-g{padding:2px 0;border-radius:14px;transition:background .4s}
+.bmk-g.is-flash{animation:bmkfl 1.4s ease}
+@keyframes bmkfl{0%,60%{background:color-mix(in srgb,var(--mint) 55%,transparent)}100%{background:transparent}}
+.bmk-g h3{display:flex;align-items:center;gap:8px;margin:0 0 8px;font-family:var(--serif);font-weight:400;font-size:19px;color:var(--ink)}
+.bmk-g__n{display:inline-grid;place-items:center;min-width:22px;height:22px;padding:0 6px;border-radius:999px;background:var(--soft);font-family:var(--sans);font-size:12px;color:var(--text)}
+.bmk-g__i,.mchk{display:grid;gap:6px}
+.bmk-i{display:flex;align-items:center;gap:12px;width:100%;min-height:46px;padding:10px 14px;border:1px solid var(--line);border-radius:12px;background:var(--bg);font:inherit;font-size:15px;line-height:1.35;color:var(--text);text-align:left;cursor:pointer;transition:background .2s,border-color .2s}
+.bmk-i:hover{border-color:color-mix(in srgb,var(--ink) 30%,transparent)}
+.bmk-i__c{flex:none;display:grid;place-items:center;width:22px;height:22px;border:1px solid color-mix(in srgb,var(--ink) 35%,transparent);border-radius:50%;color:transparent;transition:all .2s}
+.bmk-i[aria-pressed="true"]{background:var(--cream);border-color:color-mix(in srgb,var(--ink) 40%,transparent);color:var(--ink)}
+.bmk-i[aria-pressed="true"] .bmk-i__c{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.bmk--tense .bmk-i[aria-pressed="true"]{background:color-mix(in srgb,var(--drain) 60%,var(--bg))}
+.bmk--ok .bmk-i[aria-pressed="true"]{background:color-mix(in srgb,var(--mint) 70%,var(--bg))}
+.bmk-own{margin-top:4px}
+.bmk-res{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.bmk-card{display:grid;gap:8px;align-content:start;padding:20px 22px;border-radius:18px}
+.bmk-card--t{background:var(--drain)}.bmk-card--o{background:var(--mint)}
+.bmk-card__h{font-family:var(--serif);font-size:22px;line-height:1.2;color:var(--ink)}
+.bmk-card__s{font-size:14px;line-height:1.5;color:var(--text)}
+.bmk-card__c{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.bmk-card__c span{padding:5px 11px;border-radius:999px;background:color-mix(in srgb,var(--bg) 85%,transparent);font-size:13.5px}
+.bmk-card__c em{font-style:normal;font-size:13px;color:var(--muted)}
+.bmk-tor{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:14px;padding:16px 20px;border:1px dashed color-mix(in srgb,var(--ink) 30%,transparent);border-radius:16px}
+.bmk-tor p{flex:1 1 280px;font-size:15px;line-height:1.5;color:var(--text)}
+.vstep{display:inline-grid;place-items:center;width:30px;height:30px;margin-right:12px;border:1px solid color-mix(in srgb,var(--ink) 35%,transparent);border-radius:50%;font-family:var(--sans);font-size:14px;vertical-align:4px}
+.vgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 28px}
+.vg h3{margin:0 0 10px;font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.vg .chips{display:flex;flex-wrap:wrap;gap:8px}
+.vchip[aria-pressed="true"]{background:var(--lavender);border-color:color-mix(in srgb,var(--ink) 40%,transparent);color:var(--ink)}
+.vmain{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.vcard{display:flex;align-items:center;gap:10px;min-height:54px;padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:var(--bg);font:inherit;font-size:15px;color:var(--text);text-align:left;cursor:pointer;transition:all .2s}
+.vcard svg{flex:none;color:var(--ghost)}
+.vcard[aria-pressed="true"]{background:var(--beige);border-color:color-mix(in srgb,var(--ink) 40%,transparent);color:var(--ink)}
+.vcard[aria-pressed="true"] svg{color:var(--ink);fill:#e9cf94}
+.vrows{display:grid;gap:0}
+.vrow{display:grid;grid-template-columns:minmax(120px,190px) auto minmax(120px,1fr);gap:10px 20px;align-items:center;padding:14px 0;border-top:1px dashed var(--line)}
+.vrow:last-child{border-bottom:1px dashed var(--line)}
+.vrow__n{font-family:var(--serif);font-weight:400;font-size:19px;color:var(--ink)}
+.vdots{display:flex;gap:6px}
+.vdots button{width:34px;height:14px;padding:0;border:1px solid color-mix(in srgb,var(--ink) 25%,transparent);border-radius:999px;background:var(--bg);cursor:pointer;transition:background .2s}
+.vdots button[aria-pressed="true"]{background:var(--lavender);border-color:color-mix(in srgb,var(--ink) 45%,transparent)}
+.vdots button:hover{border-color:var(--ink)}
+.vrow__w{font-size:14px;color:var(--muted)}
+.vrow__step{grid-column:1/-1}
+.vbars{display:grid;gap:14px}
+.vbar{display:grid;grid-template-columns:minmax(110px,170px) minmax(0,1fr) minmax(110px,170px);gap:6px 16px;align-items:center}
+.vbar__n{font-family:var(--serif);font-size:18px;color:var(--ink)}
+.vbar__t{height:12px;border-radius:999px;background:var(--soft);overflow:hidden}.vbar__t i{display:block;height:100%;border-radius:999px}
+.vbar__w{font-size:13.5px;color:var(--muted)}
+.vbar__s{grid-column:2/-1;font-size:14px;color:var(--text)}
+.vsum{margin-top:18px;font-family:var(--serif);font-size:clamp(19px,1.6vw,23px);line-height:1.4;color:var(--ink);max-width:52ch}
+.droad{list-style:none;margin:8px 0 0;padding:0;position:relative}
+.droad::before{content:"";position:absolute;left:17px;top:20px;bottom:20px;border-left:1px dashed color-mix(in srgb,var(--ink) 30%,transparent)}
+.droad__i{position:relative;display:grid;grid-template-columns:36px minmax(0,1fr);gap:18px;padding:0 0 clamp(26px,3vw,40px)}
+.droad__n{position:relative;z-index:1;display:grid;place-items:center;width:36px;height:36px;border:1px solid color-mix(in srgb,var(--ink) 35%,transparent);border-radius:50%;background:var(--bg);font-size:14px}
+.droad__i:nth-child(1) .droad__n{background:var(--mint)}.droad__i:nth-child(2) .droad__n{background:var(--beige)}.droad__i:nth-child(3) .droad__n{background:var(--lavender)}.droad__i:nth-child(4) .droad__n{background:var(--drain)}.droad__i:nth-child(5) .droad__n{background:var(--mint)}
+.droad__c h2{margin:4px 0 12px;font-family:var(--serif);font-weight:400;font-size:clamp(21px,1.8vw,26px);line-height:1.2;color:var(--ink)}
+.droad__c .chips{display:flex;flex-wrap:wrap;gap:8px}
+.droad__lbl{margin:14px 0 8px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.droad__tags{display:flex;flex-wrap:wrap;gap:6px}.droad__tags span{padding:5px 11px;border-radius:999px;background:var(--mint);font-size:13.5px}
+.droad__peak{display:grid;gap:6px;padding:16px 18px;border-radius:14px;background:var(--cream);font-size:15px}
+.droad__dates{display:flex;flex-wrap:wrap;gap:14px 28px}.droad__dates label{display:grid;gap:6px;font-size:14px;color:var(--muted)}.droad__dates input{min-width:180px}
+.droad__save{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:6px}
+.isl-prog{display:flex;flex-wrap:wrap;align-items:center;gap:12px 18px;margin:4px 0 0}
+.isl-prog__t{font-size:15px;color:var(--text)}
+.isl-dots{display:flex;gap:6px}.isl-dots i{width:12px;height:12px;border-radius:50%;border:1px dashed color-mix(in srgb,var(--ink) 35%,transparent)}
+.isl-dots i.on{border-style:solid;border-color:transparent}.isl-dots i.g0{background:#a9cbbf}.isl-dots i.g1{background:#d8c3a8}.isl-dots i.g2{background:#c3bcd8}
+.isl-map{position:relative;margin-top:clamp(36px,4vw,56px)}
+.isl-map::before{content:"";position:absolute;left:21px;top:24px;bottom:24px;border-left:1px dashed color-mix(in srgb,var(--ink) 28%,transparent)}
+.isl-grp{position:relative;padding-bottom:clamp(30px,3.5vw,48px)}
+.isl-grp__h{display:grid;grid-template-columns:44px minmax(0,1fr);gap:16px;align-items:start;margin-bottom:16px}
+.isl-grp__n{position:relative;z-index:1;display:grid;place-items:center;width:44px;height:44px;border-radius:50%;font-family:var(--serif);font-size:19px;color:var(--ink)}
+.isl-grp__h h2{margin:4px 0 4px;font-family:var(--serif);font-weight:400;font-size:clamp(22px,2vw,29px);line-height:1.15;color:var(--ink)}
+.isl-grp__h p{font-size:15px;line-height:1.5;color:var(--muted)}
+.isl-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-left:60px}
+.isl{position:relative;display:grid;gap:12px;align-content:start;padding:18px 18px 14px;border:1px solid var(--hair,var(--line));border-radius:18px;background:var(--bg);box-shadow:0 1px 0 rgba(0,0,0,.02)}
+.isl--g0{background:color-mix(in srgb,var(--mint) 28%,var(--bg))}.isl--g1{background:color-mix(in srgb,var(--beige) 38%,var(--bg))}.isl--g2{background:color-mix(in srgb,var(--lavender) 34%,var(--bg))}
+.isl.is-empty{background:var(--bg);border-style:dashed}
+.isl__h{display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px;align-items:center}
+.isl__h h3{margin:0;font-family:var(--serif);font-weight:400;font-size:19px;line-height:1.2;color:var(--ink)}
+.isl__src{margin-top:3px;font-size:12.5px;color:var(--muted)}
+.isl__lnk{padding:0;border:0;background:none;font:inherit;color:var(--muted);cursor:pointer;text-align:left}.isl__lnk:hover{color:var(--ink)}
+.isl__b{display:grid;gap:10px;font-size:15px;line-height:1.5;color:var(--text)}
+.isl__row small{display:block;margin-bottom:6px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.isl__tags{display:flex;flex-wrap:wrap;gap:6px}
+.isl__tags span{display:inline-flex;align-items:center;gap:6px;padding:4px 11px;border-radius:999px;background:var(--bg);border:1px solid var(--hair,var(--line));font-size:13.5px}
+.isl__tags .t-d{background:color-mix(in srgb,var(--drain) 70%,var(--bg))}.isl__tags .t-m{background:color-mix(in srgb,var(--mint) 80%,var(--bg))}.isl__tags .t-l{background:color-mix(in srgb,var(--lavender) 85%,var(--bg))}
+.isl__tags .t-own{border-style:dashed}
+.isl__tags .t-own button{padding:0 2px;border:0;background:none;color:var(--muted);font-size:15px;line-height:1;cursor:pointer}
+.isl__list{list-style:none;margin:0;padding:0;display:grid;gap:8px}.isl__list li{display:grid;gap:2px}.isl__list b{font-weight:500;color:var(--ink)}.isl__list span{font-size:14px;color:var(--muted)}
+.isl__big{font-family:var(--serif);font-size:18px;line-height:1.35;color:var(--ink)}
+.isl__empty{font-size:14px;color:var(--muted)}
+.isl__add{border-top:1px dashed var(--line);padding-top:10px}
+.isl__plus{padding:4px 0;border:0;background:none;font:inherit;font-size:14px;color:var(--muted);cursor:pointer}.isl__plus:hover{color:var(--ink)}
+.isl__in{display:flex;min-height:44px}.isl__in[hidden]{display:none}
+.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.mcard{position:relative;display:grid;gap:8px;align-content:start;min-height:132px;padding:18px 18px 16px;border:1px solid var(--hair,var(--line));border-radius:18px;background:var(--cream);font:inherit;text-align:left;color:var(--text);cursor:pointer;transition:border-color .2s,transform .2s}
+.mcard:hover{border-color:color-mix(in srgb,var(--ink) 35%,transparent);transform:translateY(-1px)}
+.mcard__k{justify-self:start;padding:3px 10px;border-radius:999px;font-size:12px;letter-spacing:.04em;color:var(--text)}
+.mcard__k--read{background:var(--beige)}.mcard__k--work{background:var(--mint)}
+.mcard__t{font-family:var(--serif);font-size:19px;line-height:1.25;color:var(--ink);padding-right:20px}
+.mcard__s{font-size:13px;color:var(--muted)}
+.mcard__ok{position:absolute;top:14px;right:14px;display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--ink);color:var(--bg)}
+.mblock .sec__h h2{font-size:clamp(20px,1.7vw,24px)}
+.mlist{list-style:none;margin:0;padding:0;position:relative}
+.mlist::before{content:"";position:absolute;left:6px;top:10px;bottom:10px;border-left:1px dashed color-mix(in srgb,var(--ink) 28%,transparent)}
+.mlist__i{position:relative;padding:0 0 30px 32px}
+.mlist__i::before{content:"";position:absolute;left:0;top:5px;width:13px;height:13px;border-radius:50%;border:1px solid color-mix(in srgb,var(--ink) 40%,transparent);background:var(--bg)}
+.mlist__i.is-now::before{background:var(--mint);border-color:var(--ink)}
+.mlist__h{margin-bottom:12px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}.mlist__h b{font-weight:500;color:var(--ink)}
+.mat .thead{margin-bottom:8px}
+.mtext{max-width:62ch;margin:0 0 14px;font-size:17px;line-height:1.65;color:var(--text)}
+.mcols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:8px 0 6px}
+.mcol{display:grid;gap:6px;align-content:start;padding:20px 22px;border-radius:18px;font-size:15px;line-height:1.55}
+.mcol--0{background:var(--beige)}.mcol--1{background:var(--mint)}
+.mcol__h{font-family:var(--serif);font-size:21px;color:var(--ink)}.mcol__s{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.msec{margin-top:clamp(24px,3vw,36px)}
+.msec__h{margin-bottom:12px;font-family:var(--serif);font-size:clamp(20px,1.7vw,24px);line-height:1.2;color:var(--ink)}
+.mfields{display:grid;gap:14px}.mfields--3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.mfield{display:grid;gap:6px;align-content:start}
+.mfield__l{font-size:15.5px;line-height:1.4;color:var(--ink)}.mfield__h{font-size:13.5px;line-height:1.45;color:var(--muted)}
+.mfield textarea{min-height:76px;padding:12px 14px;font:inherit;font-size:15px;line-height:1.5;resize:vertical}
+.mscan{display:grid;gap:18px}.mscan__l{margin-bottom:8px;font-size:15.5px;color:var(--ink)}
+.mscan .chips{display:flex;flex-wrap:wrap;gap:8px}
+.msteps{list-style:none;margin:20px 0 18px;padding:0;display:grid;gap:16px}
+.msteps li{display:grid;grid-template-columns:34px minmax(0,1fr);gap:14px}
+.msteps__n{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--lavender);font-size:14px}
+.mlog{list-style:none;margin:0;padding:0}.mlog li{display:grid;grid-template-columns:minmax(110px,150px) minmax(0,1fr) auto;gap:12px;align-items:baseline;padding:12px 0;border-top:1px dashed var(--line);font-size:15px}
+.mlog em{font-style:normal;color:var(--muted)}
+.mat__foot{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:32px;padding-top:20px;border-top:1px solid var(--hair,var(--line))}
+@media (max-width:760px){
+  .bmk{grid-template-columns:minmax(0,1fr)}.bmk__fig{position:static;grid-template-columns:120px minmax(0,1fr);justify-items:start;align-items:center;padding:12px 14px}
+  .bmk__fig .bodymap{max-height:220px}.bmk__cap{text-align:left}
+  .bmk-res,.vgrid,.mcols,.mfields--3{grid-template-columns:minmax(0,1fr)}
+  .vrow{grid-template-columns:1fr auto}.vrow .vdots{grid-column:1/-1;order:3}.vrow__w{text-align:right}
+  .vdots button{flex:1;width:auto}
+  .vbar{grid-template-columns:1fr auto}.vbar__t{grid-column:1/-1;order:3}.vbar__s{grid-column:1/-1;order:4}
+  .isl-map::before{left:17px}.isl-grp__h{grid-template-columns:36px minmax(0,1fr);gap:12px}.isl-grp__n{width:36px;height:36px;font-size:16px}
+  .isl-grid{grid-template-columns:minmax(0,1fr);margin-left:0}
+  .droad__i{grid-template-columns:30px minmax(0,1fr);gap:12px}.droad__n{width:30px;height:30px}.droad::before{left:14px}
+  .mlog li{grid-template-columns:1fr auto}.mlog li>span:first-child{grid-column:1/-1}
+}
+@media print{.isl__add,.mblock,.isl-prog .btn{display:none!important}.isl{break-inside:avoid}}
+
+.vsum{text-align:left;hyphens:none}
+.isl-grid>.isl:last-child:nth-child(odd){grid-column:1/-1}
+@media (min-width:1100px){.bmk-g__i{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+.mlist .mcard__s{display:none}.mlist .mcard{min-height:0}
+
 </style>
 </head>
 <body>
@@ -2345,12 +2506,12 @@ const CONTENT = {
     { n:1, title:'Точка А', weeks:'неделя 1', tools:['point','pulse'], desc:'На этом этапе мы смотрим, с чего вы начинаете: какое у вас состояние, какая нагрузка и что вы уже пробовали' },
     { n:2, title:'Стабилизация и саморегуляция', weeks:'недели 1-2', tools:['recovery'], desc:'На этом этапе мы находим способы успокоиться и вернуть силы, которые подходят именно вам' },
     { n:3, title:'Карта энергии и стрессоров', weeks:'недели 2-4', tools:['load','stress'], desc:'На этом этапе мы разбираемся, что забирает у вас силы, что их возвращает и на что вы можете повлиять' },
-    { n:4, title:'Возвращение в тело', weeks:'недели 3-5', tools:['radar'], desc:'На этом этапе вы учитесь замечать перегрузку раньше, чем наступит «больше не могу»' },
+    { n:4, title:'Возвращение в тело', weeks:'недели 3-5', tools:['radar','body'], desc:'На этом этапе вы учитесь замечать перегрузку раньше, чем наступит «больше не могу»' },
     { n:5, title:'Убеждения и стратегии', weeks:'недели 5-7', tools:['chain','lab'], desc:'На этом этапе мы разбираем, что снова и снова заставляет вас переступать свои пределы, и проверяем это на практике' },
     { n:6, title:'Границы и оптимальная нагрузка', weeks:'недели 6-8', tools:['resp','range'], desc:'На этом этапе вы учитесь различать свое и чужое и находите нагрузку, которую можете выдерживать без истощения' },
-    { n:7, title:'Надо - хочу - важно', weeks:'недели 8-9', tools:['nhv'], desc:'На этом этапе мы возвращаем связь с тем, чего вы хотите и что для вас по-настоящему важно' },
-    { n:8, title:'Сборка образа жизни', weeks:'недели 9-11', tools:[], desc:'На этом этапе отдельного инструмента нет: вы закрепляете в обычной неделе то, что уже сработало' },
-    { n:9, title:'Удержание результата', weeks:'недели 11-12', tools:['peak','nav'], desc:'На этом этапе мы готовимся к следующему сложному периоду и собираем вашу личную инструкцию к себе' }
+    { n:7, title:'Надо - хочу - важно', weeks:'недели 8-9', tools:['nhv','values'], desc:'На этом этапе мы возвращаем связь с тем, чего вы хотите и что для вас по-настоящему важно' },
+    { n:8, title:'Сборка образа жизни', weeks:'недели 9-11', tools:['peak'], desc:'На этом этапе вы встраиваете то, что уже сработало, в обычную неделю и заранее готовите план на следующий сложный период' },
+    { n:9, title:'Удержание результата', weeks:'недели 11-12', tools:['nav','road'], desc:'На этом этапе вы собираете «Карту себя» - как вы устроены и что вам помогает, и «Дорожную карту» - что делать дальше и как действовать в следующий сложный период' }
   ],
 
   /* ТЯЖЕЛЫЙ МОМЕНТ - вместо телефонов доверия: дыхание, личный план, связь с психологом. */
@@ -2409,18 +2570,30 @@ const CONTENT = {
     { n:12, id:'peak', title:'Протокол пиковой нагрузки', time:'15 минут, на встрече',
       goal:'Здесь вы заранее готовитесь к следующему сложному периоду, чтобы пройти его бережнее к себе',
       task:'Сделать профилактику отката конкретной',
-      result:'Персональный сценарий: как пройти пик и вернуться', uses:[3,4,5,7,8,9,10,11], feeds:[13] },
-    { n:13, id:'nav', title:'Инструкция к себе', final:true, time:'собирается сама',
-      goal:'Это ваша дорожная карта, которая собирается из всего трека: по ней видно, как вы себя чувствуете в разных состояниях и что вам помогает',
-      task:'В конце вы проверяете ее и выбираете главное',
-      result:'Ваша персональная карта «как со мной обращаться»', uses:[1,2,3,4,5,6,7,8,9,10,11,12], feeds:[] }
+      result:'Персональный сценарий: как пройти пик и вернуться', uses:[3,4,5,7,8,9,10,11], feeds:[13,16] },
+    { n:13, id:'nav', title:'Карта себя', final:true, time:'собирается сама',
+      goal:'Это ваша инструкция к себе: на островках собирается, что с вами происходит, откуда берется перегрузка и что вам помогает',
+      task:'В конце вы проверяете карту, добавляете свое и выбираете главное',
+      result:'Ваша карта: как вы устроены и что вам помогает', uses:[1,2,3,4,5,6,7,8,9,10,11,12,14,15], feeds:[16] },
+    { n:14, id:'body', title:'Чек-лист маркеров тела', time:'10 минут',
+      goal:'Здесь вы отмечаете, как тело показывает напряжение и как оно ощущается, когда вам хорошо, чтобы замечать перегрузку раньше, чем голова',
+      task:'Вернуть чувствительность к телу: различать его сигналы напряжения и ресурса',
+      result:'Ваши телесные маркеры напряжения и ресурса', uses:[2], feeds:[3,13,16] },
+    { n:15, id:'values', title:'Чек-лист ценностей', time:'15 минут',
+      goal:'Здесь вы отмечаете, что для вас по-настоящему ценно, и смотрите, сколько места у этого в вашей жизни сейчас',
+      task:'Найти главные ценности и места, где жизнь с ними расходится',
+      result:'Главные ценности и маленькие шаги, чтобы дать им больше места', uses:[10], feeds:[13,16] },
+    { n:16, id:'road', title:'Дорожная карта', time:'15 минут, на последней встрече',
+      goal:'Здесь вы решаете, что делать после трека: что сохранять каждую неделю и как действовать, если снова станет тяжело',
+      task:'Сделать план после трека конкретным',
+      result:'Что сохраняю, как реагирую на первые звоночки, что делаю при откате и когда сверяюсь с собой', uses:[3,7,11,12,13,14,15], feeds:[] }
   ],
 
 
   /* Образ-ассоциация в начале каждого инструмента. */
-  metaphor: {'point': 'Как точка «вы здесь» на карте: отмечаем, откуда вы начинаете путь', 'pulse': 'Как шагомер, только для сил: несколько отметок в неделю, и видно, что вас разряжает', 'radar': 'Как лампочка топлива: учимся замечать ее, а не ждать, пока бак опустеет', 'load': 'Как весы: кладем на чаши то, что забирает силы, и то, что их возвращает', 'stress': 'Как пульт: ищем кнопки, благодаря которым вы сможете управлять состоянием', 'chain': 'Как домино: находим костяшку, которую можно убрать, чтобы цепочка не упала', 'recovery': 'Как аптечка: собираем то, что помогает именно вам', 'range': 'Как спидометр: находим скорость, на которой можно ехать долго', 'resp': 'Как рюкзак: проверяем, что вы несете за других', 'nhv': 'Как три банки: смотрим, чего в жизни много, а чего не хватает', 'lab': 'Как первый шаг по льду: проверяем убеждение маленьким безопасным шагом', 'peak': 'Как прогноз погоды: заранее готовимся к шторму', 'nav': 'Как инструкция к любимой вещи: как обращаться с собой в разные дни'},
+  metaphor: {'point': 'Как точка «вы здесь» на карте: отмечаем, откуда вы начинаете путь', 'pulse': 'Как шагомер, только для сил: несколько отметок в неделю, и видно, что вас разряжает', 'radar': 'Как лампочка топлива: учимся замечать ее, а не ждать, пока бак опустеет', 'load': 'Как весы: кладем на чаши то, что забирает силы, и то, что их возвращает', 'stress': 'Как пульт: ищем кнопки, благодаря которым вы сможете управлять состоянием', 'chain': 'Как домино: находим костяшку, которую можно убрать, чтобы цепочка не упала', 'recovery': 'Как аптечка: собираем то, что помогает именно вам', 'range': 'Как спидометр: находим скорость, на которой можно ехать долго', 'resp': 'Как рюкзак: проверяем, что вы несете за других', 'nhv': 'Как три банки: смотрим, чего в жизни много, а чего не хватает', 'lab': 'Как первый шаг по льду: проверяем убеждение маленьким безопасным шагом', 'peak': 'Как прогноз погоды: заранее готовимся к шторму', 'nav': 'Как карта островов: на каждом собрано то, что вы узнали о себе', 'body': 'Как датчики на приборной панели: тело показывает перегрузку раньше, чем вы ее осознаете', 'values': 'Как компас: показывает направление, даже когда дороги не видно', 'road': 'Как маршрут в навигаторе: куда ехать дальше и где свернуть, если станет тяжело'},
   /* Что можно сделать, если сил мало. */
-  lowEnergy: {'point': 'заполните только блок про обычный день, а остальное добавьте позже', 'pulse': 'отметьте только силы и напряжение и сохраните', 'radar': 'отметьте один-два сигнала, которые замечаете чаще всего', 'load': 'добавьте три дела и разложите их по чашам весов', 'stress': 'выберите один стрессор и отметьте, насколько можете на него повлиять', 'chain': 'ответьте только на первые два вопроса, а остальное разберите с психологом', 'recovery': 'просто выберите свое состояние и попробуйте первый способ из списка', 'range': 'достаточно посмотреть на картинку, заполнять ничего не нужно', 'resp': 'разложите только три пункта, которые давят сильнее всего', 'nhv': 'разложите только три пункта и пропустите вопросы', 'lab': 'запишите только убеждение, а эксперимент придумайте вместе с психологом', 'peak': 'выберите период и просто прочитайте, что собралось само', 'nav': 'ничего делать не нужно, инструкция собирается сама'},
+  lowEnergy: {'point': 'заполните только блок про обычный день, а остальное добавьте позже', 'pulse': 'отметьте только силы и напряжение и сохраните', 'radar': 'отметьте один-два сигнала, которые замечаете чаще всего', 'load': 'добавьте три дела и разложите их по чашам весов', 'stress': 'выберите один стрессор и отметьте, насколько можете на него повлиять', 'chain': 'ответьте только на первые два вопроса, а остальное разберите с психологом', 'recovery': 'просто выберите свое состояние и попробуйте первый способ из списка', 'range': 'достаточно посмотреть на картинку, заполнять ничего не нужно', 'resp': 'разложите только три пункта, которые давят сильнее всего', 'nhv': 'разложите только три пункта и пропустите вопросы', 'lab': 'запишите только убеждение, а эксперимент придумайте вместе с психологом', 'peak': 'выберите период и просто прочитайте, что собралось само', 'nav': 'ничего делать не нужно, карта собирается сама', 'body': 'отметьте только два-три маркера напряжения, которые замечаете чаще всего', 'values': 'отметьте несколько ценностей и выберите одну главную', 'road': 'выберите только то, что сохраняете каждую неделю'},
   /* Короткая инструкция, которую видит клиент вверху каждого инструмента - один абзац. */
   howShort: {'point': 'Ответьте на вопросы о том, как вы живете сейчас - в основном нажатиями. В конце трека вы сравните ответы с финальными и увидите изменения не по ощущениям, а по факту',
     'pulse': '2-3 раза в неделю отмечайте, чем вы заняты, что чувствуете и сколько у вас сил. Обязательно нужно отметить только силы и напряжение, остальное можно пропустить. Из отметок складывается график, по которому видно, что забирает у вас силы и что их возвращает',
@@ -2434,7 +2607,10 @@ const CONTENT = {
     'nhv': 'Разложите пункты по колонкам: почему вы это делаете. Правильных ответов нет. Затем ответьте на один вопрос, который откликается',
     'lab': 'Запишите убеждение и прогноз, придумайте самый маленький безопасный эксперимент, а после - что произошло на самом деле',
     'peak': 'Выберите сложный период, который вас ждет. Протокол соберется сам из ваших ответов - поправьте его своими словами',
-    'nav': 'Заполнять отдельно не нужно - инструкция собирается из всего, что вы делаете в треке. В конце вы вместе с психологом выберете главное и сохраните ее'},
+    'nav': 'Заполнять отдельно не нужно - карта собирается из всего, что вы делаете в треке. На каждый островок можно добавить свое. В конце вы вместе с психологом выберете главное',
+    'body': 'Сначала отметьте, что меняется в теле, когда напряжение растет. Потом - как тело ощущается, когда вам хорошо. Нажмите на часть тела на силуэте, чтобы перейти к ней в списке',
+    'values': 'Отметьте ценности, которые откликаются, выберите из них 3-5 главных и оцените, сколько места у них в жизни сейчас',
+    'road': 'Пройдите пять шагов сверху вниз. Многое уже подставлено из ваших инструментов - выберите и поправьте своими словами'},
 
   /* «Как это работает» - для каждого инструмента: зачем это человеку и как делать. Пишите обычным языком. */
   howTo: {
@@ -2462,8 +2638,14 @@ const CONTENT = {
       steps:['Запишите убеждение и что, по вашему прогнозу, произойдет. Отметьте, насколько вы в это верите','Придумайте самый маленький безопасный эксперимент: один день, одна задача, один разговор','После эксперимента запишите, что произошло на самом деле, и снова оцените, насколько верите прогнозу','Сформулируйте правило «если … → то я …», чтобы опыт закрепился','В журнал «Что уже работает» добавляйте даже маленькие победы'] },
     peak:{ why:'Следующий тяжелый период почти наверняка будет: запуск, отчет, болезнь близкого. Лучше заранее знать, как вы через него пройдете, чем снова выяснять это в момент истощения',
       steps:['Выберите, какой сложный период вас ждет','Протокол соберется сам из ваших инструментов','Исправьте формулировки своими словами и сохраните. Его можно распечатать'] },
-    nav:{ why:'Это ваша итоговая карта «как со мной обращаться». Заполнять ее отдельно не нужно - она собирается из всего, что вы делали в программе, и останется с вами после нее',
-      steps:['Просто проходите инструменты - разделы будут заполняться сами','На последних встречах вместе с психологом проверьте карту и выберите главное','Карту можно распечатать или сохранить в PDF.'] }
+    nav:{ why:'Это ваша итоговая карта себя - инструкция «как со мной обращаться». Она собирается из всего, что вы делали в программе, а на каждый островок можно добавить свое',
+      steps:['Просто проходите инструменты - островки будут заполняться сами','Добавляйте на островки то, что узнаете о себе','На последних встречах вместе с психологом проверьте карту и выберите главное','Карту можно распечатать или сохранить в PDF'] },
+    body:{ why:'Тело замечает перегрузку раньше головы. Когда человек знает свои телесные маркеры, он может остановиться до того, как сил совсем не останется',
+      steps:['Отметьте, что меняется в теле, когда напряжение растет','Отметьте, как тело ощущается, когда вам хорошо','Добавьте маркеры напряжения в радар ранних сигналов'] },
+    values:{ why:'Выгорание часто начинается там, где жизнь надолго расходится с тем, что для человека важно. Ценности помогают выбирать, что сохранять, а что отпустить',
+      steps:['Отметьте ценности, которые откликаются','Выберите 3-5 главных','Оцените, сколько места у них в жизни сейчас, и придумайте маленький шаг для тех, где места мало'] },
+    road:{ why:'Чтобы результат трека сохранился, нужен конкретный план: что делать каждую неделю, на первых звоночках и при откате',
+      steps:['Выберите, что сохраняете каждую неделю','Решите, что делаете на первых звоночках','Проверьте протокол пиковой нагрузки','Решите, с чего начнете при откате','Назначьте дни, чтобы сверить себя'] }
   },
   INFORMAL: ['заебался(-ась)'],
   EMOTIONS: ['спокойствие','интерес','радость','облегчение','усталость','раздражение','тревога','напряжение','апатия','обида','вина','злость','грусть','безразличие','одиночество','нетерпение'],
@@ -2511,7 +2693,9 @@ const CONTENT = {
 /* Пример заполнения - кнопка «Показать на примере» */
 const DEMO = {
   name:'Мария',
-  open:{point:1,pulse:1,radar:1,load:1,stress:1,chain:1,recovery:1,range:1,resp:1,nhv:1,lab:1,peak:1,nav:1},
+  open:{point:1,pulse:1,radar:1,load:1,stress:1,chain:1,recovery:1,range:1,resp:1,nhv:1,lab:1,peak:1,nav:1,body:1,values:1,road:1},
+  bodyMk:{tense:['Сжимаю челюсть','Плечи поднимаются и каменеют','Задерживаю дыхание','Трудно уснуть или просыпаюсь ночью'],ok:['Плечи опущены','Дыхание ровное и глубокое','Хочется двигаться']},
+  values:{picked:['Семья','Здоровье','Отдых','Мастерство','Польза людям','Развитие','Время для себя','Природа','Честность'],main:['Семья','Здоровье','Мастерство','Время для себя'],place:{'Семья':3,'Здоровье':2,'Мастерство':4,'Время для себя':1},step:{'Время для себя':'Один вечер в неделю без дел и телефона','Здоровье':'Записаться к врачу и бегать по субботам'}},
   point:{sleep:'не восстанавливает',energy:2,load:5,emotions:['усталость','раздражение','тревога'],body:['сжата челюсть','плечи у ушей'],tried:['Отпуск или выходные','Медитации, дыхание','Спорт'],change:'Перестать жить в режиме дежурства, не теряя работу, которую люблю',markers:['Засыпаю без рабочих мыслей хотя бы через день','В выходные есть полдня «ничьи»','Меньше срываюсь на детей'],saved:1},
   pulses:[
     {d:'2026-09-01',energy:2,tension:4,clarity:'туман',want:'остановиться',ctx:'после планерки',emo:['раздражение'],body:['сжата челюсть']},
@@ -2565,7 +2749,7 @@ const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&
 const T=Object.fromEntries(C.tools.map(t=>[t.id,t])), TN=Object.fromEntries(C.tools.map(t=>[t.n,t]));
 const BACK='<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M10 3L5 8l5 5"/></svg>';
 const MARK='<svg class="mark" viewBox="0 0 27 14" fill="none" aria-hidden="true"><circle class="d" cx="5" cy="7.5" r="5" fill="currentColor"/><circle class="r" cx="19.5" cy="7" r="6.5" stroke="currentColor" stroke-dasharray="1 1"/></svg>';
-const blank=()=>({informal:false,calm:true,name:'',start:null,plan:{},open:{point:1,pulse:1},psy:false,point:{},pulses:[],signals:[],load:[],stressors:[],chains:[],recovery:[],range:{},resp:{place:{},ifStop:{}},nhv:{place:{},behind:''},lab:[],works:[],peak:{},discuss:[]});
+const blank=()=>({informal:false,calm:true,name:'',start:null,plan:{},open:{point:1,pulse:1},psy:false,point:{},pulses:[],signals:[],load:[],stressors:[],chains:[],recovery:[],range:{},resp:{place:{},ifStop:{}},nhv:{place:{},behind:''},lab:[],works:[],peak:{},discuss:[],bodyMk:{tense:[],ok:[]},values:{picked:[],main:[],place:{},step:{}},road:{},navOwn:{},mat:{}});
 let S=blank();
 try{const r=localStorage.getItem(KEY);if(r)S=Object.assign(blank(),JSON.parse(r))}catch(e){}
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
@@ -2588,6 +2772,9 @@ function tStatus(id){const any=v=>v?'work':'none';const pk=S.peak||{};
     case 'nhv':{const n=Object.keys(S.nhv.place).length;return n>=5?'done':any(n)}
     case 'lab':return S.lab.some(l=>l.result)?'done':any(S.lab.length)
     case 'peak':return pk.situation&&pk.saved?'done':any(pk.situation)
+    case 'body':{const B=S.bodyMk||{tense:[],ok:[]};return B.tense.length>=3&&B.ok.length>=2?'done':any(B.tense.length+B.ok.length)}
+    case 'values':{const V=S.values||{};const mn=V.main||[];return mn.length>=3&&mn.every(v=>(V.place||{})[v])?'done':any((V.picked||[]).length)}
+    case 'road':{const R=S.road||{};return R.saved?'done':any((R.keep||[]).length||R.early||R.back)}
     default:return 'none'}}
 function done(id){return tStatus(id)==='done'}
 /* ---------- ссылки от психолога, доступ психолога, неделя ---------- */
@@ -2642,8 +2829,8 @@ document.addEventListener('click',e=>{const g=e.target.closest('[data-go]');if(g
 $('#menuBtn').onclick=()=>$('#sidebar').classList.toggle('open');
 function render(){nav();const m=$('#main');m.innerHTML='';
   if(route.v==='tool'){const t=T[route.arg];if(!t||!isOpen(t.id)){go('tools');return}TOOL[t.id](m,t);return}
-  ({today:vToday,tools:vTools,audio:vAudio,navself:m=>TOOL.nav(m,T.nav),meet:vMeet,links:vLinks,help:vHelp,hard:vHard}[route.v]||vToday)(m);
-  if(route.v!=='today'&&!$('[data-back]',m)){const pg=$('.page',m);if(pg)pg.insertAdjacentHTML('afterbegin',`<button class="back" data-back>${BACK}Назад</button>`)}
+  ({today:vToday,tools:vTools,audio:vAudio,navself:m=>TOOL.nav(m,T.nav),mat:vMat,meet:vMeet,links:vLinks,help:vHelp,hard:vHard}[route.v]||vToday)(m);
+  if(route.v!=='today'&&!$('[data-back],.back',m)){const pg=$('.page',m);if(pg)pg.insertAdjacentHTML('afterbegin',`<button class="back" data-back>${BACK}Назад</button>`)}
 }
 function sos(){const s=C.safety;const b=document.createElement('div');b.className='modal-back';
   b.innerHTML=`<div class="modal" role="dialog" aria-modal="true"><h2>${esc(s.title)}</h2><p>${esc(s.text)}</p><div class="phones">${s.phones.map(p=>`<a href="${esc(p.href)}">${esc(p.label)}</a>`).join('')}</div><p class="muted">${esc(s.note)}</p><div><button class="btn btn--primary">Понятно</button></div></div>`;
@@ -2719,9 +2906,9 @@ function head(t){
     </div></header>
     ${PSY?`<details class="how"><summary>Для психолога: подробно</summary><div class="how__body"><div><p class="how__h">Зачем это клиенту</p><p>${esc(h.why||t.task)}</p></div>${h.steps?`<div><p class="how__h">Шаги</p><ol class="how__steps">${h.steps.map(x=>`<li>${esc(x)}</li>`).join('')}</ol></div>`:''}<div><p class="how__h">Что получится</p><p>${esc(t.result)}</p></div>
     ${t.uses.length?`<div class="links">Берет данные из: ${lk(t.uses)}</div>`:''}${t.feeds.length?`<div class="links">Передает в: ${lk(t.feeds)}</div>`:''}</div></details>`:''}`}
-const wrap=(t,body)=>`<div class="page page--narrow">${head(t)}${body}<div style="margin-top:28px;display:flex;gap:12px;flex-wrap:wrap"><button class="btn btn--outline" data-disc="${esc(t.title)}">Сохранить, чтобы обсудить на встрече</button>${t.id==='pulse'?'':`<button class="btn btn--ghost" data-back>${BACK}Назад</button>`}${RESET[t.id]?`<button class="btn btn--ghost" data-reset="${t.id}" style="margin-left:auto">Очистить этот инструмент</button>`:''}</div></div>`;
+const wrap=(t,body)=>`<div class="page page--narrow">${head(t)}${body}${matBlock(t.id)}<div style="margin-top:28px;display:flex;gap:12px;flex-wrap:wrap"><button class="btn btn--outline" data-disc="${esc(t.title)}">Сохранить, чтобы обсудить на встрече</button>${t.id==='pulse'?'':`<button class="btn btn--ghost" data-back>${BACK}Назад</button>`}${RESET[t.id]?`<button class="btn btn--ghost" data-reset="${t.id}" style="margin-left:auto">Очистить этот инструмент</button>`:''}</div></div>`;
 const RESET={point:()=>S.point={},pulse:()=>S.pulses=[],radar:()=>S.signals=[],load:()=>S.load=[],stress:()=>S.stressors=[],chain:()=>S.chains=[],recovery:()=>S.recovery=[],range:()=>S.range={},
-  resp:()=>S.resp={place:{},ifStop:{}},nhv:()=>S.nhv={place:{},behind:'',notes:{}},lab:()=>{S.lab=[];S.works=[]},peak:()=>S.peak={}};
+  resp:()=>S.resp={place:{},ifStop:{}},nhv:()=>S.nhv={place:{},behind:'',notes:{}},lab:()=>{S.lab=[];S.works=[]},peak:()=>S.peak={},body:()=>S.bodyMk={tense:[],ok:[]},values:()=>S.values={picked:[],main:[],place:{},step:{}},road:()=>S.road={}};
 function confirmBox(title,text,ok,onOk){const b=document.createElement('div');b.className='modal-back';
   b.innerHTML=`<div class="modal" role="alertdialog" aria-modal="true"><h2>${esc(title)}</h2><p>${esc(text)}</p><div style="display:flex;gap:12px;flex-wrap:wrap"><button class="btn btn--primary" data-ok>${esc(ok)}</button><button class="btn" data-no>Отмена</button></div></div>`;
   document.body.appendChild(b);const close=()=>b.remove();$('[data-no]',b).onclick=close;b.onclick=e=>{if(e.target===b)close()};$('[data-ok]',b).onclick=()=>{close();onOk()};$('[data-no]',b).focus();
@@ -2746,6 +2933,10 @@ const ICO={
   lab:'<path d="M9 3h6M10 3v6l-5 9a2 2 0 002 3h10a2 2 0 002-3l-5-9V3M7.5 15h9"/>',
   peak:'<path d="M6.5 16a4 4 0 010-8 5.5 5.5 0 0110.5 1.5A3.3 3.3 0 0117 16z"/><path d="M11 17l-1.5 3h3L11 22"/>',
   nav:'<circle cx="12" cy="12" r="9.5"/><path d="M12 5.5l2 6.5h-4zM12 18.5l-2-6.5h4z"/>',
+  body:'<circle cx="12" cy="4.5" r="2"/><path d="M12 7.5v7M7 9.5c2 1 8 1 10 0M12 14.5l-3 6M12 14.5l3 6"/>',
+  values:'<circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/>',
+  road:'<path d="M5 20c0-5 4-5 7-8s7-3 7-8" stroke-dasharray="1 2.4"/><circle cx="5" cy="20" r="1.6" fill="currentColor"/><path d="M19 3.5c-1.8 0-3 1.2-3 2.8 0 2 3 4.2 3 4.2s3-2.2 3-4.2c0-1.6-1.2-2.8-3-2.8z"/>',
+  mat:'<path d="M4 5.5h6a2 2 0 012 2V20a2 2 0 00-2-2H4zM20 5.5h-6a2 2 0 00-2 2V20a2 2 0 012-2h6z"/>',
   check:'<path d="M5 12.5l4.2 4L19 7"/>'};
 const ico=(k,s=22)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICO[k]||''}</svg>`;
 
@@ -2785,8 +2976,11 @@ const HERO={
   nhv:`${[[24,30,HC.beige],[52,12,HC.mint],[80,22,HC.lav]].map(([x,h,c])=>`<rect x="${x}" y="40" width="18" height="5" rx="1.5" fill="currentColor" stroke="none"/><rect x="${x+1}" y="${88-h}" width="16" height="${h}" fill="${c}" stroke="none"/><rect x="${x}" y="45" width="18" height="44" rx="4"/>`).join('')}`,
   lab:`<path d="M14 84h92"/><path d="M38 84l5 7-3 7M82 84l-5 6 5 7"/><ellipse cx="60" cy="60" rx="10" ry="16" transform="rotate(-8 60 60)" fill="${HC.mintL}"/><circle cx="53" cy="38" r="3" fill="currentColor" stroke="none"/><circle cx="59.5" cy="35.5" r="3" fill="currentColor" stroke="none"/><circle cx="66" cy="37.5" r="2.6" fill="currentColor" stroke="none"/><circle cx="70.5" cy="42" r="2.2" fill="currentColor" stroke="none"/>`,
   peak:`<circle cx="74" cy="44" r="14" fill="${HC.sun}" stroke="none"/><path d="M74 22v-6M92 30l4-4M98 46h6"/><path d="M34 86a14 14 0 0 1 3-27 18 18 0 0 1 34 3 12 12 0 0 1 3 24z" fill="var(--bg)"/><path d="M44 94l-3 6M56 94l-3 6M68 94l-3 6" />`,
-  nav:`<path d="M22 38q19-7 38 2 19-9 38-2v52q-19-7-38 2-19-9-38-2z" fill="var(--bg)"/><path d="M60 40v52"/><path d="M30 52h20M30 60h17M30 68h20"/><path d="M79 55c-3-5-10-3-10 2 0 5 10 11 10 11s10-6 10-11c0-5-7-7-10-2z" fill="${HC.peach}"/>`};
-const HBG={pulse:'var(--mint)',point:'var(--beige)',radar:'var(--lavender)',load:'var(--beige)',stress:'var(--lavender)',chain:'var(--beige)',recovery:'var(--mint)',range:'var(--mint)',resp:'var(--beige)',nhv:'var(--lavender)',lab:'var(--mint)',peak:'var(--lavender)',nav:'var(--beige)'};
+  nav:`<path d="M30 46c5-8 18-9 22-2s-2 15-10 16-17-6-12-14z" fill="${HC.mintL}"/><path d="M66 30c6-4 17-2 18 6s-6 12-13 11-11-12-5-17z" fill="${HC.beige}"/><path d="M62 74c6-7 20-7 24 1s-3 16-12 16-18-10-12-17z" fill="${HC.lav}"/><path d="M50 52c8-2 12-6 16-12M76 48c0 8-2 14-4 24" stroke-dasharray="1 3"/><circle cx="40" cy="52" r="2.4" fill="currentColor" stroke="none"/><circle cx="74" cy="38" r="2.4" fill="currentColor" stroke="none"/><circle cx="74" cy="82" r="2.4" fill="currentColor" stroke="none"/><path d="M24 92c10 2 18-2 26 0s14 4 22 1" stroke-dasharray="1 3"/>`,
+  body:`<circle cx="60" cy="26" r="9" fill="var(--bg)"/><path d="M60 37c-12 0-20 6-21 18l-2 18h8l2 30h26l2-30h8l-2-18c-1-12-9-18-21-18z" fill="var(--bg)"/><ellipse cx="60" cy="50" rx="9" ry="5" fill="${HC.peach}" stroke="none"/><ellipse cx="60" cy="68" rx="7" ry="4" fill="${HC.mint}" stroke="none"/><path d="M86 44q6 6 0 12M92 40q10 10 0 20" stroke-dasharray="1 2.6"/>`,
+  values:`<circle cx="60" cy="60" r="34" fill="var(--bg)"/><circle cx="60" cy="60" r="24" stroke-dasharray="1 3"/><path d="M72 46l-8 18-16 8 8-18z" fill="${HC.sun}"/><circle cx="60" cy="60" r="3" fill="currentColor" stroke="none"/><path d="M60 20v6M60 94v6M20 60h6M94 60h6"/>`,
+  road:`<path d="M20 98c18 0 14-22 34-22s16-24 34-24" stroke-dasharray="1 3.2"/><circle cx="20" cy="98" r="3" fill="currentColor" stroke="none"/><path d="M88 22c-8 0-14 6-14 13 0 10 14 21 14 21s14-11 14-21c0-7-6-13-14-13z" fill="${HC.peach}"/><circle cx="88" cy="35" r="5" fill="var(--bg)"/><rect x="34" y="40" width="26" height="18" rx="4" fill="${HC.mintL}"/><path d="M40 47h14M40 52h9"/>`};
+const HBG={pulse:'var(--mint)',point:'var(--beige)',radar:'var(--lavender)',load:'var(--beige)',stress:'var(--lavender)',chain:'var(--beige)',recovery:'var(--mint)',range:'var(--mint)',resp:'var(--beige)',nhv:'var(--lavender)',lab:'var(--mint)',peak:'var(--lavender)',nav:'var(--beige)',body:'var(--drain)',values:'var(--lavender)',road:'var(--mint)'};
 const bigIco=(id,s=120)=>HERO[id]?`<svg class="bigico hero-art" width="${s}" height="${s}" viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="60" cy="60" r="57" stroke-dasharray="1 4" opacity=".7"/>${HERO[id]}</svg>`:`<svg class="bigico" width="${s}" height="${s}" viewBox="-2 -2 28 28" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="13" stroke-dasharray="1 2.2" opacity=".8"/>${ICO[id]||''}</svg>`;
 function homeSteps(){const wk=Date.now()-8*864e5;const nP=S.pulses.filter(p=>new Date(p.d).getTime()>=wk).length;
   const cur=(C.stages[curStage()-1]||{tools:[]}).tools;
@@ -2802,7 +2996,7 @@ function weekDots(){const now=new Date();const dow=(now.getDay()+6)%7;const mon=
   const has=new Set(S.pulses.map(p=>p.d));const N=['пн','вт','ср','чт','пт','сб','вс'];
   return N.map((n,i)=>{const d=new Date(mon);d.setDate(mon.getDate()+i);const iso=d.toISOString().slice(0,10);const cls=has.has(iso)?'on':i===dow?'today':i>dow?'later':'';return `<span class="wd wd--${cls||'off'}"><i></i>${n}</span>`}).join('')}
 /* Главная «Воздух и маршрут»: линия из 4 шагов и одно дело на сейчас */
-const WHY={radar:'Научитесь замечать перегрузку на первых звоночках, пока помочь себе проще всего',load:'Посмотрите, какие дела забирают у вас силы, а какие их возвращают',stress:'Отделите то, на что вы можете повлиять, от того, что не в ваших руках',chain:'Найдите правило, которое заставляет вас перегружаться',recovery:'Соберите свой набор способов прийти в себя',range:'Найдите свою нагрузку, при которой хватает сил',resp:'Разделите, что ваше, а что можно отдать',nhv:'Отделите «надо» от «хочу» и «важно»',lab:'Проверьте одно маленькое изменение на практике',peak:'Подготовьтесь к следующему сложному периоду заранее'};
+const WHY={radar:'Научитесь замечать перегрузку на первых звоночках, пока помочь себе проще всего',load:'Посмотрите, какие дела забирают у вас силы, а какие их возвращают',stress:'Отделите то, на что вы можете повлиять, от того, что не в ваших руках',chain:'Найдите правило, которое заставляет вас перегружаться',recovery:'Соберите свой набор способов прийти в себя',range:'Найдите свою нагрузку, при которой хватает сил',resp:'Разделите, что ваше, а что можно отдать',nhv:'Отделите «надо» от «хочу» и «важно»',lab:'Проверьте одно маленькое изменение на практике',peak:'Подготовьтесь к следующему сложному периоду заранее',body:'Узнайте, как ваше тело показывает напряжение и как - что вы в ресурсе',values:'Найдите, что для вас по-настоящему важно и где жизнь с этим расходится',road:'Решите, что вы делаете после трека и как действовать, если снова станет тяжело'};
 function homePath(){const pd=!!(S.point&&S.point.saved);const wk=Date.now()-7*864e5;const nP=S.pulses.filter(p=>new Date(p.d).getTime()>=wk).length;const cs=curStage();
   const cur=(C.stages[cs-1]||{tools:[]}).tools;const open=C.tools.filter(t=>isOpen(t.id)&&!t.final&&!['point','pulse'].includes(t.id));
   const todo=open.filter(t=>tStatus(t.id)!=='done').sort((a,b)=>(cur.includes(b.id)?1:0)-(cur.includes(a.id)?1:0));
@@ -2815,7 +3009,7 @@ function homePath(){const pd=!!(S.point&&S.point.saved);const wk=Date.now()-7*86
   if(!pd){i=0;card={eb:'Шаг 1 из 4 · 10-15 минут',t:'Пройдите стартовую диагностику',p:'Это ваша точка А. В конце программы вы пройдете ее еще раз и увидите, что изменилось',b:'Начать',go:['tool','point'],art:'point'}}
   else if(nP<2||!todo.length){i=1;card={eb:'Шаг 2 из 4 · 1 минута',t:'Как вы сейчас?',p:nP?`На этой неделе уже ${nP} ${plural(nP,'отметка','отметки','отметок')} - это хорошо. Из отметок складывается график, по которому видно, что вас разряжает`:'Отметьте силы и напряжение. Из отметок складывается график, по которому видно, что вас разряжает',b:'Отметить',go:['tool','pulse'],art:'pulse'}}
   else{const t=todo[0];i=2;card={eb:`Шаг 3 из 4 · ${t.time}`,t:t.title,p:WHY[t.id]||t.goal,b:tStatus(t.id)==='work'?'Продолжить':'Начать',go:['tool',t.id],art:t.id}}
-  if(last&&pd&&!todo.length){i=3;card={eb:'Шаг 4 из 4 · итог',t:'Заберите «Инструкцию к себе»',p:'Все ваши ответы собрались в личную инструкцию. Итоговую диагностику психолог пришлет по ссылке',b:'Открыть',go:['navself',''],art:'nav'}}
+  if(last&&pd&&!todo.length){i=3;card={eb:'Шаг 4 из 4 · итог',t:'Заберите «Карту себя»',p:'Все ваши ответы собрались в карту: как вы устроены и что вам помогает. Итоговую диагностику психолог пришлет по ссылке',b:'Открыть',go:['navself',''],art:'nav'}}
   return {P,i,card,nP}}
 function vToday(m){const {P,i,card}=homePath();
   m.innerHTML=`<div class="page hg">
@@ -2993,12 +3187,12 @@ const NHV_FILL={want:'var(--mint)',important:'var(--lavender)',choose:'var(--bei
 function jarsHtml(){const P=S.nhv.place;const cnt=C.NHV_COLS.map(([k])=>Object.keys(P).filter(i=>P[i]===k));const mx=Math.max(1,...cnt.map(a=>a.length));
   return `<div class="jars">${C.NHV_COLS.map(([k],j)=>`<div class="jar"><div class="jar__g"><i style="height:${cnt[j].length?Math.round(14+cnt[j].length/mx*76):0}%;background:${NHV_FILL[k]}"></i><b>${cnt[j].length}</b></div><span>${NHV_SHORT[k]}</span></div>`).join('')}</div>`}
 
-/* --- Инструкция к себе: три зоны --- */
+/* --- Карта себя: три зоны --- */
 function zonesHtml(){const pt=S.point,kit=kitText();const sig=z=>S.signals.filter(s=>s.zone===z).map(s=>s.t);
-  const steady=[...(pt.markers||[])].slice(0,3),ret=S.load.filter(x=>x.after>0).map(x=>x.name).slice(0,3);
+  const B=S.bodyMk||{tense:[],ok:[]};const steady=[...B.ok.slice(0,2),...(pt.markers||[])].slice(0,4),ret=S.load.filter(x=>x.after>0).map(x=>x.name).slice(0,3);
   const tags=a=>a.length?a.map(x=>`<span>${esc(x)}</span>`).join(''):'<em>появится по ходу трека</em>';
   const row=(cls,mark,title,how,what)=>`<div class="zrow zrow--${cls}"><div class="zrow__h"><span class="zrow__m zrow__m--${cls}"></span><b>${title}</b></div><div class="zrow__c"><small>Как я узнаю</small><div>${tags(how)}</div></div><div class="zrow__c"><small>Что я делаю</small><div>${tags(what)}</div></div></div>`;
-  return `<div class="zrows">${row('ok','','Ровно',steady,ret)}${row('warn','','Звоночки',sig('ранний').slice(0,4),kit.slice(0,3))}${row('bad','','Предел',[...sig('предел'),...sig('уже перегружен')].slice(0,4),['нажать «Выдохнуть»','написать психологу'])}</div>`}
+  return `<div class="zrows">${row('ok','','Ровно',steady,ret)}${row('warn','','Звоночки',[...new Set([...sig('ранний'),...B.tense.map(x=>x.toLowerCase())])].slice(0,5),kit.slice(0,3))}${row('bad','','Предел',[...sig('предел'),...sig('уже перегружен')].slice(0,4),['нажать «Выдохнуть»','написать психологу'])}</div>`}
 
 let _intro=null;
 function introSrc(){if(_intro)return _intro;const el=$('#intro-video');const b=el?el.textContent.trim():'';try{const bin=atob(b),u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);_intro=URL.createObjectURL(new Blob([u],{type:'video/mp4'}))}catch(e){_intro='data:video/mp4;base64,'+b}return _intro}
@@ -3009,9 +3203,9 @@ function videoModal(){const b=document.createElement('div');b.className='modal-b
 
 /* ================= ИНСТРУМЕНТЫ ================= */
 function nav(){
-  const cur=route.v==='tool'?(route.arg==='nav'?'navself':route.arg==='pulse'?'today':'tools'):route.v;
+  const cur=route.v==='tool'?(route.arg==='nav'||route.arg==='road'?'navself':route.arg==='pulse'?'today':'tools'):route.v;
   const n=(v,l,c)=>`<button class="nav" data-go="${v}" ${cur===v?'aria-current="page"':''}>${l}${c?`<span class="count">${c}</span>`:''}</button>`;
-  $('#sidebar').innerHTML=n('today','Сегодня')+n('tools','Маршрут и инструменты')+n('navself','Инструкция к себе')+n('meet','К встрече',S.discuss.length||'')+(anyA()?n('audio','Записи Насти'):'')+
+  $('#sidebar').innerHTML=n('today','Сегодня')+n('tools','Маршрут и инструменты')+n('navself','Карта себя')+n('mat','Материалы')+n('meet','К встрече',S.discuss.length||'')+(anyA()?n('audio','Записи Насти'):'')+
    (PSY?`<div class="nav-group">Для психолога</div>`+n('links','Ссылки для клиента'):'')+
    `<div class="side-foot">
     ${PSY?`<label class="psy"><input type="checkbox" id="psyT" ${S.psy?'checked':''}> Показать все инструменты</label><button class="link" id="demoB" style="justify-self:start">Показать на примере</button>`:''}
@@ -3107,7 +3301,7 @@ function vHelp(m){S.seenHelp=1;save();
     <div class="nav-sec"><div class="nav-sec__n">Ритм</div><div class="nav-sec__body"><p>${esc(C.rhythm)}. Между встречами:</p>
       <ul class="plain"><li>2-3 раза в неделю - «Карта состояния», по полминуты;</li><li>один-два открытых инструмента - 10-20 минут за неделю;</li><li>«Центр восстановления» - когда нужно;</li><li>«Сохранить, чтобы обсудить на встрече» - все, что цепляет</li></ul>
       <p class="muted">Если неделя была тяжелой и вы ничего не сделали - это не провал, а материал для встречи</p></div></div>
-    <div class="nav-sec"><div class="nav-sec__n">Маршрут</div><div class="nav-sec__body"><p>Трек идет по девяти этапам. Инструменты открывает психолог: после встречи он пришлет ссылку - перейдите по ней, и новые инструменты появятся в «Маршруте». Все, что вы заполняете, связано между собой и в конце соберется в «Инструкцию к себе»</p></div></div>
+    <div class="nav-sec"><div class="nav-sec__n">Маршрут</div><div class="nav-sec__body"><p>Трек идет по девяти этапам. Инструменты открывает психолог: после встречи он пришлет ссылку - перейдите по ней, и новые инструменты появятся в «Маршруте». Все, что вы заполняете, связано между собой и в конце соберется в «Карту себя» и «Дорожную карту»</p></div></div>
     <div class="nav-sec" id="data"><div class="nav-sec__n">Ваши данные</div><div class="nav-sec__body">
       <p>Ответы хранятся только в этом браузере на этом устройстве и никуда не отправляются. Психолог видит их, только когда вы сами показываете экран</p>
       <ul class="plain"><li>Пользуйтесь одним устройством и одним браузером</li><li>Не открывайте среду в режиме инкогнито - после закрытия окна все сотрется</li><li>Время от времени сохраняйте ответы в файл - так их можно перенести на другое устройство или восстановить</li></ul>
@@ -4017,31 +4211,250 @@ TOOL.peak=(m,t)=>{const p=S.peak;const d=peakDraft();
   $('#pkS')&&($('#pkS').onclick=()=>{$$('[data-pk]',m).forEach(a=>p[a.dataset.pk]=a.value.trim());p.saved=1;save();toast('Протокол сохранен')});
 };
 
-/* 13. Инструкция к себе */
-function navSections(){const kit=kitText(),pt=S.point,d=peakDraft();
-  const pz=S.pulses.map((p,i)=>zoneOf(p,S.pulses[i-1]));const steady=S.pulses.filter((p,i)=>pz[i]===0);
-  return [
-    {n:'1, 2',t:'Мое устойчивое состояние',ok:pt.saved||steady.length,body:`${steady.length?`<p class="big">Когда все в порядке: сил ${Math.round(steady.reduce((a,p)=>a+p.energy,0)/steady.length)} из 5, напряжение ${Math.round(steady.reduce((a,p)=>a+p.tension,0)/steady.length)} из 5, чаще всего - ${esc([...new Set(steady.map(p=>p.ctx).filter(Boolean))].slice(0,3).join(', '))}.</p>`:''}${pt.markers&&pt.markers.length?`<p>Мои маркеры: ${esc(pt.markers.join('; '))}</p>`:''}`},
-    {n:'3',t:'Как я понимаю, что перегруз начинается',ok:S.signals.length,body:`<p class="big">${esc(d.signals||'')}</p><p class="muted">Дальше: ${esc(S.signals.filter(s=>s.zone==='уже перегружен').map(s=>s.t).join(', '))}</p>`},
-    {n:'4',t:'Что забирает и что возвращает ресурс',ok:S.load.length,body:`<p>Забирает: ${esc(S.load.filter(x=>x.after<0).map(x=>x.name).join(', ')||'-')}</p><p>Возвращает: ${esc(S.load.filter(x=>x.after>0).map(x=>x.name).join(', ')||'-')}</p>`},
-    {n:'5',t:'Мои ключевые стрессоры и рычаги',ok:S.stressors.length,body:`<ul class="list">${S.stressors.map(s=>`<li><span>${esc(s.name)}</span><span class="muted">${esc((C.PATHS.find(p=>p[0]===s.path)||[,'-'])[1])}${s.action?': '+esc(s.action):''}</span></li>`).join('')}</ul>`},
-    {n:'6',t:'Мои типичные циклы перегруза',ok:S.chains.length,body:S.chains.map(c=>`<p class="big">${esc(c.rule||'')}</p><p class="muted">${esc(c.action||'')} → ${esc(c.cost||'')}</p>`).join('')},
-    {n:'7',t:'Что действительно помогает мне восстанавливаться',ok:kit.length,body:`<p class="big">${esc(kit.join(', '))}</p>`},
-    {n:'8',t:'Мой диапазон нагрузки',ok:S.range.q1||S.pulses.length>=6,body:`<p>${esc(S.range.q1||'')}</p><p class="muted">${esc(S.range.q2||'')}</p>`},
-    {n:'9',t:'Где проходят мои реальные границы ответственности',ok:Object.keys(S.resp.place).length,body:C.RESP_SECTORS.map(([k,l])=>{const v=Object.keys(S.resp.place).filter(i=>S.resp.place[i]===k);return v.length?`<p><span class="muted">${l}:</span> ${esc(v.join(', '))}</p>`:''}).join('')},
-    {n:'10',t:'Что я выбираю сохранять и почему',ok:Object.keys(S.nhv.place).length,body:`<p class="big">${esc(Object.keys(S.nhv.place).filter(i=>['want','important','choose'].includes(S.nhv.place[i])).join(', '))}</p>${S.nhv.behind?`<p class="muted">${esc(S.nhv.behind)}</p>`:''}`},
-    {n:'11',t:'Что я уже проверил(а) на практике',ok:S.lab.some(l=>l.result)||S.works.length,body:`${S.lab.filter(l=>l.ifx&&l.ify).map(l=>`<p class="ifthen"><em>Если</em> ${esc(l.ifx)} → <em>я</em> ${esc(l.ify)}</p>`).join('')}${S.works.length?`<p class="muted">Что уже работает: ${esc(S.works.join(', '))}</p>`:''}`},
-    {n:'12',t:'Как действовать в следующий тяжелый период',ok:!!S.peak.situation,body:`<p>${esc(S.peak.situation||'')}</p><p class="muted">Защищаю: ${esc(S.peak.keep||d.keep||'-')}. Временно убираю: ${esc(S.peak.drop||d.drop||'-')}.</p>`}]}
-TOOL.nav=(m,t)=>{const secs=navSections();const n=secs.filter(s=>s.ok).length;
-  m.innerHTML=`<div class="page page--narrow">${head(t)}
-    <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px"><span class="saved">Собрано ${n} из 11 разделов</span><button class="btn btn--sm btn--outline" onclick="window.print()">Распечатать или сохранить PDF</button></div>
-    <div class="progress-line" style="margin-bottom:24px"><i style="width:${Math.round(n/11*100)}%"></i></div>
-    ${zonesHtml()}
-    ${secs.map(s=>`<section class="nav-sec ${s.ok?'':'is-empty'}"><div class="nav-sec__n">${esc(s.t)}<b>из инструмента ${s.n}</b></div><div class="nav-sec__body">${s.ok?s.body:(()=>{const id=TN[parseInt(s.n)]&&TN[parseInt(s.n)].id;return `<p>Появится, когда вы заполните практику</p>${id&&isOpen(id)?`<button class="btn btn--sm btn--outline" style="margin-top:10px" data-go="tool" data-arg="${id}">Открыть практику</button>`:''}`})()}</div></section>`).join('')}
-    ${S.point.saved?`<section class="nav-sec"><div class="nav-sec__n">Точка старта<b>из инструмента 1</b></div><div class="nav-sec__body"><p>${esc(S.point.change||'')}</p></div></section>`:''}
-    <section class="nav-next"><h2>Решите, что делать дальше</h2><p>Инструкция собирается сама, пока вы проходите практики. ${n<11?'Пустые разделы заполнятся по ходу трека. ':''}Сохраните ее себе и возвращайтесь к ней перед сложными периодами</p>
-      <div class="nav-next__b"><button class="btn btn--primary" onclick="window.print()">Сохранить в PDF</button><button class="btn btn--outline" data-go="tools">Посмотреть свой маршрут</button><button class="btn btn--ghost" data-go="today">Вернуться на главный экран</button></div></section></div>`;
+/* ================= 14. ЧЕК-ЛИСТ МАРКЕРОВ ТЕЛА ================= */
+/* [группа, зоны на силуэте, когда напряжение растет, когда хорошо] */
+const BMK=[
+ ['Голова и лицо',['глаза','челюсть'],['Сжимаю челюсть','Тяжелеет или болит голова','Устают глаза','Хмурю лоб, лицо напряжено'],['Лицо мягкое, челюсть свободна','Голова ясная','Взгляд спокойный']],
+ ['Шея и плечи',['горло и шея','плечи'],['Плечи поднимаются и каменеют','Тянет шею и затылок','Ком в горле'],['Плечи опущены','Шея свободно поворачивается']],
+ ['Грудь и дыхание',['грудь','диафрагма'],['Дыхание становится поверхностным','Задерживаю дыхание','Давит или сжимается в груди','Сердце бьется чаще'],['Дыхание ровное и глубокое','Легко вздохнуть полной грудью','Сердце бьется спокойно']],
+ ['Живот',['живот','таз'],['Сжимается живот','Пропадает аппетит или тянет заедать','Тяжесть или тошнота'],['Живот мягкий','Голод и сытость приходят вовремя']],
+ ['Руки и ноги',['руки','кисти','ноги','стопы'],['Холодеют руки или ноги','Сжимаю кулаки','Трудно усидеть на месте','Ноги будто ватные'],['Руки и ноги теплые','Хочется двигаться','Чувствую опору под ногами']],
+ ['Сон и все тело',[],['Трудно уснуть или просыпаюсь ночью','Усталость не проходит после отдыха','Почти не чувствую тело','Бросает в жар или знобит','Чаще болею'],['Засыпаю легко','После сна есть силы','Тело легкое','После дела приятная усталость']]];
+const BMK_ALL={tense:BMK.flatMap(g=>g[2]),ok:BMK.flatMap(g=>g[3])};
+function bmkResult(){const B=S.bodyMk;const inR=v=>S.signals.some(x=>x.type==='тело'&&x.t.toLowerCase()===v.toLowerCase());const toR=B.tense.filter(v=>!inR(v));
+  const tg=a=>a.length?a.map(x=>`<span>${esc(x)}</span>`).join(''):'<em>пока не отмечено</em>';
+  return `<section class="sec"><div class="sec__h"><h2>Посмотрите, что подсказывает вам тело</h2></div>
+    <div class="bmk-res"><div class="bmk-card bmk-card--t"><p class="bmk-card__h">Пора сбавить темп</p><p class="bmk-card__s">Когда замечаете это, сделайте паузу хотя бы на минуту: выдохните, разомните плечи или выйдите на воздух</p><div class="bmk-card__c">${tg(B.tense)}</div></div>
+      <div class="bmk-card bmk-card--o"><p class="bmk-card__h">Вы в ресурсе</p><p class="bmk-card__s">Так тело показывает, что нагрузка вам сейчас по силам и можно продолжать</p><div class="bmk-card__c">${tg(B.ok)}</div></div></div>
+    ${isOpen('radar')&&toR.length?`<div class="bmk-tor"><p>Добавьте маркеры напряжения в «Радар ранних сигналов», чтобы видеть их рядом с остальными первыми звоночками</p><button type="button" class="btn btn--sm" id="bmToR">Добавить в радар</button></div>`:''}</section>`}
+TOOL.body=(m,t)=>{S.bodyMk=S.bodyMk||{tense:[],ok:[]};const B=S.bodyMk;const K=route.bk==='ok'?'ok':'tense';const sel=B[K];const col=K==='ok'?3:2;
+  const zonesOn=[...new Set(BMK.filter(g=>g[col].some(v=>sel.includes(v))).flatMap(g=>g[1]))];
+  const allOn=BMK[5][col].some(v=>sel.includes(v));
+  const own=sel.filter(v=>!BMK_ALL[K].includes(v));
+  const row=v=>`<button type="button" class="bmk-i" aria-pressed="${sel.includes(v)}" data-bm="${esc(v)}"><span class="bmk-i__c" aria-hidden="true">${ico('check',14)}</span><span>${esc(v)}</span></button>`;
+  const nT=B.tense.length,nO=B.ok.length;
+  m.innerHTML=wrap(t,`<section class="sec"><div class="sec__h"><h2>Отметьте, как ваше тело показывает состояние</h2></div>
+    <p class="pw-why">Тело часто замечает перегрузку раньше, чем голова. Отметьте, что меняется в теле, когда напряжение растет, и как оно ощущается, когда вам хорошо</p>
+    <div class="rz-tabs" role="tablist">
+      <button type="button" role="tab" class="rz-tab rz-tab--lim" aria-selected="${K==='tense'}" data-bk="tense"><span class="rz-n">1</span><span><b>Когда напряжение растет</b><small>что меняется в теле${nT?' · отмечено '+nT:''}</small></span></button>
+      <button type="button" role="tab" class="rz-tab rz-tab--early" aria-selected="${K==='ok'}" data-bk="ok"><span class="rz-n">2</span><span><b>Когда вам хорошо</b><small>как тело чувствует ресурс${nO?' · отмечено '+nO:''}</small></span></button></div>
+    <div class="bmk bmk--${K}${allOn?' bmk--all':''}">
+      <div class="bmk__fig">${bodyMap(zonesOn)}<p class="bmk__cap">Нажмите на часть тела, чтобы перейти к ней в списке</p></div>
+      <div class="bmk__list">${BMK.map((g,i)=>{const L=g[col];const n=L.filter(v=>sel.includes(v)).length;return `<div class="bmk-g" id="bmg${i}"><h3>${esc(g[0])}${n?`<span class="bmk-g__n">${n}</span>`:''}</h3><div class="bmk-g__i">${L.map(row).join('')}</div></div>`}).join('')}
+        ${own.length?`<div class="bmk-g"><h3>Свое</h3><div class="bmk-g__i">${own.map(row).join('')}</div></div>`:''}
+        <div class="input bmk-own"><input id="bmOwn" placeholder="Добавьте свой маркер" aria-label="Свой маркер"><button type="button" class="btn btn--sm btn--ghost" id="bmAdd">Добавить</button></div></div></div>
+    ${K==='tense'&&nT?`<button type="button" class="btn btn--primary" data-bk="ok" style="margin-top:22px">Дальше: как тело чувствует ресурс</button>`:''}</section>
+    ${nT||nO?bmkResult():''}`);
+  bindDisc(m);
+  const keep=()=>{save();const y=window.scrollY;render();window.scrollTo({top:y})};
+  $$('[data-bk]',m).forEach(b=>b.onclick=()=>{route.bk=b.dataset.bk;const fromBtn=b.classList.contains('btn');render();if(fromBtn){const tb=$('.rz-tabs');tb&&tb.scrollIntoView({behavior:'smooth',block:'start'})}});
+  $$('[data-bm]',m).forEach(b=>b.onclick=()=>{const v=b.dataset.bm,i=sel.indexOf(v);i>=0?sel.splice(i,1):sel.push(v);keep()});
+  $$('.bz',m).forEach(z=>{const f=()=>{const gi=BMK.findIndex(g=>g[1].includes(z.dataset.zone));const el=gi>=0&&$('#bmg'+gi,m);if(el){el.scrollIntoView({behavior:'smooth',block:'center'});el.classList.remove('is-flash');void el.offsetWidth;el.classList.add('is-flash')}};z.onclick=f;z.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();f()}}});
+  const add=()=>{const v=$('#bmOwn',m).value.trim();if(v&&!sel.includes(v)){sel.push(v);keep()}};$('#bmAdd',m).onclick=add;$('#bmOwn',m).onkeydown=e=>{if(e.key==='Enter')add()};
+  const tr=$('#bmToR',m);if(tr)tr.onclick=()=>{let n=0;B.tense.forEach(v=>{if(!S.signals.some(x=>x.type==='тело'&&x.t.toLowerCase()===v.toLowerCase())){S.signals.push({t:v.toLowerCase(),type:'тело',zone:'ранний'});n++}});keep();toast('В радар добавлено: '+n)};
 };
+
+/* ================= 15. ЧЕК-ЛИСТ ЦЕННОСТЕЙ ================= */
+const VALG=[['Близкие люди',['Семья','Любовь','Дружба','Забота о других','Доверие','Принятие']],
+ ['Забота о себе',['Здоровье','Отдых','Спокойствие','Безопасность','Удовольствие','Красота']],
+ ['Дело',['Мастерство','Польза людям','Признание','Достаток','Стабильность','Результат']],
+ ['Рост',['Развитие','Знания','Творчество','Новизна','Мудрость','Смысл']],
+ ['Свобода',['Независимость','Честность','Право выбора','Время для себя','Справедливость','Самоуважение']],
+ ['Радость жизни',['Природа','Путешествия','Игра и легкость','Искусство','Вера','Вдохновение']]];
+const VAL_ALL=VALG.flatMap(g=>g[1]);
+const VPL=[[1,'почти нет места'],[2,'мало места'],[3,'есть, но не хватает'],[4,'хватает'],[5,'много места']];
+const STAR='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.8.8-4.2 4.1 1 5.8L12 16.8l-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z"/></svg>';
+function valResult(){const V=S.values;const ms=V.main.filter(v=>V.place[v]);if(!ms.length)return '';
+  const hi=[...ms].sort((a,b)=>V.place[b]-V.place[a])[0],lo=[...ms].sort((a,b)=>V.place[a]-V.place[b])[0];
+  const c=p=>p>=4?'#a9cbbf':p===3?'#d8c3a8':'#e3ab99';
+  return `<section class="sec"><div class="sec__h"><h2>Посмотрите, где жизнь расходится с важным</h2></div>
+    <div class="vbars">${ms.map(v=>`<div class="vbar"><span class="vbar__n">${esc(v)}</span><span class="vbar__t"><i style="width:${V.place[v]*20}%;background:${c(V.place[v])}"></i></span><span class="vbar__w">${esc(VPL[V.place[v]-1][1])}</span>${V.step&&V.step[v]?`<span class="vbar__s">Шаг на неделю: ${esc(V.step[v])}</span>`:''}</div>`).join('')}</div>
+    <p class="vsum">${V.place[hi]===V.place[lo]?`Сейчас у всех главных ценностей примерно одинаково места: ${esc(VPL[V.place[hi]-1][1])}`:`Больше всего места сейчас у ценности «${esc(hi)}». Меньше всего - у ценности «${esc(lo)}»${V.place[lo]<=2?': ей можно добавить места маленьким шагом уже на этой неделе':''}`}</p>
+    ${isOpen('nhv')?`<div class="bmk-tor"><p>Сравните с «Надо / Хочу / Важно»: сколько ваших дел служат этим ценностям, а сколько делаются из страха или по привычке</p><button type="button" class="btn btn--sm" data-go="tool" data-arg="nhv">Открыть</button></div>`:''}</section>`}
+TOOL.values=(m,t)=>{S.values=S.values||{picked:[],main:[],place:{},step:{}};const V=S.values;V.step=V.step||{};V.place=V.place||{};
+  const own=V.picked.filter(v=>!VAL_ALL.includes(v));
+  const chip=v=>`<button type="button" class="chip vchip" aria-pressed="${V.picked.includes(v)}" data-vp="${esc(v)}">${esc(v)}</button>`;
+  const s2=V.picked.length>=3,s3=V.main.length>=1;
+  m.innerHTML=wrap(t,`<section class="sec"><div class="sec__h"><h2><span class="vstep">1</span>Отметьте, что для вас ценно</h2>${V.picked.length?`<span class="muted">отмечено ${V.picked.length}</span>`:''}</div>
+    <p class="pw-why">Выбирайте не то, что принято считать правильным, а то, что откликается именно вам. Обычно набирается 8-15 ценностей</p>
+    <div class="vgrid">${VALG.map(([g,L])=>`<div class="vg"><h3>${esc(g)}</h3><div class="chips">${L.map(chip).join('')}</div></div>`).join('')}${own.length?`<div class="vg"><h3>Свое</h3><div class="chips">${own.map(chip).join('')}</div></div>`:''}</div>
+    <div class="input" style="margin-top:14px"><input id="vOwn" placeholder="Добавьте свою ценность" aria-label="Своя ценность"><button type="button" class="btn btn--sm btn--ghost" id="vAdd">Добавить</button></div>
+    ${!s2&&V.picked.length?`<p class="muted" style="margin-top:12px">Отметьте еще ${3-V.picked.length} ${plural(3-V.picked.length,'ценность','ценности','ценностей')}, чтобы перейти дальше</p>`:''}</section>
+  ${s2?`<section class="sec" id="vS2"><div class="sec__h"><h2><span class="vstep">2</span>Выберите 3-5 самых главных</h2><span class="muted">выбрано ${V.main.length} из 5</span></div>
+    <p class="pw-why">Представьте, что можно оставить только несколько ценностей. Какие вы точно не готовы отдать?</p>
+    <div class="vmain">${V.picked.map(v=>`<button type="button" class="vcard" aria-pressed="${V.main.includes(v)}" data-vm="${esc(v)}">${STAR}<span>${esc(v)}</span></button>`).join('')}</div></section>`:''}
+  ${s3?`<section class="sec" id="vS3"><div class="sec__h"><h2><span class="vstep">3</span>Отметьте, сколько места у них в жизни сейчас</h2></div>
+    <p class="pw-why">Подумайте о последних двух-трех неделях: сколько времени и сил вы отдавали тому, что для вас важно</p>
+    <div class="vrows">${V.main.map(v=>{const p=V.place[v]||0;return `<div class="vrow"><b class="vrow__n">${esc(v)}</b><div class="vdots" role="group" aria-label="${esc(v)}">${VPL.map(([n,w])=>`<button type="button" aria-pressed="${p>=n}" class="${p===n?'is-cur':''}" data-vpl="${esc(v)}" data-n="${n}" aria-label="${w}"></button>`).join('')}</div><span class="vrow__w">${p?esc(VPL[p-1][1]):'не отмечено'}</span>
+      ${p&&p<=2?`<div class="input vrow__step"><input data-vst="${esc(v)}" value="${esc(V.step[v]||'')}" placeholder="Какой маленький шаг добавит ей места на этой неделе?" aria-label="Шаг для ценности ${esc(v)}"></div>`:''}</div>`}).join('')}</div></section>`:''}
+  ${s3?valResult():''}`);
+  bindDisc(m);
+  const keep=()=>{save();const y=window.scrollY;render();window.scrollTo({top:y})};
+  $$('[data-vp]',m).forEach(b=>b.onclick=()=>{const v=b.dataset.vp,i=V.picked.indexOf(v);if(i>=0){V.picked.splice(i,1);V.main=V.main.filter(x=>x!==v)}else V.picked.push(v);keep()});
+  $$('[data-vm]',m).forEach(b=>b.onclick=()=>{const v=b.dataset.vm,i=V.main.indexOf(v);if(i>=0)V.main.splice(i,1);else{if(V.main.length>=5){toast('Главных ценностей может быть до пяти. Снимите звезду с одной из них');return}V.main.push(v)}keep()});
+  $$('[data-vpl]',m).forEach(b=>b.onclick=()=>{V.place[b.dataset.vpl]=+b.dataset.n;keep()});
+  $$('[data-vst]',m).forEach(i=>i.addEventListener('input',()=>autosave('vst',()=>{V.step[i.dataset.vst]=i.value.trim()})));
+  const add=()=>{const v=$('#vOwn',m).value.trim();if(v&&!V.picked.includes(v)){V.picked.push(v);keep()}};$('#vAdd',m).onclick=add;$('#vOwn',m).onkeydown=e=>{if(e.key==='Enter')add()};
+};
+
+/* ================= 16. ДОРОЖНАЯ КАРТА ================= */
+const ROAD_BACK=['Открыть «Выдохнуть»','Написать психологу','Неделю отмечать состояние в «Карте состояния»','Убрать одно дело из недели','Попросить помощи у близких','Вернуться к своему набору в «Центре восстановления»'];
+const addDays=n=>{const d=new Date();d.setDate(d.getDate()+n);return d.toISOString().slice(0,10)};
+function roadKeepSugg(){const V=S.values||{};return [...new Set([...kitText(),...(S.works||[]),...Object.values(V.step||{}).filter(Boolean),...S.load.filter(x=>x.after>0).map(x=>x.name)])].slice(0,10)}
+TOOL.road=(m,t)=>{S.road=S.road||{};const R=S.road;R.keep=R.keep||[];R.backPick=R.backPick||[];
+  const early=[...S.signals.filter(x=>(x.zone||'ранний')==='ранний').map(x=>x.t),...((S.bodyMk||{}).tense||[])].slice(0,6);
+  const sugg=[...new Set([...roadKeepSugg(),...R.keep])];const pk=S.peak||{},d=peakDraft();
+  const ownKeep=R.keep.filter(x=>!roadKeepSugg().includes(x));
+  m.innerHTML=wrap(t,`<ol class="droad">
+    <li class="droad__i"><span class="droad__n">1</span><div class="droad__c"><h2>Выберите, что вы сохраняете каждую неделю</h2><p class="pw-why">Это то, что уже помогло вам за время трека. Отметьте 3-5 пунктов, без которых неделя будет тяжелее</p>
+      ${sugg.length?`<div class="chips">${sugg.map(v=>`<button type="button" class="chip" aria-pressed="${R.keep.includes(v)}" data-rk="${esc(v)}">${esc(v)}</button>`).join('')}</div>`:`<p class="muted">Здесь появятся способы из «Центра восстановления» и «Лаборатории изменений». Пока можно добавить свои</p>`}
+      <div class="input" style="margin-top:12px"><input id="rkOwn" placeholder="Добавьте свое, например: прогулка после работы" aria-label="Что сохраняю"><button type="button" class="btn btn--sm btn--ghost" id="rkAdd">Добавить</button></div></div></li>
+    <li class="droad__i"><span class="droad__n">2</span><div class="droad__c"><h2>Решите, что вы делаете на первых звоночках</h2><p class="pw-why">Чем раньше вы отреагируете, тем меньше сил потратите</p>
+      ${early.length?`<p class="droad__lbl">Ваши первые звоночки</p><div class="droad__tags">${early.map(x=>`<span>${esc(x)}</span>`).join('')}</div>`:`<p class="muted">Первые звоночки соберутся из «Радара ранних сигналов» и «Чек-листа маркеров тела»</p>`}
+      <p class="droad__lbl">Когда я их замечаю, я</p><textarea class="area" id="rEarly" placeholder="${esc(kitText().length?'Например: '+kitText().slice(0,2).join(', ').toLowerCase():'Например: делаю паузу на пять минут и убираю одно дело из списка')}">${esc(R.early||'')}</textarea></div></li>
+    <li class="droad__i"><span class="droad__n">3</span><div class="droad__c"><h2>Проверьте план на следующий сложный период</h2><p class="pw-why">План собирается в «Протоколе пиковой нагрузки»</p>
+      ${pk.situation?`<div class="droad__peak"><p><span class="muted">Период:</span> ${esc(pk.situation)}</p><p><span class="muted">Защищаю:</span> ${esc(pk.keep||d.keep||'-')}</p><p><span class="muted">Временно убираю:</span> ${esc(pk.drop||d.drop||'-')}</p></div>`:`<p class="muted">Протокол пока не собран</p>`}
+      ${isOpen('peak')?`<button type="button" class="btn btn--sm btn--outline" data-go="tool" data-arg="peak" style="margin-top:12px">${pk.situation?'Поправить протокол':'Собрать протокол'}</button>`:''}</div></li>
+    <li class="droad__i"><span class="droad__n">4</span><div class="droad__c"><h2>Решите, что вы сделаете, если снова станет тяжело</h2><p class="pw-why">Откат после трека - это нормально. Важно заранее знать, с чего начать</p>
+      <div class="chips">${ROAD_BACK.map(v=>`<button type="button" class="chip" aria-pressed="${R.backPick.includes(v)}" data-rb="${esc(v)}">${esc(v)}</button>`).join('')}</div>
+      <textarea class="area" id="rBack" style="margin-top:12px" placeholder="Свое: например, позвонить сестре и взять один день без дел">${esc(R.back||'')}</textarea></div></li>
+    <li class="droad__i"><span class="droad__n">5</span><div class="droad__c"><h2>Назначьте дни, когда вы сверитесь с собой</h2><p class="pw-why">В эти дни неделю отмечайте состояние в «Карте состояния» и откройте «Карту себя», чтобы посмотреть, что изменилось</p>
+      <div class="droad__dates"><label><span>Через месяц</span><input type="date" class="line" id="rD1" value="${esc(R.d1||addDays(30))}"></label><label><span>Через три месяца</span><input type="date" class="line" id="rD3" value="${esc(R.d3||addDays(91))}"></label></div></div></li>
+  </ol>
+  <div class="droad__save"><button type="button" class="btn btn--primary" id="rSave">${R.saved?'Сохранить изменения':'Сохранить дорожную карту'}</button>${R.saved?`<span class="saved">Дорожная карта сохранена</span>`:''}<button type="button" class="btn btn--outline" onclick="window.print()">Сохранить в PDF</button><button type="button" class="btn btn--ghost" data-go="navself">Открыть «Карту себя»</button></div>`);
+  bindDisc(m);
+  const keep=()=>{save();const y=window.scrollY;render();window.scrollTo({top:y})};
+  $$('[data-rk]',m).forEach(b=>b.onclick=()=>{const v=b.dataset.rk,i=R.keep.indexOf(v);i>=0?R.keep.splice(i,1):R.keep.push(v);keep()});
+  $$('[data-rb]',m).forEach(b=>b.onclick=()=>{const v=b.dataset.rb,i=R.backPick.indexOf(v);i>=0?R.backPick.splice(i,1):R.backPick.push(v);keep()});
+  const add=()=>{const v=$('#rkOwn',m).value.trim();if(v&&!R.keep.includes(v)){R.keep.push(v);keep()}};$('#rkAdd',m).onclick=add;$('#rkOwn',m).onkeydown=e=>{if(e.key==='Enter')add()};
+  $('#rEarly',m).addEventListener('input',e=>autosave('rd',()=>R.early=e.target.value));$('#rBack',m).addEventListener('input',e=>autosave('rd',()=>R.back=e.target.value));
+  $('#rD1',m).onchange=e=>{R.d1=e.target.value;save()};$('#rD3',m).onchange=e=>{R.d3=e.target.value;save()};
+  $('#rSave',m).onclick=()=>{R.early=$('#rEarly',m).value.trim();R.back=$('#rBack',m).value.trim();R.d1=$('#rD1',m).value;R.d3=$('#rD3',m).value;R.saved=1;keep();toast('Дорожная карта сохранена')};
+};
+
+/* ================= 13. КАРТА СЕБЯ: островки ================= */
+const ISL_G=[['Поймите, что с вами происходит','Как вы узнаете свое состояние по телу, чувствам и первым сигналам','var(--mint)'],
+  ['Посмотрите, откуда берется перегрузка','Что забирает силы, на что вы можете влиять и что для вас важно','var(--beige)'],
+  ['Вспомните, что вам помогает','Что возвращает силы и что вы уже проверили на себе','var(--lavender)']];
+const BLOB='M24 3c9.5 0 18.6 5.2 20.4 14.2 1.8 9-2.6 19.6-10.6 24.6-8 5-19.8 3.8-25.6-3.1C2.4 31.8.9 21.6 5 14 9.1 6.4 14.5 3 24 3z';
+function islands(){const pt=S.point,kit=kitText(),V=S.values||{},B=S.bodyMk||{tense:[],ok:[]};
+  const pz=S.pulses.map((p,i)=>zoneOf(p,S.pulses[i-1]));const steady=S.pulses.filter((p,i)=>pz[i]===0);
+  const avg=k=>Math.round(steady.reduce((a,p)=>a+p[k],0)/steady.length);
+  const tg=(a,cls)=>a.map(x=>`<span class="${cls||''}">${esc(x)}</span>`).join('');const row=(l,a,cls)=>a.length?`<div class="isl__row"><small>${l}</small><div class="isl__tags">${tg(a,cls)}</div></div>`:'';
+  const emoC={};S.pulses.forEach(p=>(p.emo||[]).forEach(e=>emoC[e]=(emoC[e]||0)+1));(pt.emotions||[]).forEach(e=>emoC[e]=(emoC[e]||0)+1);const emos=Object.keys(emoC).sort((a,b)=>emoC[b]-emoC[a]).slice(0,6);
+  const sig=z=>S.signals.filter(s=>(s.zone||'ранний')===z).map(s=>s.t);
+  const ctx=[...new Set(steady.map(p=>p.ctx).filter(Boolean))].slice(0,3);
+  const resp=C.RESP_SECTORS.map(([k,l])=>[l,Object.keys(S.resp.place).filter(i=>S.resp.place[i]===k)]).filter(x=>x[1].length);
+  const wins=(((S.mat||{}).wins||{}).log||[]).map(e=>e.w).slice(0,4);
+  const nhvOk=Object.keys(S.nhv.place).filter(i=>['want','important','choose'].includes(S.nhv.place[i]));
+  return [
+   {g:0,k:'state',t:'Устойчивое состояние',src:'pulse',ok:steady.length>0||(pt.markers||[]).length>0,body:`${steady.length?`<p>Когда все в порядке, у вас ${avg('energy')} из 5 сил и напряжение ${avg('tension')} из 5${ctx.length?'. Чаще всего это '+esc(ctx.join(', ')):''}</p>`:''}${row('Признаки, что стало лучше',pt.markers||[])}`},
+   {g:0,k:'body',t:'Сигналы тела',src:'body',ok:B.tense.length+B.ok.length>0,body:`${row('Пора сбавить темп',B.tense,'t-d')}${row('Я в ресурсе',B.ok,'t-m')}`},
+   {g:0,k:'early',t:'Первые звоночки',src:'radar',ok:S.signals.length>0,body:`${row('В самом начале',sig('ранний'),'t-m')}${row('На пределе',[...sig('уже перегружен'),...sig('предел')],'t-d')}`},
+   {g:0,k:'feel',t:'Частые чувства',src:'pulse',ok:emos.length>0,body:row('Чаще всего',emos)},
+   {g:1,k:'energy',t:'Что забирает и возвращает силы',src:'load',ok:S.load.some(x=>x.after),body:`${row('Забирает',S.load.filter(x=>x.after<0).map(x=>x.name),'t-d')}${row('Возвращает',S.load.filter(x=>x.after>0).map(x=>x.name),'t-m')}`},
+   {g:1,k:'stress',t:'Стрессоры и рычаги',src:'stress',ok:S.stressors.length>0,body:`<ul class="isl__list">${S.stressors.map(s=>`<li><b>${esc(s.name)}</b><span>${esc((C.PATHS.find(p=>p[0]===s.path)||[,'рычаг пока не выбран'])[1])}${s.action?': '+esc(s.action):''}</span></li>`).join('')}</ul>`},
+   {g:1,k:'cycle',t:'Мой цикл перегруза',src:'chain',ok:S.chains.some(c=>c.rule||c.action),body:S.chains.filter(c=>c.rule||c.action).map(c=>`<p class="isl__big">${esc(c.rule||'')}</p>${c.action||c.cost?`<p class="muted">${esc(c.action||'')}${c.cost?' → '+esc(c.cost):''}</p>`:''}`).join('')},
+   {g:1,k:'bound',t:'Мои границы',src:'resp',ok:resp.length>0,body:resp.map(([l,a])=>row(l,a)).join('')},
+   {g:1,k:'values',t:'Мои ценности',src:'values',ok:(V.main||[]).length>0||nhvOk.length>0,body:`${row('Самое главное',V.main||[],'t-l')}${(V.main||[]).filter(v=>V.place&&V.place[v]&&V.place[v]<=2).length?row('Нужно больше места',(V.main||[]).filter(v=>V.place[v]<=2),'t-d'):''}${row('Выбираю сохранять',nhvOk)}`},
+   {g:2,k:'kit',t:'Что меня восстанавливает',src:'recovery',ok:kit.length>0,body:row('Помогает именно мне',kit,'t-m')},
+   {g:2,k:'range',t:'Моя устойчивая нагрузка',src:'range',ok:!!(S.range.q1||S.range.q2),body:`${S.range.q1?`<p>${esc(S.range.q1)}</p>`:''}${S.range.q2?`<p class="muted">${esc(S.range.q2)}</p>`:''}`},
+   {g:2,k:'tested',t:'Что уже проверено',src:'lab',ok:S.lab.some(l=>l.ifx&&l.ify)||S.works.length>0||wins.length>0,body:`${S.lab.filter(l=>l.ifx&&l.ify).map(l=>`<p class="ifthen"><em>Если</em> ${esc(l.ifx)} → <em>я</em> ${esc(l.ify)}</p>`).join('')}${row('Что уже работает',S.works)}${row('Из дневника достижений',wins)}`}]}
+function islCard(x){const own=(S.navOwn||{})[x.k]||[];const st=STAGE_OF[x.src];const op=isOpen(x.src);const has=x.ok||own.length;
+  return `<article class="isl isl--g${x.g}${has?'':' is-empty'}" data-isl="${x.k}">
+    <div class="isl__h"><span class="isl__blob" aria-hidden="true"><svg viewBox="0 0 48 48" width="44" height="44"><path d="${BLOB}" fill="${ISL_G[x.g][2]}"/><g transform="translate(12 12)" fill="none" stroke="var(--ink)" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">${ICO[x.src]||''}</g></svg></span>
+      <div><h3>${esc(x.t)}</h3><p class="isl__src">${op?`<button type="button" class="isl__lnk" data-go="tool" data-arg="${x.src}">из «${esc(T[x.src].title)}» ›</button>`:`из «${esc(T[x.src].title)}» · этап ${st||''}`}</p></div></div>
+    <div class="isl__b">${x.ok?x.body:`<p class="isl__empty">${op?'Соберется, когда вы заполните инструмент':'Появится на этапе '+(st||'')+', после встречи с психологом'}</p>`}
+      ${own.length?`<div class="isl__row"><small>Мое</small><div class="isl__tags">${own.map((v,i)=>`<span class="t-own">${esc(v)}<button type="button" data-islx="${x.k}" data-i="${i}" aria-label="Убрать">×</button></span>`).join('')}</div></div>`:''}</div>
+    <div class="isl__add"><button type="button" class="isl__plus" data-isla="${x.k}">+ Добавить свое</button><span class="input isl__in" hidden><input data-isli="${x.k}" placeholder="Что вы еще знаете о себе" aria-label="Добавить на островок «${esc(x.t)}»"><button type="button" class="btn btn--sm" data-islok="${x.k}">Добавить</button></span></div></article>`}
+TOOL.nav=(m,t)=>{S.navOwn=S.navOwn||{};const I=islands();const has=x=>x.ok||(S.navOwn[x.k]||[]).length;const n=I.filter(has).length;
+  m.innerHTML=`<div class="page page--narrow">${head(t)}
+    <div class="isl-prog"><span class="isl-prog__t">Собрано ${n} из ${I.length} островков</span><span class="isl-dots" aria-hidden="true">${I.map(x=>`<i class="${has(x)?'on g'+x.g:''}"></i>`).join('')}</span></div>
+    <section class="sec"><div class="sec__h"><h2>Узнайте свое состояние по трем зонам</h2></div><p class="pw-why">Это ключ к карте: по каким признакам понять, где вы сейчас, и что сделать в каждой зоне</p>${zonesHtml()}</section>
+    <div class="isl-map">${ISL_G.map((G,gi)=>`<section class="isl-grp"><div class="isl-grp__h"><span class="isl-grp__n" style="background:${G[2]}">${gi+1}</span><div><h2>${esc(G[0])}</h2><p>${esc(G[1])}</p></div></div><div class="isl-grid">${I.filter(x=>x.g===gi).map(islCard).join('')}</div></section>`).join('')}</div>
+    ${matBlock('nav')}
+    <section class="nav-next"><h2>Решите, что делать дальше</h2><p>Карта собирается сама, пока вы проходите инструменты. Добавляйте на островки то, что узнаете о себе, и возвращайтесь к карте перед сложными периодами</p>
+      <div class="nav-next__b">${isOpen('road')?`<button class="btn btn--primary" data-go="tool" data-arg="road">Открыть «Дорожную карту»</button>`:''}<button class="btn ${isOpen('road')?'btn--outline':'btn--primary'}" onclick="window.print()">Сохранить в PDF</button><button class="btn btn--ghost" data-go="tools">Посмотреть свой маршрут</button></div></section></div>`;
+  const keep=()=>{save();const y=window.scrollY;render();window.scrollTo({top:y})};
+  $$('[data-isla]',m).forEach(b=>b.onclick=()=>{const w=b.parentElement;b.hidden=true;const r=$('.isl__in',w);r.hidden=false;$('input',r).focus()});
+  const addOwn=k=>{const i=$(`[data-isli="${k}"]`,m);const v=i.value.trim();if(v){(S.navOwn[k]=S.navOwn[k]||[]).push(v);keep()}};
+  $$('[data-islok]',m).forEach(b=>b.onclick=()=>addOwn(b.dataset.islok));
+  $$('[data-isli]',m).forEach(i=>i.onkeydown=e=>{if(e.key==='Enter')addOwn(i.dataset.isli);if(e.key==='Escape')keep()});
+  $$('[data-islx]',m).forEach(b=>b.onclick=()=>{S.navOwn[b.dataset.islx].splice(+b.dataset.i,1);keep()});
+};
+
+/* ================= МАТЕРИАЛЫ: раскрыть тему глубже ================= */
+const MAT=[
+ {id:'sleep',stage:2,kind:'read',time:'3 минуты',rel:['recovery','point'],title:'Подготовьте вечер ко сну',lead:'Сон - это не пауза в жизни, а время, когда восстанавливаются тело и психика',
+  text:['Когда сна мало, хуже работают внимание и память, сложнее справляться с эмоциями, и любая нагрузка ощущается тяжелее','Вечером организм начинает вырабатывать мелатонин - гормон, который помогает уснуть. Ему нужны темнота и спокойствие, а яркий свет экранов, кофеин и алкоголь мешают'],
+  check:{h:'Отметьте, что у вас уже есть',items:['Ложусь и встаю примерно в одно время, даже в выходные','За час до сна убираю телефон и яркий свет','В спальне темно и прохладно','Кофе и крепкий чай - только до обеда','Не использую алкоголь, чтобы уснуть','Днем есть движение, но не поздно вечером','Перед сном есть спокойный ритуал: душ, книга, дыхание']},
+  fields:[['try','Что одно вы попробуете на этой неделе?']],note:'Если сон не восстанавливает несколько недель подряд, обсудите это с психологом или врачом'},
+ {id:'choice',stage:3,kind:'read',time:'3 минуты',rel:['stress','resp'],title:'Разделите то, что можно изменить, и то, что нельзя',lead:'Можешь менять - меняй. Не можешь - у тебя все равно есть выбор, как к этому относиться',
+  cols:[['Внешние стрессоры','События и обстоятельства','Помогает самоорганизация: понять цель, расставить дела по важности и срочности, поставить реальные сроки, говорить «нет» лишнему и делать сложное первым'],['Внутренние стрессоры','Ваши реакции и мысли','Помогает саморегуляция: дыхание, расслабление мышц, успокаивающий образ или слово']],
+  check:{h:'Попробуйте это, если ситуацию не изменить',items:['Спросить себя: «Мне это правда нужно?»','Разделить, где ваша ответственность, а где чужая','Отделить факт от интерпретации','Посмотреть шире: как это будет выглядеть через год','Найти «но зато»: что в этом есть полезного для вас','Дать эмоциям выход: проговорить, записать, подвигаться']},
+  note:'Если стрессор - другой человек, попробуйте посмотреть на него иначе: не как на противника, а как на уставшего или испуганного человека, которому сейчас тоже трудно'},
+ {id:'stressan',stage:3,kind:'work',time:'15 минут',rel:['stress','chain'],title:'Разберите одну стрессовую ситуацию',lead:'Выберите недавнюю ситуацию, после которой вы долго не могли прийти в себя, и разберите ее по шагам',
+  groups:[['Опишите, что произошло',[['sit','Что случилось?'],['pre','Что этому предшествовало?'],['res','К чему это привело?']]],['Вспомните, как вы реагировали',[['th','Что вы думали?'],['act','Что вы делали?'],['fe','Что вы чувствовали?']]],['Решите, что поможет в следующий раз',[['th2','Какая мысль поддержит?'],['act2','Что вы сделаете?'],['fe2','Какое чувство поможет опереться?']]]]},
+ {id:'scanner',stage:4,kind:'work',time:'1 минута',rel:['body','radar','pulse'],title:'Просканируйте тело за одну минуту',lead:'Закройте глаза или опустите взгляд. Пройдите вниманием от макушки до стоп и ответьте на три вопроса',scan:true},
+ {id:'askself',stage:5,kind:'work',time:'20 минут',rel:['chain','lab','load'],title:'Задайте себе честные вопросы о работе',lead:'Подумайте о работе целиком: о задачах, общении, дороге, ожиданиях. Ответы видите только вы',
+  groups:[['',[['q1','Как я себя чувствую в своей работе?'],['q2','Насколько мне нравится то, что я делаю?'],['q3','Готов(а) ли я продолжать так же еще много лет?'],['q4','Сколько сил забирает у меня работа?'],['q5','Сколько сил она мне дает?'],['q6','Что я получаю, когда все устроено так, как сейчас?'],['q7','Что я теряю, когда все устроено так?'],['q8','Если бы все было так, как я хочу, чем бы наполнилась моя жизнь?'],['q9','От чего меня спасает моя работа?','Иногда работа помогает не смотреть на то, на что смотреть страшно'],['q10','Какую скрытую выгоду мне дает то, как все устроено сейчас?']]]]},
+ {id:'rights',stage:6,kind:'read',time:'2 минуты',rel:['resp'],title:'Напомните себе о своих правах',lead:'Границы начинаются с того, что вы разрешаете себе',
+  check:{h:'Отметьте то, что вам пока трудно себе разрешить',items:['Хотеть и не хотеть','Не объяснять причины своих решений','Сказать, когда со мной обращаются недопустимо','Говорить о своем мнении и своих интересах','Выбирать цели, людей и дела, которые подходят мне','Отдаляться от людей, рядом с которыми мне плохо','Радоваться жизни и следовать своим желаниям','Не отвечать за чувства других людей в ответ на мои границы']},
+  fields:[['hard','Какое право вам сейчас нужнее всего и где вы попробуете его себе дать?']]},
+ {id:'listen',stage:7,kind:'work',time:'5 минут',rel:['nhv','values'],title:'Сверьте желание с телом',lead:'Четыре шага, которые помогают отличить свое желание от «надо». Пробуйте в разных сферах жизни',listen:true},
+ {id:'wins',stage:9,kind:'work',time:'5 минут вечером',rel:['lab','road','nav'],title:'Ведите дневник достижений',lead:'Достижение - это все, что вы сами считаете достижением: отношения, навык, трудный разговор, преодоленный страх, время для себя. Оценить, насколько оно большое, можете только вы',
+  text:['Перед сном пройдитесь по дню от вечера к утру и найдите, за что себя похвалить. Вспомните не только сам факт, но и то, что вы почувствовали в этот момент. Записывать лучше, чем держать в голове: так достижения не теряются'],wins:true}];
+const MATI=Object.fromEntries(MAT.map(x=>[x.id,x]));
+const LISTEN_SPH=['Работа','Здоровье','Отношения','Отдых и хобби','Развитие','Деньги','Творчество и вера'];
+const SCAN=[['t','Температура',['холодно','нейтрально','тепло']],['h','Вес',['тяжело','обычно','легко']],['r','Мышцы',['напряженно','обычно','расслабленно']]];
+function matFilled(id){const d=(S.mat||{})[id];if(!d)return false;return Object.values(d).some(v=>Array.isArray(v)?v.length:v&&typeof v==='object'?Object.keys(v).length:!!v)}
+function matCard(x){const st=C.stages[x.stage-1];return `<button type="button" class="mcard${matFilled(x.id)?' is-done':''}" data-go="mat" data-arg="${x.id}"><span class="mcard__k mcard__k--${x.kind}">${x.kind==='read'?'Почитать':'Упражнение'} · ${esc(x.time)}</span><span class="mcard__t">${esc(x.title)}</span><span class="mcard__s">Этап ${x.stage} · ${esc(st.title)}</span>${matFilled(x.id)?`<span class="mcard__ok">${ico('check',14)}</span>`:''}</button>`}
+function matBlock(id){const L=MAT.filter(x=>x.rel.includes(id));if(!L.length)return '';
+  return `<section class="sec mblock"><div class="sec__h"><h2>Раскройте тему глубже</h2></div><div class="mgrid">${L.map(matCard).join('')}</div></section>`}
+function vMat(m){S.mat=S.mat||{};const x=route.arg&&MATI[route.arg];
+  if(!x){const cs=curStage();const by=C.stages.filter(s=>MAT.some(x=>x.stage===s.n));
+    m.innerHTML=`<div class="page page--narrow"><header class="thead"><p class="eyebrow">Дополнительно</p><h1>Раскройте темы трека глубже</h1><p class="thead__goal">Короткие тексты и упражнения к этапам маршрута. Возвращайтесь к ним, когда захотите разобраться подробнее: ответы сохраняются и попадают в «Карту себя»</p></header>
+      <ol class="mlist">${by.map(s=>`<li class="mlist__i${s.n===cs?' is-now':''}"><p class="mlist__h">Этап ${s.n} · ${esc(s.title)}${s.n===cs?' · <b>вы здесь</b>':''}</p><div class="mgrid">${MAT.filter(x=>x.stage===s.n).map(matCard).join('')}</div></li>`).join('')}</ol></div>`;return}
+  const D=S.mat[x.id]=S.mat[x.id]||{};const st=C.stages[x.stage-1];
+  const ta=(k,l,h)=>`<label class="mfield"><span class="mfield__l">${esc(l)}</span>${h?`<span class="mfield__h">${esc(h)}</span>`:''}<textarea class="area" data-mf="${k}" rows="2">${esc(D[k]||'')}</textarea></label>`;
+  let body='';
+  if(x.text)body+=x.text.map(p=>`<p class="mtext">${esc(p)}</p>`).join('');
+  if(x.cols)body+=`<div class="mcols">${x.cols.map(([h,s,p],i)=>`<div class="mcol mcol--${i}"><p class="mcol__h">${esc(h)}</p><p class="mcol__s">${esc(s)}</p><p>${esc(p)}</p></div>`).join('')}</div>`;
+  if(x.check){D.chk=D.chk||[];body+=`<div class="msec"><p class="msec__h">${esc(x.check.h)}</p><div class="mchk">${x.check.items.map(v=>`<button type="button" class="bmk-i" aria-pressed="${D.chk.includes(v)}" data-mc="${esc(v)}"><span class="bmk-i__c" aria-hidden="true">${ico('check',14)}</span><span>${esc(v)}</span></button>`).join('')}</div></div>`}
+  if(x.groups)body+=x.groups.map(([h,F])=>`<div class="msec">${h?`<p class="msec__h">${esc(h)}</p>`:''}<div class="mfields${F.length===3?' mfields--3':''}">${F.map(([k,l,hh])=>ta(k,l,hh)).join('')}</div></div>`).join('');
+  if(x.fields)body+=`<div class="msec">${x.fields.map(([k,l])=>ta(k,l)).join('')}</div>`;
+  if(x.scan){const cur=route.scan||(route.scan={});D.log=D.log||[];
+    body+=`<div class="msec"><div class="mscan">${SCAN.map(([k,l,o])=>`<div class="mscan__r"><p class="mscan__l">${l}</p><div class="seg" data-scan="${k}">${o.map(v=>`<button type="button" aria-pressed="${cur[k]===v}" data-v="${v}">${v}</button>`).join('')}</div></div>`).join('')}
+      <div class="mscan__r"><p class="mscan__l">Где ощущение сильнее всего?</p><div class="chips">${ZONES.map(z=>z[0]).map(z=>`<button type="button" class="chip" aria-pressed="${(cur.z||[]).includes(z)}" data-sz="${z}">${z}</button>`).join('')}</div></div></div>
+      <button type="button" class="btn btn--primary" id="scSave" style="margin-top:18px">Сохранить сканирование</button></div>
+      ${D.log.length?`<div class="msec"><p class="msec__h">Посмотрите свои прошлые сканирования</p><ul class="mlog">${D.log.slice(0,6).map(e=>`<li><span class="muted">${esc(e.d)}</span><span>${esc([e.t,e.h,e.r].filter(Boolean).join(', '))}${e.z&&e.z.length?' · '+esc(e.z.join(', ')):''}</span></li>`).join('')}</ul></div>`:''}`}
+  if(x.listen){D.log=D.log||[];const dr=route.lst||(route.lst={});
+    body+=`<div class="msec"><p class="msec__h">Выберите сферу жизни</p><div class="chips">${LISTEN_SPH.map(v=>`<button type="button" class="chip" aria-pressed="${dr.sph===v}" data-lsph="${esc(v)}">${esc(v)}</button>`).join('')}</div></div>
+      <ol class="msteps">${[['w','Заметьте желание','Чего мне сейчас хочется?'],['th','Поймайте мысль','Что я об этом думаю? Сформулируйте от первого лица: «Я…»'],['b','Сверьтесь с чувствами и телом','Что я чувствую и где это в теле? Если от мысли становится тяжело, переформулируйте ее'],['st','Сделайте маленький шаг','Какой самый маленький шаг я сделаю?']].map(([k,h,p],i)=>`<li><span class="msteps__n">${i+1}</span><label class="mfield"><span class="mfield__l">${h}</span><span class="mfield__h">${p}</span><textarea class="area" rows="2" data-lst="${k}">${esc(dr[k]||'')}</textarea></label></li>`).join('')}</ol>
+      <button type="button" class="btn btn--primary" id="lsSave">Сохранить запись</button>
+      ${D.log.length?`<div class="msec"><p class="msec__h">Перечитайте свои записи</p><ul class="mlog">${D.log.slice(0,8).map(e=>`<li><span class="muted">${esc(e.d)}${e.sph?' · '+esc(e.sph):''}</span><span>${esc(e.w||'')}${e.st?' → '+esc(e.st):''}</span></li>`).join('')}</ul></div>`:''}`}
+  if(x.wins){D.log=D.log||[];
+    body+=`<div class="msec"><div class="mfields"><label class="mfield"><span class="mfield__l">Что у вас получилось?</span><textarea class="area" rows="2" id="wW"></textarea></label><label class="mfield"><span class="mfield__l">Что вы почувствовали?</span><textarea class="area" rows="2" id="wF"></textarea></label></div><button type="button" class="btn btn--primary" id="wAdd" style="margin-top:14px">Записать достижение</button></div>
+      ${D.log.length?`<div class="msec"><p class="msec__h">Перечитайте свои достижения · ${D.log.length}</p><ul class="mlog">${D.log.map((e,i)=>`<li><span class="muted">${esc(e.d)}</span><span>${esc(e.w)}${e.f?`<em> - ${esc(e.f)}</em>`:''}</span><button type="button" class="btn btn--ghost btn--sm" data-wx="${i}" aria-label="Удалить">×</button></li>`).join('')}</ul></div>`:''}`}
+  if(x.note)body+=`<div class="note" style="margin-top:24px">${esc(x.note)}</div>`;
+  const rel=x.rel.filter(id=>T[id]&&isOpen(id));
+  m.innerHTML=`<div class="page page--narrow mat"><button class="back" data-go="mat">${BACK}Все материалы</button>
+    <header class="thead"><p class="eyebrow">${x.kind==='read'?'Почитать':'Упражнение'} · ${esc(x.time)} · этап ${x.stage}</p><h1>${esc(x.title)}</h1><p class="thead__goal">${esc(x.lead)}</p></header>
+    ${body}
+    <div class="mat__foot">${(x.groups||x.fields)?`<span class="saved">Ответы сохраняются сами</span>`:''}${rel.map(id=>`<button type="button" class="btn btn--outline btn--sm" data-go="tool" data-arg="${id}">Открыть «${esc(T[id].title)}»</button>`).join('')}<button type="button" class="btn btn--ghost btn--sm" data-go="mat">Вернуться к материалам</button></div></div>`;
+  const keep=()=>{save();const y=window.scrollY;render();window.scrollTo({top:y})};
+  const today=()=>new Date().toLocaleDateString('ru-RU',{day:'numeric',month:'long'});
+  $$('[data-mf]',m).forEach(a=>a.addEventListener('input',()=>autosave('mf',()=>{D[a.dataset.mf]=a.value.trim()})));
+  $$('[data-mc]',m).forEach(b=>b.onclick=()=>{const v=b.dataset.mc,i=D.chk.indexOf(v);i>=0?D.chk.splice(i,1):D.chk.push(v);b.setAttribute('aria-pressed',String(i<0));save()});
+  if(x.scan){const cur=route.scan;$$('[data-scan]',m).forEach(g=>g.onclick=e=>{const b=e.target.closest('button');if(!b)return;cur[g.dataset.scan]=cur[g.dataset.scan]===b.dataset.v?null:b.dataset.v;$$('button',g).forEach(z=>z.setAttribute('aria-pressed',String(cur[g.dataset.scan]===z.dataset.v)))});
+    $$('[data-sz]',m).forEach(b=>b.onclick=()=>{cur.z=cur.z||[];const i=cur.z.indexOf(b.dataset.sz);i>=0?cur.z.splice(i,1):cur.z.push(b.dataset.sz);b.setAttribute('aria-pressed',String(i<0))});
+    $('#scSave',m).onclick=()=>{if(!cur.t&&!cur.h&&!cur.r){toast('Отметьте хотя бы одно ощущение');return}D.log.unshift({d:today(),t:cur.t,h:cur.h,r:cur.r,z:cur.z||[]});route.scan={};keep();toast('Сканирование сохранено')}}
+  if(x.listen){const dr=route.lst;$$('[data-lsph]',m).forEach(b=>b.onclick=()=>{dr.sph=dr.sph===b.dataset.lsph?null:b.dataset.lsph;$$('[data-lsph]',m).forEach(z=>z.setAttribute('aria-pressed',String(dr.sph===z.dataset.lsph)))});
+    $$('[data-lst]',m).forEach(a=>a.addEventListener('input',()=>dr[a.dataset.lst]=a.value.trim()));
+    $('#lsSave',m).onclick=()=>{if(!dr.w){toast('Начните с желания: чего вам сейчас хочется?');return}D.log.unshift({d:today(),...dr});route.lst={};keep();toast('Запись сохранена')}}
+  if(x.wins){$('#wAdd',m).onclick=()=>{const w=$('#wW',m).value.trim();if(!w){toast('Напишите, что у вас получилось');return}D.log.unshift({d:today(),w,f:$('#wF',m).value.trim()});keep();toast('Достижение записано')};
+    $$('[data-wx]',m).forEach(b=>b.onclick=()=>{D.log.splice(+b.dataset.wx,1);keep()})}
+}
 
 /* ================= К ВСТРЕЧЕ ================= */
 function vMeet(m){S.discussed=S.discussed||[];
