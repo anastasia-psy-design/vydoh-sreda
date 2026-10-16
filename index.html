@@ -2471,16 +2471,7 @@ button.meet__t:hover{background:var(--cream)}
 
 .mlist .mcard__s{display:none}.mlist .mcard{min-height:0}
 
-/* Круг эмоций: 8 чувств и оттенки в кольцах */
-.ew-svg svg{max-width:560px}
-.ews path{stroke:var(--bg);stroke-width:2.5}
-.ews--core text{font-family:var(--serif);letter-spacing:.01em}
-.ews--ring text{font-family:var(--sans)}
-.ews.on path{filter:brightness(.84) saturate(1.2);stroke:rgba(45,44,42,.35);stroke-width:1.2}
-.ews.on text{font-weight:500}
-.ew-c{font-family:var(--serif)!important;fill:var(--text)!important}
 
-@media (max-width:600px){.ew-svg{padding:4px}}
 .ew-svg{border-radius:0;border-color:#e7ebe8}
 
 /* ===== Дизайн-система InTreatment: правила личного кабинета ===== */
@@ -2904,35 +2895,40 @@ const SYM={'спокойствие':'<path d="M3 10c3-2.5 6-2.5 9 0s6 2.5 9 0M3 
  'Отпуск или выходные':'<path d="M12 21V9"/><path d="M12 9C9 5 5 5 3.5 7.5 6 7 8.5 7.5 12 9zM12 9c3-4 7-4 8.5-1.5C18 7 15.5 7.5 12 9zM12 9c-.5-3.5 1-6 3.5-6.5"/><path d="M6 21h12"/>','Не отвечать по работе вечером':'<path d="M15.5 4.5A7.5 7.5 0 1019.5 15 6 6 0 0115.5 4.5z"/><path d="M4 4l16 16"/>','Чекапы, анализы':'<path d="M9 3v7l-4.5 8a2 2 0 001.8 3h11.4a2 2 0 001.8-3L15 10V3"/><path d="M8 3h8M7 15h10"/>','Спорт':'<path d="M7 8v8M17 8v8M4 10v4M20 10v4M7 12h10"/>','Прогулки, природа':'<path d="M12 21v-5"/><path d="M12 3l-5 7h3l-4 6h12l-4-6h3z"/>','Медитации, дыхание':'<circle cx="12" cy="6" r="2.2"/><path d="M5 18c2-1 3.5-3 4-6h6c.5 3 2 5 4 6"/><path d="M4 18h16"/>','Цифровой детокс':'<rect x="7" y="3" width="10" height="18" rx="2"/><path d="M4 4l16 16"/>','Планирование':'<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 9h16M9 3v4M15 3v4M8 13l2 2 4-4"/>','Потерпеть до конца проекта':'<path d="M5 21V4"/><path d="M5 4h11l-2.5 3.5L16 11H5"/>'};
 const symIco=v=>`<svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${SYM[v]||'<circle cx="12" cy="12" r="2" fill="currentColor"/>'}</svg>`;
 function symPick(name,opts,val,hint){val=val||[];const all=[...new Set([...opts,...val])];return `${hint?`<p class="sym__hint">${hint}</p>`:''}<div class="sym sym--${opts.length%4===0?4:5}" data-seg="${name}" data-multi="true" data-max="99">${all.map(o=>`<button type="button" class="chip" aria-pressed="${val.includes(o)}" data-v="${esc(o)}"><span class="sym__c">${symIco(o)}</span><span class="sym__t">${esc(o)}</span></button>`).join('')}</div>`}
-/* Круг эмоций: 8 базовых чувств в центре и по три оттенка в кольцах, все видно сразу. Цвета - мягкая палитра InTreatment */
+/* Круг эмоций: сначала 7 базовых чувств, по нажатию раскрываются оттенки */
 const EW=[
- {n:'Радость',c:['#dcc58e','#e7d6aa','#efe3c6','#f6efe0'],m:['Восторг','Умиротворение','Гордость']},
- {n:'Доверие',c:['#a9c6bd','#c3d8d1','#d9e6e2','#ebf2f0'],m:['Принятие','Теплота','Спокойствие']},
- {n:'Страх',c:['#b9b0cc','#cec7dc','#e0dbe9','#efecf4'],m:['Тревога','Неуверенность','Паника']},
- {n:'Удивление',c:['#dcbfa0','#e7d2bb','#efe1d3','#f6eee6'],m:['Изумление','Растерянность','Любопытство']},
- {n:'Грусть',c:['#a9b9c8','#c3cfda','#d9e1e8','#ebf0f3'],m:['Разочарование','Одиночество','Тоска']},
- {n:'Отвращение',c:['#b4bfae','#cbd3c6','#dde2d9','#edf0ea'],m:['Неприязнь','Брезгливость','Презрение']},
- {n:'Злость',c:['#d9a99a','#e5c2b6','#eed7cf','#f6e9e4'],m:['Раздражение','Обида','Негодование']},
- {n:'Ожидание',c:['#d2c2ad','#dfd3c3','#e9e1d6','#f3eee8'],m:['Интерес','Нетерпение','Предвкушение']}];
-const EWF={};EW.forEach(f=>{EWF[f.n.toLowerCase()]=f;f.m.forEach(x=>EWF[x.toLowerCase()]=f)});
-const EW_R=[62,172,236,298,360];
-function ewSvg(sel){const P=(r,a)=>{const t=a*Math.PI/180;return [(r*Math.sin(t)).toFixed(2),(-r*Math.cos(t)).toFixed(2)]};
-  const arc=(r0,r1,a0,a1)=>{const [x0,y0]=P(r1,a0),[x1,y1]=P(r1,a1),[x2,y2]=P(r0,a1),[x3,y3]=P(r0,a0);return `M${x0} ${y0}A${r1} ${r1} 0 0 1 ${x1} ${y1}L${x2} ${y2}A${r0} ${r0} 0 0 0 ${x3} ${y3}Z`};
-  const seg=(name,lvl,r0,r1,a0,a1,fill)=>{const am=(a0+a1)/2,rm=(r0+r1)/2+(lvl===0&&name.length<=8?6:0),[x,y]=P(rm,am);const on=sel.includes(name.toLowerCase());
-    let rot;if(lvl===0)rot=am<180?am-90:am+90;else rot=(am>90&&am<270)?am-180:am;
-    const fs=lvl===0?(name.length>8?14.5:16):lvl===3?17:16;
-    return `<g class="ews ews--${lvl?'ring':'core'}${on?' on':''}" data-ew="${esc(name)}" role="button" tabindex="0" aria-pressed="${on}" aria-label="${esc(name)}"><path d="${arc(r0,r1,a0,a1)}" fill="${fill}"/><text transform="translate(${x} ${y}) rotate(${rot.toFixed(1)})" font-size="${fs}" text-anchor="middle" dy="${(fs*.35).toFixed(1)}">${esc(name)}</text></g>`};
-  let out='';EW.forEach((f,i)=>{const a0=i*45,a1=a0+45;out+=seg(f.n,0,EW_R[0],EW_R[1],a0,a1,f.c[0]);f.m.forEach((x,k)=>{out+=seg(x,k+1,EW_R[k+1],EW_R[k+2],a0,a1,f.c[k+1])})});
-  out+=`<circle class="ew-mid" r="${EW_R[0]}" fill="#ffffff" stroke="#e7ebe8"/><text class="ew-c" y="-4" text-anchor="middle" font-size="17">Что я</text><text class="ew-c" y="18" text-anchor="middle" font-size="17">чувствую?</text>`;
-  return `<svg viewBox="-366 -366 732 732" role="group" aria-label="Круг эмоций">${out}</svg>`}
-function bindEw(m,p){const box=$('#ew',m);if(!box)return;p.emotions=p.emotions||[];
-  const sync=()=>{const mid=$('.ew-mid',box);$$('[data-ew]',box).forEach(g=>{const on=p.emotions.includes(g.dataset.ew.toLowerCase());g.classList.toggle('on',on);g.setAttribute('aria-pressed',String(on));if(on&&mid)mid.parentNode.insertBefore(g,mid)});drawSel()};
-  const drawSel=()=>{const e=$('#ewSel',m);e.innerHTML=p.emotions.length?`<span class="ew-sel__h">Вы выбрали</span>${p.emotions.map(x=>`<button type="button" class="ew-chip" data-ewx="${esc(x)}" style="--c:${(EWF[x]||{c:['#e6e3de']}).c[1]}">${esc(x)}<span aria-hidden="true">×</span></button>`).join('')}`:'';
-    $$('[data-ewx]',e).forEach(b=>b.onclick=()=>{p.emotions=p.emotions.filter(x=>x!==b.dataset.ewx);S.point=p;save();sync()})};
-  box.innerHTML=`<div class="ew-svg">${ewSvg(p.emotions)}</div>`;
-  $$('[data-ew]',box).forEach(g=>{const act=()=>{const k=g.dataset.ew.toLowerCase(),i=p.emotions.indexOf(k);i>=0?p.emotions.splice(i,1):p.emotions.push(k);S.point=p;save();sync()};
-    g.onclick=act;g.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();act()}}});
-  sync();
+ {n:'Истощение',c:['#bcd2cb','#dbe7e3','#eef4f2'],note:'Чего сейчас не хватает: отдыха, времени, ясности?',m:[['Усталость',['Сонливость','Рассеянность']],['Стресс',['Перегруженность','Потеря контроля']],['Занятость',['Давление','Спешка']],['Скука',['Безразличие','Апатия']]]},
+ {n:'Страх',c:['#e6d5bd','#efe4d4','#f7f1e8'],note:'Что сейчас кажется угрожающим и на что можно опереться?',m:[['Тревога',['Беспокойство','Волнение']],['Неуверенность',['Несостоятельность','Неполноценность']],['Испуг',['Беспомощность','Паника']],['Угроза',['Нервозность','Незащищенность']],['Отвержение',['Ненужность','Покинутость']],['Слабость',['Незначительность','Нерешительность']]]},
+ {n:'Злость',c:['#e5c0b4','#f0dbd3','#f8eeea'],note:'Что для вас важно и было нарушено?',m:[['Фрустрация',['Раздражение','Бешенство']],['Обида',['Предательство','Негодование']],['Унижение',['Неуважение','Высмеивание']],['Агрессия',['Ярость','Враждебность']],['Отчуждение',['Замкнутость','Оцепенение']],['Критичность',['Скепсис','Пренебрежение']],['Зависть',['Ревность','Соперничество']]]},
+ {n:'Грусть',c:['#c6d3de','#dce5ec','#eef2f6'],note:'Что ценное утрачено или пока недоступно?',m:[['Подавленность',['Пустота','Упадок']],['Одиночество',['Изолированность','Брошенность']],['Вина',['Стыд','Сожаление']],['Печаль',['Разочарование','Смирение']],['Уязвимость',['Хрупкость','Ранимость']],['Отчаяние',['Горе','Бессилие']]]},
+ {n:'Отвращение',c:['#d4d1cc','#e5e2de','#f2f0ed'],note:'Что для вас сейчас недопустимо?',m:[['Неприязнь',['Презрение','Протест']],['Неодобрение',['Осуждение','Смущение']],['Отторжение',['Нетерпимость','Ненависть']],['Омерзение',['Брезгливость','Ужас']]]},
+ {n:'Удивление',c:['#d5cee2','#e7e3ef','#f3f1f7'],note:'Что оказалось не таким, как вы ожидали?',m:[['Растерянность',['Недоумение','Замешательство']],['Потрясение',['Шок','Встревоженность']],['Изумление',['Ошеломленность','Трепет']],['Восхищение',['Благоговение','Воодушевление']]]},
+ {n:'Радость',c:['#e9dcb4','#f2e9d2','#f9f4e8'],note:'Что сейчас вас питает и поддерживает?',m:[['Умиротворенность',['Нежность','Благодарность']],['Удовлетворенность',['Свобода','Веселье']],['Заинтересованность',['Любопытство','Увлеченность']],['Энергичность',['Кураж','Творчество']],['Доверие',['Чуткость','Близость']],['Оптимизм',['Надежда','Вдохновение']],['Гордость',['Успех','Уверенность']],['Признание',['Уважение','Ценность']],['Игривость',['Возбуждение','Беззаботность']]]}];
+const EWF={};EW.forEach(f=>{EWF[f.n.toLowerCase()]=f;f.m.forEach(([a,l])=>{EWF[a.toLowerCase()]=f;l.forEach(x=>EWF[x.toLowerCase()]=f)})});
+function ewSvg(sel,fam){const P=(r,a)=>{const t=a*Math.PI/180;return [(r*Math.sin(t)).toFixed(2),(-r*Math.cos(t)).toFixed(2)]};
+  const arc=(r0,r1,a0,a1)=>{const L=a1-a0>180?1:0,[x0,y0]=P(r1,a0),[x1,y1]=P(r1,a1),[x2,y2]=P(r0,a1),[x3,y3]=P(r0,a0);return `M${x0} ${y0}A${r1} ${r1} 0 ${L} 1 ${x1} ${y1}L${x2} ${y2}A${r0} ${r0} 0 ${L} 0 ${x3} ${y3}Z`};
+  const words=(t,max)=>{if(t.length<=max)return [t];const i=t.lastIndexOf(' ',max);return i>0?[t.slice(0,i),t.slice(i+1)]:[t]};
+  const seg=(cls,name,r0,r1,a0,a1,fill,fs,act)=>{const am=(a0+a1)/2,rm=(r0+r1)/2,[x,y]=P(rm,am);const rad=cls==='leaf'||cls==='mid';let rot=rad?(am<=180?am-90:am+90):0;const on=sel.includes(name.toLowerCase());const ls=words(name,cls==='core'?12:14);
+    return `<g class="ews ews--${cls}${on?' on':''}" data-ew="${esc(name)}" data-act="${act}" role="button" tabindex="0" aria-pressed="${on}" aria-label="${esc(name)}"><path d="${arc(r0,r1,a0,a1)}" fill="${fill}"/><text transform="translate(${x} ${y}) rotate(${rot.toFixed(1)})" font-size="${fs}" text-anchor="middle">${ls.map((l,i)=>`<tspan x="0" dy="${i?fs*1.15:(ls.length>1?-fs*.45:fs*.35)}">${esc(l)}</tspan>`).join('')}</text></g>`};const fit=(t,room,mx)=>Math.min(mx,room/(t.length*.56));
+  let out='';
+  if(!fam){const st=360/EW.length;EW.forEach((f,i)=>{out+=seg('core',f.n,70,300,i*st,(i+1)*st,f.c[0],27,'fam')});
+    out+=`<circle r="70" fill="var(--bg)"/><text class="ew-c" y="-6" text-anchor="middle" font-size="19">Нажмите</text><text class="ew-c" y="20" text-anchor="middle" font-size="19">на чувство</text>`;
+    return `<svg viewBox="-310 -310 620 620" role="group" aria-label="Круг эмоций: базовые чувства">${out}</svg>`}
+  const f=EW.find(x=>x.n===fam);const tot=f.m.reduce((a,m)=>a+m[1].length,0),st=360/tot;let a=0;
+  f.m.forEach(([mn,l])=>{const ma=a;l.forEach(x=>{out+=seg('leaf',x,190,328,a,a+st,f.c[2],fit(x,124,19),'pick');a+=st});out+=seg('mid',mn,84,190,ma,a,f.c[1],fit(mn,96,19),'pick')});
+  const on=sel.includes(f.n.toLowerCase());
+  out+=`<g class="ews ews--core ews--center${on?' on':''}" data-ew="${esc(f.n)}" data-act="pick" role="button" tabindex="0" aria-pressed="${on}"><circle r="84" fill="${f.c[0]}"/><text y="7" text-anchor="middle" font-size="${fit(f.n,150,28)}">${esc(f.n)}</text></g>`;
+  return `<svg viewBox="-330 -330 660 660" role="group" aria-label="Оттенки: ${esc(f.n)}">${out}</svg>`}
+function bindEw(m,p){const box=$('#ew',m);if(!box)return;p.emotions=p.emotions||[];let fam=null;
+  const drawSel=()=>{const e=$('#ewSel',m);e.innerHTML=p.emotions.length?`<span class="ew-sel__h">Вы выбрали</span>${p.emotions.map(x=>`<button type="button" class="ew-chip" data-ewx="${esc(x)}" style="--c:${(EWF[x]||{c:['#e6e3de']}).c[0]}">${esc(x)}<span aria-hidden="true">×</span></button>`).join('')}`:'';
+    $$('[data-ewx]',e).forEach(b=>b.onclick=()=>{p.emotions=p.emotions.filter(x=>x!==b.dataset.ewx);S.point=p;save();draw()})};
+  const draw=()=>{const f=fam&&EW.find(x=>x.n===fam);
+    box.innerHTML=`${f?`<div class="ew-top"><button type="button" class="ew-back" id="ewBack">${BACK}Все чувства</button><p class="ew-note">${esc(f.note)} Выберите оттенки снаружи или само чувство в центре</p></div>`:''}<div class="ew-svg${f?' is-fam':''}">${ewSvg(p.emotions,fam)}</div>`;
+    const bk=$('#ewBack',box);if(bk)bk.onclick=()=>{fam=null;draw()};
+    $$('[data-ew]',box).forEach(g=>{const act=()=>{const v=g.dataset.ew;if(g.dataset.act==='fam'){fam=v;draw();return}const k=v.toLowerCase(),i=p.emotions.indexOf(k);i>=0?p.emotions.splice(i,1):p.emotions.push(k);S.point=p;save();draw()};
+      g.onclick=act;g.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();act()}}});
+    drawSel()};
+  draw();
   const own=$('#ewOwn',m);if(own)own.onkeydown=e=>{if(e.key!=='Enter')return;e.preventDefault();const v=own.value.trim().toLowerCase();if(v&&!p.emotions.includes(v)){p.emotions.push(v);S.point=p;save();drawSel()}own.value=''}}
 /* Новая система ответов: шкала, список с одним ответом, список с галочками. Логика прежняя - кнопки seg остаются, меняется только вид */
 function scaleSeg(name,opts,val){const i=opts.findIndex(o=>String(o[0])===String(val));const n=opts.length;
@@ -3542,7 +3538,7 @@ TOOL.point=(m,t)=>{const p=S.point;p.spheres=p.spheres||{};p.ownSph=p.ownSph||[]
     ${field('Отметьте на колесе, сколько сил уходит на каждую сферу',`<p class="fld-hint">Нажмите на луч сферы: чем дальше от центра, тем больше сил на нее уходит</p><div class="wh-panel"><div class="wheel wheel--big" id="wheel"></div><p class="wh-read">Ближе к центру - сфера забирает мало сил, у края - очень много</p></div><p class="wh-sum" id="whSum"></p>`)}
     ${field('Добавьте свою сферу, если чего-то не хватает',`${p.ownSph.length?`<div class="wh-own__list">${p.ownSph.map((n,i)=>`<span class="wh-own__chip">${esc(n)}<button type="button" data-delsph="${i}" aria-label="Убрать ${esc(n)}">×</button></span>`).join('')}</div>`:''}${p.ownSph.length<2?`<div class="input"><input id="sphIn" placeholder="Например: переезд, ремонт, учеба детей"><button class="btn btn--sm" id="sphAdd">Добавить</button></div>`:''}`,'по желанию')}</div></section>
   <section class="dsec"><h2 class="dsec__h">Отметьте основные чувства и ощущения в течение недели</h2><div class="form">
-    ${field('Отметьте эмоции, которые вы чаще всего испытываете в течение недели',`<p class="fld-hint">Нажмите на чувство в середине круга или на его оттенок в кольцах снаружи. Достаточно 1-5 самых частых</p><div class="ew" id="ew"></div><div class="ew-sel" id="ewSel"></div><div class="own"><input class="line" id="ewOwn" placeholder="Свое - напишите и нажмите Enter" aria-label="Свое чувство"></div>`)}
+    ${field('Отметьте эмоции, которые вы чаще всего испытываете в течение недели',`<p class="fld-hint">Нажмите в центре круга на чувство, которое ближе всего, и выберите его оттенки. Достаточно 1-5 самых частых</p><div class="ew" id="ew"></div><div class="ew-sel" id="ewSel"></div><div class="own"><input class="line" id="ewOwn" placeholder="Свое - напишите и нажмите Enter" aria-label="Свое чувство"></div>`)}
     ${field('Отметьте ощущения, которые вы чаще всего замечаете в теле в течение недели',symPick('body',C.BODY,p.body,'Выбирайте 1-5 наиболее частых телесных ощущений')+ownInput('body'))}
     ${field('Отметьте, что вы уже пробовали, чтобы облегчить состояние или вернуть силы',symPick('tried',C.TRIED,p.tried,'')+ownInput('tried'))}</div></section>
   <section class="dsec"><h2 class="dsec__h">Сформулируйте свою цель</h2><div class="form">
