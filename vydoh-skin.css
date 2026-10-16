@@ -1403,3 +1403,38 @@ body{background:var(--page);font-size:15px;line-height:1.5}
   .hg__q small{display:none}.hg__q{align-items:center}
   .hg__p small{display:none}
 }
+
+/* Главный экран на широком экране: две колонки. Слева приветствие и путь, справа главное дело и быстрые ссылки */
+@media (min-width:1100px){
+  .page.hg{display:grid;grid-template-columns:minmax(250px,320px) minmax(0,1fr);grid-template-areas:"top card" "path card" "path quiet";grid-template-rows:auto 1fr auto;column-gap:clamp(36px,4vw,64px);row-gap:0;max-width:1240px;align-content:center;padding:clamp(28px,4.5vh,48px) clamp(36px,3.5vw,56px)}
+  .page.hg>.back{display:none}
+  .hg__top{grid-area:top;display:block}
+  .hg__h{margin:6px 0 0;font-size:clamp(32px,min(2.6vw,5.6vh),44px);line-height:1.08}
+  .hg__name{display:flex;margin:18px 0 0;max-width:none}
+  .hg__path{grid-area:path;display:flex;flex-direction:column;gap:0;margin-top:clamp(20px,3.6vh,36px);align-self:start}
+  .hg__path::before{left:9px;right:auto;top:20px;bottom:20px;width:1px;height:auto}
+  .hg__p{display:grid;grid-template-columns:19px minmax(0,1fr);column-gap:16px;align-items:center;justify-items:start;text-align:left;padding:clamp(8px,1.5vh,13px) 12px clamp(8px,1.5vh,13px) 0;margin-right:-12px}
+  .hg__p i{grid-row:1/3;margin:0}
+  .hg__p b{grid-column:2;font-size:18px}
+  .hg__p small{grid-column:2;margin-top:2px;font-size:13px}
+  .hg__p small{display:block!important}
+  .hg__p.is-cur{background:linear-gradient(90deg,transparent 0,transparent 30px,var(--accent) 30px)}
+  .hg__card{grid-area:card;margin:0;align-self:stretch;align-content:center;padding:clamp(24px,4vh,40px) clamp(28px,3vw,44px)}
+  .hg__card::before{display:none}
+  .hg__txt h2{font-size:clamp(28px,min(2.4vw,5vh),40px)}
+  .hg__art{width:clamp(130px,min(13vw,24vh),200px)}
+  .hg__quiet{grid-area:quiet;margin-top:clamp(14px,2.4vh,22px)}
+  .hg__q small{display:block!important}
+}
+@media (min-width:1100px){
+  .page.hg{min-height:calc(100dvh - var(--header-h) - 32px);box-sizing:border-box}
+  .hg__p{column-gap:24px}
+  .hg__p.is-cur{background:linear-gradient(90deg,transparent 0,transparent 31px,var(--accent) 31px);padding-left:0}
+  .hg__p.is-cur b,.hg__p.is-cur small{padding-left:12px}
+  .hg__p:not(.is-cur) b,.hg__p:not(.is-cur) small{padding-left:12px}
+}
+@media (min-width:1100px){
+  .page.hg{grid-template-rows:auto auto auto;align-content:center}
+  .hg__card{align-self:stretch}
+}
+@media (min-width:1100px){.hg__card{grid-template-columns:minmax(0,1fr) auto}.hg__txt h2{margin-bottom:12px}}
