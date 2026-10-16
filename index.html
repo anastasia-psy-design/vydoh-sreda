@@ -2261,6 +2261,27 @@ button.meet__t:hover{background:var(--cream)}
 .bat-mini::after{display:none}
 .bat-mini i{position:absolute;left:1.5px;right:1.5px;bottom:1.5px;border-radius:1.5px}
 
+/* Шаги диагностики: единая сетка отступов */
+.pt-steps~.dsec .dsec__h{margin:0 0 4px!important;padding-bottom:14px}
+.pt-steps~.dsec .field{gap:14px!important}
+.pt-steps~.dsec .field>*{margin-left:0!important;margin-right:0!important;max-width:none}
+.fld-hint{margin:-4px 0 0;font-size:15px;line-height:1.5;color:var(--text)}
+.wh-panel{display:grid;justify-items:center;gap:10px;padding:clamp(16px,3vw,28px);border:1px solid var(--line);border-radius:var(--r-lg,16px);background:var(--bg)}
+.wh-panel .wheel{width:100%;max-width:560px}
+.wh-panel .wh-read{margin:0;text-align:center;font-size:14px;color:var(--muted)}
+.wh-sum{margin:0!important;max-width:none!important;font-size:15px;color:var(--text)}
+.wh-sum:empty{display:none}
+.wh-own__list{margin:0!important}
+.pt-steps~.dsec .ans-note{max-width:none}
+.pt-steps~.dsec .sym__hint{margin:-4px 0 4px!important}
+@media (max-width:640px){.wh-panel{padding:12px}}
+
+.pt-steps~.dsec .ans-radio .seg,.pt-steps~.dsec .scl{max-width:none!important}
+.pt-steps~.dsec .fld-hint,.pt-steps~.dsec .sym__hint{margin:-6px 0 0!important;font-size:14.5px!important;line-height:1.5;color:var(--muted)!important}
+.pt-steps~.dsec .scl--empty .scl__w{font-size:14.5px;color:var(--muted)}
+.pt-steps~.dsec .ans-note>span{font-size:14.5px;color:var(--muted)}
+.pt-steps~.dsec .own{margin-top:2px}
+
 </style>
 </head>
 <body>
@@ -3209,10 +3230,9 @@ TOOL.point=(m,t)=>{const p=S.point;p.spheres=p.spheres||{};p.ownSph=p.ownSph||[]
   <section class="dsec"><h2 class="dsec__h">Отметьте, как вы отдыхаете в течение недели и года</h2><div class="form">
     ${field('Отметьте, восстанавливают ли вас выходные',`<div class="ans-radio">${seg('weekend',['да','частично','нет, уходят на дела'],p.weekend)}</div>`)}
     ${field('Когда вы последний раз отдыхали в отпуске без работы?',`<div class="ans-radio">${seg('vacation',['в последние полгода','больше полугода назад','больше года назад','в отпуске все равно работаю'],p.vacation)}</div>`)}</div></section>
-  <section class="dsec"><h2 class="dsec__h">Оцените общую нагрузку в разных сферах жизни</h2><p class="pw-why" style="margin-top:4px">Нажмите на луч каждой сферы: чем дальше от центра, тем больше сил на нее уходит</p>
-    <div class="wh-box"><div class="wheel wheel--big" id="wheel"></div><p class="wh-read">Ближе к центру - сфера забирает мало сил, у края - очень много</p></div>
-    <div class="wh-own"><p class="wh-own__h">Добавьте свою сферу, если чего-то не хватает</p>${p.ownSph.length?`<div class="wh-own__list">${p.ownSph.map((n,i)=>`<span class="wh-own__chip">${esc(n)}<button type="button" data-delsph="${i}" aria-label="Убрать ${esc(n)}">×</button></span>`).join('')}</div>`:''}${p.ownSph.length<2?`<div class="input"><input id="sphIn" placeholder="Например: переезд, ремонт, учеба детей"><button class="btn btn--sm" id="sphAdd">Добавить</button></div>`:''}</div>
-    <div class="wh-sum" id="whSum"></div></section>
+  <section class="dsec"><h2 class="dsec__h">Оцените общую нагрузку в разных сферах жизни</h2><div class="form">
+    ${field('Отметьте на колесе, сколько сил уходит на каждую сферу',`<p class="fld-hint">Нажмите на луч сферы: чем дальше от центра, тем больше сил на нее уходит</p><div class="wh-panel"><div class="wheel wheel--big" id="wheel"></div><p class="wh-read">Ближе к центру - сфера забирает мало сил, у края - очень много</p></div><p class="wh-sum" id="whSum"></p>`)}
+    ${field('Добавьте свою сферу, если чего-то не хватает',`${p.ownSph.length?`<div class="wh-own__list">${p.ownSph.map((n,i)=>`<span class="wh-own__chip">${esc(n)}<button type="button" data-delsph="${i}" aria-label="Убрать ${esc(n)}">×</button></span>`).join('')}</div>`:''}${p.ownSph.length<2?`<div class="input"><input id="sphIn" placeholder="Например: переезд, ремонт, учеба детей"><button class="btn btn--sm" id="sphAdd">Добавить</button></div>`:''}`,'по желанию')}</div></section>
   <section class="dsec"><h2 class="dsec__h">Отметьте основные чувства и ощущения в течение недели</h2><div class="form">
     ${field('Отметьте эмоции, которые вы чаще всего испытываете в течение недели',symPick('emotions',C.EMOTIONS,p.emotions,'Выбирайте 1-5 наиболее частых эмоциональных состояний')+ownInput('emotions'))}
     ${field('Отметьте ощущения, которые вы чаще всего замечаете в теле в течение недели',symPick('body',C.BODY,p.body,'Выбирайте 1-5 наиболее частых телесных ощущений')+ownInput('body'))}
