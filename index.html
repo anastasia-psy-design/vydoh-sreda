@@ -2674,6 +2674,10 @@ body{background:var(--page);font-size:15px;line-height:1.5}
 
 .ldc__n,.cviz__n small{overflow-wrap:break-word!important}
 
+/* Кнопка следующего шага - внизу слева, под описанием */
+.nxt__row{flex-direction:column;align-items:flex-start;gap:16px}
+.nxt__go{min-width:200px}
+
 </style>
 </head>
 <body>
@@ -3730,7 +3734,7 @@ TOOL.point=(m,t)=>{const p=S.point;p.spheres=p.spheres||{};p.ownSph=p.ownSph||[]
    $$('[data-delsph]',m).forEach(b=>b.onclick=()=>{const n=p.ownSph.splice(+b.dataset.delsph,1)[0];delete p.spheres['own:'+n];S.point=p;save();route.pst=2;render()})}
   $('#pChange').addEventListener('input',e=>autosave('pt',()=>{p.change=e.target.value;S.point=p}));$$('[data-mk]',m).forEach(i=>i.addEventListener('input',()=>autosave('pt',()=>{p.markers=$$('[data-mk]',m).map(x=>x.value.trim()).filter(Boolean);S.point=p})));
   {const g=$('[data-seg="sleepProb"]',m);if(g)g.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;setTimeout(()=>{const ok='со сном все в порядке';let a=p.sleepProb||[];if(b.dataset.v===ok&&a.includes(ok))a=[ok];else if(b.dataset.v!==ok)a=a.filter(x=>x!==ok);p.sleepProb=a;$$('button',g).forEach(x=>x.setAttribute('aria-pressed',String(a.includes(x.dataset.v))));S.point=p;save()},0)})}
-  $('#pSave').onclick=()=>{p.change=$('#pChange').value.trim();p.markers=$$('[data-mk]',m).map(i=>i.value.trim()).filter(Boolean);p.energy=p.morning||p.energy;p.load=Math.max(0,...Object.values(p.spheres))||p.load;p.saved=1;S.point=p;save();toast('Диагностика сохранена. В конце трека она встанет рядом с финальной');const r=$('#ptRes',m);r.innerHTML=pointResult(p);r.hidden=false;r.scrollIntoView({behavior:'smooth',block:'start'})};
+  $('#pSave').onclick=()=>{p.change=$('#pChange').value.trim();p.markers=$$('[data-mk]',m).map(i=>i.value.trim()).filter(Boolean);p.energy=p.morning||p.energy;p.load=Math.max(0,...Object.values(p.spheres))||p.load;p.saved=1;S.point=p;save();toast('Диагностика сохранена. В конце трека она встанет рядом с финальной');render();const r=$('#ptRes');if(r)r.scrollIntoView({behavior:'smooth',block:'start'})};
   pointSteps(m,p);
 };
 function pointResult(p){const W=a=>(ENERGY_W.find(x=>x[0]===a)||[,'-'])[1];const sp=p.spheres||{};
