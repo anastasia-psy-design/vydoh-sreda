@@ -2666,6 +2666,14 @@ body{background:var(--page);font-size:15px;line-height:1.5}
   .bmk__fig .bodymap{max-height:340px}
 }
 
+/* Карточки практик: слова в заголовке не переносятся по буквам */
+.rc{grid-template-columns:96px minmax(0,1fr);gap:22px;padding:28px}
+.rc__img svg{width:96px!important;height:auto!important}
+.rc__h{overflow-wrap:normal!important;word-break:normal;hyphens:none!important;font-size:clamp(24px,1.9vw,30px)}
+@media (max-width:640px){.rc{grid-template-columns:72px minmax(0,1fr);gap:16px;padding:20px}.rc__img svg{width:72px!important}}
+
+.ldc__n,.cviz__n small{overflow-wrap:break-word!important}
+
 </style>
 </head>
 <body>
