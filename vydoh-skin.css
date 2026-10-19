@@ -1531,3 +1531,6 @@ body{background:var(--page);font-size:15px;line-height:1.5}
 /* Кнопка следующего шага - внизу слева, под описанием */
 .nxt__row{flex-direction:column;align-items:flex-start;gap:16px}
 .nxt__go{min-width:200px}
+
+/* Всегда светлая схема, даже если на устройстве включена темная тема */
+:root{color-scheme:only light}
