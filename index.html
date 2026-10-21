@@ -4979,11 +4979,12 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-tp]');if(!
     let base=el.value;if(base&&!/\s$/.test(base))base+=' ';let fin='';
     const put=t=>{let v=base+t;if(!base.trim())v=v.charAt(0).toUpperCase()+v.slice(1);el.value=v;el.dispatchEvent(new Event('input',{bubbles:true}))};
     rec.onresult=e=>{let it='';for(let i=e.resultIndex;i<e.results.length;i++){const r=e.results[i];if(r.isFinal)fin+=r[0].transcript.trim()+' ';else it+=r[0].transcript}put((fin+it).replace(/\s+$/,it?'':' ').replace(/\s{2,}/g,' '))};
-    rec.onerror=e=>{if(e.error==='not-allowed'||e.error==='service-not-allowed')toast('Нет доступа к микрофону. Разрешите его в настройках браузера или напишите текстом');else if(e.error==='no-speech')toast('Ничего не слышно. Нажмите на микрофон и говорите');else if(e.error!=='aborted')toast('Голосовой ввод прервался. Попробуйте еще раз')};
+    rec.onerror=e=>{if(e.error==='not-allowed'||e.error==='service-not-allowed'){let inFrame=false;try{inFrame=window.top!==window}catch(x){inFrame=true}
+      toast(inFrame&&!/vercel\.app$/.test(location.hostname)?'В предпросмотре микрофон не работает. Откройте кабинет на сайте vydoh-sreda.vercel.app: там браузер спросит разрешение':'Нет доступа к микрофону. Нажмите на значок замка слева от адреса сайта, разрешите микрофон и попробуйте еще раз')}else if(e.error==='no-speech')toast('Ничего не слышно. Нажмите на микрофон и говорите');else if(e.error!=='aborted')toast('Голосовой ввод прервался. Попробуйте еще раз')};
     rec.onend=()=>{btn.classList.remove('is-on');btn.setAttribute('aria-pressed','false');btn.title='Надиктовать голосом';if(cur&&cur.rec===rec)cur=null;el.value=el.value.replace(/\s+$/,'');el.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('change',{bubbles:true}))};
     try{rec.start()}catch(e){toast('Голосовой ввод не запустился. Попробуйте еще раз');return}
     cur={el,rec};btn.classList.add('is-on');btn.setAttribute('aria-pressed','true');btn.title='Остановить диктовку';toast('Говорите. Чтобы закончить, нажмите на микрофон еще раз')};
-  const deco=root=>{(root||document).querySelectorAll('textarea,input').forEach(el=>{if(!ok(el))return;el.dataset.mic='1';
+  const deco=root=>{(root||document).querySelectorAll('textarea,input').forEach(el=>{if(!ok(el))return;el.dataset.mic='1';el.setAttribute('autocomplete','off');
     const w=document.createElement('span');w.className='mic-w'+(el.tagName==='TEXTAREA'?' mic-w--area':'');el.parentNode.insertBefore(w,el);w.appendChild(el);
     const b=document.createElement('button');b.type='button';b.className='mic';b.innerHTML=MIC;b.title='Надиктовать голосом';b.setAttribute('aria-label','Надиктовать голосом');b.setAttribute('aria-pressed','false');
     b.addEventListener('mousedown',e=>e.preventDefault());b.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();start(el,b)});w.appendChild(b)})};
