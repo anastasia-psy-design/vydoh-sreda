@@ -2851,6 +2851,34 @@ body{background:var(--page);font-size:15px;line-height:1.5}
 
 @media (max-width:760px){.rw__nav{position:sticky;bottom:0;z-index:5;background:#fff;margin:12px -16px 0;padding:12px 16px calc(12px + env(safe-area-inset-bottom));border-top:1px solid #e7ebe8}}
 
+/* Карточки «что делать»: результаты радара и карты нагрузки */
+.act{display:grid;gap:14px;grid-template-columns:repeat(var(--n,2),minmax(0,1fr));margin-top:6px}
+.act--1{--n:1}.act--2{--n:2}.act--3{--n:3}
+.act__c{background:#fff;border:1px solid #e7ebe8;border-top:3px solid var(--ac);padding:18px 20px 20px;display:flex;flex-direction:column;align-items:flex-start;min-width:0}
+.act__c--ok{--ac:#8fad99;--chip:#deebe1}.act__c--warn{--ac:#c9a96a;--chip:#f6ecd6}.act__c--bad{--ac:#d6a49c;--chip:#f6e3e0}
+.act__eb{font-size:13px;color:#737773;margin:0 0 4px}
+.act__t{font:400 24px/1.2 var(--serif);color:#2d2c2a;margin:0 0 12px}
+.act__d{font-size:14px;color:#737773;line-height:1.5;margin:-4px 0 12px}
+.act__chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.act__chips span{background:var(--chip);border-radius:999px;padding:5px 12px;font-size:14px;color:#333;max-width:100%;overflow-wrap:anywhere}
+.act__chips em{font-size:14px;color:#a2a6a3;font-style:normal}
+.act__lbl{font-size:13px;color:#737773;margin:0 0 6px;padding-top:12px;border-top:1px solid #e7ebe8;align-self:stretch}
+.act__todo{margin:0;padding:0;list-style:none;display:grid;gap:6px}
+.act__todo li{position:relative;padding-left:16px;font-size:15px;line-height:1.45;color:#333}
+.act__todo li::before{content:"";position:absolute;left:0;top:.62em;width:6px;height:6px;border-radius:50%;background:var(--ac)}
+.act__btn{margin-top:14px}
+.act__list{margin:0;padding:0;list-style:none;align-self:stretch}
+.act__list li{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;padding:9px 0;border-top:1px solid #f0f1ef;font-size:15px;color:#333}
+.act__list li:first-child{border-top:0}
+.act__list small{font-size:12px;color:#737773;background:#f5f4f1;border-radius:999px;padding:2px 8px}
+.act__neu,.act__hint{font-size:14px;color:#737773;margin-top:12px}
+@media (max-width:900px){.act--3{--n:1}}
+@media (max-width:700px){.act{--n:1!important}}
+
+.act__lbl,.act__d,.act__eb{max-width:none!important}
+
+.rw__nav--end{position:static!important;border-top:0!important;margin-top:12px!important;padding:0!important}
+
 </style>
 </head>
 <body>
@@ -4099,7 +4127,7 @@ TOOL.radar=(m,t)=>{
           <button type="button" class="rw__c rw__add" data-ownopen>+ свое</button><span class="rw__own" hidden><input data-own placeholder="Ваш вариант" aria-label="Свой сигнал: ${type}"><button type="button" class="btn btn--sm" data-ownadd>Добавить</button></span></div></div>`}).join('')}</div>
       <div class="rw__nav"><button type="button" class="btn btn--primary" data-rgo="${st+1}"${n?'':' disabled'}>${st?'Посмотреть, что это значит':'Дальше: на пределе'}<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M6 3l5 5-5 5"/></svg></button>
         <span class="rw__cnt">${n?`Отмечено ${n} ${plural(n,'вариант','варианта','вариантов')}`:'Отметьте хотя бы один вариант'}</span>${st?'<button type="button" class="btn btn--ghost" data-rgo="0">Назад</button>':''}</div></div>`}
-  else body=`${S.signals.length?radarMeaning():'<p class="muted">Сигналы пока не отмечены</p>'}<div class="rw__nav"><button type="button" class="btn btn--ghost" data-rgo="0">Изменить отметки</button></div>`;
+  else body=`${S.signals.length?radarMeaning():'<p class="muted">Сигналы пока не отмечены</p>'}<div class="rw__nav rw__nav--end"><button type="button" class="btn btn--ghost" data-rgo="0">Изменить отметки</button></div>`;
   m.innerHTML=wrap(t,`<section class="sec rw-sec">${stepper}${body}</section>`);
   if(st<2){const nx=$('.nxt',m);if(nx)nx.hidden=true;const rs=$('.nxt__reset',m);if(rs)rs.hidden=true}
   bindDisc(m);
@@ -4128,14 +4156,17 @@ function radarRead(){const ic=b=>`<svg width="28" height="28" viewBox="0 0 28 28
   <div>${ic('<circle cx="14" cy="14" r="11" stroke-dasharray="1 2.6"/><path d="M14 3v22M3 14h22"/><path d="M14 14V3A11 11 0 0 1 25 14z" fill="var(--mint)"/>')}<span><b>Четверть круга - где проявляется сигнал</b> В теле, в эмоциях, в мыслях или в поведении</span></div>
   <div>${ic('<circle cx="14" cy="14" r="12" fill="var(--mint)"/><circle cx="14" cy="14" r="8" fill="var(--beige)"/><circle cx="14" cy="14" r="4" fill="var(--lavender)"/>')}<span><b>Кольцо - когда сигнал появляется</b> Внешнее кольцо - в самом начале перегрузки, среднее - когда уже тяжело, центр - когда сил почти не осталось</span></div></div>`}
 function radarMeaning(){const g=z=>S.signals.filter(x=>x.zone===z).map(x=>x.t);
-  const Z=[['ранний','ok','Первые звоночки','Эти сигналы появляются, когда нагрузка только начинает расти. Если вы их заметили, у вас еще есть запас сил, и это самый удобный момент, чтобы сбавить темп: сделать паузу, убрать одно дело из списка или попросить помощи. Чем раньше вы отреагируете, тем меньше сил потратите'],
-    ['уже перегружен','warn','Уже тяжело','Эти сигналы означают, что вы уже тратите силы быстрее, чем они восстанавливаются. В такой момент лучше снизить нагрузку в тот же день и выбрать способ прийти в себя в «Центре восстановления»'],
-    ['предел','bad','На пределе','Если вы замечаете эти сигналы, сил почти не осталось. Остановитесь, насколько это возможно, откройте «Выдохнуть» и напишите психологу, не дожидаясь встречи']];
+  /* Две карточки рядом: когда это бывает, ваши сигналы, что делать */
+  const Z=[['ранний','ok','Когда нагрузка только растет','Первые звоночки',['Сделайте паузу хотя бы на 5 минут','Уберите одно дело из сегодняшнего списка','Попросите помощи, пока сил еще хватает'],''],
+    ['уже перегружен','warn','Когда силы тратятся быстрее, чем восстанавливаются','Уже тяжело',['Снизьте нагрузку в тот же день','Выберите способ прийти в себя в «Центре восстановления»'],''],
+    ['предел','bad','Когда сил почти не осталось','На пределе',['Остановитесь, насколько это возможно','Напишите психологу, не дожидаясь встречи'],'<button type="button" class="btn btn--sm act__btn" data-go="hard">Открыть «Выдохнуть»</button>']];
   const early=g('ранний').length;const ZZ=Z.filter(([z])=>z!=='уже перегружен'||g(z).length);
-  return `<section class="sec"><div class="sec__h"><h2>Посмотрите, что означают ваши сигналы</h2></div>
+  return `<section class="sec rm"><div class="sec__h"><h2>Посмотрите, что означают ваши сигналы</h2></div>
     <p class="pw-why">Главное - научиться замечать первые звоночки: в этот момент помочь себе проще всего</p>
-    <div class="zrows">${ZZ.map(([z,c,t,d])=>{const v=g(z);return `<div class="zrow zrow--${c} zrow--wide"><div class="zrow__h"><span class="zrow__m zrow__m--${c}"></span><b>${t}</b></div><div class="zrow__c"><small>Ваши сигналы</small><div>${v.length?v.map(x=>`<span>${esc(x)}</span>`).join(''):'<em>пока не отмечены</em>'}</div></div><p class="zrow__d">${d}</p></div>`}).join('')}</div>
-    ${early?'':`<div class="note">Первых звоночков у вас пока нет. Понаблюдайте в течение недели, что появляется раньше всего, когда нагрузка растет: обычно это мелочи, например вы перестаете делать паузы или начинаете сжимать челюсть. Именно такие мелочи стоит научиться замечать</div>`}</section>`}
+    <div class="act act--${ZZ.length}">${ZZ.map(([z,c,eb,t,todo,extra])=>{const v=g(z);return `<article class="act__c act__c--${c}"><p class="act__eb">${eb}</p><h3 class="act__t">${t}</h3>
+      <div class="act__chips">${v.length?v.map(x=>`<span>${esc(x)}</span>`).join(''):'<em>пока не отмечены</em>'}</div>
+      <p class="act__lbl">Что делать</p><ul class="act__todo">${todo.map(x=>`<li>${x}</li>`).join('')}</ul>${extra}</article>`}).join('')}</div>
+    ${early?'':`<div class="note">Первых звоночков у вас пока нет. Понаблюдайте в течение недели, что появляется раньше всего, когда нагрузка растет: обычно это мелочи, например вы перестаете делать паузы или начинаете сжимать челюсть</div>`}</section>`}
 function radarSvg(){const W=720,H=520,cx=360,cy=262,Rr=[230,155,80];
   const ang={'тело':-135,'эмоции':-45,'мысли':45,'поведение':135};
   const zr={'ранний':(Rr[0]+Rr[1])/2,'уже перегружен':(Rr[1]+Rr[2])/2,'предел':Rr[2]/2};
@@ -4201,16 +4232,30 @@ TOOL.load=(m,t)=>{
       <div class="ld-q"><span>Сколько сил это забирает?</span>${seg('demand',[[1,'почти не забирает'],[2,'немного'],[3,'средне'],[4,'много'],[5,'очень много']],x.demand)}</div>
       <div class="ld-q"><span>Насколько это важно для вас?</span>${seg('imp',[[1,'не очень'],[2,'важно'],[3,'очень важно']],x.imp)}</div>
       <div class="ld-q"><span>Можно ли здесь что-то изменить?</span>${seg('change',['да','частично','нет'],x.change)}</div></div>`).join('')}</div></details></section>
-  ${S.load.some(x=>x.after)?`<section class="sec"><div class="sec__h"><h2>Шаг 3. Посмотрите подробную карту</h2></div><p class="pw-why">Здесь видно, сколько сил забирает каждое дело и насколько оно для вас важно</p><div class="viz" id="quadV">${loadSvg()}</div><p class="viz-cap">Слева направо - сколько сил забирает. Снизу вверх - как вы себя чувствуете после: от «опустошен(а)» до «наполнен(а)». Чем крупнее кружок, тем это важнее для вас. Пунктирное кольцо - здесь что-то можно изменить</p></section>`:''}`:'<p class="muted" style="margin-top:18px">Добавьте три-пять дел, и появятся весы</p>'}`);
+  ${S.load.some(x=>x.after)?`<section class="sec" id="ldPlan">${loadPlan()}</section>`:''}`:'<p class="muted" style="margin-top:18px">Добавьте три-пять дел, и появятся весы</p>'}`);
   bindDisc(m);
   const add=v=>{v=v.trim();if(v&&!items().includes(v)){S.load.push({name:v,demand:3,after:0,imp:2,change:'частично'});save();const y=window.scrollY;render();window.scrollTo({top:y})}};
   $('#ldAdd').onclick=()=>add($('#ldIn').value);$('#ldIn').onkeydown=e=>{if(e.key==='Enter')add(e.target.value)};
   $$('[data-ls]',m).forEach(b=>b.onclick=()=>add(b.dataset.ls));
-  const refresh=()=>{const c=$('#scaleC',m);if(c)c.textContent=S.load.some(o=>o.after)?scaleCap():'';const q=$('#quadV',m);if(q)q.innerHTML=loadSvg();else if(S.load.some(o=>o.after)){const y=window.scrollY;render();window.scrollTo({top:y})}};
+  const refresh=()=>{const c=$('#scaleC',m);if(c)c.textContent=S.load.some(o=>o.after)?scaleCap():'';const q=$('#ldPlan',m);if(q)q.innerHTML=loadPlan();else if(S.load.some(o=>o.after)){const y=window.scrollY;render();window.scrollTo({top:y})}};
   const bx=$('#ldb',m);if(bx)bindBoard(bx,refresh);
   $$('.ld-item',m).forEach(r=>{const x=S.load[+r.dataset.i];bindSeg(r,x,()=>{save();const b=$('#ldb',m);if(b){const a=$('.ldb__beam',b);if(a){a.outerHTML=beamSvg();ldHang(b)}}refresh()})});
   $$('[data-dl]',m).forEach(b=>b.onclick=()=>{S.load.splice(+b.dataset.dl,1);save();render()});
 };
+/* Шаг 3: вместо графика - три понятные группы дел с тем, что с ними делать */
+function loadPlan(){const L=S.load;const by=(a,f)=>a.slice().sort(f);
+  const keep=by(L.filter(x=>x.after>0),(a,b)=>b.after-a.after);
+  const ease=by(L.filter(x=>x.after<0&&(x.imp||2)>=2),(a,b)=>(b.demand-a.demand)||(a.after-b.after));
+  const cut=by(L.filter(x=>x.after<0&&(x.imp||2)<2),(a,b)=>(b.demand-a.demand)||(a.after-b.after));
+  const neu=L.filter(x=>!x.after);
+  const row=x=>`<li><span>${esc(x.name)}</span>${Math.abs(x.after)>=2?`<small>${x.after>0?'очень':'сильно'}</small>`:''}${x.after<0&&x.change==='нет'?'<small>изменить нельзя</small>':''}</li>`;
+  const G=[['ok','Берегите','Это возвращает вам силы. Оставьте для этого место в каждой неделе',keep],
+    ['warn','Облегчите','Это забирает силы, но важно для вас. Подумайте, как делать это легче: частями, реже или с чьей-то помощью',ease],
+    ['bad','Сократите или отдайте','Это забирает силы и не так важно. Попробуйте делать это меньше или передать кому-то',cut]].filter(g=>g[3].length);
+  return `<div class="sec__h"><h2>Шаг 3. Посмотрите, что делать с каждым делом</h2></div>
+    <div class="act act--${G.length}">${G.map(([c,t,d,a])=>`<article class="act__c act__c--${c}"><h3 class="act__t">${t}</h3><p class="act__d">${d}</p><ul class="act__list">${a.map(row).join('')}</ul></article>`).join('')}</div>
+    ${neu.length?`<p class="act__neu">Не влияют на силы: ${neu.map(x=>esc(x.name)).join(', ')}</p>`:''}
+    ${L.some(x=>x.after<0)?'<p class="act__hint">Если дело попало не в ту группу, откройте «Уточнить каждое дело» выше и отметьте, насколько оно для вас важно</p>':''}`}
 function loadSvg(){const W=720,H=460,L=60,R=30,Tp=30,B=50;const x=v=>L+50+(v-1)*(W-L-R-100)/4,y=v=>Tp+40+(2-v)*(H-Tp-B-80)/4;
   const cnt={};return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Карта нагрузки и ресурсов">
   <rect x="${L}" y="${Tp}" width="${(W-L-R)/2}" height="${(H-Tp-B)/2}" fill="var(--mint)" opacity=".7"/><rect x="${L+(W-L-R)/2}" y="${Tp}" width="${(W-L-R)/2}" height="${(H-Tp-B)/2}" fill="var(--lavender)" opacity=".7"/>

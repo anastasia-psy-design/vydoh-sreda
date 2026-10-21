@@ -1675,3 +1675,31 @@ body{background:var(--page);font-size:15px;line-height:1.5}
 @media (max-width:760px){.rw__grid{grid-template-columns:1fr}.pw-steps.rw-steps .pw-step{font-size:12px}}
 
 @media (max-width:760px){.rw__nav{position:sticky;bottom:0;z-index:5;background:#fff;margin:12px -16px 0;padding:12px 16px calc(12px + env(safe-area-inset-bottom));border-top:1px solid #e7ebe8}}
+
+/* Карточки «что делать»: результаты радара и карты нагрузки */
+.act{display:grid;gap:14px;grid-template-columns:repeat(var(--n,2),minmax(0,1fr));margin-top:6px}
+.act--1{--n:1}.act--2{--n:2}.act--3{--n:3}
+.act__c{background:#fff;border:1px solid #e7ebe8;border-top:3px solid var(--ac);padding:18px 20px 20px;display:flex;flex-direction:column;align-items:flex-start;min-width:0}
+.act__c--ok{--ac:#8fad99;--chip:#deebe1}.act__c--warn{--ac:#c9a96a;--chip:#f6ecd6}.act__c--bad{--ac:#d6a49c;--chip:#f6e3e0}
+.act__eb{font-size:13px;color:#737773;margin:0 0 4px}
+.act__t{font:400 24px/1.2 var(--serif);color:#2d2c2a;margin:0 0 12px}
+.act__d{font-size:14px;color:#737773;line-height:1.5;margin:-4px 0 12px}
+.act__chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.act__chips span{background:var(--chip);border-radius:999px;padding:5px 12px;font-size:14px;color:#333;max-width:100%;overflow-wrap:anywhere}
+.act__chips em{font-size:14px;color:#a2a6a3;font-style:normal}
+.act__lbl{font-size:13px;color:#737773;margin:0 0 6px;padding-top:12px;border-top:1px solid #e7ebe8;align-self:stretch}
+.act__todo{margin:0;padding:0;list-style:none;display:grid;gap:6px}
+.act__todo li{position:relative;padding-left:16px;font-size:15px;line-height:1.45;color:#333}
+.act__todo li::before{content:"";position:absolute;left:0;top:.62em;width:6px;height:6px;border-radius:50%;background:var(--ac)}
+.act__btn{margin-top:14px}
+.act__list{margin:0;padding:0;list-style:none;align-self:stretch}
+.act__list li{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;padding:9px 0;border-top:1px solid #f0f1ef;font-size:15px;color:#333}
+.act__list li:first-child{border-top:0}
+.act__list small{font-size:12px;color:#737773;background:#f5f4f1;border-radius:999px;padding:2px 8px}
+.act__neu,.act__hint{font-size:14px;color:#737773;margin-top:12px}
+@media (max-width:900px){.act--3{--n:1}}
+@media (max-width:700px){.act{--n:1!important}}
+
+.act__lbl,.act__d,.act__eb{max-width:none!important}
+
+.rw__nav--end{position:static!important;border-top:0!important;margin-top:12px!important;padding:0!important}
