@@ -3022,6 +3022,15 @@ body{background:var(--page);font-size:15px;line-height:1.5}
 @media (max-width:860px){.vw-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:520px){.vw-grid{grid-template-columns:1fr}.vw-gh small{min-height:0}}
 
+/* Ключ к своему состоянию: три зоны */
+.zk{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;position:relative}
+.zk__c{position:relative}
+.zk__n{position:absolute;top:14px;right:16px;margin:0;width:24px;height:24px;border-radius:50%;background:var(--chip);display:grid;place-items:center;font-size:12px;color:#333}
+.zk .act__chips{margin-bottom:12px}.zk .act__lbl{max-width:none}
+.zk .act__c--ok .act__chips span{background:#deebe1}.zk .act__c--warn .act__chips span{background:#f6ecd6}.zk .act__c--bad .act__chips span{background:#f6e3e0}
+@media (max-width:900px){.zk{grid-template-columns:1fr}}
+@media print{.zk{grid-template-columns:repeat(3,1fr)}}
+
 </style>
 </head>
 <body>
@@ -3077,7 +3086,7 @@ const CONTENT = {
     { n:6, title:'Границы и оптимальная нагрузка', weeks:'недели 6-8', tools:['resp','range'], desc:'На этом этапе вы учитесь различать свое и чужое и находите нагрузку, которую можете выдерживать без истощения' },
     { n:7, title:'Надо - хочу - важно', weeks:'недели 8-9', tools:['nhv','values'], desc:'На этом этапе мы возвращаем связь с тем, чего вы хотите и что для вас по-настоящему важно' },
     { n:8, title:'Сборка образа жизни', weeks:'недели 9-11', tools:['peak'], desc:'На этом этапе вы встраиваете то, что уже сработало, в обычную неделю и заранее готовите план на следующий сложный период' },
-    { n:9, title:'Удержание результата', weeks:'недели 11-12', tools:['nav','road'], desc:'На этом этапе вы собираете памятку «Как со мной обращаться», где видно, как вы устроены и что вам помогает, и дорожную карту, которая подскажет, как действовать после трека и в следующий трудный период' }
+    { n:9, title:'Удержание результата', weeks:'недели 11-12', tools:['nav','road'], desc:'На этом этапе вы собираете «Ключ к своему состоянию», где видно, как вы устроены и что вам помогает, и дорожную карту, которая подскажет, как действовать после трека и в следующий трудный период' }
   ],
 
   /* ТЯЖЕЛЫЙ МОМЕНТ - вместо телефонов доверия: дыхание, личный план, связь с психологом. */
@@ -3137,8 +3146,8 @@ const CONTENT = {
       goal:'Здесь вы заранее готовитесь к следующему сложному периоду, чтобы пройти его бережнее к себе',
       task:'Сделать профилактику отката конкретной',
       result:'Персональный сценарий: как пройти пик и вернуться', uses:[3,4,5,7,8,9,10,11], feeds:[13,16] },
-    { n:13, id:'nav', title:'Как со мной обращаться', final:true, time:'собирается сама',
-      goal:'Здесь собирается ваша памятка: по каким признакам вы замечаете перегрузку, что забирает и что возвращает силы и что вам помогает',
+    { n:13, id:'nav', title:'Ключ к своему состоянию', final:true, time:'собирается сама',
+      goal:'Здесь собирается ваш ключ к состоянию: по каким признакам вы замечаете перегрузку, что забирает и что возвращает силы и что вам помогает',
       task:'В конце вы проверяете карту, добавляете свое и выбираете главное',
       result:'Ваша карта: как вы устроены и что вам помогает', uses:[1,2,3,4,5,6,7,8,9,10,11,12,14,15], feeds:[16] },
     { n:14, id:'body', title:'Чек-лист маркеров тела', time:'10 минут',
@@ -3204,7 +3213,7 @@ const CONTENT = {
       steps:['Запишите убеждение и что, по вашему прогнозу, произойдет. Отметьте, насколько вы в это верите','Придумайте самый маленький безопасный эксперимент: один день, одна задача, один разговор','После эксперимента запишите, что произошло на самом деле, и снова оцените, насколько верите прогнозу','Сформулируйте правило «если … → то я …», чтобы опыт закрепился','В журнал «Что уже работает» добавляйте даже маленькие победы'] },
     peak:{ why:'Следующий тяжелый период почти наверняка будет: запуск, отчет, болезнь близкого. Лучше заранее знать, как вы через него пройдете, чем снова выяснять это в момент истощения',
       steps:['Выберите, какой сложный период вас ждет','Протокол соберется сам из ваших инструментов','Исправьте формулировки своими словами и сохраните. Его можно распечатать'] },
-    nav:{ why:'Это ваша итоговая карта себя - инструкция «как со мной обращаться». Она собирается из всего, что вы делали в программе, а в каждый раздел можно добавить свое',
+    nav:{ why:'Это ваш итоговый ключ к своему состоянию. Она собирается из всего, что вы делали в программе, а в каждый раздел можно добавить свое',
       steps:['Просто проходите инструменты - разделы будут заполняться сами','Добавляйте в разделы то, что узнаете о себе','На последних встречах вместе с психологом проверьте карту и выберите главное','Карту можно распечатать или сохранить в PDF'] },
     body:{ why:'Тело замечает перегрузку раньше головы. Когда человек знает свои телесные маркеры, он может остановиться до того, как сил совсем не останется',
       steps:['Отметьте, что меняется в теле, когда напряжение растет','Отметьте, как тело ощущается, когда вам хорошо','Добавьте маркеры напряжения в радар ранних сигналов'] },
@@ -3515,7 +3524,7 @@ function nextAfter(cur){const pd=!!(S.point&&S.point.saved);const wk=Date.now()-
   const todo=C.tools.filter(t=>isOpen(t.id)&&!t.final&&!['point','pulse',cur].includes(t.id)&&tStatus(t.id)!=='done').sort((a,b)=>(stg.includes(b.id)?1:0)-(stg.includes(a.id)?1:0));
   if(todo.length){const t=todo[0];return {id:t.id,h:t.id==='lab'&&S.lab.some(l=>l.started&&!l.result)?'Запишите, что получилось в эксперименте':WHY[t.id]||t.title,why:t.title,time:t.time,go:['tool',t.id],tool:true}}
   if(nP<3&&!markedToday&&cur!=='pulse')return PULSE;
-  if(cs>=9&&cur!=='nav')return {id:'nav',h:'Соберите памятку «Как со мной обращаться»',why:'Все ваши ответы собрались в памятку: как вы устроены и что вам помогает',time:'5 минут',go:['navself','']};
+  if(cs>=9&&cur!=='nav')return {id:'nav',h:'Соберите «Ключ к своему состоянию»',why:'Все ваши ответы собрались в одном месте: как вы устроены и что вам помогает',time:'5 минут',go:['navself','']};
   return {id:'rest',h:markedToday?'На сегодня все сделано':'Отметьте, как вы себя чувствуете',why:'Практики между встречами откроет психолог после встречи, и они сами появятся здесь. До встречи отмечайте силы и напряжение 2-3 раза в неделю',time:'',go:markedToday?['tools','']:['tool','pulse'],rest:true,marked:markedToday}}
 function nextBlock(t){if((t.id==='point'&&!(S.point&&S.point.saved))||(t.id==='pulse'&&!route.pwDone))return '';
   const done=tStatus(t.id)==='done'||(t.id==='pulse'&&route.pwDone==='saved'),n=nextAfter(t.id);const mats=MAT.filter(x=>x.rel.includes(t.id));
@@ -3616,7 +3625,7 @@ function homePath(){const pd=!!(S.point&&S.point.saved);const wk=Date.now()-7*86
   if(!pd){i=0;card={eb:'Шаг 1 из 4 · 10-15 минут',t:'Пройдите стартовую диагностику',p:'Это ваша точка А. В конце программы вы пройдете ее еще раз и увидите, что изменилось',b:'Начать',go:['tool','point'],art:'point'}}
   else if(nP<2||!todo.length){i=1;card={eb:'Шаг 2 из 4 · 1 минута',t:'Как вы сейчас?',p:nP?`На этой неделе уже ${nP} ${plural(nP,'отметка','отметки','отметок')} - это хорошо. Из отметок складывается график, по которому видно, что вас разряжает`:'Отметьте силы и напряжение. Из отметок складывается график, по которому видно, что вас разряжает',b:'Отметить',go:['tool','pulse'],art:'pulse'}}
   else{const t=todo[0];i=2;card={eb:`Шаг 3 из 4 · ${t.time}`,t:t.title,p:WHY[t.id]||t.goal,b:tStatus(t.id)==='work'?'Продолжить':'Начать',go:['tool',t.id],art:t.id}}
-  if(last&&pd&&!todo.length){i=3;card={eb:'Шаг 4 из 4 · итог',t:'Соберите памятку «Как со мной обращаться»',p:'Все ваши ответы собрались в памятку: как вы устроены и что вам помогает. Итоговую диагностику психолог пришлет по ссылке',b:'Открыть',go:['navself',''],art:'nav'}}
+  if(last&&pd&&!todo.length){i=3;card={eb:'Шаг 4 из 4 · итог',t:'Соберите «Ключ к своему состоянию»',p:'Все ваши ответы собрались в одном месте: как вы устроены и что вам помогает. Итоговую диагностику психолог пришлет по ссылке',b:'Открыть',go:['navself',''],art:'nav'}}
   return {P,i,card,nP}}
 function vToday(m){const {P}=homePath();const n=nextAfter(null);const t=n.tool?T[n.id]:null;const i=n.final?3:n.id==='point'?0:n.id==='pulse'?1:n.id==='nav'?3:2;P.forEach((p,k)=>{if(k<i&&k!==1)p.st='done';if(k===i)p.st='now'});
   const PI=['<circle cx="20" cy="20" r="15" stroke-dasharray="1.5 3"/><path d="M20 10c-4.4 0-8 3.4-8 7.6 0 5.6 8 12.4 8 12.4s8-6.8 8-12.4C28 13.4 24.4 10 20 10z"/><circle cx="20" cy="17.5" r="2.6"/>',
@@ -3797,12 +3806,16 @@ const NHV_FILL={want:'var(--mint)',important:'var(--lavender)',choose:'var(--bei
 function jarsHtml(){const P=S.nhv.place;const cnt=C.NHV_COLS.map(([k])=>Object.keys(P).filter(i=>P[i]===k));const mx=Math.max(1,...cnt.map(a=>a.length));
   return `<div class="jars">${C.NHV_COLS.map(([k],j)=>`<div class="jar"><div class="jar__g"><i style="height:${cnt[j].length?Math.round(14+cnt[j].length/mx*76):0}%;background:${NHV_FILL[k]}"></i><b>${cnt[j].length}</b></div><span>${NHV_SHORT[k]}</span></div>`).join('')}</div>`}
 
-/* --- Как со мной обращаться: три зоны --- */
+/* --- Ключ к своему состоянию: три зоны --- */
 function zonesHtml(){const pt=S.point,kit=kitText();const sig=z=>S.signals.filter(s=>s.zone===z).map(s=>s.t);
-  const B=S.bodyMk||{tense:[],ok:[]};const steady=[...B.ok.slice(0,2),...(pt.markers||[])].slice(0,4),ret=S.load.filter(x=>x.after>0).map(x=>x.name).slice(0,3);
+  const B=S.bodyMk||{tense:[],ok:[]};const steady=[...B.ok.slice(0,3),...(pt.markers||[])].slice(0,5),ret=S.load.filter(x=>x.after>0).map(x=>x.name).slice(0,3);
   const tags=a=>a.length?a.map(x=>`<span>${esc(x)}</span>`).join(''):'<em>появится по ходу трека</em>';
-  const row=(cls,mark,title,how,what)=>`<div class="zrow zrow--${cls}"><div class="zrow__h"><span class="zrow__m zrow__m--${cls}"></span><b>${title}</b></div><div class="zrow__c"><small>Как я узнаю</small><div>${tags(how)}</div></div><div class="zrow__c"><small>Что я делаю</small><div>${tags(what)}</div></div></div>`;
-  return `<div class="zrows">${row('ok','','Ровно',steady,ret)}${row('warn','','Звоночки',[...new Set([...sig('ранний'),...B.tense.map(x=>x.toLowerCase())])].slice(0,5),kit.slice(0,3))}${row('bad','','Предел',[...sig('предел'),...sig('уже перегружен')].slice(0,4),['нажать «Выдохнуть»','написать психологу'])}</div>`}
+  /* Три зоны как три карточки: что это за состояние, как его заметить, что помогает */
+  const Z=[['ok','В ресурсе','Сил хватает, нагрузка вам по силам. Важно беречь то, что вас поддерживает',steady,[...ret,...kit.slice(0,1)].slice(0,4)],
+    ['warn','Первые звоночки','Нагрузка растет, но силы еще есть. Самое удобное время, чтобы сбавить темп',[...new Set([...sig('ранний'),...B.tense.map(x=>x.toLowerCase())])].slice(0,5),kit.slice(0,3).length?kit.slice(0,3):['сделать паузу','убрать одно дело из списка']],
+    ['bad','На пределе','Сил почти не осталось. Нужно остановиться и позвать поддержку',[...sig('предел'),...sig('уже перегружен')].slice(0,4),['нажать «Выдохнуть»','написать психологу']]];
+  return `<div class="zk">${Z.map(([c,t,d,how,what],i)=>`<article class="act__c act__c--${c} zk__c"><p class="zk__n">${i+1}</p><h3 class="act__t">${t}</h3><p class="act__d">${d}</p>
+    <p class="act__lbl">Как я это замечаю</p><div class="act__chips">${tags(how)}</div><p class="act__lbl">Что мне помогает</p><div class="act__chips">${tags(what)}</div></article>`).join('')}</div>`}
 
 let _intro=null;
 function introSrc(){if(_intro)return _intro;const el=$('#intro-video');const b=el?el.textContent.trim():'';try{const bin=atob(b),u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);_intro=URL.createObjectURL(new Blob([u],{type:'video/mp4'}))}catch(e){_intro='data:video/mp4;base64,'+b}return _intro}
@@ -3815,7 +3828,7 @@ function videoModal(){const b=document.createElement('div');b.className='modal-b
 function nav(){
   const cur=route.v==='tool'?(route.arg==='nav'||route.arg==='road'?'navself':route.arg==='pulse'?'today':'tools'):route.v;
   const n=(v,l,c)=>`<button class="nav" data-go="${v}" ${cur===v?'aria-current="page"':''}>${l}${c?`<span class="count">${c}</span>`:''}</button>`;
-  $('#sidebar').innerHTML=n('today','Сегодня')+n('tools','Маршрут программы')+n('navself','Как со мной обращаться')+n('mat','Материалы')+n('meet','Темы для встречи',S.discuss.length||'')+(anyA()?n('audio','Записи Насти'):'')+
+  $('#sidebar').innerHTML=n('today','Сегодня')+n('tools','Маршрут программы')+n('navself','Ключ к своему состоянию')+n('mat','Материалы')+n('meet','Темы для встречи',S.discuss.length||'')+(anyA()?n('audio','Записи Насти'):'')+
    (PSY?`<div class="nav-group">Для психолога</div>`+n('links','Панель клиентов'):'')+
    `<div class="side-foot">
     ${PSY?`<label class="psy"><input type="checkbox" id="psyT" ${S.psy?'checked':''}> Показать все инструменты</label><button class="link" id="demoB" style="justify-self:start">Показать на примере</button>`:''}
@@ -3923,7 +3936,7 @@ async function repPanel(box){if(!box||!PSYKEY||location.protocol==='file:'||!/ve
   let list;try{list=(await psyApi('reports')).reports||[]}catch(e){box.innerHTML='';return}
   const open=list.filter(r=>!r.done),closed=list.length-open.length;
   const when=r=>{const d=new Date(r.last||r.at);return d.toLocaleDateString('ru-RU',{day:'numeric',month:'short'})+', '+d.toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})};
-  const W=w=>{const [v,a]=String(w||'').split(':');const nm={today:'Сегодня',tools:'Маршрут',navself:'Памятка',mat:'Материалы',meet:'Темы для встречи',help:'Как устроен кабинет',hard:'Выдохнуть',links:'Панель клиентов',start:'загрузка'}[v];return v==='tool'&&T[a]?T[a].title:(nm||w||'-')};
+  const W=w=>{const [v,a]=String(w||'').split(':');const nm={today:'Сегодня',tools:'Маршрут',navself:'Ключ к своему состоянию',mat:'Материалы',meet:'Темы для встречи',help:'Как устроен кабинет',hard:'Выдохнуть',links:'Панель клиентов',start:'загрузка'}[v];return v==='tool'&&T[a]?T[a].title:(nm||w||'-')};
   const hasUser=open.some(r=>r.kind==='user');
   box.innerHTML=`<details class="more rpt__d"${hasUser?' open':''}><summary>Сообщения о сбоях${open.length?` · ${open.length} ${plural(open.length,'новое','новых','новых')}`:' · новых нет'}</summary>
     <p class="muted">Сюда приходят ошибки страницы и сообщения «Сообщить о проблеме» от клиентов и психологов. Ответы клиентов сюда не попадают</p>
@@ -3953,7 +3966,7 @@ function vHelp(m){S.seenHelp=1;save();
     ['topics','#f1ddd5','Темы для встречи','Все, что хочется обсудить, складывается в один список']];
   const P=[['today','Сегодня','Одно главное дело на сегодня и подсказка, что делать дальше','today'],
     ['route','Маршрут программы','Девять этапов трека: где вы сейчас и что откроется позже','tools'],
-    ['memo','Как со мной обращаться','Памятка о себе, которая собирается из ваших ответов','navself'],
+    ['memo','Ключ к своему состоянию','Все, что вы узнали о себе, в одном месте','navself'],
     ['mat','Материалы','Тексты и упражнения по желанию, если хочется разобраться глубже','mat'],
     ['topics','Темы для встречи','Список того, что вы хотите обсудить с психологом','meet']];
   m.innerHTML=`<div class="page page--narrow hp"><header class="thead"><p class="eyebrow">Коротко о главном</p><h1>Посмотрите, как устроен кабинет</h1>
@@ -4950,7 +4963,7 @@ TOOL.lab=(m,t)=>{const i=route.sub!=null&&S.lab[route.sub]?route.sub:(S.lab.leng
     ${e.ifx&&e.ify?`<div class="lab-rule"><p class="act__eb">Ваше новое правило</p><p><em>Если</em> ${esc(e.ifx)}, <em>то я</em> ${esc(e.ify)}</p></div>`:''}
     <div class="rw__nav rw__nav--end"><button type="button" class="btn btn--primary" id="labNew">Новый эксперимент</button><button type="button" class="btn btn--ghost" id="labEditRes">Изменить итог</button></div>
     <section class="sec"><div class="sec__h"><h2>Отметьте, что у вас уже работает</h2><span class="muted">${S.works.length}</span></div>
-      <p class="rw__h">Даже маленькие изменения считаются. Этот список попадет в вашу памятку</p>
+      <p class="rw__h">Даже маленькие изменения считаются. Этот список попадет в «Ключ к своему состоянию»</p>
       <div class="works">${S.works.map((w,k)=>`<span class="tag">${esc(w)}<button data-dw="${k}" aria-label="Убрать">×</button></span>`).join('')}</div>
       <div class="chips" style="margin-top:14px">${C.WORKS_SUGGEST.filter(w=>!S.works.includes(w)).map(w=>`<button class="chip chip--add" data-aw="${esc(w)}">+ ${esc(w)}</button>`).join('')}</div>
       <div class="input" style="margin-top:10px"><input id="wIn" placeholder="Свое - даже маленькое"><button class="btn btn--sm" id="wAdd">Добавить</button></div></section>`;
@@ -5127,10 +5140,10 @@ TOOL.road=(m,t)=>{S.road=S.road||{};const R=S.road;R.keep=R.keep||[];R.backPick=
     <li class="droad__i"><span class="droad__n">4</span><div class="droad__c"><h2>Решите, что вы сделаете, если снова станет тяжело</h2><p class="pw-why">Откат после трека - это нормально. Важно заранее знать, с чего начать</p>
       <div class="chips">${ROAD_BACK.map(v=>`<button type="button" class="chip" aria-pressed="${R.backPick.includes(v)}" data-rb="${esc(v)}">${esc(v)}</button>`).join('')}</div>
       <textarea class="area" id="rBack" style="margin-top:12px" placeholder="Свое: например, позвонить сестре и взять один день без дел">${esc(R.back||'')}</textarea></div></li>
-    <li class="droad__i"><span class="droad__n">5</span><div class="droad__c"><h2>Назначьте дни, когда вы сверитесь с собой</h2><p class="pw-why">В эти дни неделю отмечайте состояние в «Карте состояния» и откройте памятку «Как со мной обращаться», чтобы посмотреть, что изменилось</p>
+    <li class="droad__i"><span class="droad__n">5</span><div class="droad__c"><h2>Назначьте дни, когда вы сверитесь с собой</h2><p class="pw-why">В эти дни неделю отмечайте состояние в «Карте состояния» и откройте «Ключ к своему состоянию», чтобы посмотреть, что изменилось</p>
       <div class="droad__dates"><label><span>Через месяц</span><input type="date" class="line" id="rD1" value="${esc(R.d1||addDays(30))}"></label><label><span>Через три месяца</span><input type="date" class="line" id="rD3" value="${esc(R.d3||addDays(91))}"></label></div></div></li>
   </ol>
-  <div class="droad__save"><button type="button" class="btn btn--primary" id="rSave">${R.saved?'Сохранить изменения':'Сохранить дорожную карту'}</button>${R.saved?`<span class="saved">Дорожная карта сохранена</span>`:''}<button type="button" class="btn btn--outline" onclick="window.print()">Сохранить в PDF</button><button type="button" class="btn btn--ghost" data-go="navself">Открыть памятку «Как со мной обращаться»</button></div>`);
+  <div class="droad__save"><button type="button" class="btn btn--primary" id="rSave">${R.saved?'Сохранить изменения':'Сохранить дорожную карту'}</button>${R.saved?`<span class="saved">Дорожная карта сохранена</span>`:''}<button type="button" class="btn btn--outline" onclick="window.print()">Сохранить в PDF</button><button type="button" class="btn btn--ghost" data-go="navself">Открыть «Ключ к своему состоянию»</button></div>`);
   bindDisc(m);
   const keep=()=>{save();const y=window.scrollY;render();window.scrollTo({top:y})};
   $$('[data-rk]',m).forEach(b=>b.onclick=()=>{const v=b.dataset.rk,i=R.keep.indexOf(v);i>=0?R.keep.splice(i,1):R.keep.push(v);keep()});
@@ -5179,10 +5192,10 @@ function islCard(x){const own=(S.navOwn||{})[x.k]||[];const st=STAGE_OF[x.src];c
 TOOL.nav=(m,t)=>{S.navOwn=S.navOwn||{};const I=islands();const has=x=>x.ok||(S.navOwn[x.k]||[]).length;const n=I.filter(has).length;
   m.innerHTML=`<div class="page page--narrow">${head(t)}
     <div class="isl-prog"><span class="isl-prog__t">Заполнено ${n} из ${I.length} разделов</span><span class="isl-dots" aria-hidden="true">${I.map(x=>`<i class="${has(x)?'on g'+x.g:''}"></i>`).join('')}</span></div>
-    <section class="sec"><div class="sec__h"><h2>Узнайте свое состояние по трем зонам</h2></div><p class="pw-why">По этим признакам вы поймете, в какой зоне находитесь сейчас и что сделать в каждой из них</p>${zonesHtml()}</section>
+    <section class="sec"><div class="sec__h"><h2>Узнайте, в какой зоне вы сейчас</h2></div><p class="pw-why">Состояние меняется постепенно: из ресурса к первым звоночкам и дальше к пределу. По признакам вы поймете, где вы сейчас, и сразу увидите, что делать</p>${zonesHtml()}</section>
     <div class="isl-map">${ISL_G.map((G,gi)=>`<section class="isl-grp"><div class="isl-grp__h"><span class="isl-grp__n" style="background:${G[2]}">${gi+1}</span><div><h2>${esc(G[0])}</h2><p>${esc(G[1])}</p></div></div><div class="isl-grid">${I.filter(x=>x.g===gi).map(islCard).join('')}</div></section>`).join('')}</div>
     ${matBlock('nav')}
-    <section class="nav-next"><h2>Решите, что делать дальше</h2><p>Разделы заполняются из ваших ответов в инструментах. Добавляйте в них то, что узнаете о себе, и возвращайтесь к памятке перед сложными периодами</p>
+    <section class="nav-next"><h2>Решите, что делать дальше</h2><p>Разделы заполняются из ваших ответов в инструментах. Добавляйте в них то, что узнаете о себе, и возвращайтесь сюда перед сложными периодами</p>
       <div class="nav-next__b">${isOpen('road')?`<button class="btn btn--primary" data-go="tool" data-arg="road">Открыть дорожную карту после трека</button>`:''}<button class="btn ${isOpen('road')?'btn--outline':'btn--primary'}" onclick="window.print()">Сохранить в PDF</button><button class="btn btn--ghost" data-go="tools">Посмотреть свой маршрут</button></div></section></div>`;
   const keep=()=>{save();const y=window.scrollY;render();window.scrollTo({top:y})};
   $$('[data-isla]',m).forEach(b=>b.onclick=()=>{const w=b.parentElement;b.hidden=true;const r=$('.isl__in',w);r.hidden=false;$('input',r).focus()});
@@ -5222,7 +5235,7 @@ function matBlock(id){const L=MAT.filter(x=>x.rel.includes(id));if(!L.length)ret
   return `<section class="sec mblock"><div class="sec__h"><h2>Раскройте тему глубже</h2></div><div class="mgrid">${L.map(matCard).join('')}</div></section>`}
 function vMat(m){S.mat=S.mat||{};const x=route.arg&&MATI[route.arg];
   if(!x){const cs=curStage();const by=C.stages.filter(s=>MAT.some(x=>x.stage===s.n));
-    m.innerHTML=`<div class="page page--narrow"><header class="thead"><p class="eyebrow">Дополнительно</p><h1>Раскройте темы трека глубже</h1><p class="thead__goal">Короткие тексты и упражнения к этапам маршрута. Возвращайтесь к ним, когда захотите разобраться подробнее: ответы сохраняются и попадают в памятку «Как со мной обращаться»</p></header>
+    m.innerHTML=`<div class="page page--narrow"><header class="thead"><p class="eyebrow">Дополнительно</p><h1>Раскройте темы трека глубже</h1><p class="thead__goal">Короткие тексты и упражнения к этапам маршрута. Возвращайтесь к ним, когда захотите разобраться подробнее: ответы сохраняются и попадают в «Ключ к своему состоянию»</p></header>
       <ol class="mlist">${by.map(s=>`<li class="mlist__i${s.n===cs?' is-now':''}"><p class="mlist__h">Этап ${s.n} · ${esc(s.title)}${s.n===cs?' · <b>вы здесь</b>':''}</p><div class="mgrid">${MAT.filter(x=>x.stage===s.n).map(matCard).join('')}</div></li>`).join('')}</ol></div>`;return}
   const D=S.mat[x.id]=S.mat[x.id]||{};const st=C.stages[x.stage-1];
   const ta=(k,l,h)=>`<label class="mfield"><span class="mfield__l">${esc(l)}</span>${h?`<span class="mfield__h">${esc(h)}</span>`:''}<textarea class="area" data-mf="${k}" rows="2">${esc(D[k]||'')}</textarea></label>`;
