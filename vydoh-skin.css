@@ -1722,3 +1722,44 @@ body{background:var(--page);font-size:15px;line-height:1.5}
 .chw__e{border:0;background:none;font:inherit;font-size:13px;color:#737773;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:0}
 .chw__gap{padding:2px 0 2px 150px}
 @media (max-width:640px){.chw__all>li:not(.chw__gap){grid-template-columns:minmax(0,1fr) auto}.chw__lbl{grid-column:1/-1}.chw__gap{padding-left:0}.chw__ctx span{display:block;min-width:0}}
+
+/* Чек-лист маркеров тела по шагам */
+.bw__wrap{display:grid;grid-template-columns:200px minmax(0,1fr);gap:28px;align-items:start}
+.bw__fig{position:sticky;top:96px;text-align:center}
+.bw__fig .bodymap{width:100%;max-width:190px;height:auto}
+.bw__fig p{font-size:12.5px;color:#737773;margin:6px 0 0}
+.bw__cols{columns:2 280px;column-gap:28px}
+.bw__g{break-inside:avoid;margin:0 0 18px}
+.bw__gh{font-size:13px;color:#737773;margin:0 0 4px;padding-bottom:6px;border-bottom:1px solid #e7ebe8}
+.bw__i{display:flex;align-items:center;gap:12px;width:100%;min-height:40px;padding:8px 2px;border:0;border-bottom:1px solid #f0f1ef;background:none;font:inherit;font-size:15px;color:#333;text-align:left;cursor:pointer}
+.bw__i:hover{background:#faf9f7}
+.bw__box{flex:0 0 18px;width:18px;height:18px;border:1.3px solid #c9cfcb;border-radius:4px;display:grid;place-items:center;color:transparent;font-size:14px;line-height:1;background:#fff}
+.bw--tense .bw__i[aria-pressed="true"] .bw__box{background:#d6a49c;border-color:#d6a49c;color:#fff}
+.bw--ok .bw__i[aria-pressed="true"] .bw__box{background:#8fad99;border-color:#8fad99;color:#fff}
+.bw__i[aria-pressed="true"]{color:#2d2c2a}
+.bw__add{color:#737773}.bw__add .bw__box{border-style:dashed;color:#737773}
+.bw__g .rw__own{padding:6px 0}
+.bw__g.is-flash{animation:bwf 1.2s ease}
+@keyframes bwf{0%{background:#f5f4f1}100%{background:transparent}}
+.bmr{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.bmr__c{display:grid;grid-template-columns:120px minmax(0,1fr);gap:18px;background:#fff;border:1px solid #e7ebe8;border-top:3px solid var(--ac);padding:18px 20px}
+.bmr__c--t{--ac:#d6a49c}.bmr__c--o{--ac:#8fad99}
+.bmr__fig .bodymap{width:100%;height:auto}.bmr__fig .bz ellipse{cursor:default}
+.bmr__list{list-style:none;margin:0 0 14px;padding:0;display:grid;gap:4px}
+.bmr__list li{position:relative;padding-left:16px;font-size:15px;line-height:1.45}
+.bmr__list li::before{content:"";position:absolute;left:0;top:.62em;width:6px;height:6px;border-radius:50%;background:var(--ac)}
+.bmr__list .bmr__none{color:#a2a6a3;padding-left:0}.bmr__list .bmr__none::before{display:none}
+.bmr__todo{font-size:14px;line-height:1.5;color:#333;margin:0}
+.bmr .act__lbl{max-width:none}
+@media (max-width:980px){.bmr{grid-template-columns:1fr}}
+@media (max-width:760px){.bw__wrap{grid-template-columns:1fr}.bw__fig{position:static;max-width:150px;margin:0 auto}.bw__fig p{display:none}.bw__cols{columns:1}.bmr__c{grid-template-columns:84px minmax(0,1fr);padding:16px}}
+@media print{body.print-bmr .thead,body.print-bmr .thero,body.print-bmr .tpanel,body.print-bmr .rw-steps,body.print-bmr .rw__nav,body.print-bmr .nxt,body.print-bmr .nxt__reset,body.print-bmr .bmk-tor,body.print-bmr .back,body.print-bmr .header,body.print-bmr .sidebar,body.print-bmr .psy-chip{display:none!important}body.print-bmr .bmr{grid-template-columns:1fr 1fr}}
+
+.bw__cols{columns:3 230px;column-gap:24px}
+.bw__i{min-height:34px;padding:6px 2px;font-size:14.5px;line-height:1.35}
+.bw__g{margin-bottom:14px}
+.bw--tense .bw__i[aria-pressed="true"] .bw__box{background:#b8746a;border-color:#b8746a;color:#fff}
+.bw--ok .bw__i[aria-pressed="true"] .bw__box{background:#5f8a6f;border-color:#5f8a6f;color:#fff}
+.bw__box svg{stroke:currentColor;stroke-width:2.2}
+.bw__wrap{grid-template-columns:170px minmax(0,1fr)}
+@media (max-width:1100px){.bw__cols{columns:2 230px}}

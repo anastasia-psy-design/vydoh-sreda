@@ -2898,6 +2898,47 @@ body{background:var(--page);font-size:15px;line-height:1.5}
 .chw__gap{padding:2px 0 2px 150px}
 @media (max-width:640px){.chw__all>li:not(.chw__gap){grid-template-columns:minmax(0,1fr) auto}.chw__lbl{grid-column:1/-1}.chw__gap{padding-left:0}.chw__ctx span{display:block;min-width:0}}
 
+/* Чек-лист маркеров тела по шагам */
+.bw__wrap{display:grid;grid-template-columns:200px minmax(0,1fr);gap:28px;align-items:start}
+.bw__fig{position:sticky;top:96px;text-align:center}
+.bw__fig .bodymap{width:100%;max-width:190px;height:auto}
+.bw__fig p{font-size:12.5px;color:#737773;margin:6px 0 0}
+.bw__cols{columns:2 280px;column-gap:28px}
+.bw__g{break-inside:avoid;margin:0 0 18px}
+.bw__gh{font-size:13px;color:#737773;margin:0 0 4px;padding-bottom:6px;border-bottom:1px solid #e7ebe8}
+.bw__i{display:flex;align-items:center;gap:12px;width:100%;min-height:40px;padding:8px 2px;border:0;border-bottom:1px solid #f0f1ef;background:none;font:inherit;font-size:15px;color:#333;text-align:left;cursor:pointer}
+.bw__i:hover{background:#faf9f7}
+.bw__box{flex:0 0 18px;width:18px;height:18px;border:1.3px solid #c9cfcb;border-radius:4px;display:grid;place-items:center;color:transparent;font-size:14px;line-height:1;background:#fff}
+.bw--tense .bw__i[aria-pressed="true"] .bw__box{background:#d6a49c;border-color:#d6a49c;color:#fff}
+.bw--ok .bw__i[aria-pressed="true"] .bw__box{background:#8fad99;border-color:#8fad99;color:#fff}
+.bw__i[aria-pressed="true"]{color:#2d2c2a}
+.bw__add{color:#737773}.bw__add .bw__box{border-style:dashed;color:#737773}
+.bw__g .rw__own{padding:6px 0}
+.bw__g.is-flash{animation:bwf 1.2s ease}
+@keyframes bwf{0%{background:#f5f4f1}100%{background:transparent}}
+.bmr{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.bmr__c{display:grid;grid-template-columns:120px minmax(0,1fr);gap:18px;background:#fff;border:1px solid #e7ebe8;border-top:3px solid var(--ac);padding:18px 20px}
+.bmr__c--t{--ac:#d6a49c}.bmr__c--o{--ac:#8fad99}
+.bmr__fig .bodymap{width:100%;height:auto}.bmr__fig .bz ellipse{cursor:default}
+.bmr__list{list-style:none;margin:0 0 14px;padding:0;display:grid;gap:4px}
+.bmr__list li{position:relative;padding-left:16px;font-size:15px;line-height:1.45}
+.bmr__list li::before{content:"";position:absolute;left:0;top:.62em;width:6px;height:6px;border-radius:50%;background:var(--ac)}
+.bmr__list .bmr__none{color:#a2a6a3;padding-left:0}.bmr__list .bmr__none::before{display:none}
+.bmr__todo{font-size:14px;line-height:1.5;color:#333;margin:0}
+.bmr .act__lbl{max-width:none}
+@media (max-width:980px){.bmr{grid-template-columns:1fr}}
+@media (max-width:760px){.bw__wrap{grid-template-columns:1fr}.bw__fig{position:static;max-width:150px;margin:0 auto}.bw__fig p{display:none}.bw__cols{columns:1}.bmr__c{grid-template-columns:84px minmax(0,1fr);padding:16px}}
+@media print{body.print-bmr .thead,body.print-bmr .thero,body.print-bmr .tpanel,body.print-bmr .rw-steps,body.print-bmr .rw__nav,body.print-bmr .nxt,body.print-bmr .nxt__reset,body.print-bmr .bmk-tor,body.print-bmr .back,body.print-bmr .header,body.print-bmr .sidebar,body.print-bmr .psy-chip{display:none!important}body.print-bmr .bmr{grid-template-columns:1fr 1fr}}
+
+.bw__cols{columns:3 230px;column-gap:24px}
+.bw__i{min-height:34px;padding:6px 2px;font-size:14.5px;line-height:1.35}
+.bw__g{margin-bottom:14px}
+.bw--tense .bw__i[aria-pressed="true"] .bw__box{background:#b8746a;border-color:#b8746a;color:#fff}
+.bw--ok .bw__i[aria-pressed="true"] .bw__box{background:#5f8a6f;border-color:#5f8a6f;color:#fff}
+.bw__box svg{stroke:currentColor;stroke-width:2.2}
+.bw__wrap{grid-template-columns:170px minmax(0,1fr)}
+@media (max-width:1100px){.bw__cols{columns:2 230px}}
+
 </style>
 </head>
 <body>
@@ -4829,36 +4870,43 @@ const BMK=[
  ['Руки и ноги',['руки','кисти','ноги','стопы'],['Холодеют руки или ноги','Сжимаю кулаки','Трудно усидеть на месте','Ноги будто ватные'],['Руки и ноги теплые','Хочется двигаться','Чувствую опору под ногами']],
  ['Сон и все тело',[],['Трудно уснуть или просыпаюсь ночью','Усталость не проходит после отдыха','Почти не чувствую тело','Бросает в жар или знобит','Чаще болею'],['Засыпаю легко','После сна есть силы','Тело легкое','После дела приятная усталость']]];
 const BMK_ALL={tense:BMK.flatMap(g=>g[2]),ok:BMK.flatMap(g=>g[3])};
+/* Чек-лист маркеров тела по шагам: 1 - напряжение, 2 - ресурс, 3 - ваша карта тела, которую можно сохранить */
+function bmkZones(list,col){const z=[...new Set(BMK.filter(g=>g[col].some(v=>list.includes(v))).flatMap(g=>g[1]))];return {z,all:BMK[5][col].some(v=>list.includes(v))}}
 function bmkResult(){const B=S.bodyMk;const inR=v=>S.signals.some(x=>x.type==='тело'&&x.t.toLowerCase()===v.toLowerCase());const toR=B.tense.filter(v=>!inR(v));
-  const tg=a=>a.length?a.map(x=>`<span>${esc(x)}</span>`).join(''):'<em>пока не отмечено</em>';
-  return `<section class="sec"><div class="sec__h"><h2>Посмотрите, что подсказывает вам тело</h2></div>
-    <div class="bmk-res"><div class="bmk-card bmk-card--t"><p class="bmk-card__h">Пора сбавить темп</p><p class="bmk-card__s">Когда замечаете это, сделайте паузу хотя бы на минуту: выдохните, разомните плечи или выйдите на воздух</p><div class="bmk-card__c">${tg(B.tense)}</div></div>
-      <div class="bmk-card bmk-card--o"><p class="bmk-card__h">Вы в ресурсе</p><p class="bmk-card__s">Так тело показывает, что нагрузка вам сейчас по силам и можно продолжать</p><div class="bmk-card__c">${tg(B.ok)}</div></div></div>
-    ${isOpen('radar')&&toR.length?`<div class="bmk-tor"><p>Добавьте маркеры напряжения в «Радар ранних сигналов», чтобы видеть их рядом с остальными первыми звоночками</p><button type="button" class="btn btn--sm" id="bmToR">Добавить в радар</button></div>`:''}</section>`}
-TOOL.body=(m,t)=>{S.bodyMk=S.bodyMk||{tense:[],ok:[]};const B=S.bodyMk;const K=route.bk==='ok'?'ok':'tense';const sel=B[K];const col=K==='ok'?3:2;
-  const zonesOn=[...new Set(BMK.filter(g=>g[col].some(v=>sel.includes(v))).flatMap(g=>g[1]))];
-  const allOn=BMK[5][col].some(v=>sel.includes(v));
-  const own=sel.filter(v=>!BMK_ALL[K].includes(v));
-  const row=v=>`<button type="button" class="bmk-i" aria-pressed="${sel.includes(v)}" data-bm="${esc(v)}"><span class="bmk-i__c" aria-hidden="true">${ico('check',14)}</span><span>${esc(v)}</span></button>`;
-  const nT=B.tense.length,nO=B.ok.length;
-  m.innerHTML=wrap(t,`<section class="sec"><div class="sec__h"><h2>Отметьте, как ваше тело показывает состояние</h2></div>
-    <p class="pw-why">Тело часто замечает перегрузку раньше, чем голова. Начните с первой вкладки, потом перейдите ко второй</p>
-    <div class="rz-tabs" role="tablist">
-      <button type="button" role="tab" class="rz-tab rz-tab--lim" aria-selected="${K==='tense'}" data-bk="tense"><span class="rz-n">1</span><span><b>Когда напряжение растет</b><small>что меняется в теле${nT?' · отмечено '+nT:''}</small></span></button>
-      <button type="button" role="tab" class="rz-tab rz-tab--early" aria-selected="${K==='ok'}" data-bk="ok"><span class="rz-n">2</span><span><b>Когда вам хорошо</b><small>как тело чувствует ресурс${nO?' · отмечено '+nO:''}</small></span></button></div>
-    <div class="bmk bmk--${K}${allOn?' bmk--all':''}">
-      <div class="bmk__fig">${bodyMap(zonesOn)}<p class="bmk__cap">Нажмите на часть тела, чтобы перейти к ней в списке</p></div>
-      <div class="bmk__list">${BMK.map((g,i)=>{const L=g[col];const n=L.filter(v=>sel.includes(v)).length;return `<div class="bmk-g" id="bmg${i}"><h3>${esc(g[0])}${n?`<span class="bmk-g__n">${n}</span>`:''}</h3><div class="bmk-g__i">${L.map(row).join('')}</div></div>`}).join('')}
-        ${own.length?`<div class="bmk-g"><h3>Свое</h3><div class="bmk-g__i">${own.map(row).join('')}</div></div>`:''}
-        <div class="input bmk-own"><input id="bmOwn" placeholder="Добавьте свой маркер" aria-label="Свой маркер"><button type="button" class="btn btn--sm btn--ghost" id="bmAdd">Добавить</button></div></div></div>
-    ${K==='tense'&&nT?`<button type="button" class="btn btn--primary" data-bk="ok" style="margin-top:22px">Дальше: как тело чувствует ресурс</button>`:''}</section>
-    ${nT||nO?bmkResult():''}`);
+  const T=bmkZones(B.tense,2),O=bmkZones(B.ok,3);
+  const col=(k,c,eb,t,todo,list,Z)=>`<article class="bmr__c bmr__c--${k}"><div class="bmr__fig bmk--${k==='t'?'tense':'ok'}${Z.all?' bmk--all':''}">${bodyMap(Z.z)}</div>
+    <div class="bmr__txt"><p class="act__eb">${eb}</p><h3 class="act__t">${t}</h3><ul class="bmr__list">${list.length?list.map(x=>`<li>${esc(x)}</li>`).join(''):'<li class="bmr__none">пока не отмечено</li>'}</ul><p class="act__lbl">Что делать</p><p class="bmr__todo">${todo}</p></div></article>`;
+  return `<div class="bmr">${col('t','bad','Когда напряжение растет','Пора сбавить темп','Сделайте паузу хотя бы на минуту: выдохните, разомните плечи или выйдите на воздух',B.tense,T)}
+    ${col('o','ok','Когда вам хорошо','Вы в ресурсе','Так тело показывает, что нагрузка вам по силам. Запомните это ощущение: к нему можно возвращаться',B.ok,O)}</div>
+    ${isOpen('radar')&&toR.length?`<div class="bmk-tor"><p>Добавьте маркеры напряжения в «Радар ранних сигналов», чтобы видеть их рядом с остальными первыми звоночками</p><button type="button" class="btn btn--sm" id="bmToR">Добавить в радар</button></div>`:''}`}
+TOOL.body=(m,t)=>{S.bodyMk=S.bodyMk||{tense:[],ok:[]};const B=S.bodyMk;const nT=B.tense.length,nO=B.ok.length;
+  if(route.bst==null)route.bst=nT&&nO?2:nT?1:0;const st=route.bst;
+  const ST=['Когда напряжение растет','Когда вам хорошо','Ваша карта тела'];
+  const stepper=`<ol class="pw-steps rw-steps" aria-label="Шаги чек-листа">${ST.map((x,k)=>`<li class="${k<st?'done':k===st?'now':''}"><button type="button" class="pw-step" data-bst="${k}" aria-current="${k===st?'step':'false'}"><span>${k+1}</span>${x}</button></li>`).join('')}</ol>`;
+  let body;
+  if(st<2){const K=st?'ok':'tense',col=st?3:2,sel=B[K];const Z=bmkZones(sel,col);const own=sel.filter(v=>!BMK_ALL[K].includes(v));const n=sel.length;
+    const row=v=>`<button type="button" class="bw__i" aria-pressed="${sel.includes(v)}" data-bm="${esc(v)}"><span class="bw__box" aria-hidden="true">${ico('check',12)}</span><span>${esc(v)}</span></button>`;
+    const Q=st?['Как тело показывает, что вам хорошо?','Вспомните день, когда сил хватало. Отметьте все, что узнаете у себя']:['Что меняется в теле, когда напряжение растет?','Отметьте все, что узнаете у себя. Обычно это 3-6 пунктов'];
+    body=`<div class="bw bw--${K}"><h2 class="rw__q">${Q[0]}</h2><p class="rw__h">${Q[1]}</p>
+      <div class="bw__wrap"><div class="bw__fig bmk--${K}${Z.all?' bmk--all':''}">${bodyMap(Z.z)}<p>Отмеченное подсвечивается на силуэте</p></div>
+      <div class="bw__cols">${BMK.map((g,i)=>`<div class="bw__g" id="bmg${i}"><p class="bw__gh">${esc(g[0])}</p>${g[col].map(row).join('')}</div>`).join('')}
+        <div class="bw__g"><p class="bw__gh">Свое</p>${own.map(row).join('')}<button type="button" class="bw__i bw__add" data-ownopen><span class="bw__box" aria-hidden="true">+</span><span>Добавить свое</span></button><span class="rw__own" hidden><input id="bmOwn" placeholder="Ваш маркер" aria-label="Свой маркер"><button type="button" class="btn btn--sm" id="bmAdd">Добавить</button></span></div></div></div>
+      <div class="rw__nav"><button type="button" class="btn btn--primary" data-bgo="${st+1}"${n?'':' disabled'}>${st?'Посмотреть карту тела':'Дальше: когда вам хорошо'}<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M6 3l5 5-5 5"/></svg></button>
+        <span class="rw__cnt">${n?`Отмечено ${n}`:'Отметьте хотя бы один пункт'}</span>${st?'<button type="button" class="btn btn--ghost" data-bgo="0">Назад</button>':''}</div></div>`}
+  else body=`<div class="bmr-wrap"><h2 class="rw__q">Сохраните свою карту тела</h2><p class="rw__h">Возвращайтесь к ней, когда трудно понять, что с вами происходит. Ее можно сохранить в PDF или распечатать</p>${bmkResult()}
+    <div class="rw__nav rw__nav--end"><button type="button" class="btn btn--primary" id="bmPdf">Сохранить в PDF</button><button type="button" class="btn btn--ghost" data-bgo="0">Изменить отметки</button></div></div>`;
+  m.innerHTML=wrap(t,`<section class="sec rw-sec">${stepper}${body}</section>`);
+  if(st<2){const nx=$('.nxt',m);if(nx)nx.hidden=true;const rs=$('.nxt__reset',m);if(rs)rs.hidden=true}
   bindDisc(m);
+  const top=()=>{const e=$('.rw-steps',m);if(e){const y=e.getBoundingClientRect().top+window.scrollY-96;window.scrollTo({top:Math.max(0,y),behavior:'smooth'})}};
   const keep=()=>{save();const y=window.scrollY;render();window.scrollTo({top:y})};
-  $$('[data-bk]',m).forEach(b=>b.onclick=()=>{route.bk=b.dataset.bk;const fromBtn=b.classList.contains('btn');render();if(fromBtn){const tb=$('.rz-tabs');tb&&tb.scrollIntoView({behavior:'smooth',block:'start'})}});
-  $$('[data-bm]',m).forEach(b=>b.onclick=()=>{const v=b.dataset.bm,i=sel.indexOf(v);i>=0?sel.splice(i,1):sel.push(v);keep()});
-  $$('.bz',m).forEach(z=>{const f=()=>{const gi=BMK.findIndex(g=>g[1].includes(z.dataset.zone));const el=gi>=0&&$('#bmg'+gi,m);if(el){el.scrollIntoView({behavior:'smooth',block:'center'});el.classList.remove('is-flash');void el.offsetWidth;el.classList.add('is-flash')}};z.onclick=f;z.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();f()}}});
-  const add=()=>{const v=$('#bmOwn',m).value.trim();if(v&&!sel.includes(v)){sel.push(v);keep()}};$('#bmAdd',m).onclick=add;$('#bmOwn',m).onkeydown=e=>{if(e.key==='Enter')add()};
+  $$('[data-bst],[data-bgo]',m).forEach(b=>b.onclick=()=>{route.bst=+(b.dataset.bst??b.dataset.bgo);render();top()});
+  if(st<2){const sel=B[st?'ok':'tense'];
+    $$('[data-bm]',m).forEach(b=>b.onclick=()=>{const v=b.dataset.bm,i=sel.indexOf(v);i>=0?sel.splice(i,1):sel.push(v);keep()});
+    $$('.bz',m).forEach(z=>{const f=()=>{const gi=BMK.findIndex(g=>g[1].includes(z.dataset.zone));const el=gi>=0&&$('#bmg'+gi,m);if(el){el.scrollIntoView({behavior:'smooth',block:'center'});el.classList.remove('is-flash');void el.offsetWidth;el.classList.add('is-flash')}};z.onclick=f;z.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();f()}}});
+    const op=$('[data-ownopen]',m),box=$('.rw__own',m),inp=$('#bmOwn',m);op.onclick=()=>{op.hidden=true;box.hidden=false;inp.focus()};
+    const add=()=>{const v=inp.value.trim();if(v&&!sel.includes(v)){sel.push(v);keep()}};$('#bmAdd',m).onclick=add;inp.onkeydown=e=>{if(e.key==='Enter')add();if(e.key==='Escape'){box.hidden=true;op.hidden=false}}}
+  const pdf=$('#bmPdf',m);if(pdf)pdf.onclick=()=>{document.body.classList.add('print-bmr');setTimeout(()=>{window.print();setTimeout(()=>document.body.classList.remove('print-bmr'),400)},50)};
   const tr=$('#bmToR',m);if(tr)tr.onclick=()=>{let n=0;B.tense.forEach(v=>{if(!S.signals.some(x=>x.type==='тело'&&x.t.toLowerCase()===v.toLowerCase())){S.signals.push({t:v.toLowerCase(),type:'тело',zone:'ранний'});n++}});keep();toast('В радар добавлено: '+n)};
 };
 
