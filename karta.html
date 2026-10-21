@@ -1986,6 +1986,33 @@ h1,.page h1,.thead h1,.r-head h1,.thero__txt h1,.big-card h2,.keep__head h2,.mod
 .ldc__n{flex:1 1 auto;overflow-wrap:normal;word-break:normal}
 @media (max-width:640px){.ldb__pans .ldc__n{flex-basis:calc(100% - 20px)}.ldb__pans .ldc__s{margin-left:16px}}
 
+/* Весы в стиле слайда: стойка, треугольные подвесы, чаши-полукруги */
+.ldb__pans{position:relative;column-gap:0;padding-bottom:64px}
+.ldb__pans::before{content:"";position:absolute;left:50%;top:-2px;bottom:0;width:2.5px;margin-left:-1.25px;background:var(--ink);pointer-events:none}
+.ldb__pans::after{content:"";position:absolute;left:50%;bottom:0;width:150px;height:2.5px;margin-left:-75px;background:var(--ink);pointer-events:none}
+.ldb__pans .ldz{min-height:0;border:0;border-radius:0;padding:0;background:none;box-shadow:none;display:flex;flex-direction:column;align-items:center}
+.ldz__bowl{box-sizing:border-box;width:90%;min-height:150px;padding:16px 16px 46px;border:1.5px solid var(--ink);border-radius:0 0 50% 50%/0 0 56px 56px;transition:box-shadow .2s,border-color .2s}
+.ldz--d .ldz__bowl{background:#f6e3e0}
+.ldz--r .ldz__bowl{background:#deebe1}
+.ldb__pans .ldz__cards{margin-top:0;justify-content:center}
+.ldb__pans .ldz__empty{text-align:center}
+.ldb__pans .ldz__h{margin:12px 0 0;font:400 17px/1.3 var(--sans);text-align:center}
+.ldz--d .ldz__h{color:#94483f}
+.ldz--r .ldz__h{color:#355642}
+.ldb.has-sel .ldb__pans .ldz{border:0}
+.ldb.has-sel .ldb__pans .ldz__bowl{border-style:dashed;cursor:pointer}
+.ldb__pans .ldz.is-over{box-shadow:none}
+.ldb__pans .ldz.is-over .ldz__bowl{border-width:2px;box-shadow:0 0 0 4px color-mix(in srgb,var(--ink) 10%,transparent)}
+.ldb .ldc{border:1px solid var(--ink);border-radius:0;background:#fff;box-shadow:none}
+.ldb .ldc:hover{box-shadow:0 0 0 1px var(--ink)}
+.ldb .ldc.is-sel{box-shadow:0 0 0 2px var(--ink)}
+@media (max-width:640px){
+  .ldb__pans{padding-bottom:40px}
+  .ldb__pans::after{width:110px;margin-left:-55px}
+  .ldz__bowl{min-height:130px;padding:10px 8px 36px;border-radius:0 0 50% 50%/0 0 40px 40px}
+  .ldb__pans .ldz__h{font-size:15px}
+}
+
 /* Практика «Выдохнуть»: картинка всегда целиком, по высоте блока */
 .hp__img{display:grid;place-items:center;padding:clamp(14px,2.4vw,28px);overflow:hidden}
 .hp__img .prac__play{height:100%;width:100%;display:grid!important;place-items:center}
@@ -3111,11 +3138,13 @@ const AFTER=[[-2,'сильно забирает'],[-1,'забирает'],[0,'н
 /* Весы: доска с чашами. Дела перетаскивают или кладут нажатием, карточки никуда не исчезают */
 const ldPan=x=>x.after<0?'d':x.after>0?'r':'u';
 function ldTilt(){const dr=S.load.filter(x=>x.after<0),rt=S.load.filter(x=>x.after>0);const wD=dr.reduce((a,x)=>a+(-x.after)*x.demand,0),wR=rt.reduce((a,x)=>a+x.after*(x.imp+1),0);return Math.max(-8,Math.min(8,(wD-wR)*1.1))}
-function beamSvg(){const ang=ldTilt(),dy=Math.round(180*Math.sin(ang*Math.PI/180));
-  return `<svg viewBox="0 0 720 120" class="ldb__beam" aria-hidden="true" data-dy="${dy}"><path d="M360 34 V124" stroke="var(--ink)" stroke-width="1.6" fill="none"/><g class="ldb__arm" style="transform:rotate(${-ang}deg)"><line x1="180" y1="34" x2="540" y2="34" stroke="var(--ink)" stroke-width="2"/></g><g class="ldb__str" style="transform:translateY(${dy}px)"><path d="M180 34 V122" stroke="var(--ink)" stroke-dasharray="1.5 3"/></g><g class="ldb__str" style="transform:translateY(${-dy}px)"><path d="M540 34 V122" stroke="var(--ink)" stroke-dasharray="1.5 3"/></g><circle cx="360" cy="34" r="6" fill="var(--bg)" stroke="var(--ink)" stroke-width="1.6"/></svg>`}
+function beamSvg(){const ang=ldTilt(),dy=Math.round(180*Math.sin(ang*Math.PI/180));const st='stroke="var(--ink)" vector-effect="non-scaling-stroke"';
+  const hang=(x,d)=>`<g class="ldb__str" style="transform:translateY(${d}px)"><path d="M${x-162} 122 L${x} 34 L${x+162} 122" fill="none" stroke="#8fad99" stroke-width="1.6" stroke-linejoin="round" vector-effect="non-scaling-stroke"/></g>`;
+  return `<svg viewBox="0 0 720 120" class="ldb__beam" aria-hidden="true" data-dy="${dy}">${hang(180,dy)}${hang(540,-dy)}<path d="M360 34 V124" ${st} stroke-width="2.5" fill="none"/><g class="ldb__arm" style="transform:rotate(${-ang}deg)"><line x1="180" y1="34" x2="540" y2="34" ${st} stroke-width="2.5" stroke-linecap="round"/></g><circle cx="360" cy="34" r="9" fill="var(--ink)"/></svg>`}
 function ldHang(box){const sv=box.querySelector('.ldb__beam');if(!sv)return;const k=sv.getBoundingClientRect().width/720,dy=+sv.dataset.dy*k;const ps=box.querySelectorAll('.ldb__pans>.ldz');if(ps[0])ps[0].style.transform=`translateY(${dy}px)`;if(ps[1])ps[1].style.transform=`translateY(${-dy}px)`}
 function ldBoard(){const card=(x,i)=>{const p=ldPan(x),strong=Math.abs(x.after)>=2;return `<div class="ldc ldc--${p}" data-li="${i}" tabindex="0" role="button" aria-label="${esc(x.name)}"><span class="ldc__grip" aria-hidden="true"></span><span class="ldc__n">${esc(x.name)}</span>${p!=='u'?`<button type="button" class="ldc__s" data-strong="${i}" aria-pressed="${strong}" title="${p==='d'?'Забирает очень много сил':'Возвращает очень много сил'}">${p==='d'?'сильно':'очень'}</button>`:''}</div>`};
-  const zone=(k,h,sub)=>{const a=S.load.map((x,i)=>[x,i]).filter(([x])=>ldPan(x)===k);return `<div class="ldz ldz--${k}" data-pan="${k}"><p class="ldz__h">${h}</p>${sub?`<p class="ldz__sub">${sub}</p>`:''}<div class="ldz__cards">${a.map(([x,i])=>card(x,i)).join('')}${a.length?'':`<p class="ldz__empty">${k==='u'?'Все дела разложены':'Перетащите сюда дело'}</p>`}</div></div>`};
+  const zone=(k,h,sub)=>{const a=S.load.map((x,i)=>[x,i]).filter(([x])=>ldPan(x)===k);const cards=`<div class="ldz__cards">${a.map(([x,i])=>card(x,i)).join('')}${a.length?'':`<p class="ldz__empty">${k==='u'?'Все дела разложены':'Перетащите сюда дело'}</p>`}</div>`;
+    return k==='u'?`<div class="ldz ldz--${k}" data-pan="${k}"><p class="ldz__h">${h}</p>${sub?`<p class="ldz__sub">${sub}</p>`:''}${cards}</div>`:`<div class="ldz ldz--${k}" data-pan="${k}"><div class="ldz__bowl">${cards}</div><p class="ldz__h">${h}</p></div>`};
   return `${zone('u','Дела','Перетащите каждое дело на чашу или нажмите на дело, а затем на чашу')}${beamSvg()}<div class="ldb__pans">${zone('d','Забирает силы','')}${zone('r','Возвращает силы','')}</div>`}
 function bindBoard(box,onChange){let sel=null,drag=null;
   const draw=()=>{const old=box.querySelectorAll('.ldb__pans>.ldz');const tr=[...old].map(x=>x.style.transform);box.innerHTML=ldBoard();const nw=box.querySelectorAll('.ldb__pans>.ldz');nw.forEach((x,j)=>x.style.transform=tr[j]||'');const sv=box.querySelector('.ldb__beam');if(sv&&box._ang!=null){const a=box.querySelector('.ldb__arm');const t=a.style.transform;a.style.transform=`rotate(${-box._ang}deg)`;const st=sv.querySelectorAll('.ldb__str');const ts=[...st].map(x=>x.style.transform);st[0].style.transform=`translateY(${box._dy}px)`;st[1].style.transform=`translateY(${-box._dy}px)`;requestAnimationFrame(()=>requestAnimationFrame(()=>{a.style.transform=t;st[0].style.transform=ts[0];st[1].style.transform=ts[1];ldHang(box)}))}else requestAnimationFrame(()=>ldHang(box));box._ang=ldTilt();box._dy=sv?+sv.dataset.dy:0;if(sel!=null){const c=box.querySelector(`[data-li="${sel}"]`);c?c.classList.add('is-sel'):sel=null}box.classList.toggle('has-sel',sel!=null)};
