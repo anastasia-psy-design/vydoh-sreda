@@ -2978,6 +2978,28 @@ body{background:var(--page);font-size:15px;line-height:1.5}
 .lab2 input[type=range]{accent-color:#2d2c2a;height:24px}
 .lab-run .lab-do,.lab-vs{margin-top:14px!important}
 
+/* Надо / хочу / важно: перетаскивание */
+.nb{display:grid;gap:14px}
+.nb__pool{display:flex;flex-wrap:wrap;gap:8px;padding:14px;border:1px dashed #c9cfcb;background:#faf9f7;min-height:64px;align-items:center}
+.nb__cols{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.nb__col{background:#fff;border:1px solid #e7ebe8;border-top:3px solid var(--ac);padding:12px;min-height:170px;display:flex;flex-direction:column;transition:background .15s,border-color .15s}
+.nb__col--want{--ac:#8fad99}.nb__col--important{--ac:#a99cc6}.nb__col--choose{--ac:#c9a96a}.nb__col--fear{--ac:#d6a49c}.nb__col--auto{--ac:#b9bdb9}
+.nb__h{font-size:14px;font-weight:500;line-height:1.3;color:#2d2c2a;margin:0 0 10px;min-height:2.6em}
+.nb__in{display:flex;flex-direction:column;gap:6px;flex:1}
+.nb__drop{margin:auto 0;text-align:center;font-size:13px;color:#b0b4b1;border:1px dashed #e0e3e1;padding:18px 6px}
+.nb__empty{font-size:14px;color:#737773;margin:0}
+.nb__card{display:flex;align-items:center;gap:8px;padding:8px 12px;background:#fff;border:1px solid #2d2c2a;font-size:14.5px;line-height:1.3;cursor:grab;user-select:none;touch-action:none;overflow-wrap:anywhere}
+.nb__pool .nb__card{border-radius:0}
+.nb__card:hover{box-shadow:0 0 0 1px #2d2c2a}.nb__card.is-sel{box-shadow:0 0 0 2px #2d2c2a;background:#f5f4f1}
+.nb__card.is-drag{opacity:.35}.nb__card.just{animation:popIn .4s ease}
+.nb__ghost{position:fixed;left:0;top:0;z-index:9999;pointer-events:none;background:#fff;box-shadow:0 8px 24px rgba(0,0,0,.12)!important;cursor:grabbing}
+.nb.is-dragging .nb__col,.nb.has-sel .nb__col{border-style:dashed;border-top-style:solid}
+.nb.has-sel .nb__col{cursor:pointer}
+.nb__col.is-over{background:color-mix(in srgb,var(--ac) 14%,#fff)}
+.nb__pool.is-over{background:#f0f1ef}
+@media (max-width:900px){.nb__cols{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.nb__cols{grid-template-columns:1fr}.nb__col{min-height:0}.nb__h{min-height:0}}
+
 </style>
 </head>
 <body>
@@ -4818,15 +4840,32 @@ const NHV_Q={
   choose:['Что дает вам этот выбор - почему вы его сохраняете?','Можно ли делать это так, чтобы оно обходилось дешевле?'],
   fear:['Чего вы боитесь, если перестанете или сделаете меньше?','Это опасение можно проверить маленьким экспериментом в «Лаборатории»'],
   auto:['Что будет, если в течение недели делать это чуть меньше или иначе?','Кто это заметит - и что тогда произойдет на самом деле?']};
+/* Перетаскивание карточек между зонами: мышью, пальцем или нажатием (дело, затем зона) */
+function bindDrop(box,onDrop){let sel=null,drag=null;
+  const mark=()=>{$$('[data-di]',box).forEach(c=>c.classList.toggle('is-sel',c.dataset.di===sel));box.classList.toggle('has-sel',sel!=null)};
+  box.addEventListener('click',e=>{if(box._dragged){box._dragged=0;return}const c=e.target.closest('[data-di]');if(c){sel=sel===c.dataset.di?null:c.dataset.di;mark();return}
+    const z=e.target.closest('[data-dz]');if(z&&sel!=null){const it=sel;sel=null;onDrop(it,z.dataset.dz)}});
+  box.addEventListener('keydown',e=>{const c=e.target.closest('[data-di]');if(c&&(e.key==='Enter'||e.key===' ')){e.preventDefault();sel=sel===c.dataset.di?null:c.dataset.di;mark()}});
+  box.addEventListener('pointerdown',e=>{const c=e.target.closest('[data-di]');if(!c||e.button>0)return;const r=c.getBoundingClientRect();drag={it:c.dataset.di,el:c,x0:e.clientX,y0:e.clientY,dx:e.clientX-r.left,dy:e.clientY-r.top,w:r.width,on:false,id:e.pointerId}});
+  window._dropOff&&window._dropOff();
+  const pm=e=>{if(!drag||e.pointerId!==drag.id)return;if(!drag.on){if(Math.hypot(e.clientX-drag.x0,e.clientY-drag.y0)<6)return;drag.on=true;const g=drag.el.cloneNode(true);g.classList.add('nb__ghost');g.style.width=drag.w+'px';document.body.appendChild(g);drag.g=g;drag.el.classList.add('is-drag');box.classList.add('is-dragging')}
+    e.preventDefault();if(e.clientY>innerHeight-70)window.scrollBy(0,14);else if(e.clientY<90)window.scrollBy(0,-14);drag.g.style.transform=`translate(${e.clientX-drag.dx}px,${e.clientY-drag.dy}px) rotate(-2deg)`;
+    const z=document.elementFromPoint(e.clientX,e.clientY);const pz=z&&z.closest&&z.closest('[data-dz]');$$('[data-dz]',box).forEach(x=>x.classList.toggle('is-over',x===pz))};
+  const end=e=>{if(!drag||e.pointerId!==drag.id)return;const d=drag;drag=null;if(!d.on)return;box._dragged=1;setTimeout(()=>box._dragged=0,50);d.g.remove();d.el.classList.remove('is-drag');box.classList.remove('is-dragging');$$('[data-dz]',box).forEach(x=>x.classList.remove('is-over'));
+    const z=document.elementFromPoint(e.clientX,e.clientY);const pz=z&&z.closest&&z.closest('[data-dz]');if(pz&&box.contains(pz))onDrop(d.it,pz.dataset.dz)};
+  window.addEventListener('pointermove',pm,{passive:false});window.addEventListener('pointerup',end);window.addEventListener('pointercancel',end);
+  window._dropOff=()=>{window.removeEventListener('pointermove',pm);window.removeEventListener('pointerup',end);window.removeEventListener('pointercancel',end)}}
 TOOL.nhv=(m,t)=>{const P=S.nhv.place;S.nhv.notes=S.nhv.notes||{};const N=S.nhv.notes;const pool=items().filter(i=>!P[i]);
   const filled=C.NHV_COLS.filter(([k])=>Object.keys(P).some(i=>P[i]===k));
   const costly=Object.keys(P).filter(i=>['want','important','choose'].includes(P[i])).filter(i=>{const x=S.load.find(l=>l.name===i);return x&&x.after<=-1});
   const placed=Object.keys(P).length;
   m.innerHTML=wrap(t,`${!items().length?emptyNote('Пункты подтягиваются из карты нагрузки',4):''}
   <section><div class="sec__h"><h2>Шаг 1. Разложите дела по тому, почему вы их делаете</h2>${pool.length?`<span class="muted">осталось разложить: ${pool.length}</span>`:''}</div>
-  <p style="font-size:17px;margin-bottom:16px">Нажмите на пункт и выберите колонку. Честного ответа достаточно - правильных и неправильных колонок нет</p>
-  ${pool.length?`<div class="pool">${pool.map(i=>`<button class="chip" data-pick="${esc(i)}">${esc(i)}</button>`).join('')}</div>`:''}<div id="pickBar"></div>
-  ${placed?jarsHtml():''}<div class="nhv-cols">${C.NHV_COLS.map(([k,l])=>`<div class="nhv-col" style="--c:${NHV_FILL[k]}"><h3>${l}</h3>${Object.keys(P).filter(i=>P[i]===k).map(i=>`<button class="chip chip--jar" aria-pressed="true" data-pick="${esc(i)}">${esc(i)}</button>`).join('')}</div>`).join('')}</div></section>
+  <p style="font-size:17px;margin-bottom:16px">Перетащите каждое дело в колонку, которая лучше всего описывает, почему вы его делаете. Можно и нажать на дело, а затем на колонку. Правильных и неправильных колонок нет</p>
+  <div class="nb" id="nhvBoard">
+    <div class="nb__pool" data-dz="">${pool.length?pool.map(i=>`<div class="nb__card" data-di="${esc(i)}" tabindex="0" role="button"><span class="ldc__grip" aria-hidden="true"></span>${esc(i)}</div>`).join(''):`<p class="nb__empty">${items().length?'Все дела разложены. Чтобы переложить дело, перетащите его в другую колонку':'Пока нет дел'}</p>`}</div>
+    <div class="nb__cols">${C.NHV_COLS.map(([k,l])=>`<div class="nb__col nb__col--${k}" data-dz="${k}"><p class="nb__h">${l}</p><div class="nb__in">${Object.keys(P).filter(i=>P[i]===k).map(i=>`<div class="nb__card" data-di="${esc(i)}" tabindex="0" role="button"><span class="ldc__grip" aria-hidden="true"></span>${esc(i)}</div>`).join('')||'<p class="nb__drop">Перетащите сюда</p>'}</div></div>`).join('')}</div></div>
+  ${placed?jarsHtml():''}</section>
   ${placed?`<section class="sec"><div class="sec__h"><h2>Шаг 2. Посмотрите, ради чего вы делаете свои дела</h2></div>
     ${(()=>{const self=Object.keys(P).filter(i=>['want','important','choose'].includes(P[i])).length;const other=placed-self;
       return `<p style="font-size:17px;margin-bottom:18px">${other===0?'Все, что вы разложили, - ваш собственный выбор: вы делаете это, потому что хотите, потому что важно или сознательно решили сохранить. Это хорошая новость. Тогда главный вопрос звучит так: какой ценой вы это делаете и можно ли делать то же самое бережнее':self===0?'Похоже, сейчас почти все в вашей жизни держится на страхе, ожиданиях или привычке. Это частая картина при выгорании, и с ней стоит идти к психологу - здесь достаточно просто это заметить':`Часть того, что вы делаете, выбрана вами (${self}), а часть держится на страхе, ожиданиях или привычке (${other}). Ответьте на вопросы ниже - по тем колонкам, где у вас есть пункты`}</p>`})()}
@@ -4837,11 +4876,10 @@ TOOL.nhv=(m,t)=>{const P=S.nhv.place;S.nhv.notes=S.nhv.notes||{};const N=S.nhv.n
       ${k==='fear'?`<div><button class="btn btn--sm" data-fearlab>Проверить в Лаборатории</button></div>`:''}</div>`).join('')}</div>
     <div style="margin-top:16px;display:flex;gap:14px;align-items:center;flex-wrap:wrap"><button class="btn btn--primary btn--sm" id="nhvS">${MARK}Сохранить ответы</button><span class="muted">Отвечать на все вопросы не обязательно - достаточно одного, который откликается</span></div></section>`:''}`);
   bindDisc(m);
-  $$('[data-pick]',m).forEach(b=>b.onclick=()=>{const it=b.dataset.pick;$('#pickBar').innerHTML=`<div class="panel" style="margin-bottom:14px"><p style="margin-bottom:10px">«${esc(it)}» - я делаю это:</p><div class="chips">${C.NHV_COLS.map(([k,l])=>`<button class="chip" data-sec="${k}" aria-pressed="${P[it]===k}">${l}</button>`).join('')}</div></div>`;
-    $$('[data-sec]',m).forEach(x=>x.onclick=()=>{P[it]=x.dataset.sec;save();const y=window.scrollY;render();window.scrollTo({top:y})})});
+  {const nb=$('#nhvBoard',m);if(nb)bindDrop(nb,(it,k)=>{if(k)P[it]=k;else delete P[it];save();const y=window.scrollY;render();window.scrollTo({top:y});const c=$(`#nhvBoard [data-di="${CSS.escape(it)}"]`);if(c){c.classList.add('just')}})}
   const saveNotes=()=>{$$('[data-note]',m).forEach(a=>N[a.dataset.note]=a.value.trim());S.nhv.behind=Object.values(N).filter(Boolean).join(' / ');save()};
   $('#nhvS')&&($('#nhvS').onclick=()=>{saveNotes();toast('Сохранено')});
-  $('[data-fearlab]',m)&&($('[data-fearlab]',m).onclick=()=>{saveNotes();S.lab.push({belief:N.fear||'',pred:'',b0:70,exp:'',observe:'',result:'',b1:null,ifx:'',ify:''});S.open.lab=1;save();go('tool','lab')});
+  $('[data-fearlab]',m)&&($('[data-fearlab]',m).onclick=()=>{saveNotes();S.lab.push({belief:N.fear||'',pred:'',b0:70,exp:'',observe:'',result:'',b1:null,ifx:'',ify:'',due:'week'});S.open.lab=1;save();go('tool','lab')});
 };
 
 /* 11. Лаборатория изменений */
