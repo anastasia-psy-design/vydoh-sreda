@@ -2822,6 +2822,35 @@ body{background:var(--page);font-size:15px;line-height:1.5}
 @media (max-width:900px){.cl-leg ol{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:560px){.cl-leg ol{grid-template-columns:1fr}}
 
+/* Радар по шагам */
+.rw-sec{margin-top:8px}
+.pw-steps.rw-steps{grid-template-columns:repeat(3,minmax(0,1fr));margin-bottom:18px}
+.pw-steps.rw-steps::before{left:16.6%;right:16.6%}
+.rw__q{font:400 clamp(24px,2.2vw,32px)/1.15 var(--serif);margin:0 0 6px;color:#2d2c2a}
+.rw__h{font-size:15px;color:#737773;margin:0 0 16px}
+.rw__grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.rw__g{border:1px solid #e7ebe8;background:#fff;padding:14px 16px 16px;min-width:0}
+.rw__gh{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 10px;color:#2d2c2a}
+.rw__gh b{font-weight:500;font-size:15px}.rw__gh small{font-size:13px;color:#737773}
+.rw__chips{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.rw__c{min-height:36px;padding:6px 14px;border:1px solid #e7ebe8;border-radius:999px;background:#f5f4f1;font:inherit;font-size:14px;color:#333;cursor:pointer;text-align:left;max-width:100%;overflow-wrap:anywhere}
+.rw__c:hover{border-color:#c9cfcb}
+.rw--early .rw__c.on{background:#deebe1;border-color:#8fad99;color:#244232}
+.rw--lim .rw__c.on{background:#f6e3e0;border-color:#d6a49c;color:#7a3a32}
+.rw__c.is-other{background:#fff;color:#a2a6a3;border-style:dashed}
+.rw__add{background:#fff;border-style:dashed;color:#737773}
+.rw__own[hidden],.rw__add[hidden]{display:none!important}
+.rw__own{display:flex;gap:8px;align-items:center;flex:1 1 220px;min-width:0}
+.rw__own .mic-w{flex:1 1 auto}
+.rw__own input{min-height:36px;border:0;border-bottom:1px solid #c9cfcb;background:transparent;font:inherit;font-size:14px;padding:4px 2px;width:100%}
+.rw__nav{display:flex;flex-wrap:wrap;align-items:center;gap:12px 18px;margin-top:18px}
+.rw__nav .btn--primary{display:inline-flex;gap:8px;align-items:center}
+.rw__nav .btn[disabled]{opacity:.45;cursor:not-allowed}
+.rw__cnt{font-size:14px;color:#737773}
+@media (max-width:760px){.rw__grid{grid-template-columns:1fr}.pw-steps.rw-steps .pw-step{font-size:12px}}
+
+@media (max-width:760px){.rw__nav{position:sticky;bottom:0;z-index:5;background:#fff;margin:12px -16px 0;padding:12px 16px calc(12px + env(safe-area-inset-bottom));border-top:1px solid #e7ebe8}}
+
 </style>
 </head>
 <body>
@@ -4053,32 +4082,37 @@ const ZL={'ранний':'Первые звоночки','уже перегру�
 const ZD={'ранний':'нагрузка только начала копиться, вы еще справляетесь','уже перегружен':'сил заметно меньше, но вы продолжаете через силу','предел':'«больше не могу» - пора срочно останавливаться'};
 const TD={'тело':'ощущения, напряжение, сон, аппетит','эмоции':'что чувствуете чаще обычного','мысли':'какие фразы крутятся в голове','поведение':'что начинаете делать или перестаете'};
 TOOL.radar=(m,t)=>{
-  const bodyS=bodySugg();const RZ=route.rz||'ранний';
+  /* Радар по шагам: 1 - первые звоночки, 2 - на пределе, 3 - что это значит. Один вопрос на экране, кнопка «Дальше» внизу слева */
+  const bodyS=bodySugg();const nE=S.signals.filter(x=>(x.zone||'ранний')==='ранний').length,nL=S.signals.filter(x=>x.zone==='предел').length;
+  if(route.rst==null)route.rst=nE&&nL?2:nE?1:0;const st=route.rst,RZ=st===1?'предел':'ранний';
   const zOf=(type,v)=>{const x=S.signals.find(x=>x.type===type&&x.t===v);return x?x.zone||'ранний':null};
-  const zc=z=>z==='предел'?'z-lim':z==='уже перегружен'?'z-mid':z?'z-early':'';
-  const nE=S.signals.filter(x=>(x.zone||'ранний')==='ранний').length,nL=S.signals.filter(x=>x.zone==='предел').length;
-  m.innerHTML=wrap(t,`<section class="sec"><div class="sec__h"><h2>Отметьте свои сигналы перегрузки</h2></div>
-    <p class="pw-why">Перегрузка нарастает постепенно. Важно заметить два момента: что появляется в самом начале и что бывает, когда сил уже почти не осталось</p>
-    <div class="rz-tabs" role="tablist">
-      <button type="button" role="tab" class="rz-tab rz-tab--early" aria-selected="${RZ==='ранний'}" data-rz="ранний"><span class="rz-n">1</span><span><b>Первые звоночки</b><small>что вы замечаете в самом начале${nE?` · отмечено ${nE}`:''}</small></span></button>
-      <button type="button" role="tab" class="rz-tab rz-tab--lim" aria-selected="${RZ==='предел'}" data-rz="предел"><span class="rz-n">2</span><span><b>На пределе</b><small>что бывает, когда сил почти нет${nL?` · отмечено ${nL}`:''}</small></span></button>
-    </div>
-    <p class="rz-q">${RZ==='предел'?'Нажмите на то, что появляется, когда вы уже на пределе':'Нажмите на то, что вы замечаете первым, когда нагрузка начинает расти'}. Достаточно 2-5 вариантов</p>
-    <div class="sectors rz-sectors">${C.RADAR_TYPES.map(type=>{const sugg=type==='тело'?bodyS:[...new Set(C.RADAR_SUGGEST[type]||[])];const own=S.signals.filter(x=>x.type===type&&!sugg.includes(x.t)).map(x=>x.t);
-      return `<div class="sector rz-sec" data-type="${type}"><h3>${type[0].toUpperCase()+type.slice(1)}</h3><p class="muted" style="margin-top:-6px">${TD[type]}</p>
-        <div class="rz-chips">${[...sugg,...own].map(v=>{const z=zOf(type,v);return `<button type="button" class="rz-chip ${zc(z)}" aria-pressed="${z===RZ}" data-tg="${esc(v)}">${esc(v)}</button>`}).join('')}</div>
-        <div class="input" style="min-height:44px"><input placeholder="Свое" data-own aria-label="Свой сигнал: ${type}"><button class="btn btn--sm btn--ghost" data-ownadd>+</button></div></div>`}).join('')}</div>
-    <div class="rz-leg"><span><i class="z-early"></i>первые звоночки</span><span><i class="z-lim"></i>на пределе</span>${S.signals.some(x=>x.zone==='уже перегружен')?'<span><i class="z-mid"></i>уже тяжело</span>':''}</div>
-    ${RZ==='ранний'&&nE?`<button type="button" class="btn btn--primary" data-rz="предел" style="margin-top:18px">Дальше: что бывает на пределе</button>`:''}</section>
-  ${S.signals.length?radarMeaning():''}`);
+  const ST=['Первые звоночки','На пределе','Что это значит'];
+  const ICO={'тело':'<circle cx="10" cy="4.5" r="2.2"/><path d="M10 7v6M6 9.5l4-1.5 4 1.5M7.5 18l2.5-5 2.5 5"/>','эмоции':'<circle cx="10" cy="10" r="7"/><path d="M7 12c1.6 1.6 4.4 1.6 6 0"/><circle cx="7.6" cy="8" r=".6" fill="currentColor"/><circle cx="12.4" cy="8" r=".6" fill="currentColor"/>','мысли':'<path d="M4 9a6 5 0 0112 0c0 2.8-2.7 5-6 5-1 0-2-.2-2.8-.6L4 15l1-2.6C4.4 11.4 4 10.2 4 9z"/>','поведение':'<path d="M4 16l4-8 3 5 2-3 3 6"/>'};
+  const stepper=`<ol class="pw-steps rw-steps" aria-label="Шаги радара">${ST.map((x,k)=>`<li class="${k<st?'done':k===st?'now':''}"><button type="button" class="pw-step" data-rst="${k}" aria-current="${k===st?'step':'false'}"><span>${k+1}</span>${x}</button></li>`).join('')}</ol>`;
+  let body;
+  if(st<2){const n=st?nL:nE;
+    const Q=st?['Что бывает, когда сил почти не осталось?','Вспомните самый тяжелый период. Отметьте 2-5 вариантов в любых группах']:['Что вы замечаете первым, когда нагрузка начинает расти?','Вспомните начало трудной недели. Отметьте 2-5 вариантов в любых группах'];
+    body=`<div class="rw ${st?'rw--lim':'rw--early'}"><h2 class="rw__q">${Q[0]}</h2><p class="rw__h">${Q[1]}</p>
+      <div class="rw__grid">${C.RADAR_TYPES.map(type=>{const sugg=type==='тело'?bodyS:[...new Set(C.RADAR_SUGGEST[type]||[])];const own=S.signals.filter(x=>x.type===type&&!sugg.includes(x.t)).map(x=>x.t);
+        return `<div class="rw__g" data-type="${type}"><p class="rw__gh"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" aria-hidden="true">${ICO[type]||''}</svg><b>${type[0].toUpperCase()+type.slice(1)}</b><small>${TD[type]}</small></p>
+          <div class="rw__chips">${[...sugg,...own].map(v=>{const z=zOf(type,v);const other=z&&z!==RZ;return `<button type="button" class="rw__c${z===RZ?' on':''}${other?' is-other':''}" aria-pressed="${z===RZ}" data-tg="${esc(v)}"${other?` title="Уже отмечено как ${z==='предел'?'«на пределе»':'первый звоночек'}. Нажмите, чтобы перенести сюда"`:''}>${esc(v)}</button>`}).join('')}
+          <button type="button" class="rw__c rw__add" data-ownopen>+ свое</button><span class="rw__own" hidden><input data-own placeholder="Ваш вариант" aria-label="Свой сигнал: ${type}"><button type="button" class="btn btn--sm" data-ownadd>Добавить</button></span></div></div>`}).join('')}</div>
+      <div class="rw__nav"><button type="button" class="btn btn--primary" data-rgo="${st+1}"${n?'':' disabled'}>${st?'Посмотреть, что это значит':'Дальше: на пределе'}<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M6 3l5 5-5 5"/></svg></button>
+        <span class="rw__cnt">${n?`Отмечено ${n} ${plural(n,'вариант','варианта','вариантов')}`:'Отметьте хотя бы один вариант'}</span>${st?'<button type="button" class="btn btn--ghost" data-rgo="0">Назад</button>':''}</div></div>`}
+  else body=`${S.signals.length?radarMeaning():'<p class="muted">Сигналы пока не отмечены</p>'}<div class="rw__nav"><button type="button" class="btn btn--ghost" data-rgo="0">Изменить отметки</button></div>`;
+  m.innerHTML=wrap(t,`<section class="sec rw-sec">${stepper}${body}</section>`);
+  if(st<2){const nx=$('.nxt',m);if(nx)nx.hidden=true;const rs=$('.nxt__reset',m);if(rs)rs.hidden=true}
   bindDisc(m);
+  const top=()=>{const e=$('.rw-steps',m);if(e){const y=e.getBoundingClientRect().top+window.scrollY-96;window.scrollTo({top:Math.max(0,y),behavior:'smooth'})}};
   const keep=()=>{save();const y=window.scrollY;render();window.scrollTo({top:y})};
   const toggle=(type,v)=>{const k=S.signals.findIndex(x=>x.type===type&&x.t===v);if(k>=0){if((S.signals[k].zone||'ранний')===RZ)S.signals.splice(k,1);else S.signals[k].zone=RZ}else S.signals.push({t:v,type,zone:RZ});keep()};
-  $$('[data-rz]',m).forEach(b=>b.onclick=()=>{route.rz=b.dataset.rz;const y=window.scrollY;render();const tb=$('.rz-tabs',m);if(b.classList.contains('btn')&&tb)tb.scrollIntoView({behavior:'smooth',block:'start'});else window.scrollTo({top:y})});
-  $$('.sector[data-type]',m).forEach(sec=>{const type=sec.dataset.type;
-    $$('[data-tg]',sec).forEach(b=>b.onclick=()=>toggle(type,b.dataset.tg));
-    const inp=$('[data-own]',sec),add=()=>{const v=inp.value.trim();if(v&&!S.signals.some(x=>x.type===type&&x.t===v)){S.signals.push({t:v,type,zone:RZ});keep()}};
-    $('[data-ownadd]',sec).onclick=add;inp.onkeydown=e=>{if(e.key==='Enter')add()}});
+  $$('[data-rst],[data-rgo]',m).forEach(b=>b.onclick=()=>{route.rst=+(b.dataset.rst??b.dataset.rgo);render();top()});
+  $$('.rw__g[data-type]',m).forEach(g=>{const type=g.dataset.type;
+    $$('[data-tg]',g).forEach(b=>b.onclick=()=>toggle(type,b.dataset.tg));
+    const op=$('[data-ownopen]',g),box=$('.rw__own',g),inp=$('[data-own]',g);
+    op.onclick=()=>{op.hidden=true;box.hidden=false;inp.focus()};
+    const add=()=>{const v=inp.value.trim();if(v&&!S.signals.some(x=>x.type===type&&x.t===v)){S.signals.push({t:v,type,zone:RZ});keep()}};
+    $('[data-ownadd]',g).onclick=add;inp.onkeydown=e=>{if(e.key==='Enter')add();if(e.key==='Escape'){box.hidden=true;op.hidden=false}}});
 };
 
 function bodySugg(){const st=w=>w.toLowerCase().replace(/[«»"]/g,'').slice(0,4);const zones={},plain=[];

@@ -1646,3 +1646,32 @@ body{background:var(--page);font-size:15px;line-height:1.5}
 .cl-leg small{display:block;color:#737773;font-size:12.5px;line-height:1.4;margin-top:2px}
 @media (max-width:900px){.cl-leg ol{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:560px){.cl-leg ol{grid-template-columns:1fr}}
+
+/* Радар по шагам */
+.rw-sec{margin-top:8px}
+.pw-steps.rw-steps{grid-template-columns:repeat(3,minmax(0,1fr));margin-bottom:18px}
+.pw-steps.rw-steps::before{left:16.6%;right:16.6%}
+.rw__q{font:400 clamp(24px,2.2vw,32px)/1.15 var(--serif);margin:0 0 6px;color:#2d2c2a}
+.rw__h{font-size:15px;color:#737773;margin:0 0 16px}
+.rw__grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.rw__g{border:1px solid #e7ebe8;background:#fff;padding:14px 16px 16px;min-width:0}
+.rw__gh{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 10px;color:#2d2c2a}
+.rw__gh b{font-weight:500;font-size:15px}.rw__gh small{font-size:13px;color:#737773}
+.rw__chips{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.rw__c{min-height:36px;padding:6px 14px;border:1px solid #e7ebe8;border-radius:999px;background:#f5f4f1;font:inherit;font-size:14px;color:#333;cursor:pointer;text-align:left;max-width:100%;overflow-wrap:anywhere}
+.rw__c:hover{border-color:#c9cfcb}
+.rw--early .rw__c.on{background:#deebe1;border-color:#8fad99;color:#244232}
+.rw--lim .rw__c.on{background:#f6e3e0;border-color:#d6a49c;color:#7a3a32}
+.rw__c.is-other{background:#fff;color:#a2a6a3;border-style:dashed}
+.rw__add{background:#fff;border-style:dashed;color:#737773}
+.rw__own[hidden],.rw__add[hidden]{display:none!important}
+.rw__own{display:flex;gap:8px;align-items:center;flex:1 1 220px;min-width:0}
+.rw__own .mic-w{flex:1 1 auto}
+.rw__own input{min-height:36px;border:0;border-bottom:1px solid #c9cfcb;background:transparent;font:inherit;font-size:14px;padding:4px 2px;width:100%}
+.rw__nav{display:flex;flex-wrap:wrap;align-items:center;gap:12px 18px;margin-top:18px}
+.rw__nav .btn--primary{display:inline-flex;gap:8px;align-items:center}
+.rw__nav .btn[disabled]{opacity:.45;cursor:not-allowed}
+.rw__cnt{font-size:14px;color:#737773}
+@media (max-width:760px){.rw__grid{grid-template-columns:1fr}.pw-steps.rw-steps .pw-step{font-size:12px}}
+
+@media (max-width:760px){.rw__nav{position:sticky;bottom:0;z-index:5;background:#fff;margin:12px -16px 0;padding:12px 16px calc(12px + env(safe-area-inset-bottom));border-top:1px solid #e7ebe8}}
