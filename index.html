@@ -3858,7 +3858,7 @@ const STATE_ICO={'взвинчен(а)':'<path d="M4 13l3-4 3 6 3-8 3 8 3-4 1 2"
 const stateIco=s=>`<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="11" stroke-dasharray="1 2.4" opacity=".7"/>${STATE_ICO[s]||''}</svg>`;
 
 /* --- Коридор зон --- */
-function corridorSvg(ps,z){const W=720,H=300,L=20,Rr=20,band=[[0,'РОВНО','var(--mint)'],[1,'ЧЕРЕЗ УСИЛИЕ','var(--beige)'],[2,'В ДОЛГ','var(--drain)']];const bh=(H-40)/3;
+function corridorSvg(ps,z){const W=720,H=300,L=20,Rr=20,band=[[0,'В РЕСУРСЕ','var(--mint)'],[1,'ЧЕРЕЗ УСИЛИЕ','var(--beige)'],[2,'В ДОЛГ','var(--drain)']];const bh=(H-40)/3;
   const n=ps.length,x=i=>L+40+(n<2?0:i*(W-L-Rr-80)/(n-1)),y=(zz,e)=>zz*bh+bh/2+(3-e)*bh/10;
   return `<svg viewBox="0 0 ${W} ${H}" class="corr" role="img" aria-label="Отметки по зонам нагрузки">${band.map(([k,l,c])=>`<rect x="0" y="${k*bh}" width="${W}" height="${bh}" fill="${c}"/><text x="12" y="${k*bh+20}" class="sc-h2" text-anchor="start">${l}</text>`).join('')}
     <path d="${ps.map((p,i)=>`${i?'L':'M'}${x(i).toFixed(1)} ${y(z[i],p.energy).toFixed(1)}`).join(' ')}" fill="none" stroke="var(--ink)" stroke-width="1.4"/>
@@ -4907,16 +4907,16 @@ function vAudio(m){const ids=Object.keys(AUDIO),on=ids.filter(hasA),soon=ids.fil
 function zoneOf(p,prev){if(p.energy<=2&&prev&&prev.energy<=2)return 2;if(p.tension>=4||p.energy<=2)return 1;return 0}
 const plur=(n,a,b,c)=>n%10===1&&n%100!==11?a:[2,3,4].includes(n%10)&&![12,13,14].includes(n%100)?b:c;
 const field2=(l,h,inner)=>`<div class="field"><div class="field__label"><span>${l}</span></div><p class="field__sub">${h}</p>${inner}</div>`;
-const RANGE_Z=[['Ровно','Нагрузка есть, но вы успеваете восстанавливаться','сил 3 и больше, напряжение ниже 4'],
+const RANGE_Z=[['В ресурсе','Нагрузка есть, но вы успеваете восстанавливаться','сил 3 и больше, напряжение ниже 4'],
   ['Через усилие','Сил мало или напряжение высокое. Ненадолго это нормально, если потом вы возвращаетесь','сил 2 и меньше или напряжение 4-5'],
   ['В долг','Сил мало уже несколько отметок подряд: вы тратите больше, чем успеваете восстановить','сил 2 и меньше две отметки подряд']];
 /* Диапазон устойчивой нагрузки: шкала режима из отметок, затем 4 вопроса с готовыми вариантами, итог - ваш диапазон */
-const RG_Q=[['q1','Что выбивает вас из режима «ровно»?','Отметьте все, что узнаете. Можно добавить свое',true,()=>[...S.load.filter(x=>x.after<0).map(x=>x.name),'дедлайны','много встреч подряд','недосып','болезнь близких','конфликты','сообщения по вечерам','переезд или ремонт','отчетный период']],
-  ['q2','Сколько вы обычно живете в таком режиме?','Пока не вернетесь в «ровно»',false,()=>['пару дней','около недели','2-3 недели','месяц и дольше','не помню, когда было ровно']],
-  ['q3','Что помогает вам вернуться в «ровно»?','Отметьте все, что работает у вас',true,()=>[...S.load.filter(x=>x.after>0).map(x=>x.name),...kitText(),'сон','прогулка','разговор с близким','день без дел','спорт','природа','отпуск без ноутбука']],
+const RG_Q=[['q1','Что выбивает вас из ресурса?','Отметьте все, что узнаете. Можно добавить свое',true,()=>[...S.load.filter(x=>x.after<0).map(x=>x.name),'дедлайны','много встреч подряд','недосып','болезнь близких','конфликты','сообщения по вечерам','переезд или ремонт','отчетный период']],
+  ['q2','Сколько вы обычно живете в таком режиме?','Пока не вернетесь в ресурс',false,()=>['пару дней','около недели','2-3 недели','месяц и дольше','не помню, когда был ресурс']],
+  ['q3','Что помогает вам вернуться в ресурс?','Отметьте все, что работает у вас',true,()=>[...S.load.filter(x=>x.after>0).map(x=>x.name),...kitText(),'сон','прогулка','разговор с близким','день без дел','спорт','природа','отпуск без ноутбука']],
   ['q4','От чего вы первым отказываетесь, когда нагрузка растет?','Обычно первым уходит то, что поддерживает',true,()=>['сон','спорт','встречи с друзьями','еда без спешки','хобби','время наедине с собой','прогулки','общение с семьей']]];
 const rgList=v=>String(v||'').split(',').map(x=>x.trim()).filter(Boolean);
-function rangeGauge(ps,z,c){const cx=160,cy=150,R=120,r=70;const col=['#deebe1','#f6ecd6','#f6e3e0'],st=['#8fad99','#c9a96a','#d6a49c'],lb=['Ровно','Через усилие','В долг'];
+function rangeGauge(ps,z,c){const cx=160,cy=150,R=120,r=70;const col=['#deebe1','#f6ecd6','#f6e3e0'],st=['#8fad99','#c9a96a','#d6a49c'],lb=['В ресурсе','Через усилие','В долг'];
   const pt=(a,rad)=>[cx+rad*Math.cos(a),cy-rad*Math.sin(a)];const arc=i=>{const a0=Math.PI-i*Math.PI/3,a1=Math.PI-(i+1)*Math.PI/3;const [x0,y0]=pt(a0,R),[x1,y1]=pt(a1,R),[x2,y2]=pt(a1,r),[x3,y3]=pt(a0,r);return `M${x0} ${y0}A${R} ${R} 0 0 1 ${x1} ${y1}L${x2} ${y2}A${r} ${r} 0 0 0 ${x3} ${y3}Z`};
   const has=ps.length>=4,last=z[z.length-1];const ang=has?Math.PI-(last+.5)*Math.PI/3:Math.PI/2;const [nx,ny]=pt(ang,r-12);
   return `<svg viewBox="0 0 320 180" class="rg-g" role="img" aria-label="Шкала режима нагрузки">${[0,1,2].map(i=>{const [lx,ly]=pt(Math.PI-(i+.5)*Math.PI/3,(R+r)/2);return `<path d="${arc(i)}" fill="${col[i]}" stroke="#fff" stroke-width="3" opacity="${has?1:.55}"/><text x="${lx}" y="${ly+4}" text-anchor="middle" class="rg-g__t">${has?c[i]:''}</text>`}).join('')}
@@ -4927,9 +4927,9 @@ TOOL.range=(m,t)=>{const ps=S.pulses;const z=ps.map((p,i)=>zoneOf(p,ps[i-1]));co
   if(route.rgst==null)route.rgst=r.q1&&r.q2&&r.q3&&r.q4?5:0;const st=route.rgst;
   const nav=(next,label,back)=>`<div class="rw__nav"><button type="button" class="btn btn--primary" data-rgst="${next}">${label}<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M6 3l5 5-5 5"/></svg></button>${back!=null?`<button type="button" class="btn btn--ghost" data-rgst="${back}">Назад</button>`:''}</div>`;
   let body;
-  if(st===0){const now=['ровно','через усилие','в долг по силам'];
+  if(st===0){const now=['в ресурсе','через усилие','в долг по силам'];
     body=`<div class="rg-hero"><div class="rg-hero__g">${rangeGauge(ps,z,c)}${has?`<p class="rg-hero__cap">Стрелка - ваша последняя отметка. Числа - сколько отметок в каждом режиме</p>`:''}</div>
-      <div class="rg-hero__t">${has?`<p class="act__eb">По ${ps.length} ${plural(ps.length,'отметке','отметкам','отметкам')} в «Карте состояния»</p><h2 class="rw__q">Сейчас вы живете ${now[last]}</h2><p class="rw__h">${['Чаще всего вы в ровном режиме: нагрузка есть, но вы успеваете восстанавливаться','Чаще всего вы живете через усилие. Ненадолго это нормально, если потом вы возвращаетесь','Чаще всего вы живете в долг: тратите больше сил, чем успеваете восстановить. Обсудите это с психологом на ближайшей встрече'][top]}</p>`
+      <div class="rg-hero__t">${has?`<p class="act__eb">По ${ps.length} ${plural(ps.length,'отметке','отметкам','отметкам')} в «Карте состояния»</p><h2 class="rw__q">${['Сейчас вы в ресурсе','Сейчас вы живете через усилие','Сейчас вы живете в долг по силам'][last]}</h2><p class="rw__h">${['Чаще всего вы в ресурсе: нагрузка есть, но вы успеваете восстанавливаться','Чаще всего вы живете через усилие. Ненадолго это нормально, если потом вы возвращаетесь','Чаще всего вы живете в долг: тратите больше сил, чем успеваете восстановить. Обсудите это с психологом на ближайшей встрече'][top]}</p>`
         :`<p class="act__eb">Шкала заполнится сама</p><h2 class="rw__q">Посмотрите, в каком режиме вы живете</h2><p class="rw__h">Шкала строится по отметкам в «Карте состояния». Нужно хотя бы 4, сейчас ${ps.length}</p><div class="rg-dots">${[0,1,2,3].map(i=>`<span class="${i<ps.length?'on':''}"></span>`).join('')}</div><button type="button" class="btn btn--sm" data-go="tool" data-arg="pulse">Сделать отметку</button>`}
         <ul class="rg-legend">${RANGE_Z.map(([h,d],i)=>`<li><i style="background:${['#8fad99','#c9a96a','#d6a49c'][i]}"></i><b>${h}</b> ${esc(d)}</li>`).join('')}</ul></div></div>
       ${nav(1,'Дальше: что вас выбивает',null)}`}
@@ -4940,7 +4940,7 @@ TOOL.range=(m,t)=>{const ps=S.pulses;const z=ps.map((p,i)=>zoneOf(p,ps[i-1]));co
       ${nav(st+1,st===4?'Посмотреть свой диапазон':'Дальше',st-1)}`}
   else{const L=k=>rgList(r[k]);const row=(ic,l,v,cls)=>`<div class="rg-sum__r ${cls||''}"><span class="rg-sum__i">${ic}</span><div><p class="act__eb">${l}</p><p>${v.length?v.map(esc).join(', '):'<em>не отмечено</em>'}</p></div></div>`;
     body=`<div class="rg-res"><div class="rg-res__g">${rangeGauge(ps,z,c)}</div><div><h2 class="rw__q">Ваш диапазон устойчивой нагрузки</h2>
-      <div class="rg-sum">${row('↓','Меня выбивает из «ровно»',L('q1'))}${row('◷','Обычно это длится',L('q2'))}${row('↑','Меня возвращает в «ровно»',L('q3'),'rg-sum__r--ok')}${row('!','Первым я теряю',L('q4'),'rg-sum__r--warn')}</div></div></div>
+      <div class="rg-sum">${row('↓','Меня выбивает из ресурса',L('q1'))}${row('◷','Обычно это длится',L('q2'))}${row('↑','Меня возвращает в ресурс',L('q3'),'rg-sum__r--ok')}${row('!','Первым я теряю',L('q4'),'rg-sum__r--warn')}</div></div></div>
       ${L('q4').length?`<div class="lab-rule"><p class="act__eb">Ваш сигнал выхода из диапазона</p><p>Первым у вас уходит «${esc(L('q4')[0])}». Как только это случилось, нагрузка уже выше, чем вы выдерживаете. Верните это в первую очередь</p></div>`:''}
       <div class="rw__nav rw__nav--end"><button type="button" class="btn btn--ghost" data-rgst="1">Изменить ответы</button></div>`}
   m.innerHTML=wrap(t,`<section class="sec rw-sec">${body}</section>`);
