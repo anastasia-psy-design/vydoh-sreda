@@ -1914,3 +1914,20 @@ body{background:var(--page);font-size:15px;line-height:1.5}
 .rz-zone .nb__in{align-items:flex-start;align-content:flex-start;gap:6px}
 
 @media (min-width:1000px){.rz-grid{grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}}
+
+/* Диапазон устойчивой нагрузки */
+.rg-hero{display:grid;grid-template-columns:minmax(260px,380px) minmax(0,1fr);gap:32px;align-items:center}
+.rg-g{width:100%;height:auto;display:block}.rg-g__t{font:400 22px var(--serif);fill:#2d2c2a}.rg-g__l{font:500 11px var(--sans)}
+.rg-hero__cap{font-size:12.5px;color:#737773;text-align:center;margin:4px 0 0}
+.rg-dots{display:flex;gap:8px;margin:0 0 14px}.rg-dots span{width:12px;height:12px;border-radius:50%;border:1px solid #c9cfcb}.rg-dots span.on{background:#8fad99;border-color:#8fad99}
+.rg-legend{list-style:none;margin:16px 0 0;padding:14px 0 0;border-top:1px solid #e7ebe8;display:grid;gap:8px;font-size:14px;color:#737773}
+.rg-legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:8px}.rg-legend b{font-weight:500;color:#2d2c2a}
+.rg-opts{display:flex;flex-wrap:wrap;gap:8px;max-width:900px}
+.rg-opts .rw__c.on{background:#2d2c2a;border-color:#2d2c2a;color:#fff}
+.rg-res{display:grid;grid-template-columns:minmax(220px,300px) minmax(0,1fr);gap:28px;align-items:start;margin-bottom:16px}
+.rg-sum{display:grid;gap:10px}
+.rg-sum__r{display:grid;grid-template-columns:34px minmax(0,1fr);gap:12px;background:#fff;border:1px solid #e7ebe8;padding:12px 14px}
+.rg-sum__r p{margin:0;font-size:15px}.rg-sum__r em{color:#a2a6a3;font-style:normal}
+.rg-sum__i{width:34px;height:34px;border-radius:50%;background:#f5f4f1;display:grid;place-items:center;font-size:15px;color:#2d2c2a}
+.rg-sum__r--ok .rg-sum__i{background:#deebe1}.rg-sum__r--warn .rg-sum__i{background:#f6e3e0}
+@media (max-width:860px){.rg-hero,.rg-res{grid-template-columns:1fr}.rg-hero__g,.rg-res__g{max-width:320px;margin:0 auto}}
