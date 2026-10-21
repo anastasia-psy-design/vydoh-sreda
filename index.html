@@ -3064,6 +3064,32 @@ body{background:var(--page);font-size:15px;line-height:1.5}
 .st-lane__e{text-align:center;font-size:13px;color:#b0b4b1;border:1px dashed #e0e3e1;padding:14px;margin:0}
 @media (max-width:860px){.st-q__o{grid-template-columns:1fr}.st-map{grid-template-columns:1fr}.st-route{display:none}.st-pick{grid-template-columns:1fr}}
 
+/* Карта ответственности: доска с четырьмя зонами */
+.rz-zones{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.rz-zone{background:#fff;border:1px solid #e7ebe8;border-top:3px solid var(--ac);padding:12px 14px;min-height:150px;display:flex;flex-direction:column;transition:background .15s}
+.rz-zone.is-over{background:color-mix(in srgb,var(--ac) 14%,#fff)}
+.nb.is-dragging .rz-zone,.nb.has-sel .rz-zone{border-style:dashed;border-top-style:solid}.nb.has-sel .rz-zone{cursor:pointer}
+.rz-zone__h{display:flex;gap:10px;align-items:flex-start;margin-bottom:10px}
+.rz-zone__h b{display:block;font-weight:500;font-size:15px;color:#2d2c2a}.rz-zone__h small{display:block;font-size:13px;color:#737773;margin-top:2px}
+.rz-zone__i{width:34px;height:34px;flex:0 0 34px;border-radius:50%;display:inline-grid;place-items:center;background:color-mix(in srgb,var(--ac) 22%,#fff);color:#2d2c2a;margin:0}
+.rz-zone .nb__in{flex-direction:row;flex-wrap:wrap}
+.nb__add{border:1px dashed #c9cfcb;background:#fff;padding:8px 12px;font:inherit;font-size:14px;color:#737773;cursor:pointer}
+.nb__pool .rw__own{flex:1 1 300px}
+.rz-do{border-top:3px solid var(--ac)}.rz-do .st-q__n{font-size:20px}
+.rz-do__items{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 8px}.rz-do__items span{background:#f5f4f1;padding:4px 10px;font-size:14px}
+.rz-do__d{font-size:14.5px;color:#333;line-height:1.5;margin:0 0 10px}
+.rz-do .st-step{margin-top:8px}.rz-do .linkbtn{margin-top:4px}
+.rz-sum{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:14px}
+.rz-sum__c{position:relative;background:#fff;border:1px solid #e7ebe8;border-top:3px solid var(--ac);padding:16px;display:grid;gap:8px;align-content:start}
+.rz-sum__c b{font:400 19px/1.2 var(--serif);color:#2d2c2a}.rz-sum__n{position:absolute;top:14px;right:14px;font:400 26px var(--serif);color:var(--ac)}
+.rz-sum__c ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}.rz-sum__c li{font-size:14.5px;border-top:1px solid #f0f1ef;padding-top:6px}.rz-sum__c li small{display:block;color:#737773;font-size:12.5px}
+@media (max-width:900px){.rz-sum{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.rz-zones,.rz-sum{grid-template-columns:1fr}}
+
+.rz-zone .nb__in{align-items:flex-start;align-content:flex-start;gap:6px}
+
+@media (min-width:1000px){.rz-grid{grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}}
+
 </style>
 </head>
 <body>
@@ -4896,29 +4922,48 @@ const RESP_DO=[['mine','Только ваше','Это действительн�
   ['shared','Общее с кем-то','Договоритесь, кто за какую часть отвечает. Например: «я готовлю ужин, ты моешь посуду». Пока договоренности нет, скорее всего, все делаете вы'],
   ['pass','Можно передать','Выберите хотя бы одно дело и решите, кому и когда передадите его'],
   ['taken','Несете, хотя это не ваше','Это забирает больше всего сил. Ниже подумайте, что случится, если перестать это держать']];
-TOOL.resp=(m,t)=>{S.resp.passTo=S.resp.passTo||{};const P=S.resp.place;const pool=items().filter(i=>!P[i]);
-  m.innerHTML=wrap(t,`${!items().length?emptyNote('Сначала заполните карту нагрузки - пункты подтянутся отсюда',4):''}
-  <p style="font-size:17px;margin-bottom:16px">Нажмите на пункт и выберите, куда он относится</p>
-  ${pool.length?`<div class="pool">${pool.map(i=>`<button class="chip" data-pick="${esc(i)}">${esc(i)}</button>`).join('')}</div>`:''}
-  <div class="input" style="margin-bottom:18px"><input id="rsIn" placeholder="Добавить задачу, отношение или обязательство"><button class="btn btn--sm" id="rsAdd">Добавить</button></div>
-  <div id="pickBar"></div>
-  ${Object.keys(P).length?`<div class="viz">${vennSvg()}</div>`:''}
-  <div class="sectors">${C.RESP_SECTORS.map(([k,l])=>`<div class="sector"><h3>${l}</h3><div class="chips">${Object.keys(P).filter(i=>P[i]===k).map(i=>`<button class="chip chip--soft" aria-pressed="true" data-pick="${esc(i)}">${esc(i)}</button>`).join('')}</div></div>`).join('')}</div>
-  ${Object.keys(P).length?`<section class="sec"><div class="sec__h"><h2>Решите, что делать с нагрузкой в каждом круге</h2></div>
-    <p style="font-size:17px;margin-bottom:16px">Разложить дела - половина работы. Теперь выберите для каждого круга один шаг на эту неделю</p>
-    <div class="card-list">${RESP_DO.filter(([k])=>Object.keys(P).some(i=>P[i]===k)).map(([k,h,d])=>{const v=Object.keys(P).filter(i=>P[i]===k);return `<div class="scard"><div class="scard__top"><h3>${h}</h3></div><p class="muted">${esc(v.join(', '))}</p><p style="font-size:16px;color:var(--ink)">${d}</p>
-      ${k==='pass'?v.map(i=>`<label class="path-q" style="display:block">${esc(i)}: кому и когда передадите<input class="line" data-passto="${esc(i)}" value="${esc(S.resp.passTo[i]||'')}" placeholder="Например: Саше, с понедельника"></label>`).join(''):''}</div>`}).join('')}</div></section>`:''}
-  ${Object.keys(P).some(i=>P[i]==='taken')?`<section class="sec"><div class="sec__h"><h2>Подумайте, что случится, если перестать держать на себе чужое</h2></div>
-    ${Object.keys(P).filter(i=>P[i]==='taken').map(i=>`<div class="field"><div class="field__label"><span>${esc(i)}</span></div><textarea class="area" style="min-height:70px" data-stop="${esc(i)}">${esc(S.resp.ifStop[i]||'')}</textarea>
-      <div><button class="btn btn--sm" data-tolab="${esc(i)}">Это убеждение - проверить в Лаборатории</button></div></div>`).join('')}</section>`:''}`);
+/* Карта ответственности по шагам: разнесите дела по зонам - решите, что делать - итог */
+const RESP_Z={mine:['Только мое','За это отвечаю только я','#8fad99','<circle cx="12" cy="8" r="3.5"/><path d="M5 20c1-4 3.8-6 7-6s6 2 7 6"/>'],
+  shared:['Общее с кем-то','Ответственность делится с другими','#c9a96a','<circle cx="8" cy="9" r="3"/><circle cx="16" cy="9" r="3"/><path d="M3 19c.8-3 2.8-4.5 5-4.5s4.2 1.5 5 4.5M11 19c.8-3 2.8-4.5 5-4.5s4.2 1.5 5 4.5"/>'],
+  pass:['Можно передать','Это может сделать кто-то другой','#8aa9c4','<path d="M4 12h13M13 7l5 5-5 5"/>'],
+  taken:['Несу, хотя это не мое','Чужая ответственность, которую я держу на себе','#d6a49c','<path d="M7 20V9l5-5 5 5v11M4 20h16"/><path d="M10 20v-5h4v5"/>']};
+TOOL.resp=(m,t)=>{S.resp.passTo=S.resp.passTo||{};S.resp.ifStop=S.resp.ifStop||{};const P=S.resp.place;const all=items();const pool=all.filter(i=>!P[i]);const placed=Object.keys(P).filter(i=>all.includes(i)||P[i]);
+  if(route.rspst==null)route.rspst=placed.length&&!pool.length?1:0;const st=route.rspst;
+  const ST=['Разнесите дела','Решите, что делать','Ваша карта'];
+  const stepper=`<ol class="pw-steps rw-steps" aria-label="Шаги карты ответственности">${ST.map((x,k)=>`<li class="${k<st?'done':k===st?'now':''}"><button type="button" class="pw-step" data-rgo2="${k}" aria-current="${k===st?'step':'false'}"${k>0&&!placed.length?' disabled':''}><span>${k+1}</span>${x}</button></li>`).join('')}</ol>`;
+  const zi=(k,sz)=>`<svg width="${sz||20}" height="${sz||20}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${RESP_Z[k][3]}</svg>`;
+  const card=i=>`<div class="nb__card" data-di="${esc(i)}" tabindex="0" role="button"><span class="ldc__grip" aria-hidden="true"></span>${esc(i)}</div>`;
+  const inZ=k=>placed.filter(i=>P[i]===k);
+  let body;
+  if(!all.length)body=emptyNote('Сначала заполните карту нагрузки - дела подтянутся оттуда',4);
+  else if(st===0)body=`<h2 class="rw__q">Чья это ответственность?</h2><p class="rw__h">Перетащите каждое дело в одну из четырех зон. Можно и нажать на дело, а затем на зону</p>
+    <div class="nb rz-board" id="rsBoard"><div class="nb__pool" data-dz="">${pool.length?pool.map(card).join(''):'<p class="nb__empty">Все дела разнесены. Чтобы переложить дело, перетащите его в другую зону</p>'}
+      <button type="button" class="nb__add" data-ownopen>+ Добавить свое</button><span class="rw__own" hidden><input id="rsIn" placeholder="Задача, обязательство или отношения" aria-label="Добавить дело"><button type="button" class="btn btn--sm" id="rsAdd">Добавить</button></span></div>
+      <div class="rz-zones">${Object.keys(RESP_Z).map(k=>`<div class="rz-zone" data-dz="${k}" style="--ac:${RESP_Z[k][2]}"><div class="rz-zone__h"><span class="rz-zone__i">${zi(k)}</span><span><b>${RESP_Z[k][0]}</b><small>${RESP_Z[k][1]}</small></span></div><div class="nb__in">${inZ(k).map(card).join('')||'<p class="nb__drop">Перетащите сюда</p>'}</div></div>`).join('')}</div></div>
+    <div class="rw__nav"><button type="button" class="btn btn--primary" data-rgo2="1"${placed.length?'':' disabled'}>Дальше: решить, что делать<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M6 3l5 5-5 5"/></svg></button><span class="rw__cnt">${pool.length?`Осталось разнести: ${pool.length}`:'Все разнесено'}</span></div>`;
+  else if(st===1){const Z=Object.keys(RESP_Z).filter(k=>inZ(k).length);
+    body=`<h2 class="rw__q">Что вы сделаете с каждой зоной?</h2><p class="rw__h">Разнести дела - половина работы. Теперь выберите по одному шагу на эту неделю</p>
+    <div class="st-q rz-grid">${Z.map(k=>{const v=inZ(k);const D=RESP_DO.find(x=>x[0]===k);return `<div class="st-q__r rz-do" style="--ac:${RESP_Z[k][2]}"><p class="st-q__n"><span class="rz-zone__i">${zi(k,18)}</span>${RESP_Z[k][0]}</p><p class="rz-do__items">${v.map(i=>`<span>${esc(i)}</span>`).join('')}</p><p class="rz-do__d">${esc(D?D[2]:'')}</p>
+      ${k==='pass'?v.map(i=>`<label class="st-step">${esc(i)}: кому и когда передадите<input class="line" data-passto="${esc(i)}" value="${esc(S.resp.passTo[i]||'')}" placeholder="Например: Саше, с понедельника"></label>`).join(''):''}
+      ${k==='shared'?v.map(i=>`<label class="st-step">${esc(i)}: о чем договориться<input class="line" data-passto="${esc(i)}" value="${esc(S.resp.passTo[i]||'')}" placeholder="Например: я готовлю, муж моет посуду"></label>`).join(''):''}
+      ${k==='taken'?v.map(i=>`<label class="st-step">${esc(i)}: что случится, если перестать это держать?<input class="line" data-stop="${esc(i)}" value="${esc(S.resp.ifStop[i]||'')}" placeholder="Например: все развалится, меня осудят"></label><button type="button" class="linkbtn" data-tolab="${esc(i)}">Проверить это опасение в Лаборатории</button>`).join(''):''}</div>`}).join('')}</div>
+    <div class="rw__nav"><button type="button" class="btn btn--primary" data-rgo2="2">Посмотреть карту<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M6 3l5 5-5 5"/></svg></button><button type="button" class="btn btn--ghost" data-rgo2="0">Назад</button></div>`}
+  else body=`<h2 class="rw__q">Посмотрите на свою карту ответственности</h2><p class="rw__h">Чем правее зона, тем больше сил она забирает понапрасну</p>
+    <div class="rz-sum">${Object.keys(RESP_Z).map(k=>{const v=inZ(k);return `<article class="rz-sum__c" style="--ac:${RESP_Z[k][2]}"><p class="rz-zone__i">${zi(k,22)}</p><b>${RESP_Z[k][0]}</b><span class="rz-sum__n">${v.length}</span>
+      <ul>${v.map(i=>`<li>${esc(i)}${S.resp.passTo[i]?`<small>${esc(S.resp.passTo[i])}</small>`:''}</li>`).join('')||'<li class="bmr__none">пусто</li>'}</ul></article>`}).join('')}</div>
+    ${inZ('taken').length?`<div class="lab-rule"><p class="act__eb">Главное</p><p>Вы несете чужое: ${esc(inZ('taken').join(', '))}. Это забирает больше всего сил, обсудите это с психологом</p></div>`:''}
+    <div class="rw__nav rw__nav--end"><button type="button" class="btn btn--ghost" data-rgo2="0">Изменить</button></div>`;
+  m.innerHTML=wrap(t,`<section class="sec rw-sec">${stepper}${body}</section>`);
+  if(st<2){const nx=$('.nxt',m);if(nx)nx.hidden=true;const rs=$('.nxt__reset',m);if(rs)rs.hidden=true}
   bindDisc(m);
-  $$('[data-pick]',m).forEach(b=>b.onclick=()=>{const it=b.dataset.pick;$('#pickBar').innerHTML=`<div class="panel" style="margin-bottom:14px"><p style="margin-bottom:10px">«${esc(it)}» - это:</p><div class="chips">${C.RESP_SECTORS.map(([k,l])=>`<button class="chip" data-sec="${k}" aria-pressed="${P[it]===k}">${l}</button>`).join('')}</div></div>`;
-    $$('[data-sec]',m).forEach(s=>s.onclick=()=>{P[it]=s.dataset.sec;save();render()})});
-  const add=v=>{v=v.trim();if(v&&!items().includes(v)){S.load.push({name:v,demand:3,after:0,imp:2,change:'частично'});save();render()}};
-  $('#rsAdd').onclick=()=>add($('#rsIn').value);
-  $$('[data-stop]',m).forEach(a=>a.onchange=()=>{S.resp.ifStop[a.dataset.stop]=a.value.trim();save()});
-  $$('[data-passto]',m).forEach(a=>a.onchange=()=>{S.resp.passTo[a.dataset.passto]=a.value.trim();save();toast('Сохранено')});
-  $$('[data-tolab]',m).forEach(b=>b.onclick=()=>{const v=S.resp.ifStop[b.dataset.tolab]||$(`[data-stop="${b.dataset.tolab}"]`,m).value;S.lab.push({belief:v||('Если я перестану держать «'+b.dataset.tolab+'», все рухнет'),pred:'',b0:70,exp:'',observe:'',result:'',b1:null,ifx:'',ify:''});S.open.lab=1;save();go('tool','lab')});
+  const top=()=>{const e=$('.rw-steps',m);if(e){const y=e.getBoundingClientRect().top+window.scrollY-96;window.scrollTo({top:Math.max(0,y),behavior:'smooth'})}};
+  const grab=()=>{$$('[data-passto]',m).forEach(a=>S.resp.passTo[a.dataset.passto]=a.value.trim());$$('[data-stop]',m).forEach(a=>S.resp.ifStop[a.dataset.stop]=a.value.trim())};
+  $$('[data-rgo2]',m).forEach(b=>b.onclick=()=>{grab();save();route.rspst=+b.dataset.rgo2;render();top()});
+  const bd=$('#rsBoard',m);if(bd)bindDrop(bd,(it,k)=>{if(k)P[it]=k;else delete P[it];save();const y=window.scrollY;render();window.scrollTo({top:y})});
+  const op=$('[data-ownopen]',m);if(op){const box=$('.rw__own',m),inp=$('#rsIn',m);op.onclick=e=>{e.stopPropagation();op.hidden=true;box.hidden=false;inp.focus()};
+    const add=()=>{const v=inp.value.trim();if(v&&!items().includes(v)){S.load.push({name:v,demand:3,after:0,imp:2,change:'частично'});save();const y=window.scrollY;render();window.scrollTo({top:y})}};$('#rsAdd',m).onclick=e=>{e.stopPropagation();add()};inp.onkeydown=e=>{if(e.key==='Enter')add();if(e.key==='Escape'){box.hidden=true;op.hidden=false}};inp.onclick=e=>e.stopPropagation()}
+  $$('[data-passto],[data-stop]',m).forEach(a=>a.addEventListener('input',()=>autosave('rs',()=>grab())));
+  $$('[data-tolab]',m).forEach(b=>b.onclick=()=>{grab();const v=S.resp.ifStop[b.dataset.tolab];S.lab.push({belief:v||('Если я перестану держать «'+b.dataset.tolab+'», все рухнет'),pred:'',b0:70,exp:'',observe:'',result:'',b1:null,ifx:'',ify:'',due:'week'});S.open.lab=1;save();go('tool','lab')});
 };
 
 /* 10. Надо / Хочу / Важно */

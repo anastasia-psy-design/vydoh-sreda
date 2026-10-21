@@ -1888,3 +1888,29 @@ body{background:var(--page);font-size:15px;line-height:1.5}
 .st-card__n{margin:0;font-size:15.5px;font-weight:500;color:#2d2c2a}.st-card__p{margin:4px 0 0;font-size:13px;color:#737773}.st-card__s{margin:6px 0 0;font-size:14px;color:#333}
 .st-lane__e{text-align:center;font-size:13px;color:#b0b4b1;border:1px dashed #e0e3e1;padding:14px;margin:0}
 @media (max-width:860px){.st-q__o{grid-template-columns:1fr}.st-map{grid-template-columns:1fr}.st-route{display:none}.st-pick{grid-template-columns:1fr}}
+
+/* Карта ответственности: доска с четырьмя зонами */
+.rz-zones{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.rz-zone{background:#fff;border:1px solid #e7ebe8;border-top:3px solid var(--ac);padding:12px 14px;min-height:150px;display:flex;flex-direction:column;transition:background .15s}
+.rz-zone.is-over{background:color-mix(in srgb,var(--ac) 14%,#fff)}
+.nb.is-dragging .rz-zone,.nb.has-sel .rz-zone{border-style:dashed;border-top-style:solid}.nb.has-sel .rz-zone{cursor:pointer}
+.rz-zone__h{display:flex;gap:10px;align-items:flex-start;margin-bottom:10px}
+.rz-zone__h b{display:block;font-weight:500;font-size:15px;color:#2d2c2a}.rz-zone__h small{display:block;font-size:13px;color:#737773;margin-top:2px}
+.rz-zone__i{width:34px;height:34px;flex:0 0 34px;border-radius:50%;display:inline-grid;place-items:center;background:color-mix(in srgb,var(--ac) 22%,#fff);color:#2d2c2a;margin:0}
+.rz-zone .nb__in{flex-direction:row;flex-wrap:wrap}
+.nb__add{border:1px dashed #c9cfcb;background:#fff;padding:8px 12px;font:inherit;font-size:14px;color:#737773;cursor:pointer}
+.nb__pool .rw__own{flex:1 1 300px}
+.rz-do{border-top:3px solid var(--ac)}.rz-do .st-q__n{font-size:20px}
+.rz-do__items{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 8px}.rz-do__items span{background:#f5f4f1;padding:4px 10px;font-size:14px}
+.rz-do__d{font-size:14.5px;color:#333;line-height:1.5;margin:0 0 10px}
+.rz-do .st-step{margin-top:8px}.rz-do .linkbtn{margin-top:4px}
+.rz-sum{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:14px}
+.rz-sum__c{position:relative;background:#fff;border:1px solid #e7ebe8;border-top:3px solid var(--ac);padding:16px;display:grid;gap:8px;align-content:start}
+.rz-sum__c b{font:400 19px/1.2 var(--serif);color:#2d2c2a}.rz-sum__n{position:absolute;top:14px;right:14px;font:400 26px var(--serif);color:var(--ac)}
+.rz-sum__c ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}.rz-sum__c li{font-size:14.5px;border-top:1px solid #f0f1ef;padding-top:6px}.rz-sum__c li small{display:block;color:#737773;font-size:12.5px}
+@media (max-width:900px){.rz-sum{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.rz-zones,.rz-sum{grid-template-columns:1fr}}
+
+.rz-zone .nb__in{align-items:flex-start;align-content:flex-start;gap:6px}
+
+@media (min-width:1000px){.rz-grid{grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}}
