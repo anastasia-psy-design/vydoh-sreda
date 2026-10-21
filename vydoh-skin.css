@@ -1619,3 +1619,15 @@ body{background:var(--page);font-size:15px;line-height:1.5}
 .ldb__pans .ldz__h{margin-top:14px}
 @media (max-width:640px){.ldb__pans{padding-bottom:42px}.ldb__pans::before{bottom:30px}.ldb__pans::after{width:120px;height:34px;margin-left:-60px}
   .ldz__bowl{min-height:104px;padding:16px 12px 34px;border-radius:0 0 50% 50%/0 0 60px 60px}.ldz__bowl::before{top:-6px;height:12px}}
+
+.nxt__txt .nxt__time{margin-top:6px;font-size:13px;color:#737773}
+
+/* Голосовой ввод */
+.mic-w{position:relative;display:block;min-width:0;flex:1 1 auto;width:100%}
+.mic-w>input,.mic-w>textarea{width:100%;box-sizing:border-box;padding-right:46px!important}
+.mic{position:absolute;right:4px;top:50%;transform:translateY(-50%);width:36px;height:36px;display:grid;place-items:center;border:0;border-radius:50%;background:transparent;color:#737773;cursor:pointer;padding:0}
+.mic-w--area .mic{top:8px;transform:none}
+.mic:hover{background:#f5f4f1;color:#2d2c2a}
+.mic.is-on{background:#f6e3e0;color:#94483f;animation:micp 1.4s ease-in-out infinite}
+@keyframes micp{0%,100%{box-shadow:0 0 0 0 rgba(148,72,63,.25)}50%{box-shadow:0 0 0 6px rgba(148,72,63,0)}}
+@media (prefers-reduced-motion:reduce){.mic.is-on{animation:none}}

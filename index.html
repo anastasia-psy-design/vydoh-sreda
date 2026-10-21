@@ -2795,6 +2795,18 @@ body{background:var(--page);font-size:15px;line-height:1.5}
 @media (max-width:640px){.ldb__pans{padding-bottom:42px}.ldb__pans::before{bottom:30px}.ldb__pans::after{width:120px;height:34px;margin-left:-60px}
   .ldz__bowl{min-height:104px;padding:16px 12px 34px;border-radius:0 0 50% 50%/0 0 60px 60px}.ldz__bowl::before{top:-6px;height:12px}}
 
+.nxt__txt .nxt__time{margin-top:6px;font-size:13px;color:#737773}
+
+/* Голосовой ввод */
+.mic-w{position:relative;display:block;min-width:0;flex:1 1 auto;width:100%}
+.mic-w>input,.mic-w>textarea{width:100%;box-sizing:border-box;padding-right:46px!important}
+.mic{position:absolute;right:4px;top:50%;transform:translateY(-50%);width:36px;height:36px;display:grid;place-items:center;border:0;border-radius:50%;background:transparent;color:#737773;cursor:pointer;padding:0}
+.mic-w--area .mic{top:8px;transform:none}
+.mic:hover{background:#f5f4f1;color:#2d2c2a}
+.mic.is-on{background:#f6e3e0;color:#94483f;animation:micp 1.4s ease-in-out infinite}
+@keyframes micp{0%,100%{box-shadow:0 0 0 0 rgba(148,72,63,.25)}50%{box-shadow:0 0 0 6px rgba(148,72,63,0)}}
+@media (prefers-reduced-motion:reduce){.mic.is-on{animation:none}}
+
 </style>
 </head>
 <body>
@@ -3279,11 +3291,11 @@ const emptyNote=(text,n)=>`<div class="empty"><p style="font-size:16px">${text}<
 const NEXT_T={point:'Пройдите стартовую диагностику',pulse:'Отметьте, как вы сейчас'};
 function nextAfter(cur){const pd=!!(S.point&&S.point.saved);const wk=Date.now()-7*864e5;const nP=S.pulses.filter(p=>new Date(p.d).getTime()>=wk).length;
   if(!pd&&cur!=='point')return S.pointStart?{id:'point',final:true,h:'Пройдите финальную диагностику',why:'Ответы с начала трека сохранены. После сохранения вы увидите их рядом с новыми',time:'10-15 минут',go:['tool','point']}:{id:'point',h:NEXT_T.point,why:'Это ваша точка А: с ней вы сравните себя в конце программы',time:'10-15 минут',go:['tool','point']};
-  if(pd&&!S.pointStart&&curStage()>=9&&cur!=='point')return {id:'point',final:true,h:'Пройдите финальную диагностику',why:'Ответьте на те же вопросы, что в начале трека, и сравните, что изменилось',time:'10-15 минут',go:['tool','point'],jump:1};
+  if(cur!=='point'&&ptCanFinal()&&curStage()>=9)return {id:'point',final:true,h:'Пройдите финальную диагностику',why:'Ответьте на те же вопросы, что в начале трека, и сравните, что изменилось',time:'10-15 минут',go:['tool','point'],jump:1};
   const PULSE={id:'pulse',h:NEXT_T.pulse,why:'Из отметок складывается график, по которому видно, что вас разряжает',time:'1 минута',go:['tool','pulse']};
   const today=new Date().toISOString().slice(0,10);const markedToday=S.pulses.some(p=>p.d===today);
   /* Отметки - привычка, а не условие: первая отметка недели идет первой, дальше сразу практики */
-  if(nP===0&&cur!=='pulse')return PULSE;
+  if(nP===0&&cur!=='pulse')return S.pulses.length?PULSE:Object.assign({},PULSE,{h:'Сделайте первую короткую отметку',why:'В диагностике вы описали свою обычную неделю. В отметке вы за минуту фиксируете, как вы прямо сейчас. Повторяйте ее 2-3 раза в неделю, и станет видно, что вас разряжает',explain:true});
   const cs=curStage();const stg=(C.stages[cs-1]||{tools:[]}).tools;
   const todo=C.tools.filter(t=>isOpen(t.id)&&!t.final&&!['point','pulse',cur].includes(t.id)&&tStatus(t.id)!=='done').sort((a,b)=>(stg.includes(b.id)?1:0)-(stg.includes(a.id)?1:0));
   if(todo.length){const t=todo[0];return {id:t.id,h:WHY[t.id]||t.title,why:t.title,time:t.time,go:['tool',t.id],tool:true}}
@@ -3293,7 +3305,7 @@ function nextAfter(cur){const pd=!!(S.point&&S.point.saved);const wk=Date.now()-
 function nextBlock(t){if((t.id==='point'&&!(S.point&&S.point.saved))||(t.id==='pulse'&&!route.pwDone))return '';
   const done=tStatus(t.id)==='done'||(t.id==='pulse'&&route.pwDone==='saved'),n=nextAfter(t.id);const mats=MAT.filter(x=>x.rel.includes(t.id));
   return `<section class="nxt${done?' is-done':''}"><p class="nxt__lbl">${done?`${ico('check',16)}${t.id==='pulse'?'Отметка сохранена':'Готово'}. Следующий шаг`:'Когда закончите здесь, следующий шаг'}</p>
-    <div class="nxt__row"><div class="nxt__txt"><h2>${esc(n.h)}</h2><p>${esc(n.rest?n.why:(n.tool?n.why+' · '+n.time:n.time))}</p></div>
+    <div class="nxt__row"><div class="nxt__txt"><h2>${esc(n.h)}</h2><p>${esc(n.rest||n.explain?n.why:(n.tool?n.why+' · '+n.time:n.time))}</p>${n.explain&&n.time?`<p class="nxt__time">${esc(n.time)}</p>`:''}</div>
     <button class="btn ${done?'btn--primary':'btn--outline'} nxt__go" data-go="${n.rest?'today':n.go[0]}" ${!n.rest&&n.go[1]?`data-arg="${n.go[1]}"`:''}${n.jump?' data-ptfin':''}>${n.rest?'Вернуться на «Сегодня»':'Перейти'}<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M6 3l5 5-5 5"/></svg></button></div>
     <div class="nxt__more"><button class="link" data-disc="${esc(t.title)}">Сохранить, чтобы обсудить на встрече</button>${mats.length?`<span>По желанию: ${mats.map(x=>`<button class="link" data-go="mat" data-arg="${x.id}">${esc(x.title)}</button>`).join(', ')}</span>`:''}</div></section>`}
 
@@ -3915,7 +3927,8 @@ function bindWheel(box,v,onSet){const draw=()=>{box.innerHTML=wheelSvg(v,true)};
     let a=Math.atan2(dy,dx)+Math.PI/2;if(a<0)a+=2*Math.PI;const i=Math.round(a/(2*Math.PI/SPHERES.length))%SPHERES.length;set(SPHERES[i][0],Math.max(1,Math.min(5,Math.round(dist/22))))});
   box.addEventListener('keydown',e=>{const d=e.target.closest('[data-wk]');if(!d)return;if(e.key==='Enter'||e.key===' '){e.preventDefault();box._kb=1;set(d.dataset.wk,+d.dataset.wv)}})}
 let PT_JUMP=0;document.addEventListener('click',e=>{if(e.target.closest('[data-ptfin]'))PT_JUMP=1},true);
-const ptCanFinal=()=>!!(S.point&&S.point.saved&&!S.pointStart&&(curStage()>=9||(PSY&&S.psy)));
+/* Финальная диагностика появляется только в конце трека и никогда в день стартовой */
+const ptCanFinal=()=>!!(S.point&&S.point.saved&&!S.pointStart&&S.point.savedAt!==new Date().toISOString().slice(0,10)&&(curStage()>=9||(PSY&&S.psy)));
 TOOL.point=(m,t)=>{const p=S.point;p.spheres=p.spheres||{};p.ownSph=p.ownSph||[];SPHERES=sphList(p);const fin=!!S.pointStart;
   m.innerHTML=wrap(t,`${fin&&!p.saved?`<div class="note pt-fin"><b>Вы проходите диагностику второй раз</b><span>Ответы с начала трека сохранены. Ответьте на вопросы так, как сейчас, и после сохранения увидите оба результата рядом</span><button class="link" id="ptFinCancel">Отменить и вернуть стартовые ответы</button></div>`:''}<section class="dsec"><h2 class="dsec__h">Отметьте, как проходит ваш обычный день</h2><div class="form">
     ${field('Оцените, сколько у вас сил утром в обычный день',scaleSeg('morning',ENERGY_W,p.morning))}
@@ -3946,7 +3959,7 @@ TOOL.point=(m,t)=>{const p=S.point;p.spheres=p.spheres||{};p.ownSph=p.ownSph||[]
   {const c=$('#ptFinCancel',m);if(c)c.onclick=()=>confirmBox('Отменить финальную диагностику?','Новые ответы будут удалены, а в инструменте снова появятся ответы с начала трека','Да, отменить',()=>{S.point=S.pointStart;delete S.pointStart;save();route.pst=0;render()})}
   {const f=$('#ptFinal',m);if(f)f.onclick=()=>{S.pointStart=JSON.parse(JSON.stringify(p));S.point={spheres:{},ownSph:(p.ownSph||[]).slice(),change:p.change||'',markers:(p.markers||[]).slice()};save();route.pst=0;render();window.scrollTo({top:0,behavior:'smooth'});toast('Стартовые ответы сохранены. Отвечайте так, как сейчас')}}
   if(PT_JUMP){PT_JUMP=0;setTimeout(()=>{const b=$('#ptFinalBox');if(b)b.scrollIntoView({behavior:'smooth',block:'center'})},120)}
-  $('#pSave').onclick=()=>{if(!p.morning&&!p.evening&&!p.sleep){route.pst=0;render();toast('Ответьте хотя бы на вопросы первого шага: про силы и сон');return}p.change=$('#pChange').value.trim();p.markers=$$('[data-mk]',m).map(i=>i.value.trim()).filter(Boolean);p.energy=p.morning||p.energy;p.load=Math.max(0,...Object.values(p.spheres))||p.load;p.saved=1;S.point=p;save();toast(S.pointStart?'Финальная диагностика сохранена. Сравните результаты ниже':'Диагностика сохранена. В конце трека она встанет рядом с финальной');render();const r=$('#ptRes');if(r)r.scrollIntoView({behavior:'smooth',block:'start'})};
+  $('#pSave').onclick=()=>{if(!p.morning&&!p.evening&&!p.sleep){route.pst=0;render();toast('Ответьте хотя бы на вопросы первого шага: про силы и сон');return}p.change=$('#pChange').value.trim();p.markers=$$('[data-mk]',m).map(i=>i.value.trim()).filter(Boolean);p.energy=p.morning||p.energy;p.load=Math.max(0,...Object.values(p.spheres))||p.load;p.saved=1;p.savedAt=new Date().toISOString().slice(0,10);S.point=p;save();toast(S.pointStart?'Финальная диагностика сохранена. Сравните результаты ниже':'Диагностика сохранена. В конце трека она встанет рядом с финальной');render();const r=$('#ptRes');if(r)r.scrollIntoView({behavior:'smooth',block:'start'})};
   pointSteps(m,p);
 };
 function pointResult(p){const W=a=>(ENERGY_W.find(x=>x[0]===a)||[,'-'])[1];const sp=p.spheres||{};
@@ -4951,6 +4964,34 @@ document.addEventListener('click',e=>{if(e.target.closest('#userB')){userMenu();
 
 (()=>{const mn=document.getElementById('main');mn.classList.add('enter');setTimeout(()=>mn.classList.remove('enter'),1800)})();
 document.addEventListener('click',e=>{const b=e.target.closest('[data-tp]');if(!b)return;const k=b.dataset.tp,box=b.closest('.thero');const open=b.getAttribute('aria-expanded')!=='true';$$('[data-tp]',box).forEach(x=>x.setAttribute('aria-expanded','false'));$$('[data-tpp]',box).forEach(x=>x.hidden=true);if(open){b.setAttribute('aria-expanded','true');$(`[data-tpp="${k}"]`,box).hidden=false}});
+/* ================= ГОЛОСОВОЙ ВВОД: микрофон в каждом поле для текста ================= */
+(function(){const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  const SKIP=new Set(['clKey','clNew','umName','umPsyCode','repC','sphIn']);
+  const ok=el=>{if(el.dataset.mic||el.closest('.mic-w,header,.header,#umenu'))return false;if(SKIP.has(el.id))return false;
+    if(el.tagName==='TEXTAREA')return !el.readOnly;const ty=(el.getAttribute('type')||'text').toLowerCase();if(ty!=='text')return false;
+    if(el.matches('[data-pc],[data-pl="psy"]'))return false;const ph=(el.getAttribute('placeholder')||'').toLowerCase();if(/телефон|@ник|ключ|код/.test(ph))return false;return true};
+  const MIC='<svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><rect x="6.2" y="2" width="5.6" height="9" rx="2.8"/><path d="M3.8 8.6a5.2 5.2 0 0010.4 0M9 13.8V16"/></svg>';
+  let cur=null;
+  const stop=()=>{if(cur){try{cur.rec.stop()}catch(e){}}};
+  const start=(el,btn)=>{if(cur&&cur.el===el){stop();return}stop();
+    if(!SR){toast('Здесь голосовой ввод не работает. Нажмите на микрофон на клавиатуре телефона или откройте кабинет в Chrome или Safari');el.focus();return}
+    const rec=new SR();rec.lang='ru-RU';rec.continuous=true;rec.interimResults=true;
+    let base=el.value;if(base&&!/\s$/.test(base))base+=' ';let fin='';
+    const put=t=>{let v=base+t;if(!base.trim())v=v.charAt(0).toUpperCase()+v.slice(1);el.value=v;el.dispatchEvent(new Event('input',{bubbles:true}))};
+    rec.onresult=e=>{let it='';for(let i=e.resultIndex;i<e.results.length;i++){const r=e.results[i];if(r.isFinal)fin+=r[0].transcript.trim()+' ';else it+=r[0].transcript}put((fin+it).replace(/\s+$/,it?'':' ').replace(/\s{2,}/g,' '))};
+    rec.onerror=e=>{if(e.error==='not-allowed'||e.error==='service-not-allowed')toast('Нет доступа к микрофону. Разрешите его в настройках браузера или напишите текстом');else if(e.error==='no-speech')toast('Ничего не слышно. Нажмите на микрофон и говорите');else if(e.error!=='aborted')toast('Голосовой ввод прервался. Попробуйте еще раз')};
+    rec.onend=()=>{btn.classList.remove('is-on');btn.setAttribute('aria-pressed','false');btn.title='Надиктовать голосом';if(cur&&cur.rec===rec)cur=null;el.value=el.value.replace(/\s+$/,'');el.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('change',{bubbles:true}))};
+    try{rec.start()}catch(e){toast('Голосовой ввод не запустился. Попробуйте еще раз');return}
+    cur={el,rec};btn.classList.add('is-on');btn.setAttribute('aria-pressed','true');btn.title='Остановить диктовку';toast('Говорите. Чтобы закончить, нажмите на микрофон еще раз')};
+  const deco=root=>{(root||document).querySelectorAll('textarea,input').forEach(el=>{if(!ok(el))return;el.dataset.mic='1';
+    const w=document.createElement('span');w.className='mic-w'+(el.tagName==='TEXTAREA'?' mic-w--area':'');el.parentNode.insertBefore(w,el);w.appendChild(el);
+    const b=document.createElement('button');b.type='button';b.className='mic';b.innerHTML=MIC;b.title='Надиктовать голосом';b.setAttribute('aria-label','Надиктовать голосом');b.setAttribute('aria-pressed','false');
+    b.addEventListener('mousedown',e=>e.preventDefault());b.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();start(el,b)});w.appendChild(b)})};
+  let q=0;const mo=new MutationObserver(()=>{if(q)return;q=requestAnimationFrame(()=>{q=0;deco(document.body)})});
+  mo.observe(document.body,{childList:true,subtree:true});deco(document.body);
+  document.addEventListener('visibilitychange',()=>{if(document.hidden)stop()});
+})();
+
 if(START_GO)route={v:START_GO};render();if(pendingToast)setTimeout(()=>toast(pendingToast),300);
 })();
 
