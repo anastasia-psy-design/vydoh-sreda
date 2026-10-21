@@ -1855,3 +1855,36 @@ body{background:var(--page);font-size:15px;line-height:1.5}
 .zk .act__c--ok .act__chips span{background:#deebe1}.zk .act__c--warn .act__chips span{background:#f6ecd6}.zk .act__c--bad .act__chips span{background:#f6e3e0}
 @media (max-width:900px){.zk{grid-template-columns:1fr}}
 @media print{.zk{grid-template-columns:repeat(3,1fr)}}
+
+/* Карта стрессоров и рычагов по шагам */
+.st-pick{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:28px;max-width:860px}
+.st-pick .rw__own{grid-column:1/-1}
+.st-q{display:grid;gap:14px}
+.st-q__r{background:#fff;border:1px solid #e7ebe8;padding:16px 18px}
+.st-q__n{font:400 22px/1.25 var(--serif);color:#2d2c2a;margin:0 0 12px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.st-q__o{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.st-opt{display:flex;gap:10px;align-items:flex-start;text-align:left;padding:12px 14px;border:1px solid #e7ebe8;background:#faf9f7;font:inherit;cursor:pointer;color:#333}
+.st-opt b{display:block;font-weight:500;font-size:15px}.st-opt small{display:block;font-size:13px;color:#737773;line-height:1.4;margin-top:2px}
+.st-opt svg{flex:0 0 20px;margin-top:2px;color:#737773}
+.st-opt:hover{border-color:#c9cfcb}
+.st-opt--hand[aria-pressed="true"]{background:#deebe1;border-color:#8fad99}
+.st-opt--part[aria-pressed="true"]{background:#f6ecd6;border-color:#c9a96a}
+.st-opt--not[aria-pressed="true"]{background:#e7e4ee;border-color:#a99cc6}
+.st-opt[aria-pressed="true"] svg{color:#2d2c2a}
+.st-tag{display:inline-flex;align-items:center;gap:6px;font:400 13px/1 var(--sans);padding:5px 10px;border-radius:999px;color:#333}
+.st-tag--hand{background:#deebe1}.st-tag--part{background:#f6ecd6}.st-tag--not{background:#e7e4ee}
+.st-paths{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.st-paths .rw__c.on{background:#2d2c2a;border-color:#2d2c2a;color:#fff}
+.st-step{display:grid;gap:4px;font-size:13px;color:#737773}
+.st-map{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:16px}
+.st-route{position:absolute;left:16.6%;right:16.6%;top:27px;border-top:1.5px dashed #c9cfcb;z-index:0}
+.st-lane{position:relative;z-index:1;display:flex;flex-direction:column;gap:10px}
+.st-lane__h{display:grid;justify-items:center;text-align:center;gap:4px;margin-bottom:6px}
+.st-lane__i{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;color:#2d2c2a;border:1px solid #e7ebe8}
+.st-lane--hand .st-lane__i{background:#deebe1}.st-lane--part .st-lane__i{background:#f6ecd6}.st-lane--not .st-lane__i{background:#e7e4ee}
+.st-lane__h b{font:400 20px/1.2 var(--serif);color:#2d2c2a;margin-top:6px}.st-lane__h small{font-size:13px;color:#737773;max-width:240px;line-height:1.4}
+.st-card{background:#fff;border:1px solid #e7ebe8;border-left:3px solid var(--ac);padding:12px 14px}
+.st-lane--hand{--ac:#8fad99}.st-lane--part{--ac:#c9a96a}.st-lane--not{--ac:#a99cc6}
+.st-card__n{margin:0;font-size:15.5px;font-weight:500;color:#2d2c2a}.st-card__p{margin:4px 0 0;font-size:13px;color:#737773}.st-card__s{margin:6px 0 0;font-size:14px;color:#333}
+.st-lane__e{text-align:center;font-size:13px;color:#b0b4b1;border:1px dashed #e0e3e1;padding:14px;margin:0}
+@media (max-width:860px){.st-q__o{grid-template-columns:1fr}.st-map{grid-template-columns:1fr}.st-route{display:none}.st-pick{grid-template-columns:1fr}}

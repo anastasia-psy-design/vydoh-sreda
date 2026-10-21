@@ -3031,6 +3031,39 @@ body{background:var(--page);font-size:15px;line-height:1.5}
 @media (max-width:900px){.zk{grid-template-columns:1fr}}
 @media print{.zk{grid-template-columns:repeat(3,1fr)}}
 
+/* Карта стрессоров и рычагов по шагам */
+.st-pick{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:28px;max-width:860px}
+.st-pick .rw__own{grid-column:1/-1}
+.st-q{display:grid;gap:14px}
+.st-q__r{background:#fff;border:1px solid #e7ebe8;padding:16px 18px}
+.st-q__n{font:400 22px/1.25 var(--serif);color:#2d2c2a;margin:0 0 12px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.st-q__o{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.st-opt{display:flex;gap:10px;align-items:flex-start;text-align:left;padding:12px 14px;border:1px solid #e7ebe8;background:#faf9f7;font:inherit;cursor:pointer;color:#333}
+.st-opt b{display:block;font-weight:500;font-size:15px}.st-opt small{display:block;font-size:13px;color:#737773;line-height:1.4;margin-top:2px}
+.st-opt svg{flex:0 0 20px;margin-top:2px;color:#737773}
+.st-opt:hover{border-color:#c9cfcb}
+.st-opt--hand[aria-pressed="true"]{background:#deebe1;border-color:#8fad99}
+.st-opt--part[aria-pressed="true"]{background:#f6ecd6;border-color:#c9a96a}
+.st-opt--not[aria-pressed="true"]{background:#e7e4ee;border-color:#a99cc6}
+.st-opt[aria-pressed="true"] svg{color:#2d2c2a}
+.st-tag{display:inline-flex;align-items:center;gap:6px;font:400 13px/1 var(--sans);padding:5px 10px;border-radius:999px;color:#333}
+.st-tag--hand{background:#deebe1}.st-tag--part{background:#f6ecd6}.st-tag--not{background:#e7e4ee}
+.st-paths{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.st-paths .rw__c.on{background:#2d2c2a;border-color:#2d2c2a;color:#fff}
+.st-step{display:grid;gap:4px;font-size:13px;color:#737773}
+.st-map{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:16px}
+.st-route{position:absolute;left:16.6%;right:16.6%;top:27px;border-top:1.5px dashed #c9cfcb;z-index:0}
+.st-lane{position:relative;z-index:1;display:flex;flex-direction:column;gap:10px}
+.st-lane__h{display:grid;justify-items:center;text-align:center;gap:4px;margin-bottom:6px}
+.st-lane__i{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;color:#2d2c2a;border:1px solid #e7ebe8}
+.st-lane--hand .st-lane__i{background:#deebe1}.st-lane--part .st-lane__i{background:#f6ecd6}.st-lane--not .st-lane__i{background:#e7e4ee}
+.st-lane__h b{font:400 20px/1.2 var(--serif);color:#2d2c2a;margin-top:6px}.st-lane__h small{font-size:13px;color:#737773;max-width:240px;line-height:1.4}
+.st-card{background:#fff;border:1px solid #e7ebe8;border-left:3px solid var(--ac);padding:12px 14px}
+.st-lane--hand{--ac:#8fad99}.st-lane--part{--ac:#c9a96a}.st-lane--not{--ac:#a99cc6}
+.st-card__n{margin:0;font-size:15.5px;font-weight:500;color:#2d2c2a}.st-card__p{margin:4px 0 0;font-size:13px;color:#737773}.st-card__s{margin:6px 0 0;font-size:14px;color:#333}
+.st-lane__e{text-align:center;font-size:13px;color:#b0b4b1;border:1px dashed #e0e3e1;padding:14px;margin:0}
+@media (max-width:860px){.st-q__o{grid-template-columns:1fr}.st-map{grid-template-columns:1fr}.st-route{display:none}.st-pick{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -3339,7 +3372,7 @@ function tStatus(id){const any=v=>v?'work':'none';const pk=S.peak||{};
     case 'pulse':return S.pulses.length>=6?'done':any(S.pulses.length);
     case 'radar':{const e=S.signals.filter(x=>(x.zone||'ранний')==='ранний').length,l=S.signals.filter(x=>x.zone==='предел').length;return e>=2&&l>=1?'done':any(S.signals.length)}
     case 'load':{const p=S.load.filter(x=>x.after).length;return p>=3?'done':any(S.load.length)}
-    case 'stress':{const r=S.stressors.filter(s=>s.power!=null&&s.infl!=null).length;return r>=2&&S.stressors.some(s=>s.path)?'done':any(S.stressors.length)}
+    case 'stress':return S.stressors.length&&S.stressors.every(s=>s.path)?'done':any(S.stressors.length);
     case 'chain':return S.chains.some(c=>['situation','rule','emotion','action','cost'].filter(k=>c[k]).length>=4)?'done':any(S.chains.length)
     case 'recovery':return S.recovery.length>=2?'done':any(S.recovery.length)
     case 'range':return S.range.q1&&S.pulses.length>=6?'done':any(S.range.q1||S.range.q2)
@@ -4426,32 +4459,52 @@ function loadSvg(){const W=720,H=460,L=60,R=30,Tp=30,B=50;const x=v=>L+50+(v-1)*
     return `<g>${o.change!=='нет'?`<circle cx="${X}" cy="${Y}" r="${r+6}" fill="none" stroke="var(--text)" stroke-dasharray="1 2.6"/>`:`<p class="note" style="margin-top:14px">${S.load.length?'Пока чаши пустые, потому что у всех дел стоит ответ «так же, как до». Отметьте в шаге 2, как вы себя чувствуете после каждого дела, и оно ляжет на нужную чашу':'Добавьте дела в шаге 1 и отметьте в шаге 2, как вы себя чувствуете после каждого, и они лягут на чаши'}</p>`}<circle cx="${X}" cy="${Y}" r="${r}" fill="var(--text)"/><text class="dot-lbl" x="${lx}" y="${ly}" text-anchor="middle">${esc(o.name)}</text></g>`}).join('')})()}</svg>`}
 
 /* 5. Карта стрессоров и рычагов */
-TOOL.stress=(m,t)=>{
-  const cands=S.load.filter(x=>x.after<0&&!S.stressors.some(s=>s.name===x.name)).map(x=>x.name);
-  m.innerHTML=wrap(t,`<section><div class="sec__h"><h2>Добавьте то, что создает нагрузку</h2></div>
-    ${cands.length?`<p class="muted" style="margin-bottom:10px">Из карты нагрузки - то, что забирает силы:</p><div class="chips" style="margin-bottom:14px">${cands.map(c=>`<button class="chip chip--add" data-sc="${esc(c)}">+ ${esc(c)}</button>`).join('')}</div>`:''}
-    <div class="input"><input id="stIn" placeholder="Или новый стрессор"><button class="btn btn--sm" id="stAdd">Добавить</button></div>
-    <div class="card-list" style="margin-top:20px">${S.stressors.map((s,i)=>`<article class="scard" data-i="${i}"><div class="scard__top"><h3>${esc(s.name)}</h3><button class="del" data-ds="${i}" aria-label="Убрать">×</button></div>
-      <div class="scard__grid">
-        <label>Какую нагрузку это создает${seg('power',[[1,'слабо'],[2,'немного'],[3,'заметно'],[4,'сильно'],[5,'очень сильно']],s.power)}</label>
-        <label>Как часто${seg('freq',['редко','иногда','регулярно'],s.freq)}</label>
-        <label>Где во времени${seg('time',['прошлое','сейчас','будущее'],s.time)}</label>
-        <label>Насколько вы можете на это повлиять${seg('infl',[[0,'никак'],[1,'чуть-чуть'],[2,'отчасти'],[3,'во многом']],s.infl)}</label>
-        <label>Это скорее${seg('source',['внешнее требование','мое правило'],s.source)}</label></div>
-      <div><p class="path-q">Выберите, что можно попробовать</p><p class="muted" style="margin-bottom:10px">Если не знаете, выберите то, что кажется самым легким${s.infl===0?'. Раз повлиять на это вы не можете, подойдет последний вариант':''}</p><div class="paths">${C.PATHS.map(([k,l,d])=>`<button type="button" class="path${s.infl===0&&k==='regulate'?' is-fit':''}" data-path="${k}" aria-pressed="${s.path===k}"><b>${l}</b>${d}</button>`).join('')}</div></div>
-      <label class="path-q" style="display:block">Напишите один маленький шаг на эту неделю<input class="line" data-act value="${esc(s.action||'')}" placeholder="Что именно вы сделаете, с кем и когда"></label>
-      <button type="button" class="linkbtn" data-sdisc="${esc(s.name)}">Не знаю, что выбрать - обсудить с психологом</button></article>`).join('')}</div></section>
-  <section class="sec"><div class="sec__h"><h2>Найдите, на что вы можете повлиять</h2></div>
-    ${S.stressors.length?`<p style="font-size:17px;margin-bottom:14px">Каждый стрессор лег в свой круг по вашему ответу на вопрос «Насколько вы можете на это повлиять». Чем ближе к центру, тем больше это в ваших руках</p><div class="viz" id="inflV">${inflSvg()}</div><div id="inflL">${inflLegend()}</div>`:'<p class="muted">Добавьте стрессоры, и появится карта рычагов</p>'}</section>`);
+/* Карта стрессоров и рычагов по шагам: что создает нагрузку - можно ли повлиять - первый шаг - карта рычагов */
+const ST_Z=[['hand','В ваших руках','Меняйте сами: что, сколько и как вы делаете','change','<path d="M8 13V6.5a1.5 1.5 0 013 0V12M11 11V5a1.5 1.5 0 013 0v6M14 11V6.5a1.5 1.5 0 013 0V14c0 3.5-2.5 6-6 6-2.6 0-4.2-1.3-5.4-3.4L4 13.5a1.5 1.5 0 012.6-1.5L8 14"/>'],
+  ['part','Можно повлиять отчасти','Договаривайтесь, просите помощи, делите с кем-то','share','<circle cx="8" cy="9" r="3"/><circle cx="16" cy="9" r="3"/><path d="M3 19c.8-3 2.8-4.5 5-4.5s4.2 1.5 5 4.5M11 19c.8-3 2.8-4.5 5-4.5s4.2 1.5 5 4.5"/>'],
+  ['not','Не в ваших руках','Изменить нельзя, но можно беречь себя от последствий','regulate','<path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/>']];
+const stZ=x=>x.infl==null?null:x.infl>=3?'hand':x.infl===0?'not':'part';
+TOOL.stress=(m,t)=>{const L=S.stressors;
+  if(route.sst==null)route.sst=L.length&&L.every(x=>x.path)?3:L.length&&L.every(x=>stZ(x))?2:L.length?1:0;const st=route.sst;
+  const ST=['Что создает нагрузку','Можно ли повлиять','Первый шаг','Карта рычагов'];
+  const stepper=`<ol class="pw-steps rw-steps vw-steps" aria-label="Шаги карты">${ST.map((x,k)=>`<li class="${k<st?'done':k===st?'now':''}"><button type="button" class="pw-step" data-sgo="${k}" aria-current="${k===st?'step':'false'}"${k>0&&!L.length?' disabled':''}><span>${k+1}</span>${x}</button></li>`).join('')}</ol>`;
+  const nav=(next,label,ok,cnt,back)=>`<div class="rw__nav"><button type="button" class="btn btn--primary" data-sgo="${next}"${ok?'':' disabled'}>${label}<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M6 3l5 5-5 5"/></svg></button><span class="rw__cnt">${cnt}</span>${back!=null?`<button type="button" class="btn btn--ghost" data-sgo="${back}">Назад</button>`:''}</div>`;
+  const zi=(k,sz)=>{const z=ST_Z.find(x=>x[0]===k);return `<svg width="${sz||20}" height="${sz||20}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${z[4]}</svg>`};
+  let body;
+  if(st===0){const fromLoad=S.load.filter(x=>x.after<0).map(x=>x.name);const all=[...new Set([...fromLoad,...L.map(x=>x.name)])];const sel=L.map(x=>x.name);
+    const row=v=>`<button type="button" class="bw__i" aria-pressed="${sel.includes(v)}" data-sp="${esc(v)}"><span class="bw__box" aria-hidden="true">${ico('check',12)}</span><span>${esc(v)}</span></button>`;
+    body=`<h2 class="rw__q">Что сейчас создает у вас больше всего нагрузки?</h2><p class="rw__h">Выберите 1-3 самых тяжелых дела или обстоятельства. Остальное можно разобрать позже${fromLoad.length?'. Ниже то, что забирает силы, из вашей карты нагрузки':''}</p>
+      <div class="st-pick bw--tense">${all.map(row).join('')}<button type="button" class="bw__i bw__add" data-ownopen><span class="bw__box" aria-hidden="true">+</span><span>Добавить свое</span></button><span class="rw__own" hidden><input id="stIn" placeholder="Например: ремонт, болезнь мамы, дедлайн проекта" aria-label="Что еще создает нагрузку"><button type="button" class="btn btn--sm" id="stAdd">Добавить</button></span></div>
+      ${nav(1,'Дальше',L.length>=1,L.length?`Выбрано ${L.length} из 3`:'Выберите хотя бы одно',null)}`}
+  else if(st===1)body=`<h2 class="rw__q">Насколько вы можете на это повлиять?</h2><p class="rw__h">Подумайте о каждом по очереди. Честного ответа достаточно</p>
+      <div class="st-q">${L.map((x,i)=>`<div class="st-q__r"><p class="st-q__n">${esc(x.name)}</p><div class="st-q__o">${ST_Z.map(([k,l,d])=>`<button type="button" class="st-opt st-opt--${k}" aria-pressed="${stZ(x)===k}" data-si="${i}" data-sz="${k}">${zi(k)}<span><b>${l}</b><small>${d}</small></span></button>`).join('')}</div></div>`).join('')}</div>
+      ${nav(2,'Дальше',L.every(x=>stZ(x)),L.every(x=>stZ(x))?'Все отмечено':'Ответьте про каждое',0)}`;
+  else if(st===2)body=`<h2 class="rw__q">Что вы попробуете на этой неделе?</h2><p class="rw__h">Мы уже подобрали подходящий способ. Можно выбрать другой и написать один маленький шаг</p>
+      <div class="st-q">${L.map((x,i)=>{const z=stZ(x)||'part';const rec=ST_Z.find(q=>q[0]===z)[3];const pth=x.path||rec;const P=C.PATHS.find(q=>q[0]===pth)||C.PATHS[0];
+        return `<div class="st-q__r"><p class="st-q__n">${esc(x.name)}<span class="st-tag st-tag--${z}">${zi(z,14)}${ST_Z.find(q=>q[0]===z)[1].toLowerCase()}</span></p>
+        <div class="st-paths">${C.PATHS.map(([k,l])=>`<button type="button" class="rw__c${pth===k?' on':''}" data-si="${i}" data-sp2="${k}">${l}${k===rec?' · подходит':''}</button>`).join('')}</div>
+        <label class="st-step">Ваш первый маленький шаг<input class="line" data-sact="${i}" value="${esc(x.action||'')}" placeholder="${esc(P[2])}"></label></div>`}).join('')}</div>
+      ${nav(3,'Посмотреть карту рычагов',true,'',1)}`;
+  else{const lane=([k,l,d])=>{const a=L.filter(x=>stZ(x)===k);return `<div class="st-lane st-lane--${k}"><div class="st-lane__h"><span class="st-lane__i">${zi(k,22)}</span><b>${l}</b><small>${d}</small></div>
+      ${a.length?a.map(x=>{const P=C.PATHS.find(q=>q[0]===x.path);return `<article class="st-card"><p class="st-card__n">${esc(x.name)}</p>${P?`<p class="st-card__p">${esc(P[1])}</p>`:''}${x.action?`<p class="st-card__s">Шаг: ${esc(x.action)}</p>`:''}</article>`}).join(''):'<p class="st-lane__e">Здесь пусто</p>'}</div>`};
+    const first=L.find(x=>stZ(x)==='hand')||L.find(x=>stZ(x)==='part');
+    body=`<h2 class="rw__q">Посмотрите на свою карту рычагов</h2><p class="rw__h">Слева то, что вы можете менять сами, справа то, что от вас не зависит. Двигайтесь слева направо</p>
+      <div class="st-map"><div class="st-route" aria-hidden="true"></div>${ST_Z.map(lane).join('')}</div>
+      ${first?`<div class="lab-rule"><p class="act__eb">С чего начать</p><p>${esc(first.name)}${first.action?`: ${esc(first.action)}`:''}</p></div>`:`<div class="lab-rule"><p class="act__eb">С чего начать</p><p>Сейчас все это не в ваших руках. Начните с того, что бережет вас, и обсудите это с психологом</p></div>`}
+      <div class="rw__nav rw__nav--end"><button type="button" class="btn btn--ghost" data-sgo="0">Изменить ответы</button></div>`}
+  m.innerHTML=wrap(t,`<section class="sec rw-sec">${stepper}${body}</section>`);
+  if(st<3){const nx=$('.nxt',m);if(nx)nx.hidden=true;const rs=$('.nxt__reset',m);if(rs)rs.hidden=true}
   bindDisc(m);
-  const add=v=>{v=v.trim();if(v&&!S.stressors.some(s=>s.name===v)){S.stressors.push({name:v,power:3,freq:'иногда',time:'сейчас',infl:1,source:'внешнее требование',path:null,action:''});save();render()}};
-  $('#stAdd').onclick=()=>add($('#stIn').value);$('#stIn').onkeydown=e=>{if(e.key==='Enter')add(e.target.value)};
-  $$('[data-sc]',m).forEach(b=>b.onclick=()=>add(b.dataset.sc));
-  $$('[data-sdisc]',m).forEach(b=>b.onclick=()=>discuss('Стрессор «'+b.dataset.sdisc+'»: не знаю, что с этим можно сделать'));
-  $$('.scard',m).forEach(c=>{const s=S.stressors[+c.dataset.i];bindSeg(c,s,()=>{save();const y=window.scrollY;render();window.scrollTo({top:y})});
-    $$('[data-path]',c).forEach(b=>b.onclick=()=>{s.path=b.dataset.path;$$('[data-path]',c).forEach(x=>x.setAttribute('aria-pressed',String(x===b)));save()});
-    $('[data-act]',c).onchange=e=>{s.action=e.target.value.trim();save()}});
-  $$('[data-ds]',m).forEach(b=>b.onclick=()=>{S.stressors.splice(+b.dataset.ds,1);save();render()});
+  const top=()=>{const e=$('.rw-steps',m);if(e){const y=e.getBoundingClientRect().top+window.scrollY-96;window.scrollTo({top:Math.max(0,y),behavior:'smooth'})}};
+  const keep=()=>{save();const y=window.scrollY;render();window.scrollTo({top:y})};
+  $$('[data-sgo]',m).forEach(b=>b.onclick=()=>{$$('[data-sact]',m).forEach(i=>L[+i.dataset.sact].action=i.value.trim());
+    if(+b.dataset.sgo===3)L.forEach(x=>{if(!x.path){const z=stZ(x)||'part';x.path=ST_Z.find(q=>q[0]===z)[3]}});save();route.sst=+b.dataset.sgo;render();top()});
+  const add=v=>{v=v.trim();if(!v)return;if(L.some(x=>x.name===v))return;if(L.length>=3){toast('Выберите не больше трех. Снимите галочку с одного, чтобы добавить другое');return}L.push({name:v,power:4,freq:'иногда',time:'сейчас',infl:null,source:'внешнее требование',path:null,action:''});keep()};
+  $$('[data-sp]',m).forEach(b=>b.onclick=()=>{const v=b.dataset.sp,i=L.findIndex(x=>x.name===v);if(i>=0){L.splice(i,1);keep()}else add(v)});
+  const op=$('[data-ownopen]',m);if(op){const box=$('.rw__own',m),inp=$('#stIn',m);op.onclick=()=>{op.hidden=true;box.hidden=false;inp.focus()};$('#stAdd',m).onclick=()=>add(inp.value);inp.onkeydown=e=>{if(e.key==='Enter')add(inp.value);if(e.key==='Escape'){box.hidden=true;op.hidden=false}}}
+  $$('[data-sz]',m).forEach(b=>b.onclick=()=>{const x=L[+b.dataset.si];x.infl={hand:3,part:2,not:0}[b.dataset.sz];x.path=null;keep()});
+  $$('[data-sp2]',m).forEach(b=>b.onclick=()=>{$$('[data-sact]',m).forEach(i=>L[+i.dataset.sact].action=i.value.trim());L[+b.dataset.si].path=b.dataset.sp2;keep()});
+  $$('[data-sact]',m).forEach(i=>i.addEventListener('input',()=>autosave('st',()=>{L[+i.dataset.sact].action=i.value.trim()})));
 };
 function stressSvg(){const W=720,H=440,L=60,R=30,Tp=30,B=50;const x=v=>L+50+v*(W-L-R-100)/3,y=v=>Tp+40+(5-v)*(H-Tp-B-80)/4;const mx=L+(W-L-R)/2,my=Tp+(H-Tp-B)/2;const cnt={};
   return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Карта стрессоров и рычагов">
