@@ -3436,7 +3436,11 @@ try{PSY=localStorage.getItem('vydoh-psy')==='1'}catch(e){}
   if(q.has('informal')){S.informal=q.get('informal')!=='0';ch=true;pendingToast=S.informal?'В «Карте состояния» добавлены разговорные слова':'Разговорные слова убраны'}
   if(q.has('c')&&/^[a-f0-9]{24,}$/.test(q.get('c'))){if(S.ctoken!==q.get('c'))pendingToast='Добро пожаловать! Новые этапы будут появляться здесь после встреч с психологом';S.ctoken=q.get('c')}
   if(q.has('go')&&['links','tools','help','meet','mat','navself'].includes(q.get('go'))){START_GO=q.get('go');ch=true}
-  if(q.has('open')){const added=[];q.get('open').split(',').map(x=>+x).forEach(n=>{const t=TN[n];if(t&&!S.open[t.id]){S.open[t.id]=1;added.push(t.title)}});
+  /* Ключ психолога можно передать прямо в ссылке: ?psy=1&k=<ключ> - вводить его вручную не нужно */
+  if(q.has('k')&&/^[\w-]{6,64}$/.test(q.get('k'))){try{localStorage.setItem('vydoh-psykey',q.get('k'))}catch(e){}ch=true}
+  /* Тестовая ссылка: ?open=all открывает все задания трека сразу */
+  if(q.get('open')==='all'){C.tools.forEach(t=>S.open[t.id]=1);pendingToast='Открыты все задания трека';ch=true}
+  else if(q.has('open')){const added=[];q.get('open').split(',').map(x=>+x).forEach(n=>{const t=TN[n];if(t&&!S.open[t.id]){S.open[t.id]=1;added.push(t.title)}});
     if(added.length)pendingToast='Психолог открыл: '+added.join(', ');ch=true}
   if(!S.start)S.start=new Date().toISOString().slice(0,10);
   if(!PSY)S.psy=false;save();
