@@ -3000,6 +3000,28 @@ body{background:var(--page);font-size:15px;line-height:1.5}
 @media (max-width:900px){.nb__cols{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:520px){.nb__cols{grid-template-columns:1fr}.nb__col{min-height:0}.nb__h{min-height:0}}
 
+/* Чек-лист ценностей по шагам */
+.pw-steps.vw-steps{grid-template-columns:repeat(4,minmax(0,1fr))}
+.pw-steps.vw-steps::before{left:12.5%;right:12.5%}
+.pw-step[disabled]{opacity:.5;cursor:default}
+.vw-def{background:#f5f4f1;border-left:3px solid #a99cc6;padding:12px 16px;margin:0 0 16px}
+.vw-def p{margin:0;font-size:15px;line-height:1.5;color:#333}.vw-def b{font-weight:500}
+.vw-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.vw-g{background:#fff;border:1px solid #e7ebe8;padding:12px 14px 8px;min-width:0}
+.vw-gh{margin:0 0 4px;padding-bottom:8px;border-bottom:1px solid #e7ebe8;display:grid;gap:2px}
+.vw-gh b{font-weight:500;font-size:15px;color:#2d2c2a}.vw-gh small{font-size:12.5px;color:#737773}
+.vw-g .bw__i:last-of-type{border-bottom:0}
+@media (max-width:1200px){.vw-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:860px){.vw-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.vw-grid{grid-template-columns:1fr}.pw-steps.vw-steps .pw-step{font-size:11px}}
+
+.vw-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (min-width:1300px){.vw-grid{grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}.vw-g{padding:10px 10px 6px}.vw-g .bw__i{font-size:14px;gap:9px}}
+.vw-gh small{min-height:2.5em}
+.vw-own{display:flex;flex-wrap:wrap;gap:0 22px;align-items:center;margin-top:8px}.vw-own .bw__i{width:auto;border-bottom:0}.vw-own .rw__own{flex:1 1 280px}
+@media (max-width:860px){.vw-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.vw-grid{grid-template-columns:1fr}.vw-gh small{min-height:0}}
+
 </style>
 </head>
 <body>
@@ -5046,30 +5068,42 @@ function valResult(){const V=S.values;const ms=V.main.filter(v=>V.place[v]);if(!
     <div class="vbars">${ms.map(v=>`<div class="vbar"><span class="vbar__n">${esc(v)}</span><span class="vbar__t"><i style="width:${V.place[v]*20}%;background:${c(V.place[v])}"></i></span><span class="vbar__w">${esc(VPL[V.place[v]-1][1])}</span>${V.step&&V.step[v]?`<span class="vbar__s">Шаг на неделю: ${esc(V.step[v])}</span>`:''}</div>`).join('')}</div>
     <p class="vsum">${V.place[hi]===V.place[lo]?`Сейчас у всех главных ценностей примерно одинаково места: ${esc(VPL[V.place[hi]-1][1])}`:`Больше всего места сейчас у ценности «${esc(hi)}». Меньше всего - у ценности «${esc(lo)}»${V.place[lo]<=2?': ей можно добавить места маленьким шагом уже на этой неделе':''}`}</p>
     ${isOpen('nhv')?`<div class="bmk-tor"><p>Сравните с «Надо / Хочу / Важно»: сколько ваших дел служат этим ценностям, а сколько делаются из страха или по привычке</p><button type="button" class="btn btn--sm" data-go="tool" data-arg="nhv">Открыть</button></div>`:''}</section>`}
+/* Чек-лист ценностей по шагам: отметьте ценное - выберите главные - сколько им места - итог */
+const VAL_SUB={'Близкие люди':'отношения, в которых вам хорошо','Забота о себе':'как вы обращаетесь с собой','Дело':'работа и то, что вы создаете','Рост':'куда вам хочется двигаться','Свобода':'на чем вы стоите в решениях','Радость жизни':'что наполняет вас'};
 TOOL.values=(m,t)=>{S.values=S.values||{picked:[],main:[],place:{},step:{}};const V=S.values;V.step=V.step||{};V.place=V.place||{};
-  const own=V.picked.filter(v=>!VAL_ALL.includes(v));
-  const chip=v=>`<button type="button" class="chip vchip" aria-pressed="${V.picked.includes(v)}" data-vp="${esc(v)}">${esc(v)}</button>`;
-  const s2=V.picked.length>=3,s3=V.main.length>=1;
-  m.innerHTML=wrap(t,`<section class="sec"><div class="sec__h"><h2><span class="vstep">1</span>Отметьте, что для вас ценно</h2>${V.picked.length?`<span class="muted">отмечено ${V.picked.length}</span>`:''}</div>
-    <p class="pw-why">Выбирайте не то, что принято считать правильным, а то, что откликается именно вам. Обычно набирается 8-15 ценностей</p>
-    <div class="vgrid">${VALG.map(([g,L])=>`<div class="vg"><h3>${esc(g)}</h3><div class="chips">${L.map(chip).join('')}</div></div>`).join('')}${own.length?`<div class="vg"><h3>Свое</h3><div class="chips">${own.map(chip).join('')}</div></div>`:''}</div>
-    <div class="input" style="margin-top:14px"><input id="vOwn" placeholder="Добавьте свою ценность" aria-label="Своя ценность"><button type="button" class="btn btn--sm btn--ghost" id="vAdd">Добавить</button></div>
-    ${!s2&&V.picked.length?`<p class="muted" style="margin-top:12px">Отметьте еще ${3-V.picked.length} ${plural(3-V.picked.length,'ценность','ценности','ценностей')}, чтобы перейти дальше</p>`:''}</section>
-  ${s2?`<section class="sec" id="vS2"><div class="sec__h"><h2><span class="vstep">2</span>Выберите 3-5 самых главных</h2><span class="muted">выбрано ${V.main.length} из 5</span></div>
-    <p class="pw-why">Представьте, что можно оставить только несколько ценностей. Какие вы точно не готовы отдать?</p>
-    <div class="vmain">${V.picked.map(v=>`<button type="button" class="vcard" aria-pressed="${V.main.includes(v)}" data-vm="${esc(v)}">${STAR}<span>${esc(v)}</span></button>`).join('')}</div></section>`:''}
-  ${s3?`<section class="sec" id="vS3"><div class="sec__h"><h2><span class="vstep">3</span>Отметьте, сколько места у них в жизни сейчас</h2></div>
-    <p class="pw-why">Подумайте о последних двух-трех неделях: сколько времени и сил вы отдавали тому, что для вас важно</p>
-    <div class="vrows">${V.main.map(v=>{const p=V.place[v]||0;return `<div class="vrow"><b class="vrow__n">${esc(v)}</b><div class="vdots" role="group" aria-label="${esc(v)}">${VPL.map(([n,w])=>`<button type="button" aria-pressed="${p>=n}" class="${p===n?'is-cur':''}" data-vpl="${esc(v)}" data-n="${n}" aria-label="${w}"></button>`).join('')}</div><span class="vrow__w">${p?esc(VPL[p-1][1]):'не отмечено'}</span>
-      ${p&&p<=2?`<div class="input vrow__step"><input data-vst="${esc(v)}" value="${esc(V.step[v]||'')}" placeholder="Какой маленький шаг добавит ей места на этой неделе?" aria-label="Шаг для ценности ${esc(v)}"></div>`:''}</div>`}).join('')}</div></section>`:''}
-  ${s3?valResult():''}`);
+  const own=V.picked.filter(v=>!VAL_ALL.includes(v));const placedAll=V.main.length&&V.main.every(v=>V.place[v]);
+  if(route.vst==null)route.vst=placedAll?3:V.main.length?2:V.picked.length>=3?1:0;const st=route.vst;
+  const ST=['Отметьте ценное','Выберите главные','Сколько им места','Итог'];
+  const stepper=`<ol class="pw-steps rw-steps vw-steps" aria-label="Шаги чек-листа">${ST.map((x,k)=>`<li class="${k<st?'done':k===st?'now':''}"><button type="button" class="pw-step" data-vgo="${k}" aria-current="${k===st?'step':'false'}"${(k===1&&V.picked.length<3)||(k>=2&&!V.main.length)?' disabled':''}><span>${k+1}</span>${x}</button></li>`).join('')}</ol>`;
+  const nav=(next,label,ok,cnt,back)=>`<div class="rw__nav"><button type="button" class="btn btn--primary" data-vgo="${next}"${ok?'':' disabled'}>${label}<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M6 3l5 5-5 5"/></svg></button><span class="rw__cnt">${cnt}</span>${back!=null?`<button type="button" class="btn btn--ghost" data-vgo="${back}">Назад</button>`:''}</div>`;
+  let body;
+  if(st===0){const row=v=>`<button type="button" class="bw__i" aria-pressed="${V.picked.includes(v)}" data-vp="${esc(v)}"><span class="bw__box" aria-hidden="true">${ico('check',12)}</span><span>${esc(v)}</span></button>`;const n=V.picked.length;
+    body=`<div class="vw-def"><p><b>Ценности</b> - это то, чем вы руководствуетесь, когда делаете выбор и принимаете решения. Ваши внутренние принципы: ради чего вы живете так, а не иначе</p></div>
+      <h2 class="rw__q">Что из этого для вас по-настоящему ценно?</h2><p class="rw__h">Отмечайте то, что откликается именно вам, а не то, что принято считать правильным. Обычно набирается 8-15 ценностей</p>
+      <div class="vw-grid bw--ok">${VALG.map(([g,L])=>`<div class="vw-g"><p class="vw-gh"><b>${esc(g)}</b><small>${esc(VAL_SUB[g]||'')}</small></p>${L.map(row).join('')}</div>`).join('')}
+</div>
+      <div class="vw-own bw--ok">${own.map(row).join('')}<button type="button" class="bw__i bw__add" data-ownopen><span class="bw__box" aria-hidden="true">+</span><span>Добавить свою ценность</span></button><span class="rw__own" hidden><input id="vOwn" placeholder="Ваша ценность" aria-label="Своя ценность"><button type="button" class="btn btn--sm" id="vAdd">Добавить</button></span></div>
+      ${nav(1,'Дальше: выбрать главные',n>=3,n>=3?`Отмечено ${n} ${plural(n,'ценность','ценности','ценностей')}`:`Отметьте еще ${3-n} ${plural(3-n,'ценность','ценности','ценностей')}`,null)}`}
+  else if(st===1)body=`<h2 class="rw__q">Какие 3-5 ценностей самые главные?</h2><p class="rw__h">Представьте, что можно оставить только несколько. Какие вы точно не готовы отдать? Отметьте их звездой</p>
+      <div class="vmain">${V.picked.map(v=>`<button type="button" class="vcard" aria-pressed="${V.main.includes(v)}" data-vm="${esc(v)}">${STAR}<span>${esc(v)}</span></button>`).join('')}</div>
+      ${nav(2,'Дальше',V.main.length>=1,`Выбрано ${V.main.length} из 5`,0)}`;
+  else if(st===2)body=`<h2 class="rw__q">Сколько места у них в жизни сейчас?</h2><p class="rw__h">Подумайте о последних двух-трех неделях: сколько времени и сил вы отдавали тому, что для вас важно</p>
+      <div class="vrows">${V.main.map(v=>{const p=V.place[v]||0;return `<div class="vrow"><b class="vrow__n">${esc(v)}</b><div class="vdots" role="group" aria-label="${esc(v)}">${VPL.map(([n,w])=>`<button type="button" aria-pressed="${p>=n}" class="${p===n?'is-cur':''}" data-vpl="${esc(v)}" data-n="${n}" aria-label="${w}"></button>`).join('')}</div><span class="vrow__w">${p?esc(VPL[p-1][1]):'не отмечено'}</span>
+        ${p&&p<=2?`<div class="input vrow__step"><input data-vst="${esc(v)}" value="${esc(V.step[v]||'')}" placeholder="Какой маленький шаг добавит ей места на этой неделе?" aria-label="Шаг для ценности ${esc(v)}"></div>`:''}</div>`}).join('')}</div>
+      ${nav(3,'Посмотреть итог',placedAll,placedAll?'Все отмечено':'Отметьте каждую ценность',1)}`;
+  else body=`${valResult()}<div class="rw__nav rw__nav--end"><button type="button" class="btn btn--ghost" data-vgo="0">Изменить отметки</button></div>`;
+  m.innerHTML=wrap(t,`<section class="sec rw-sec">${stepper}${body}</section>`);
+  if(st<3){const nx=$('.nxt',m);if(nx)nx.hidden=true;const rs=$('.nxt__reset',m);if(rs)rs.hidden=true}
   bindDisc(m);
+  const top=()=>{const e=$('.rw-steps',m);if(e){const y=e.getBoundingClientRect().top+window.scrollY-96;window.scrollTo({top:Math.max(0,y),behavior:'smooth'})}};
   const keep=()=>{save();const y=window.scrollY;render();window.scrollTo({top:y})};
+  $$('[data-vgo]',m).forEach(b=>b.onclick=()=>{route.vst=+b.dataset.vgo;render();top()});
   $$('[data-vp]',m).forEach(b=>b.onclick=()=>{const v=b.dataset.vp,i=V.picked.indexOf(v);if(i>=0){V.picked.splice(i,1);V.main=V.main.filter(x=>x!==v)}else V.picked.push(v);keep()});
   $$('[data-vm]',m).forEach(b=>b.onclick=()=>{const v=b.dataset.vm,i=V.main.indexOf(v);if(i>=0)V.main.splice(i,1);else{if(V.main.length>=5){toast('Главных ценностей может быть до пяти. Снимите звезду с одной из них');return}V.main.push(v)}keep()});
   $$('[data-vpl]',m).forEach(b=>b.onclick=()=>{V.place[b.dataset.vpl]=+b.dataset.n;keep()});
   $$('[data-vst]',m).forEach(i=>i.addEventListener('input',()=>autosave('vst',()=>{V.step[i.dataset.vst]=i.value.trim()})));
-  const add=()=>{const v=$('#vOwn',m).value.trim();if(v&&!V.picked.includes(v)){V.picked.push(v);keep()}};$('#vAdd',m).onclick=add;$('#vOwn',m).onkeydown=e=>{if(e.key==='Enter')add()};
+  const op=$('[data-ownopen]',m);if(op){const box=$('.rw__own',m),inp=$('#vOwn',m);op.onclick=()=>{op.hidden=true;box.hidden=false;inp.focus()};
+    const add=()=>{const v=inp.value.trim();if(v&&!V.picked.includes(v)){V.picked.push(v);keep()}};$('#vAdd',m).onclick=add;inp.onkeydown=e=>{if(e.key==='Enter')add();if(e.key==='Escape'){box.hidden=true;op.hidden=false}}}
 };
 
 /* ================= 16. ДОРОЖНАЯ КАРТА ================= */
