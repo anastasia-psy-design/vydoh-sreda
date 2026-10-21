@@ -1631,3 +1631,18 @@ body{background:var(--page);font-size:15px;line-height:1.5}
 .mic.is-on{background:#f6e3e0;color:#94483f;animation:micp 1.4s ease-in-out infinite}
 @keyframes micp{0%,100%{box-shadow:0 0 0 0 rgba(148,72,63,.25)}50%{box-shadow:0 0 0 6px rgba(148,72,63,0)}}
 @media (prefers-reduced-motion:reduce){.mic.is-on{animation:none}}
+
+/* Расшифровка этапов в панели клиентов */
+.cl-leg{margin:4px 0 14px;font-size:14px}
+.cl-leg summary{cursor:pointer;color:#737773;list-style:none;display:inline-flex;align-items:center;gap:8px}
+.cl-leg summary::-webkit-details-marker{display:none}
+.cl-leg summary::before{content:"";width:6px;height:6px;border-right:1.3px solid currentColor;border-bottom:1.3px solid currentColor;transform:rotate(-45deg);transition:transform .2s}
+.cl-leg[open] summary::before{transform:rotate(45deg)}
+.cl-leg summary:hover{color:#2d2c2a}
+.cl-leg ol{list-style:none;margin:12px 0 0;padding:14px 16px;background:#f5f4f1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 20px}
+.cl-leg li{display:grid;grid-template-columns:24px minmax(0,1fr);gap:10px;align-items:start}
+.cl-leg__n{width:24px;height:24px;border-radius:50%;border:1px solid #c9cfcb;display:grid;place-items:center;font-size:12px;background:#fff}
+.cl-leg b{display:block;font-weight:500;font-size:14px;line-height:1.3}
+.cl-leg small{display:block;color:#737773;font-size:12.5px;line-height:1.4;margin-top:2px}
+@media (max-width:900px){.cl-leg ol{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.cl-leg ol{grid-template-columns:1fr}}

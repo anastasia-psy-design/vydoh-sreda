@@ -2807,6 +2807,21 @@ body{background:var(--page);font-size:15px;line-height:1.5}
 @keyframes micp{0%,100%{box-shadow:0 0 0 0 rgba(148,72,63,.25)}50%{box-shadow:0 0 0 6px rgba(148,72,63,0)}}
 @media (prefers-reduced-motion:reduce){.mic.is-on{animation:none}}
 
+/* Расшифровка этапов в панели клиентов */
+.cl-leg{margin:4px 0 14px;font-size:14px}
+.cl-leg summary{cursor:pointer;color:#737773;list-style:none;display:inline-flex;align-items:center;gap:8px}
+.cl-leg summary::-webkit-details-marker{display:none}
+.cl-leg summary::before{content:"";width:6px;height:6px;border-right:1.3px solid currentColor;border-bottom:1.3px solid currentColor;transform:rotate(-45deg);transition:transform .2s}
+.cl-leg[open] summary::before{transform:rotate(45deg)}
+.cl-leg summary:hover{color:#2d2c2a}
+.cl-leg ol{list-style:none;margin:12px 0 0;padding:14px 16px;background:#f5f4f1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 20px}
+.cl-leg li{display:grid;grid-template-columns:24px minmax(0,1fr);gap:10px;align-items:start}
+.cl-leg__n{width:24px;height:24px;border-radius:50%;border:1px solid #c9cfcb;display:grid;place-items:center;font-size:12px;background:#fff}
+.cl-leg b{display:block;font-weight:500;font-size:14px;line-height:1.3}
+.cl-leg small{display:block;color:#737773;font-size:12.5px;line-height:1.4;margin-top:2px}
+@media (max-width:900px){.cl-leg ol{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.cl-leg ol{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -3685,9 +3700,10 @@ async function clPanel(box){if(!box)return;
   if(!PSYKEY)return login();
   let list;try{list=(await psyApi('list')).clients}catch(e){if(e.status===401)return login('Ключ не подошел. Проверьте и введите еще раз');box.innerHTML=`<p class="note">${e.status===503?'Хранилище еще не подключено. Как только оно появится, здесь будет список клиентов':'Не получилось загрузить список. Проверьте интернет и обновите страницу'}</p>`;return}
   const st=n=>C.stages[n-1]||{title:''};repPanel($('#repBox'));
-  box.innerHTML=`<div class="cl-head"><h2>Клиенты программы</h2><span class="muted">${list.length} ${plural(list.length,'клиент','клиента','клиентов')}</span></div>
+  const legend=`<details class="cl-leg"><summary>Что открывает каждый этап</summary><ol>${C.stages.map(s=>`<li><span class="cl-leg__n">${s.n}</span><div><b>${esc(s.title)}</b><small>${esc(s.weeks)}${s.tools.length?' · '+s.tools.map(id=>esc(T[id].title)).join(', '):''}</small></div></li>`).join('')}</ol></details>`;
+  box.innerHTML=`<div class="cl-head"><h2>Клиенты программы</h2><span class="muted">${list.length} ${plural(list.length,'клиент','клиента','клиентов')}</span></div>${legend}
     ${list.length?`<ul class="cl-list">${list.map(c=>`<li class="cl-row" data-id="${c.id}"><div class="cl-who"><b>${esc(c.label)}</b><small>${c.seen?'заходил(а) '+fmtD(c.seen):'еще не заходил(а)'} · сейчас этап ${c.stage}: «${esc(st(c.stage).title)}»</small></div>
-      <div class="cl-stages" role="group" aria-label="Открыто этапов">${C.stages.map(s=>`<button type="button" class="cl-st${s.n<=c.stage?' on':''}${s.n===c.stage?' cur':''}" data-st="${s.n}" title="${s.n}. ${esc(s.title)}" aria-label="Открыть до этапа ${s.n}: ${esc(s.title)}">${s.n}</button>`).join('')}</div>
+      <div class="cl-stages" role="group" aria-label="Открыто этапов">${C.stages.map(s=>`<button type="button" class="cl-st${s.n<=c.stage?' on':''}${s.n===c.stage?' cur':''}" data-st="${s.n}" title="Этап ${s.n}: ${esc(s.title)}. ${esc(s.weeks)}" aria-label="Открыть до этапа ${s.n}: ${esc(s.title)}">${s.n}</button>`).join('')}</div>
       <label class="cl-inf" title="Разговорное «за@бался(-ась)» среди эмоций в «Карте состояния»"><input type="checkbox" data-clinf="${c.id}" ${c.informal?'checked':''}> разговорные слова</label>
       <div class="cl-act"><button class="btn btn--sm btn--outline" data-cllink="${esc(clLink(c))}">Ссылка</button><button class="btn btn--sm btn--ghost" data-clmsg="${esc(clLink(c))}">Сообщение</button><button class="del" data-cldel="${c.id}" aria-label="Удалить ${esc(c.label)}">×</button></div></li>`).join('')}</ul>`:'<p class="muted">Пока никого нет. Добавьте первого клиента: подойдут инициалы или псевдоним</p>'}
     <div class="input cl-add"><input id="clNew" placeholder="Инициалы или псевдоним клиента" maxlength="40"><button class="btn btn--sm btn--primary" id="clNewB">Добавить клиента</button></div>
@@ -4972,18 +4988,32 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-tp]');if(!
     if(el.matches('[data-pc],[data-pl="psy"]'))return false;const ph=(el.getAttribute('placeholder')||'').toLowerCase();if(/телефон|@ник|ключ|код/.test(ph))return false;return true};
   const MIC='<svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><rect x="6.2" y="2" width="5.6" height="9" rx="2.8"/><path d="M3.8 8.6a5.2 5.2 0 0010.4 0M9 13.8V16"/></svg>';
   let cur=null;
-  const stop=()=>{if(cur){try{cur.rec.stop()}catch(e){}}};
+  const isWin=/Windows/.test(navigator.userAgent),isMac=/Macintosh/.test(navigator.userAgent),isMob=/Android|iPhone|iPad/.test(navigator.userAgent);
+  const SYS=isMob?'Нажмите на микрофон на клавиатуре телефона':isWin?'Нажмите в поле и затем клавиши Win + H: включится голосовой ввод Windows':isMac?'Нажмите в поле и затем дважды клавишу Fn: включится диктовка Mac':'Можно написать текстом';
+  const off=c=>{if(!c)return;clearTimeout(c.wd);c.btn.classList.remove('is-on');c.btn.setAttribute('aria-pressed','false');c.btn.title='Надиктовать голосом';const el=c.el;el.value=el.value.replace(/\s+$/,'');el.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('change',{bubbles:true}));if(cur===c)cur=null};
+  /* Остановка срабатывает сразу, даже если сервис распознавания не ответил */
+  const stop=()=>{const c=cur;if(!c)return;off(c);try{c.rec.stop()}catch(e){}setTimeout(()=>{try{c.rec.abort()}catch(e){}},1200)};
+  const fail=(c,msg)=>{if(c.failed)return;c.failed=1;toast(msg);if(window.__vyAuto)window.__vyAuto('Голосовой ввод: '+c.ev.join(' > '),navigator.userAgent.slice(0,120));if(cur===c)stop()};
   const start=(el,btn)=>{if(cur&&cur.el===el){stop();return}stop();
-    if(!SR){toast('Здесь голосовой ввод не работает. Нажмите на микрофон на клавиатуре телефона или откройте кабинет в Chrome или Safari');el.focus();return}
+    if(!SR){toast('В этом браузере голосовой ввод не работает. '+SYS);el.focus();return}
     const rec=new SR();rec.lang='ru-RU';rec.continuous=true;rec.interimResults=true;
+    const c={el,btn,rec,ev:['start'],got:false};
     let base=el.value;if(base&&!/\s$/.test(base))base+=' ';let fin='';
     const put=t=>{let v=base+t;if(!base.trim())v=v.charAt(0).toUpperCase()+v.slice(1);el.value=v;el.dispatchEvent(new Event('input',{bubbles:true}))};
-    rec.onresult=e=>{let it='';for(let i=e.resultIndex;i<e.results.length;i++){const r=e.results[i];if(r.isFinal)fin+=r[0].transcript.trim()+' ';else it+=r[0].transcript}put((fin+it).replace(/\s+$/,it?'':' ').replace(/\s{2,}/g,' '))};
-    rec.onerror=e=>{if(e.error==='not-allowed'||e.error==='service-not-allowed'){let inFrame=false;try{inFrame=window.top!==window}catch(x){inFrame=true}
-      toast(inFrame&&!/vercel\.app$/.test(location.hostname)?'В предпросмотре микрофон не работает. Откройте кабинет на сайте vydoh-sreda.vercel.app: там браузер спросит разрешение':'Нет доступа к микрофону. Нажмите на значок замка слева от адреса сайта, разрешите микрофон и попробуйте еще раз')}else if(e.error==='no-speech')toast('Ничего не слышно. Нажмите на микрофон и говорите');else if(e.error!=='aborted')toast('Голосовой ввод прервался. Попробуйте еще раз')};
-    rec.onend=()=>{btn.classList.remove('is-on');btn.setAttribute('aria-pressed','false');btn.title='Надиктовать голосом';if(cur&&cur.rec===rec)cur=null;el.value=el.value.replace(/\s+$/,'');el.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('change',{bubbles:true}))};
-    try{rec.start()}catch(e){toast('Голосовой ввод не запустился. Попробуйте еще раз');return}
-    cur={el,rec};btn.classList.add('is-on');btn.setAttribute('aria-pressed','true');btn.title='Остановить диктовку';toast('Говорите. Чтобы закончить, нажмите на микрофон еще раз')};
+    ['audiostart','soundstart','speechstart','speechend','nomatch'].forEach(n=>{rec['on'+n]=()=>{c.ev.push(n);if(n==='audiostart'&&cur===c)toast('Слушаю. Говорите, а чтобы закончить, нажмите на микрофон еще раз')}});
+    rec.onresult=e=>{if(!c.got)c.ev.push('result');c.got=true;let it='';for(let i=e.resultIndex;i<e.results.length;i++){const r=e.results[i];if(r.isFinal)fin+=r[0].transcript.trim()+' ';else it+=r[0].transcript}put((fin+it).replace(/\s{2,}/g,' '))};
+    rec.onerror=e=>{c.ev.push('error:'+e.error);
+      if(e.error==='not-allowed'||e.error==='service-not-allowed'){let inFrame=false;try{inFrame=window.top!==window}catch(x){inFrame=true}
+        fail(c,inFrame&&!/vercel\.app$/.test(location.hostname)?'В предпросмотре микрофон не работает. Откройте кабинет на сайте vydoh-sreda.vercel.app: там браузер спросит разрешение':'Нет доступа к микрофону. Нажмите на значок замка слева от адреса сайта, разрешите микрофон и попробуйте еще раз')}
+      else if(e.error==='network')fail(c,'Сервис распознавания речи сейчас недоступен. '+SYS);
+      else if(e.error==='audio-capture')fail(c,'Браузер не нашел микрофон. Проверьте, что он подключен. '+SYS);
+      else if(e.error==='no-speech')fail(c,'Ничего не слышно. Проверьте микрофон и попробуйте еще раз');
+      else if(e.error!=='aborted')fail(c,'Голосовой ввод прервался. '+SYS)};
+    rec.onend=()=>{c.ev.push('end');if(cur===c)off(c)};
+    try{rec.start()}catch(e){toast('Голосовой ввод не запустился. '+SYS);return}
+    cur=c;btn.classList.add('is-on');btn.setAttribute('aria-pressed','true');btn.title='Остановить диктовку';toast('Включаю микрофон…');
+    /* Если за 9 секунд не пришло ни одного слова, честно говорим об этом и предлагаем другой способ */
+    c.wd=setTimeout(()=>{if(cur===c&&!c.got)fail(c,(c.ev.includes('audiostart')?'Браузер слышит микрофон, но не распознает речь. ':'Микрофон не включился. ')+SYS)},9000)};
   const deco=root=>{(root||document).querySelectorAll('textarea,input').forEach(el=>{if(!ok(el))return;el.dataset.mic='1';el.setAttribute('autocomplete','off');
     const w=document.createElement('span');w.className='mic-w'+(el.tagName==='TEXTAREA'?' mic-w--area':'');el.parentNode.insertBefore(w,el);w.appendChild(el);
     const b=document.createElement('button');b.type='button';b.className='mic';b.innerHTML=MIC;b.title='Надиктовать голосом';b.setAttribute('aria-label','Надиктовать голосом');b.setAttribute('aria-pressed','false');
