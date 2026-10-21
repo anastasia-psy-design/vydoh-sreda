@@ -15,26 +15,64 @@ async function kv(cmd) {
   if (!r.ok) throw new Error('kv ' + r.status);
   return (await r.json()).result;
 }
-async function load() {
-  if (kvUrl && kvTok) { const v = await kv(['GET', KEY]); return v ? JSON.parse(v) : []; }
+async function load(name) {
+  const file = name || 'clients';
+  const kkey = file === 'clients' ? KEY : 'vydoh:' + file;
+  if (kvUrl && kvTok) { const v = await kv(['GET', kkey]); return v ? JSON.parse(v) : []; }
   if (blobOn) {
     const { get } = require('@vercel/blob');
     const pre = 'vydoh/' + (process.env.STORE_PREFIX || 'p') + '/';
-    const r = await get(pre + 'clients.json', { access: process.env.BLOB_ACCESS || 'private', useCache: false, ...tk() }).catch(() => null);
+    const r = await get(pre + file + '.json', { access: process.env.BLOB_ACCESS || 'private', useCache: false, ...tk() }).catch(() => null);
     if (!r || !r.stream) return [];
     const txt = await new Response(r.stream).text();
     try { return JSON.parse(txt) } catch (e) { return [] }
   }
   throw Object.assign(new Error('no-store'), { code: 503 });
 }
-async function store(arr) {
-  if (kvUrl && kvTok) return kv(['SET', KEY, JSON.stringify(arr)]);
+async function store(arr, name) {
+  const file = name || 'clients';
+  const kkey = file === 'clients' ? KEY : 'vydoh:' + file;
+  if (kvUrl && kvTok) return kv(['SET', kkey, JSON.stringify(arr)]);
   if (blobOn) {
     const { put } = require('@vercel/blob');
     const pre = 'vydoh/' + (process.env.STORE_PREFIX || 'p') + '/';
-    return put(pre + 'clients.json', JSON.stringify(arr), { access: process.env.BLOB_ACCESS || 'private', addRandomSuffix: false, allowOverwrite: true, contentType: 'application/json', cacheControlMaxAge: 0, ...tk() });
+    return put(pre + file + '.json', JSON.stringify(arr), { access: process.env.BLOB_ACCESS || 'private', addRandomSuffix: false, allowOverwrite: true, contentType: 'application/json', cacheControlMaxAge: 0, ...tk() });
   }
   throw Object.assign(new Error('no-store'), { code: 503 });
+}
+// Сообщения о сбоях: автоматические ошибки страницы и сообщения «Сообщить о проблеме».
+// Ответы клиента сюда не попадают: только текст ошибки, раздел кабинета, браузер и то, что человек написал сам.
+const cut = (v, n) => String(v == null ? '' : v).replace(/[\u0000-\u001f]+/g, ' ').slice(0, n);
+async function addReport(body, req) {
+  const r = {
+    id: crypto.randomBytes(5).toString('hex'),
+    at: new Date().toISOString(),
+    kind: body.kind === 'user' ? 'user' : 'auto',
+    msg: cut(body.msg, 600),
+    where: cut(body.where, 80),
+    src: cut(body.src, 160),
+    ua: cut(body.ua || req.headers['user-agent'], 160),
+    psy: !!body.psy,
+    contact: cut(body.contact, 80),
+    client: '',
+    n: 1
+  };
+  if (!r.msg) throw Object.assign(new Error('msg'), { code: 400 });
+  const t = String(body.t || '');
+  if (/^[a-f0-9]{24,}$/.test(t)) { const c = (await load().catch(() => [])).find(x => x.token === t); if (c) r.client = cut(c.label, 40); }
+  const arr = await load('reports');
+  const same = r.kind === 'auto' && arr.find(x => x.kind === 'auto' && x.msg === r.msg && x.where === r.where && !x.done);
+  if (same) { same.n = (same.n || 1) + 1; same.last = r.at; }
+  else arr.unshift(r);
+  while (arr.length > 300) arr.pop();
+  await store(arr, 'reports');
+  // Если заданы TG_BOT_TOKEN и TG_CHAT_ID, новое сообщение сразу приходит создателю в Telegram
+  const tg = process.env.TG_BOT_TOKEN, chat = process.env.TG_CHAT_ID;
+  if (tg && chat && !same) {
+    const text = (r.kind === 'user' ? 'Выдох: сообщение о проблеме' : 'Выдох: сбой на странице') + '\n' + r.msg + '\nРаздел: ' + (r.where || '-') + (r.contact ? '\nКонтакт: ' + r.contact : '') + (r.client ? '\nКлиент: ' + r.client : '');
+    await fetch('https://api.telegram.org/bot' + tg + '/sendMessage', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ chat_id: chat, text }) }).catch(() => {});
+  }
+  return r;
 }
 const pub = c => ({ id: c.id, label: c.label, token: c.token, stage: c.stage, informal: !!c.informal, created: c.created, seen: c.seen || null });
 
@@ -60,11 +98,26 @@ module.exports = async (req, res) => {
       if (c.seen !== today) { c.seen = today; await store(arr).catch(() => {}); }
       return res.status(200).json({ label: c.label, stage: c.stage, informal: !!c.informal });
     }
+    if (a === 'report') {
+      if (req.method !== 'POST') return res.status(405).json({ error: 'method' });
+      const r = await addReport(body, req);
+      return res.status(200).json({ ok: true, id: r.id });
+    }
     // дальше только для психолога
     const key = req.headers['x-psy-key'] || body.key;
     if (!PSY_KEY || key !== PSY_KEY) return res.status(401).json({ error: 'key' });
     const arr = await load();
     if (a === 'list') return res.status(200).json({ clients: arr.map(pub) });
+    if (a === 'reports') return res.status(200).json({ reports: await load('reports') });
+    if (a === 'repdone') {
+      const reps = await load('reports');
+      const r = reps.find(x => x.id === body.id); if (!r) return res.status(404).json({ error: 'nf' });
+      r.done = body.done !== false; await store(reps, 'reports'); return res.status(200).json({ ok: true });
+    }
+    if (a === 'repclear') {
+      const reps = (await load('reports')).filter(x => !x.done);
+      await store(reps, 'reports'); return res.status(200).json({ ok: true, left: reps.length });
+    }
     if (a === 'add') {
       const label = String(body.label || '').trim().slice(0, 40);
       if (!label) return res.status(400).json({ error: 'label' });
@@ -83,6 +136,7 @@ module.exports = async (req, res) => {
     }
     return res.status(400).json({ error: 'action' });
   } catch (e) {
+    if (e.code === 400) return res.status(400).json({ error: 'bad' });
     return res.status(e.code === 503 ? 503 : 500).json({ error: e.code === 503 ? 'no-store' : 'server' });
   }
 };

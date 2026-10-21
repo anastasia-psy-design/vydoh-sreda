@@ -156,7 +156,7 @@ b,strong{font-weight:500}
 
 /* ---------- 5. Поверхности и иерархия карточек ---------- */
 /* Уровень 1 - главный интерактивный блок: градиент света, глубокая мягкая тень */
-.h-main,.stg--now,.rc,.pw-body,.rp__img{background-image:linear-gradient(150deg,var(--glow),rgba(255,255,255,0) 55%);box-shadow:var(--sh-3)}
+.h-main,.stg--now,.rc,.pw-body,.rpt__img{background-image:linear-gradient(150deg,var(--glow),rgba(255,255,255,0) 55%);box-shadow:var(--sh-3)}
 .h-main,.stg--now,.rc{border-radius:var(--r-xl)}
 /* Уровень 2 - рабочие карточки: умеренная глубина */
 .h-card,.scard,.method,.zone-card,.sector,.nhv-col,.tt,.ap,.path,.rp-check button,.rp-sort>div{box-shadow:var(--sh-2);background-image:linear-gradient(160deg,var(--glow),rgba(255,255,255,0) 60%)}
@@ -318,7 +318,7 @@ button.tt:hover{transform:translateY(-2px);box-shadow:var(--sh-3);border-color:c
 .rc-empty{border:1px dashed color-mix(in srgb,var(--ink) 18%,transparent)}
 .ap{border:1px solid var(--hair);border-radius:var(--r-md);background:var(--bg)}
 .ap--soon{background:transparent;box-shadow:none;background-image:none;border-style:dashed}
-.rp__img{border-radius:var(--r-xl)}
+.rpt__img{border-radius:var(--r-xl)}
 .rp-dev,.rp-warn{border:1px solid var(--hair)}
 .prac__play,.breath-wrap{border-radius:var(--r-xl)}
 
@@ -1346,7 +1346,7 @@ body{background:var(--page);font-size:15px;line-height:1.5}
 .nav:hover{background:var(--accent);color:var(--text)}
 .nav[aria-current="page"]{background:var(--accent);color:#181616}
 /* панели: квадратные, тонкая рамка, без тени */
-.hg__card,.isl,.mcard,.bmk-card,.bmk-tor,.bmk__fig,.droad__peak,.ew-svg,.mcol,.nav-next,.note,.tt,.zrow,.zrows,.tpanel,.pw2,.wh-panel,.umenu,.modal,.h-card,.h-main,.h-strip,.stg,.panel,.empty,.viz,.cviz,.scard,.method,.zone-card,.sector,.nhv-col,.big-card,.keep-card,.pt-card,.t-card,.rc,.rc-empty,.rp__img,.prac__play,.breath-wrap,.howread,.rtl__c,.r-rel>div,.pw-body,.pw-zone,.pw2__zone,.pw2__hint,.pw-ok,.hblk,.req,.first,.h-first,.kv,.path,.ap,.rp-dev,.rp-warn,.rp-sort>div,.rp-shelves>div,.thead__how,.mode,.cl-login,.ldz,.wstep__b,.pt-res__goal,.pt-res__t,.hard-link,.bmk-g,.retbar,.toast,.mcard__k,.ps__d{border-radius:0!important;box-shadow:none!important}
+.hg__card,.isl,.mcard,.bmk-card,.bmk-tor,.bmk__fig,.droad__peak,.ew-svg,.mcol,.nav-next,.note,.tt,.zrow,.zrows,.tpanel,.pw2,.wh-panel,.umenu,.modal,.h-card,.h-main,.h-strip,.stg,.panel,.empty,.viz,.cviz,.scard,.method,.zone-card,.sector,.nhv-col,.big-card,.keep-card,.pt-card,.t-card,.rc,.rc-empty,.rpt__img,.prac__play,.breath-wrap,.howread,.rtl__c,.r-rel>div,.pw-body,.pw-zone,.pw2__zone,.pw2__hint,.pw-ok,.hblk,.req,.first,.h-first,.kv,.path,.ap,.rp-dev,.rp-warn,.rp-sort>div,.rp-shelves>div,.thead__how,.mode,.cl-login,.ldz,.wstep__b,.pt-res__goal,.pt-res__t,.hard-link,.bmk-g,.retbar,.toast,.mcard__k,.ps__d{border-radius:0!important;box-shadow:none!important}
 .thero__img{border-radius:50%;box-shadow:none!important}
 .hg__card::before{border-top:1px solid var(--line);border-left:1px solid var(--line);border-radius:0;top:-10px;background:#fff}
 .hg__card,.isl,.mcard,.bmk__fig,.ew-svg,.tt,.nav-next{border:1px solid var(--line)}
@@ -1560,3 +1560,43 @@ body{background:var(--page);font-size:15px;line-height:1.5}
 
 .hp p,.hp small{text-align:left!important;hyphens:none}
 .hp__loop,.hp__soft,.hp__data p{max-width:none!important}
+
+/* === Аудит перед сдачей: первый вход, режим психолога, сообщения о сбоях, финальная диагностика === */
+.page p,.page section>p{text-align:left!important}
+.pt-res__t small,.pt-res__goal small{text-transform:none!important;letter-spacing:0!important;font-size:13px!important}
+.hs__first{margin-top:14px;font-size:14px;color:var(--muted,#737773)}
+.hs__first .link{font-size:14px}
+.psy-bar{max-width:1240px;margin:16px auto -8px;display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center;justify-content:space-between;padding:10px 16px;background:#e7e4ee;font-size:14px;color:#333}
+@media (min-width:861px){.psy-bar{margin:16px 24px -8px}}
+.psy-steps{list-style:none;margin:8px 0 28px;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;counter-reset:ps}
+.psy-steps li{counter-increment:ps;padding:16px 16px 16px 52px;position:relative;background:#f5f4f1;border:1px solid #e7ebe8;display:grid;gap:4px}
+.psy-steps li::before{content:counter(ps);position:absolute;left:16px;top:15px;width:24px;height:24px;border-radius:50%;background:#deebe1;display:grid;place-items:center;font-size:13px}
+.psy-steps b{font-weight:500;font-size:15px}.psy-steps small{font-size:13px;color:#737773;line-height:1.45}
+@media (max-width:760px){.psy-steps{grid-template-columns:1fr}}
+.rpt{margin-top:28px}.rpt__d summary{font-size:17px}.rpt .badge{text-transform:none;letter-spacing:0}.rpt__list{list-style:none;padding:0;margin:14px 0;display:grid;gap:10px}
+.rpt__i{border:1px solid #e7ebe8;background:#fff;padding:14px 16px;display:grid;gap:8px;justify-items:start}
+.rpt__top{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center}.rpt__top small{color:#737773;font-size:13px}
+.rpt__m{font-size:15px;white-space:pre-wrap;overflow-wrap:anywhere;margin:0}.rpt__c{font-size:14px;margin:0}
+.rpt__tech{font-size:12px;color:#737773;overflow-wrap:anywhere;margin:0}.rpt__ok{margin-top:12px;padding:14px 16px;background:#deebe1;color:#355642}
+.rep textarea{min-height:110px;margin:6px 0 12px}.rep__c{display:grid;gap:6px;margin-bottom:18px;font-size:14px;color:#737773}
+.rep__st{margin-top:12px;color:#94483f}
+.pt-fin{display:grid;gap:6px;justify-items:start;margin-bottom:22px;background:#f6ecd6!important;color:#765b28}
+.pt-fin b{font-weight:500;color:#333}.pt-fin span{color:#333}
+.pt-finbox{margin-top:24px;padding:22px;background:#e2e9e9;display:grid;gap:10px;justify-items:start}
+.pt-finbox h3{font-family:var(--serif);font-weight:400;font-size:22px;margin:0}.pt-finbox p{margin:0}
+.pt-cmp{margin-top:28px}.pt-cmp__t{width:100%;border-collapse:collapse;font-size:15px;table-layout:fixed}
+.pt-cmp__t th,.pt-cmp__t td{border-bottom:1px solid #e7ebe8;padding:10px 8px;text-align:left;vertical-align:top;overflow-wrap:break-word}
+.pt-cmp__t thead th{font-weight:500;color:#737773;font-size:13px}.pt-cmp__t tbody th{font-weight:400;color:#737773;width:34%}
+.pt-cmp__t td.ch{background:#deebe1}
+.pt-cmp__wh{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:18px 0}
+.pt-cmp__wh figure{margin:0;text-align:center}.pt-cmp__wh figcaption{font-size:13px;color:#737773}
+@media (max-width:640px){.pt-cmp__wh{grid-template-columns:1fr}.pt-cmp__t{font-size:14px}}
+.side-foot .link{font-size:13px;text-align:left}
+
+.hs{position:relative}
+@media (min-width:861px){.hs>.psy-bar{position:absolute;top:0;left:0;right:0;margin:0}}
+@media (max-width:860px){.hs>.psy-bar{margin:-8px 0 16px}}
+@media (max-width:640px){.pt-cmp__t thead{display:none}.pt-cmp__t tbody tr{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid #e7ebe8}
+.pt-cmp__t tbody th{grid-column:1/-1;width:auto!important;border:0;padding:12px 0 2px;font-size:13px}
+.pt-cmp__t td{border:0;padding:4px 8px 10px}.pt-cmp__t td::before{content:attr(data-l);display:block;font-size:12px;color:#737773}}
+.rpt:empty{display:none}
