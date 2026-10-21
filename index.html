@@ -3106,8 +3106,8 @@ const CONTENT = {
       goal:'Карта помогает видеть, сколько у вас сил и насколько вы напряжены, чтобы замечать перегрузку раньше, чем наступит «больше не могу»',
       task:'Собрать немного данных о состоянии прямо в жизни - тогда, когда это происходит',
       result:'Состояние, контекст, эмоция и телесный сигнал. Отсюда данные идут почти во все инструменты', uses:[], feeds:[3,4,5,6,7,8,13] },
-    { n:3, id:'radar', title:'Радар ранних сигналов', time:'10 минут + дополнять по ходу',
-      goal:'Радар помогает заранее замечать, что приближается перегрузка, по первым сигналам в теле, эмоциях, мыслях и поведении',
+    { n:3, id:'radar', title:'Карта сигналов перегрузки', time:'10 минут + дополнять по ходу',
+      goal:'Карта помогает заранее замечать, что приближается перегрузка, по первым сигналам в теле, эмоциях, мыслях и поведении',
       task:'Различить свои сигналы - первые звоночки, «уже тяжело» и «на пределе» - в теле, эмоциях, мыслях и поведении',
       result:'Ваши личные предупреждающие сигналы', uses:[2], feeds:[8,12,13] },
     { n:4, id:'load', title:'Карта нагрузки и ресурсов', sub:'Куда уходит и откуда возвращается', time:'15 минут',
@@ -3216,7 +3216,7 @@ const CONTENT = {
     nav:{ why:'Это ваш итоговый ключ к своему состоянию. Она собирается из всего, что вы делали в программе, а в каждый раздел можно добавить свое',
       steps:['Просто проходите инструменты - разделы будут заполняться сами','Добавляйте в разделы то, что узнаете о себе','На последних встречах вместе с психологом проверьте карту и выберите главное','Карту можно распечатать или сохранить в PDF'] },
     body:{ why:'Тело замечает перегрузку раньше головы. Когда человек знает свои телесные маркеры, он может остановиться до того, как сил совсем не останется',
-      steps:['Отметьте, что меняется в теле, когда напряжение растет','Отметьте, как тело ощущается, когда вам хорошо','Добавьте маркеры напряжения в радар ранних сигналов'] },
+      steps:['Отметьте, что меняется в теле, когда напряжение растет','Отметьте, как тело ощущается, когда вам хорошо','Добавьте маркеры напряжения в карту сигналов перегрузки'] },
     values:{ why:'Выгорание часто начинается там, где жизнь надолго расходится с тем, что для человека важно. Ценности помогают выбирать, что сохранять, а что отпустить',
       steps:['Отметьте ценности, которые откликаются','Выберите 3-5 главных','Оцените, сколько места у них в жизни сейчас, и придумайте маленький шаг для тех, где места мало'] },
     road:{ why:'Чтобы результат трека сохранился, нужен конкретный план: что делать каждую неделю, на первых звоночках и при откате',
@@ -4109,7 +4109,7 @@ function vHard(m){pracStop();const H=C.hard;const p=S.plan=S.plan||{};p.people=p
   $('#msgHC').onclick=()=>copyText($('#msgH').value);
   const Q=(n,l,h,inner)=>`<li><span class="plan-q__n">${n}</span><div class="plan-q__b"><p class="plan-q__l">${l}</p>${h?`<p class="plan-q__h">${h}</p>`:''}${inner}</div></li>`;
   $('#planEdit').onclick=()=>{$('#planBox').innerHTML=`<ol class="plan-q">
-      ${Q(1,'Как я понимаю, что мне становится очень плохо','',`<textarea class="area" data-pl="signs" placeholder="${esc(early?'Из вашего радара: '+early:'Например: не сплю вторую ночь, все время плачу, ничего не хочется')}">${esc(p.signs||'')}</textarea>`)}
+      ${Q(1,'Как я понимаю, что мне становится очень плохо','',`<textarea class="area" data-pl="signs" placeholder="${esc(early?'Из карты сигналов перегрузки: '+early:'Например: не сплю вторую ночь, все время плачу, ничего не хочется')}">${esc(p.signs||'')}</textarea>`)}
       ${Q(2,'Что мне обычно хоть немного помогает','',`<textarea class="area" data-pl="helps" placeholder="${esc(kit?'Из Центра восстановления: '+kit:'Например: выйти на улицу, умыться холодной водой, позвонить сестре')}">${esc(p.helps||'')}</textarea>`)}
       ${Q(3,'Кому я могу написать или позвонить','Имя и телефон или @ник в Telegram','<div id="ppl"></div><button type="button" class="btn btn--sm btn--ghost" id="pplAdd">+ Добавить человека</button>')}
       ${Q(4,'Как связаться с моим психологом между встречами','',`<div class="pin-row"><input class="pin" data-pl="psy" placeholder="Телефон или @ник" value="${esc(p.psy||'')}"></div><textarea class="area" data-pl="psyNote" style="min-height:70px" placeholder="О чем договорились: например, писать в любое время, отвечу в течение дня">${esc(p.psyNote||'')}</textarea>`)}
@@ -4272,7 +4272,7 @@ TOOL.radar=(m,t)=>{
   const zOf=(type,v)=>{const x=S.signals.find(x=>x.type===type&&x.t===v);return x?x.zone||'ранний':null};
   const ST=['Первые звоночки','На пределе','Что это значит'];
   const ICO={'тело':'<circle cx="10" cy="4.5" r="2.2"/><path d="M10 7v6M6 9.5l4-1.5 4 1.5M7.5 18l2.5-5 2.5 5"/>','эмоции':'<circle cx="10" cy="10" r="7"/><path d="M7 12c1.6 1.6 4.4 1.6 6 0"/><circle cx="7.6" cy="8" r=".6" fill="currentColor"/><circle cx="12.4" cy="8" r=".6" fill="currentColor"/>','мысли':'<path d="M4 9a6 5 0 0112 0c0 2.8-2.7 5-6 5-1 0-2-.2-2.8-.6L4 15l1-2.6C4.4 11.4 4 10.2 4 9z"/>','поведение':'<path d="M4 16l4-8 3 5 2-3 3 6"/>'};
-  const stepper=`<ol class="pw-steps rw-steps" aria-label="Шаги радара">${ST.map((x,k)=>`<li class="${k<st?'done':k===st?'now':''}"><button type="button" class="pw-step" data-rst="${k}" aria-current="${k===st?'step':'false'}"><span>${k+1}</span>${x}</button></li>`).join('')}</ol>`;
+  const stepper=`<ol class="pw-steps rw-steps" aria-label="Шаги карты сигналов">${ST.map((x,k)=>`<li class="${k<st?'done':k===st?'now':''}"><button type="button" class="pw-step" data-rst="${k}" aria-current="${k===st?'step':'false'}"><span>${k+1}</span>${x}</button></li>`).join('')}</ol>`;
   let body;
   if(st<2){const n=st?nL:nE;
     const Q=st?['Что бывает, когда сил почти не осталось?','Вспомните самый тяжелый период. Отметьте 2-5 вариантов в любых группах']:['Что вы замечаете первым, когда нагрузка начинает расти?','Вспомните начало трудной недели. Отметьте 2-5 вариантов в любых группах'];
@@ -4327,7 +4327,7 @@ function radarSvg(){const W=720,H=520,cx=360,cy=262,Rr=[230,155,80];
   const ang={'тело':-135,'эмоции':-45,'мысли':45,'поведение':135};
   const zr={'ранний':(Rr[0]+Rr[1])/2,'уже перегружен':(Rr[1]+Rr[2])/2,'предел':Rr[2]/2};
   const cnt={};const dots=S.signals.filter(s=>s.zone).map(s=>{const k=s.type+s.zone;const i=cnt[k]=(cnt[k]||0)+1;const q=i-1,off=q===0?0:(q%2?1:-1)*Math.ceil(q/2)*20;const a=(ang[s.type]+off)*Math.PI/180;const r=zr[s.zone]+(q%2?14:0);return {s,x:cx+r*Math.cos(a),y:cy+r*Math.sin(a)}});
-  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Радар ранних сигналов">
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Карта сигналов перегрузки">
     <circle cx="${cx}" cy="${cy}" r="${Rr[0]}" fill="var(--mint)" opacity=".55"/><circle cx="${cx}" cy="${cy}" r="${Rr[1]}" fill="var(--beige)"/><circle cx="${cx}" cy="${cy}" r="${Rr[2]}" fill="var(--lavender)"/>
     ${Rr.map(r=>`<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="var(--text)" stroke-dasharray="1 3.4" opacity=".5"/>`).join('')}
     <line x1="${cx-Rr[0]}" x2="${cx+Rr[0]}" y1="${cy}" y2="${cy}" stroke="var(--line)"/><line y1="${cy-Rr[0]}" y2="${cy+Rr[0]}" x1="${cx}" x2="${cx}" stroke="var(--line)"/>
@@ -4467,9 +4467,9 @@ function stressSvg(){const W=720,H=440,L=60,R=30,Tp=30,B=50;const x=v=>L+50+v*(W
 /* 6. Цепочка перегруза */
 function chainSugg(k){const uniq=a=>[...new Set(a.filter(Boolean))];let src=[],lab='';
   if(k==='situation'){src=uniq([...S.stressors.map(x=>x.name),...items()]);lab='Из ваших карт:'}
-  if(k==='emotion'){src=uniq([...S.pulses.flatMap(p=>p.emo||[]),...S.signals.filter(x=>x.type==='эмоции').map(x=>x.t)]);lab='Из «Карты состояния» и радара:'}
-  if(k==='body'){src=uniq([...S.signals.filter(x=>x.type==='тело').map(x=>x.t),...S.pulses.flatMap(p=>p.body||[])]);lab='Из радара и «Карты состояния»:'}
-  if(k==='rule'){src=uniq([...S.signals.filter(x=>x.type==='мысли').map(x=>x.t),...Object.values(S.resp.ifStop||{})]);lab='Из радара и карты ответственности:'}
+  if(k==='emotion'){src=uniq([...S.pulses.flatMap(p=>p.emo||[]),...S.signals.filter(x=>x.type==='эмоции').map(x=>x.t)]);lab='Из «Карты состояния» и карты сигналов:'}
+  if(k==='body'){src=uniq([...S.signals.filter(x=>x.type==='тело').map(x=>x.t),...S.pulses.flatMap(p=>p.body||[])]);lab='Из карты сигналов и «Карты состояния»:'}
+  if(k==='rule'){src=uniq([...S.signals.filter(x=>x.type==='мысли').map(x=>x.t),...Object.values(S.resp.ifStop||{})]);lab='Из карты сигналов и карты ответственности:'}
   return src.length?`<div class="suggest-line">${lab} ${src.slice(0,8).map(v=>`<button type="button" data-cs="${k}" data-v="${esc(v)}">${esc(v)}</button>`).join('')}</div>`:''}
 /* Цепочка по одному вопросу: над вопросом - напоминание, о чем речь, из ваших прошлых ответов */
 const CH_CTX={reading:['situation'],rule:['situation','reading'],emotion:['situation','reading'],body:['situation','emotion'],action:['situation'],gain:['situation','action'],cost:['situation','action']};
@@ -5032,7 +5032,7 @@ function bmkResult(){const B=S.bodyMk;const inR=v=>S.signals.some(x=>x.type==='�
     <div class="bmr__txt"><p class="act__eb">${eb}</p><h3 class="act__t">${t}</h3><ul class="bmr__list">${list.length?list.map(x=>`<li>${esc(x)}</li>`).join(''):'<li class="bmr__none">пока не отмечено</li>'}</ul><p class="act__lbl">Что делать</p><p class="bmr__todo">${todo}</p></div></article>`;
   return `<div class="bmr">${col('t','bad','Когда напряжение растет','Пора сбавить темп','Сделайте паузу хотя бы на минуту: выдохните, разомните плечи или выйдите на воздух',B.tense,T)}
     ${col('o','ok','Когда вам хорошо','Вы в ресурсе','Так тело показывает, что нагрузка вам по силам. Запомните это ощущение: к нему можно возвращаться',B.ok,O)}</div>
-    ${isOpen('radar')&&toR.length?`<div class="bmk-tor"><p>Добавьте маркеры напряжения в «Радар ранних сигналов», чтобы видеть их рядом с остальными первыми звоночками</p><button type="button" class="btn btn--sm" id="bmToR">Добавить в радар</button></div>`:''}`}
+    ${isOpen('radar')&&toR.length?`<div class="bmk-tor"><p>Добавьте маркеры напряжения в «Карту сигналов перегрузки», чтобы видеть их рядом с остальными первыми звоночками</p><button type="button" class="btn btn--sm" id="bmToR">Добавить в карту сигналов</button></div>`:''}`}
 TOOL.body=(m,t)=>{S.bodyMk=S.bodyMk||{tense:[],ok:[]};const B=S.bodyMk;const nT=B.tense.length,nO=B.ok.length;
   if(route.bst==null)route.bst=nT&&nO?2:nT?1:0;const st=route.bst;
   const ST=['Когда напряжение растет','Когда вам хорошо','Ваша карта тела'];
@@ -5061,7 +5061,7 @@ TOOL.body=(m,t)=>{S.bodyMk=S.bodyMk||{tense:[],ok:[]};const B=S.bodyMk;const nT=
     const op=$('[data-ownopen]',m),box=$('.rw__own',m),inp=$('#bmOwn',m);op.onclick=()=>{op.hidden=true;box.hidden=false;inp.focus()};
     const add=()=>{const v=inp.value.trim();if(v&&!sel.includes(v)){sel.push(v);keep()}};$('#bmAdd',m).onclick=add;inp.onkeydown=e=>{if(e.key==='Enter')add();if(e.key==='Escape'){box.hidden=true;op.hidden=false}}}
   const pdf=$('#bmPdf',m);if(pdf)pdf.onclick=()=>{document.body.classList.add('print-bmr');setTimeout(()=>{window.print();setTimeout(()=>document.body.classList.remove('print-bmr'),400)},50)};
-  const tr=$('#bmToR',m);if(tr)tr.onclick=()=>{let n=0;B.tense.forEach(v=>{if(!S.signals.some(x=>x.type==='тело'&&x.t.toLowerCase()===v.toLowerCase())){S.signals.push({t:v.toLowerCase(),type:'тело',zone:'ранний'});n++}});keep();toast('В радар добавлено: '+n)};
+  const tr=$('#bmToR',m);if(tr)tr.onclick=()=>{let n=0;B.tense.forEach(v=>{if(!S.signals.some(x=>x.type==='тело'&&x.t.toLowerCase()===v.toLowerCase())){S.signals.push({t:v.toLowerCase(),type:'тело',zone:'ранний'});n++}});keep();toast('В карту сигналов добавлено: '+n)};
 };
 
 /* ================= 15. ЧЕК-ЛИСТ ЦЕННОСТЕЙ ================= */
@@ -5132,7 +5132,7 @@ TOOL.road=(m,t)=>{S.road=S.road||{};const R=S.road;R.keep=R.keep||[];R.backPick=
       ${sugg.length?`<div class="chips">${sugg.map(v=>`<button type="button" class="chip" aria-pressed="${R.keep.includes(v)}" data-rk="${esc(v)}">${esc(v)}</button>`).join('')}</div>`:`<p class="muted">Здесь появятся способы из «Центра восстановления» и «Лаборатории изменений». Пока можно добавить свои</p>`}
       <div class="input" style="margin-top:12px"><input id="rkOwn" placeholder="Добавьте свое, например: прогулка после работы" aria-label="Что сохраняю"><button type="button" class="btn btn--sm btn--ghost" id="rkAdd">Добавить</button></div></div></li>
     <li class="droad__i"><span class="droad__n">2</span><div class="droad__c"><h2>Решите, что вы делаете на первых звоночках</h2><p class="pw-why">Чем раньше вы отреагируете, тем меньше сил потратите</p>
-      ${early.length?`<p class="droad__lbl">Ваши первые звоночки</p><div class="droad__tags">${early.map(x=>`<span>${esc(x)}</span>`).join('')}</div>`:`<p class="muted">Первые звоночки соберутся из «Радара ранних сигналов» и «Чек-листа маркеров тела»</p>`}
+      ${early.length?`<p class="droad__lbl">Ваши первые звоночки</p><div class="droad__tags">${early.map(x=>`<span>${esc(x)}</span>`).join('')}</div>`:`<p class="muted">Первые звоночки соберутся из «Карты сигналов перегрузки» и «Чек-листа маркеров тела»</p>`}
       <p class="droad__lbl">Когда я их замечаю, я</p><textarea class="area" id="rEarly" placeholder="${esc(kitText().length?'Например: '+kitText().slice(0,2).join(', ').toLowerCase():'Например: делаю паузу на пять минут и убираю одно дело из списка')}">${esc(R.early||'')}</textarea></div></li>
     <li class="droad__i"><span class="droad__n">3</span><div class="droad__c"><h2>Проверьте план на следующий сложный период</h2><p class="pw-why">План собирается в «Протоколе пиковой нагрузки»</p>
       ${pk.situation?`<div class="droad__peak"><p><span class="muted">Период:</span> ${esc(pk.situation)}</p><p><span class="muted">Защищаю:</span> ${esc(pk.keep||d.keep||'-')}</p><p><span class="muted">Временно убираю:</span> ${esc(pk.drop||d.drop||'-')}</p></div>`:`<p class="muted">Протокол пока не собран</p>`}
