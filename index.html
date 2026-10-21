@@ -2939,6 +2939,45 @@ body{background:var(--page);font-size:15px;line-height:1.5}
 .bw__wrap{grid-template-columns:170px minmax(0,1fr)}
 @media (max-width:1100px){.bw__cols{columns:2 230px}}
 
+/* Лаборатория по фазам */
+.lab-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.lab-tab{display:grid;gap:2px;text-align:left;padding:8px 14px;border:1px solid #e7ebe8;background:#fff;font:inherit;font-size:14px;cursor:pointer}
+.lab-tab small{font-size:12px;color:#737773}.lab-tab.on{border-color:#2d2c2a}
+.lab-ph{list-style:none;margin:0 0 22px;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.lab-ph li{display:flex;align-items:center;gap:8px;font-size:13px;color:#a2a6a3;padding-top:10px;border-top:2px solid #e7ebe8}
+.lab-ph li span{width:22px;height:22px;flex:0 0 22px;border-radius:50%;border:1px solid #c9cfcb;display:grid;place-items:center;font-size:12px}
+.lab-ph li.done{color:#737773;border-top-color:#8fad99}.lab-ph li.done span{background:#8fad99;border-color:#8fad99;color:#fff}
+.lab-ph li.now{color:#2d2c2a;border-top-color:#2d2c2a}.lab-ph li.now span{background:#2d2c2a;border-color:#2d2c2a;color:#fff}
+.lab-form{list-style:none;margin:0;padding:0;display:grid;gap:18px}
+.lab-form>li{display:grid;grid-template-columns:30px minmax(0,1fr);gap:12px;align-items:start}
+.lab-n{width:26px;height:26px;border-radius:50%;background:#f5f4f1;display:grid;place-items:center;font-size:13px;color:#737773;margin-top:2px}
+.lab-form label,.lab-q{display:grid;gap:4px;font-size:15px;color:#2d2c2a;margin:0}
+.lab-form .line{font-size:15px}
+.lab-b{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 14px;align-items:center;margin-top:12px;max-width:560px}
+.lab-b span{font-size:13px;color:#737773}.lab-b output{font:400 22px var(--serif)}.lab-b input{grid-column:1/-1;width:100%}
+.lab-due{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.lab-due .rw__c.on{background:#deebe1;border-color:#8fad99;color:#244232}
+.lab-if{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:6px}
+.lab-if label{font-size:13px;color:#737773}
+.lab-lbl{font-size:13px;color:#737773;margin:0 0 8px}
+.lab-bel{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.lab-run .lab-do{background:#fff;border:1px solid #e7ebe8;border-top:3px solid #8fad99;padding:18px 20px;margin:6px 0 16px}
+.lab-do ol{margin:0;padding-left:20px;display:grid;gap:8px;font-size:15px;line-height:1.5}.lab-do b{font-weight:500}
+.lab-sum{display:grid;gap:10px;margin-bottom:6px}
+.lab-sum__r{display:grid;grid-template-columns:170px minmax(0,1fr);gap:12px}.lab-sum__r span{font-size:13px;color:#737773}.lab-sum__r p{margin:0;font-size:15px}
+.lab-vs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:6px 0 18px}
+.lab-vs__c{background:#fff;border:1px solid #e7ebe8;border-top:3px solid #d6a49c;padding:16px 18px}.lab-vs__c--ok{border-top-color:#8fad99}
+.lab-vs__c p:last-child{margin:0;font-size:15px;line-height:1.5}
+.lab-bars{max-width:560px;display:grid;gap:8px;margin-bottom:18px}
+.lab-bar{display:grid;grid-template-columns:56px minmax(0,1fr) 44px;gap:10px;align-items:center;font-size:13px;color:#737773}
+.lab-bar i{height:8px;background:#f0f1ef;border-radius:8px;overflow:hidden}.lab-bar b{display:block;height:100%;background:#d6a49c;border-radius:8px}
+.lab-bar--after b{background:#8fad99}.lab-bar em{font-style:normal;color:#2d2c2a;text-align:right}
+.lab-rule{background:#f5f4f1;padding:14px 18px;margin-bottom:6px}.lab-rule p:last-child{margin:0;font:400 20px/1.35 var(--serif)}.lab-rule em{font-style:normal;color:#737773}
+@media (max-width:700px){.lab-ph{grid-template-columns:repeat(2,minmax(0,1fr))}.lab-vs,.lab-if{grid-template-columns:1fr}.lab-sum__r{grid-template-columns:1fr;gap:2px}}
+
+.lab2 input[type=range]{accent-color:#2d2c2a;height:24px}
+.lab-run .lab-do,.lab-vs{margin-top:14px!important}
+
 </style>
 </head>
 <body>
@@ -3430,7 +3469,7 @@ function nextAfter(cur){const pd=!!(S.point&&S.point.saved);const wk=Date.now()-
   if(nP===0&&cur!=='pulse')return S.pulses.length?PULSE:Object.assign({},PULSE,{h:'Сделайте первую короткую отметку',why:'В диагностике вы описали свою обычную неделю. В отметке вы за минуту фиксируете, как вы прямо сейчас. Повторяйте ее 2-3 раза в неделю, и станет видно, что вас разряжает',explain:true});
   const cs=curStage();const stg=(C.stages[cs-1]||{tools:[]}).tools;
   const todo=C.tools.filter(t=>isOpen(t.id)&&!t.final&&!['point','pulse',cur].includes(t.id)&&tStatus(t.id)!=='done').sort((a,b)=>(stg.includes(b.id)?1:0)-(stg.includes(a.id)?1:0));
-  if(todo.length){const t=todo[0];return {id:t.id,h:WHY[t.id]||t.title,why:t.title,time:t.time,go:['tool',t.id],tool:true}}
+  if(todo.length){const t=todo[0];return {id:t.id,h:t.id==='lab'&&S.lab.some(l=>l.started&&!l.result)?'Запишите, что получилось в эксперименте':WHY[t.id]||t.title,why:t.title,time:t.time,go:['tool',t.id],tool:true}}
   if(nP<3&&!markedToday&&cur!=='pulse')return PULSE;
   if(cs>=9&&cur!=='nav')return {id:'nav',h:'Соберите памятку «Как со мной обращаться»',why:'Все ваши ответы собрались в памятку: как вы устроены и что вам помогает',time:'5 минут',go:['navself','']};
   return {id:'rest',h:markedToday?'На сегодня все сделано':'Отметьте, как вы себя чувствуете',why:'Практики между встречами откроет психолог после встречи, и они сами появятся здесь. До встречи отмечайте силы и напряжение 2-3 раза в неделю',time:'',go:markedToday?['tools','']:['tool','pulse'],rest:true,marked:markedToday}}
@@ -4806,36 +4845,78 @@ TOOL.nhv=(m,t)=>{const P=S.nhv.place;S.nhv.notes=S.nhv.notes||{};const N=S.nhv.n
 };
 
 /* 11. Лаборатория изменений */
+/* Лаборатория изменений по фазам: план - эксперимент идет - результат - вывод */
+const LAB_DUE=[['2d','через 1-2 дня'],['week','через неделю'],['meet','к следующей встрече']];
 TOOL.lab=(m,t)=>{const i=route.sub!=null&&S.lab[route.sub]?route.sub:(S.lab.length?S.lab.length-1:null);const e=i!=null?S.lab[i]:null;
-  const beliefs=[...S.chains.map(c=>c.rule),...Object.values(S.resp.ifStop)].filter(Boolean);
-  m.innerHTML=wrap(t,`<div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px"><button class="btn btn--primary btn--sm" id="labNew">${MARK}Новый эксперимент</button>${S.lab.length>1?S.lab.map((x,k)=>`<button class="btn btn--sm ${k===i?'':'btn--outline'}" data-lb="${k}">${k+1}</button>`).join(''):''}</div>
-  ${e?`<div class="panel"><div class="lab-grid">
-    <p class="lab-step">1. До эксперимента</p>
-    <label style="grid-column:1 / -1">Убеждение, которое вы проверяете<input class="line" data-l="belief" value="${esc(e.belief)}" list="blist" placeholder="Например: если могу сделать сама - должна сделать сама"><datalist id="blist">${beliefs.map(b=>`<option value="${esc(b)}">`).join('')}</datalist></label>
-    <label>Что, по-вашему, случится, если поступить не так, как велит убеждение?<input class="line" data-l="pred" value="${esc(e.pred)}" placeholder="Например: руководитель найдет ошибку и будет недоволен"></label>
-    <div class="belief"><span class="muted" style="font-size:11px;letter-spacing:.05em;text-transform:uppercase">Насколько вы верите в этот прогноз сейчас</span><output id="b0o">${e.b0}%</output><input type="range" min="0" max="100" step="5" value="${e.b0}" id="b0" aria-label="Вера в прогноз до"></div>
-    <label>Что вы попробуете сделать иначе<input class="line" data-l="exp" value="${esc(e.exp)}" placeholder="Маленький и безопасный шаг, например: один раз отправлю отчет без перепроверки"></label>
-    <label>По каким признакам вы поймете, сбылся ли прогноз?<input class="line" data-l="observe" value="${esc(e.observe)}" placeholder="Например: будут ли замечания, как я себя чувствую вечером"></label>
-    <p class="lab-step">2. После эксперимента</p>
-    <label style="grid-column:1 / -1">Что произошло на самом деле, когда вы попробовали<textarea class="area" data-l="result" style="min-height:70px" placeholder="Заполните после того, как проведете эксперимент">${esc(e.result)}</textarea></label>
-    <div class="belief"><span class="muted" style="font-size:11px;letter-spacing:.05em;text-transform:uppercase">Насколько вы верите в прогноз теперь</span><output id="b1o">${e.b1!=null?e.b1+'%':'-'}</output><input type="range" min="0" max="100" step="5" value="${e.b1!=null?e.b1:e.b0}" id="b1" aria-label="Вера в прогноз после"></div>
-    <div></div>
-    <p class="lab-step">3. Новое правило для себя</p>
-    <label>Если возникает…<input class="line" data-l="ifx" value="${esc(e.ifx)}" placeholder="Например: хочется все перепроверить"></label><label>…то я делаю<input class="line" data-l="ify" value="${esc(e.ify)}" placeholder="Например: проверяю только главное и закрываю ноутбук"></label></div>
-    <button class="btn btn--primary btn--sm" id="labS" style="margin-top:18px">${MARK}Сохранить</button>
-    ${e.ifx&&e.ify?`<p class="ifthen" style="margin-top:20px"><em>Если</em> ${esc(e.ifx)} → <em>я</em> ${esc(e.ify)}</p>`:''}</div>`:emptyNote('Убеждения приходят сюда из «Цепочки перегруза» и «Карты ответственности». Или начните новый эксперимент')}
-  <section class="sec"><div class="sec__h"><h2>Отметьте, что у вас уже работает</h2><span class="muted">${S.works.length}</span></div>
-    <div class="works">${S.works.map((w,k)=>`<span class="tag">${esc(w)}<button data-dw="${k}" aria-label="Убрать">×</button></span>`).join('')}</div>
-    <div class="chips" style="margin-top:14px">${C.WORKS_SUGGEST.map(w=>`<button class="chip chip--add" data-aw="${esc(w)}">+ ${esc(w)}</button>`).join('')}</div>
-    <div class="input" style="margin-top:10px"><input id="wIn" placeholder="Свое - даже маленькое"><button class="btn btn--sm" id="wAdd">Добавить</button></div></section>`);
+  const beliefs=[...new Set([...S.chains.map(c=>c.rule),...Object.values(S.resp.ifStop)].filter(Boolean))];
+  const due=x=>(LAB_DUE.find(d=>d[0]===x)||LAB_DUE[1])[1];
+  const ph=!e?'none':e.result?(route.labEdit?'res':'done'):e.started?(route.labRes?'res':'run'):'plan';
+  const tabs=S.lab.length>1?`<div class="lab-tabs">${S.lab.map((x,k)=>`<button type="button" class="lab-tab${k===i?' on':''}" data-lb="${k}">Эксперимент ${k+1}<small>${x.result?'готово':x.started?'идет':'план'}</small></button>`).join('')}</div>`:'';
+  const PH=[['plan','Запланируйте'],['run','Проверьте в жизни'],['res','Запишите, что вышло'],['done','Сделайте вывод']];const pi=PH.findIndex(x=>x[0]===ph);
+  const steps=e?`<ol class="lab-ph">${PH.map(([k,l],j)=>`<li class="${j<pi?'done':j===pi?'now':''}"><span>${j+1}</span>${l}</li>`).join('')}</ol>`:'';
+  const q=(l,v)=>v?`<div class="lab-sum__r"><span>${l}</span><p>${esc(v)}</p></div>`:'';
+  let body='';
+  if(ph==='none')body=`<div class="lab-empty"><h2 class="rw__q">Проверьте одно убеждение на практике</h2><p class="rw__h">Вы выбираете правило, которое заставляет вас перегружаться, и один раз безопасно поступаете иначе. Потом смотрите, что произошло на самом деле</p>
+    ${beliefs.length?`<p class="lab-lbl">Убеждения из ваших прошлых ответов</p><div class="lab-bel">${beliefs.map(b=>`<button type="button" class="rw__c" data-newb="${esc(b)}">${esc(b)}</button>`).join('')}</div>`:''}
+    <div class="rw__nav rw__nav--end"><button type="button" class="btn btn--primary" id="labNew">Начать эксперимент</button></div></div>`;
+  else if(ph==='plan')body=`<h2 class="rw__q">Запланируйте эксперимент</h2><p class="rw__h">Выберите маленький и безопасный шаг. Проверять будете в обычной жизни, а сюда вернетесь с результатом</p>
+    <ol class="lab-form">
+      <li><span class="lab-n">1</span><label>Какое убеждение вы проверяете?<input class="line" data-l="belief" value="${esc(e.belief)}" list="blist" placeholder="Например: если могу сделать сама - должна сделать сама"><datalist id="blist">${beliefs.map(b=>`<option value="${esc(b)}">`).join('')}</datalist></label></li>
+      <li><span class="lab-n">2</span><label>Что вы попробуете сделать иначе?<input class="line" data-l="exp" value="${esc(e.exp)}" placeholder="Например: один раз отправлю отчет без перепроверки"></label></li>
+      <li><span class="lab-n">3</span><div><label>Чего вы опасаетесь, если так поступить?<input class="line" data-l="pred" value="${esc(e.pred)}" placeholder="Например: руководитель найдет ошибку и будет недоволен"></label>
+        <div class="lab-b"><span>Насколько вы в это верите сейчас</span><output id="b0o">${e.b0}%</output><input type="range" min="0" max="100" step="5" value="${e.b0}" id="b0" aria-label="Вера в прогноз до эксперимента"></div></div></li>
+      <li><span class="lab-n">4</span><label>По каким признакам вы поймете, сбылось ли опасение?<input class="line" data-l="observe" value="${esc(e.observe)}" placeholder="Например: будут ли замечания, как я себя чувствую вечером"></label></li>
+      <li><span class="lab-n">5</span><div><p class="lab-q">Когда вы вернетесь сюда с результатом?</p><div class="lab-due">${LAB_DUE.map(([k,l])=>`<button type="button" class="rw__c${(e.due||'week')===k?' on':''}" data-due="${k}">${l}</button>`).join('')}</div></div></li></ol>
+    <div class="rw__nav rw__nav--end"><button type="button" class="btn btn--primary" id="labStart">Начать эксперимент<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M6 3l5 5-5 5"/></svg></button></div>`;
+  else if(ph==='run')body=`<div class="lab-run"><p class="act__eb">Начат ${fmtD(e.started)} · вернитесь ${due(e.due)}</p><h2 class="rw__q">Эксперимент идет</h2>
+    <div class="lab-do"><p class="lab-lbl">Что делать сейчас</p><ol>
+      <li>Сделайте в обычной жизни то, что запланировали: <b>${esc(e.exp||'ваш маленький шаг')}</b></li>
+      <li>Понаблюдайте, что происходит на самом деле${e.observe?`: ${esc(e.observe)}`:', и как вы себя чувствуете'}</li>
+      <li>Вернитесь сюда ${due(e.due)} и запишите, что получилось. Если не получилось попробовать, это тоже результат: расскажите о нем психологу</li></ol></div>
+    <div class="lab-sum">${q('Убеждение',e.belief)}${q('Чего вы опасаетесь',e.pred?e.pred+' · верите на '+e.b0+'%':'')}</div>
+    <div class="rw__nav rw__nav--end"><button type="button" class="btn btn--primary" id="labRes">Записать, что получилось</button><button type="button" class="btn btn--ghost" id="labEditPlan">Изменить план</button></div></div>`;
+  else if(ph==='res')body=`<h2 class="rw__q">Запишите, что получилось</h2><p class="rw__h">Вы планировали: «${esc(e.exp||'')}». Опишите, как все прошло на самом деле</p>
+    <ol class="lab-form">
+      <li><span class="lab-n">1</span><label>Что произошло, когда вы попробовали?<textarea class="area" data-l="result" style="min-height:90px" placeholder="Например: отправила отчет без перепроверки, замечаний не было, вечером впервые за неделю легла вовремя">${esc(e.result||'')}</textarea></label></li>
+      <li><span class="lab-n">2</span><div><p class="lab-q">Сбылось ли ваше опасение${e.pred?`: «${esc(e.pred)}»`:''}?</p><div class="lab-due">${['да','частично','нет'].map(v=>`<button type="button" class="rw__c${e.came===v?' on':''}" data-came="${v}">${v}</button>`).join('')}</div></div></li>
+      <li><span class="lab-n">3</span><div class="lab-b"><span>Насколько вы верите в это опасение теперь</span><output id="b1o">${e.b1!=null?e.b1:e.b0}%</output><input type="range" min="0" max="100" step="5" value="${e.b1!=null?e.b1:e.b0}" id="b1" aria-label="Вера в прогноз после эксперимента"></div></li>
+      <li><span class="lab-n">4</span><div><p class="lab-q">Какое правило вы возьмете себе вместо старого?</p><div class="lab-if"><label>Если…<input class="line" data-l="ifx" value="${esc(e.ifx||'')}" placeholder="Например: хочется все перепроверить"></label><label>…то я…<input class="line" data-l="ify" value="${esc(e.ify||'')}" placeholder="Например: проверяю только главное и закрываю ноутбук"></label></div></div></li></ol>
+    <div class="rw__nav rw__nav--end"><button type="button" class="btn btn--primary" id="labSave">${MARK}Сохранить итог</button><button type="button" class="btn btn--ghost" id="labBack">Назад</button></div>`;
+  else body=`<h2 class="rw__q">Посмотрите, что показал эксперимент</h2>
+    <div class="lab-vs"><div class="lab-vs__c"><p class="act__eb">Чего вы опасались</p><p>${esc(e.pred||'-')}</p></div><div class="lab-vs__c lab-vs__c--ok"><p class="act__eb">Что произошло на самом деле</p><p>${esc(e.result)}</p></div></div>
+    <div class="lab-bars"><p class="lab-lbl">Насколько вы верите в опасение</p>
+      <div class="lab-bar"><span>до</span><i><b style="width:${e.b0}%"></b></i><em>${e.b0}%</em></div>
+      <div class="lab-bar lab-bar--after"><span>после</span><i><b style="width:${e.b1!=null?e.b1:e.b0}%"></b></i><em>${e.b1!=null?e.b1:e.b0}%</em></div></div>
+    ${e.ifx&&e.ify?`<div class="lab-rule"><p class="act__eb">Ваше новое правило</p><p><em>Если</em> ${esc(e.ifx)}, <em>то я</em> ${esc(e.ify)}</p></div>`:''}
+    <div class="rw__nav rw__nav--end"><button type="button" class="btn btn--primary" id="labNew">Новый эксперимент</button><button type="button" class="btn btn--ghost" id="labEditRes">Изменить итог</button></div>
+    <section class="sec"><div class="sec__h"><h2>Отметьте, что у вас уже работает</h2><span class="muted">${S.works.length}</span></div>
+      <p class="rw__h">Даже маленькие изменения считаются. Этот список попадет в вашу памятку</p>
+      <div class="works">${S.works.map((w,k)=>`<span class="tag">${esc(w)}<button data-dw="${k}" aria-label="Убрать">×</button></span>`).join('')}</div>
+      <div class="chips" style="margin-top:14px">${C.WORKS_SUGGEST.filter(w=>!S.works.includes(w)).map(w=>`<button class="chip chip--add" data-aw="${esc(w)}">+ ${esc(w)}</button>`).join('')}</div>
+      <div class="input" style="margin-top:10px"><input id="wIn" placeholder="Свое - даже маленькое"><button class="btn btn--sm" id="wAdd">Добавить</button></div></section>`;
+  m.innerHTML=wrap(t,`<section class="sec rw-sec lab2">${tabs}${steps}${body}</section>`);
+  if(ph==='plan'||ph==='res'){const nx=$('.nxt',m);if(nx)nx.hidden=true}
   bindDisc(m);
-  $('#labNew').onclick=()=>{S.lab.push({belief:beliefs[0]||'',pred:'',b0:70,exp:'',observe:'',result:'',b1:null,ifx:'',ify:''});route.sub=S.lab.length-1;save();render()};
-  $$('[data-lb]',m).forEach(b=>b.onclick=()=>{route.sub=+b.dataset.lb;render()});
-  if(e){$('#b0').oninput=x=>$('#b0o').textContent=x.target.value+'%';$('#b1').oninput=x=>$('#b1o').textContent=x.target.value+'%';
-    $('#labS').onclick=()=>{$$('[data-l]',m).forEach(f=>e[f.dataset.l]=f.value.trim());e.b0=+$('#b0').value;if(e.result)e.b1=+$('#b1').value;save();
-      if(e.result&&!S.works.includes('провел(а) эксперимент'))S.works.push('провел(а) эксперимент');save();toast(e.result?`Вера в прогноз: было ${e.b0}%, стало ${e.b1}%`:'Сохранено');render()}}
+  const top=()=>{const el=$('.lab2',m);if(el){const y=el.getBoundingClientRect().top+window.scrollY-96;window.scrollTo({top:Math.max(0,y),behavior:'smooth'})}};
+  const grab=()=>{if(!e)return;$$('[data-l]',m).forEach(f=>e[f.dataset.l]=f.value.trim());const b0=$('#b0',m);if(b0)e.b0=+b0.value;const b1=$('#b1',m);if(b1)e.b1=+b1.value};
+  const re=()=>{save();render();top()};
+  const newExp=b=>{S.lab.push({belief:b||beliefs[0]||'',pred:'',b0:70,exp:'',observe:'',result:'',b1:null,ifx:'',ify:'',due:'week'});route.sub=S.lab.length-1;route.labRes=0;route.labEdit=0;re()};
+  $$('#labNew',m).forEach(b=>b.onclick=()=>newExp());$$('[data-newb]',m).forEach(b=>b.onclick=()=>newExp(b.dataset.newb));
+  $$('[data-lb]',m).forEach(b=>b.onclick=()=>{route.sub=+b.dataset.lb;route.labRes=0;route.labEdit=0;render();top()});
+  $$('[data-l]',m).forEach(f=>f.addEventListener('input',()=>autosave('lab',()=>grab())));
+  const b0=$('#b0',m);if(b0)b0.oninput=x=>{$('#b0o').textContent=x.target.value+'%';e.b0=+x.target.value};
+  const b1=$('#b1',m);if(b1)b1.oninput=x=>{$('#b1o').textContent=x.target.value+'%';e.b1=+x.target.value};
+  $$('[data-due]',m).forEach(b=>b.onclick=()=>{grab();e.due=b.dataset.due;$$('[data-due]',m).forEach(x=>x.classList.toggle('on',x===b));save()});
+  $$('[data-came]',m).forEach(b=>b.onclick=()=>{grab();e.came=b.dataset.came;$$('[data-came]',m).forEach(x=>x.classList.toggle('on',x===b));save()});
+  const st=$('#labStart',m);if(st)st.onclick=()=>{grab();if(!e.belief||!e.exp){toast('Напишите убеждение и что вы попробуете сделать иначе');return}e.started=new Date().toISOString().slice(0,10);e.due=e.due||'week';toast('Эксперимент начат. Вернитесь сюда '+due(e.due));re()};
+  const rs=$('#labRes',m);if(rs)rs.onclick=()=>{route.labRes=1;render();top()};
+  const ep=$('#labEditPlan',m);if(ep)ep.onclick=()=>{delete e.started;re()};
+  const bk=$('#labBack',m);if(bk)bk.onclick=()=>{grab();route.labRes=0;route.labEdit=0;re()};
+  const er=$('#labEditRes',m);if(er)er.onclick=()=>{route.labEdit=1;render();top()};
+  const sv=$('#labSave',m);if(sv)sv.onclick=()=>{grab();if(!e.result){toast('Опишите, что произошло, когда вы попробовали');$('[data-l="result"]',m).focus();return}if(e.b1==null)e.b1=e.b0;
+    if(!S.works.includes('провел(а) эксперимент'))S.works.push('провел(а) эксперимент');route.labRes=0;route.labEdit=0;toast(`Вера в опасение: было ${e.b0}%, стало ${e.b1}%`);re()};
   const addW=v=>{v=v.trim();if(v){S.works.push(v);save();render()}};
-  $$('[data-aw]',m).forEach(b=>b.onclick=()=>addW(b.dataset.aw));$('#wAdd').onclick=()=>addW($('#wIn').value);
+  $$('[data-aw]',m).forEach(b=>b.onclick=()=>addW(b.dataset.aw));const wa=$('#wAdd',m);if(wa)wa.onclick=()=>addW($('#wIn').value);
   $$('[data-dw]',m).forEach(b=>b.onclick=()=>{S.works.splice(+b.dataset.dw,1);save();render()});
 };
 
