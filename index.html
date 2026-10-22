@@ -3107,6 +3107,21 @@ body{background:var(--page);font-size:15px;line-height:1.5}
 .rg-sum__r--ok .rg-sum__i{background:#deebe1}.rg-sum__r--warn .rg-sum__i{background:#f6e3e0}
 @media (max-width:860px){.rg-hero,.rg-res{grid-template-columns:1fr}.rg-hero__g,.rg-res__g{max-width:320px;margin:0 auto}}
 
+/* Панель клиентов: этап словами */
+.cl-row.cl-row2{display:block;padding:18px 0}
+.cl-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:12px}
+.cl-stage{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:20px;align-items:center;background:#faf9f7;border:1px solid #e7ebe8;padding:14px 16px}
+.cl-now small{display:block;font-size:12.5px;color:#737773}.cl-now b{display:block;font:400 20px/1.25 var(--serif);color:#2d2c2a;margin:2px 0 8px}
+.cl-bar{display:grid;grid-template-columns:repeat(9,1fr);gap:3px;max-width:320px}.cl-bar i{height:5px;border-radius:3px;background:#e7ebe8}.cl-bar i.on{background:#8fad99}
+.cl-next{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center}
+.cl-next .btn--primary{white-space:normal;text-align:left;height:auto;min-height:40px;padding:8px 16px}
+.cl-sel{display:flex;align-items:center;gap:8px;font-size:13px;color:#737773}
+.cl-sel select{font:inherit;font-size:14px;color:#333;border:1px solid #e7ebe8;background:#fff;padding:6px 8px;border-radius:8px;max-width:260px}
+.cl-done{font-size:14px;color:#355642}
+@media (max-width:860px){.cl-stage{grid-template-columns:1fr}}
+
+@media (max-width:860px){.cl-sel{flex-direction:column;align-items:stretch;width:100%;gap:4px}.cl-sel select{max-width:none;width:100%}.cl-top .cl-who small{white-space:nowrap}}
+
 </style>
 </head>
 <body>
@@ -3995,15 +4010,20 @@ async function clPanel(box){if(!box)return;
   const st=n=>C.stages[n-1]||{title:''};repPanel($('#repBox'));
   const legend=`<details class="cl-leg"><summary>Что открывает каждый этап</summary><ol>${C.stages.map(s=>`<li><span class="cl-leg__n">${s.n}</span><div><b>${esc(s.title)}</b><small>${esc(s.weeks)}${s.tools.length?' · '+s.tools.map(id=>esc(T[id].title)).join(', '):''}</small></div></li>`).join('')}</ol></details>`;
   box.innerHTML=`<div class="cl-head"><h2>Клиенты программы</h2><span class="muted">${list.length} ${plural(list.length,'клиент','клиента','клиентов')}</span></div>${legend}
-    ${list.length?`<ul class="cl-list">${list.map(c=>`<li class="cl-row" data-id="${c.id}"><div class="cl-who"><b>${esc(c.label)}</b><small>${c.seen?'заходил(а) '+fmtD(c.seen):'еще не заходил(а)'} · сейчас этап ${c.stage}: «${esc(st(c.stage).title)}»</small></div>
-      <div class="cl-stages" role="group" aria-label="Открыто этапов">${C.stages.map(s=>`<button type="button" class="cl-st${s.n<=c.stage?' on':''}${s.n===c.stage?' cur':''}" data-st="${s.n}" title="Этап ${s.n}: ${esc(s.title)}. ${esc(s.weeks)}" aria-label="Открыть до этапа ${s.n}: ${esc(s.title)}">${s.n}</button>`).join('')}</div>
-      <label class="cl-inf" title="Разговорное «за@бался(-ась)» среди эмоций в «Карте состояния»"><input type="checkbox" data-clinf="${c.id}" ${c.informal?'checked':''}> разговорные слова</label>
-      <div class="cl-act"><button class="btn btn--sm btn--outline" data-cllink="${esc(clLink(c))}">Ссылка</button><button class="btn btn--sm btn--ghost" data-clmsg="${esc(clLink(c))}">Сообщение</button><button class="del" data-cldel="${c.id}" aria-label="Удалить ${esc(c.label)}">×</button></div></li>`).join('')}</ul>`:'<p class="muted">Пока никого нет. Добавьте первого клиента: подойдут инициалы или псевдоним</p>'}
+    ${list.length?`<ul class="cl-list">${list.map(c=>{const nx=C.stages[c.stage];return `<li class="cl-row cl-row2" data-id="${c.id}">
+      <div class="cl-top"><div class="cl-who"><b>${esc(c.label)}</b><small>${c.seen?'заходил(а) '+fmtD(c.seen):'еще не заходил(а)'}</small></div>
+        <div class="cl-act"><button class="btn btn--sm btn--outline" data-cllink="${esc(clLink(c))}">Ссылка</button><button class="btn btn--sm btn--ghost" data-clmsg="${esc(clLink(c))}">Сообщение</button><button class="del" data-cldel="${c.id}" aria-label="Удалить ${esc(c.label)}">×</button></div></div>
+      <div class="cl-stage"><div class="cl-now"><small>Открыт этап ${c.stage} из 9 · ${esc(st(c.stage).weeks||'')}</small><b>${esc(st(c.stage).title)}</b>
+          <div class="cl-bar" aria-hidden="true">${C.stages.map(s=>`<i class="${s.n<=c.stage?'on':''}" title="${s.n}. ${esc(s.title)}"></i>`).join('')}</div></div>
+        <div class="cl-next">${nx?`<button type="button" class="btn btn--sm btn--primary" data-st="${nx.n}">Открыть этап ${nx.n}: ${esc(nx.title)}</button>`:'<span class="cl-done">Открыты все этапы</span>'}
+          <label class="cl-sel"><span>или выберите этап</span><select data-stsel aria-label="Выбрать этап">${C.stages.map(s=>`<option value="${s.n}"${s.n===c.stage?' selected':''}>${s.n}. ${esc(s.title)}</option>`).join('')}</select></label>
+          <label class="cl-inf" title="Разговорное «за@бался(-ась)» среди эмоций в «Карте состояния»"><input type="checkbox" data-clinf="${c.id}" ${c.informal?'checked':''}> разговорные слова</label></div></div></li>`}).join('')}</ul>`:'<p class="muted">Пока никого нет. Добавьте первого клиента: подойдут инициалы или псевдоним</p>'}
     <div class="input cl-add"><input id="clNew" placeholder="Инициалы или псевдоним клиента" maxlength="40"><button class="btn btn--sm btn--primary" id="clNewB">Добавить клиента</button></div>
-    <p class="muted cl-note">Нажмите на номер этапа, чтобы открыть клиенту все этапы до него. Ответы клиента остаются в его браузере, на сервере хранится только номер этапа</p>`;
+    <p class="muted cl-note">После встречи нажмите «Открыть этап…»: клиент увидит новые задания при следующем входе. Ответы клиента остаются в его браузере, на сервере хранится только номер этапа</p>`;
   const add=async()=>{const v=$('#clNew',box).value.trim();if(!v)return;try{const r=await psyApi('add',{label:v});copyText(clLink(r.client));toast('Клиент добавлен, ссылка скопирована');clPanel(box)}catch(e){toast('Не получилось добавить. Попробуйте еще раз')}};
   $('#clNewB',box).onclick=add;$('#clNew',box).onkeydown=e=>{if(e.key==='Enter')add()};
-  $$('[data-st]',box).forEach(b=>b.onclick=async()=>{const row=b.closest('[data-id]'),n=+b.dataset.st;$$('[data-st]',row).forEach(x=>{const k=+x.dataset.st;x.classList.toggle('on',k<=n);x.classList.toggle('cur',k===n)});
+  $$('[data-stsel]',box).forEach(sel=>sel.onchange=async()=>{const row=sel.closest('[data-id]'),n=+sel.value;try{await psyApi('set',{id:row.dataset.id,stage:n});toast(`Открыто до этапа ${n}: «${st(n).title}». Клиент увидит при следующем входе`);clPanel(box)}catch(e){toast('Не сохранилось. Проверьте интернет');clPanel(box)}});
+  $$('[data-st]',box).forEach(b=>b.onclick=async()=>{const row=b.closest('[data-id]'),n=+b.dataset.st;b.disabled=true;
     try{await psyApi('set',{id:row.dataset.id,stage:n});toast(`Открыто до этапа ${n}: «${st(n).title}». Клиент увидит при следующем входе`);clPanel(box)}catch(e){toast('Не сохранилось. Проверьте интернет');clPanel(box)}});
   $$('[data-cllink]',box).forEach(b=>b.onclick=()=>copyText(b.dataset.cllink));
   $$('[data-clinf]',box).forEach(cb=>cb.onchange=async()=>{try{await psyApi('set',{id:cb.dataset.clinf,informal:cb.checked});toast(cb.checked?'Разговорные слова включены. Клиент увидит их при следующем входе':'Разговорные слова выключены')}catch(e){cb.checked=!cb.checked;toast('Не сохранилось. Проверьте интернет')}});

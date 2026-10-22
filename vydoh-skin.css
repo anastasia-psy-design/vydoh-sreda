@@ -1931,3 +1931,18 @@ body{background:var(--page);font-size:15px;line-height:1.5}
 .rg-sum__i{width:34px;height:34px;border-radius:50%;background:#f5f4f1;display:grid;place-items:center;font-size:15px;color:#2d2c2a}
 .rg-sum__r--ok .rg-sum__i{background:#deebe1}.rg-sum__r--warn .rg-sum__i{background:#f6e3e0}
 @media (max-width:860px){.rg-hero,.rg-res{grid-template-columns:1fr}.rg-hero__g,.rg-res__g{max-width:320px;margin:0 auto}}
+
+/* Панель клиентов: этап словами */
+.cl-row.cl-row2{display:block;padding:18px 0}
+.cl-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:12px}
+.cl-stage{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:20px;align-items:center;background:#faf9f7;border:1px solid #e7ebe8;padding:14px 16px}
+.cl-now small{display:block;font-size:12.5px;color:#737773}.cl-now b{display:block;font:400 20px/1.25 var(--serif);color:#2d2c2a;margin:2px 0 8px}
+.cl-bar{display:grid;grid-template-columns:repeat(9,1fr);gap:3px;max-width:320px}.cl-bar i{height:5px;border-radius:3px;background:#e7ebe8}.cl-bar i.on{background:#8fad99}
+.cl-next{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center}
+.cl-next .btn--primary{white-space:normal;text-align:left;height:auto;min-height:40px;padding:8px 16px}
+.cl-sel{display:flex;align-items:center;gap:8px;font-size:13px;color:#737773}
+.cl-sel select{font:inherit;font-size:14px;color:#333;border:1px solid #e7ebe8;background:#fff;padding:6px 8px;border-radius:8px;max-width:260px}
+.cl-done{font-size:14px;color:#355642}
+@media (max-width:860px){.cl-stage{grid-template-columns:1fr}}
+
+@media (max-width:860px){.cl-sel{flex-direction:column;align-items:stretch;width:100%;gap:4px}.cl-sel select{max-width:none;width:100%}.cl-top .cl-who small{white-space:nowrap}}
