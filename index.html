@@ -1220,7 +1220,7 @@ button.tt{cursor:pointer}
 .umenu__row[hidden]{display:none}
 
 /* Вводный экран практики: один размер текста, шкала состояния в отдельной плашке */
-.rpt__side .rp-lead,.rpt__side .rp-plan li,.rpt__side .rp-dev,.rpt__side .rp-dev span{font-size:16px;line-height:1.5}
+.rpt__side .rp-lead,.rpt__side .rp-plan li,.rpt__side .rp-plan--run li,.rpt__side .rp-dev,.rpt__side .rp-dev span{font-size:16px;line-height:1.5}
 .rpt__side .rp-dev{background:none;border:0;padding:0;color:var(--muted)}
 .rpt__side .rp-ratebox{margin-top:24px;padding:18px 20px 16px;background:color-mix(in srgb,var(--c,var(--mint)) 40%,var(--bg));border-radius:0}
 .rpt__side .rp-ratebox .rp-q{margin:0 0 12px;font-size:16px;font-weight:500;color:var(--ink)}
@@ -4167,20 +4167,23 @@ function hpWave(c,t,mode,sec){const len=Math.floor(c.sampleRate*(sec+.4));const 
   const fc=new Float32Array(N);for(let i=0;i<N;i++){const x=i/(N-1);fc[i]=(inn?Math.max(0,(x-.55)/.45):Math.max(0,1-x/.45))**2*.06}fc[0]=Math.max(fc[0],.0001);
   fg.gain.setValueCurveAtTime(fc,t,sec);foam.connect(hp).connect(fg).connect(c.destination);foam.start(t);foam.stop(t+sec+.3);
   PR&&(PR.nodes=(PR.nodes||[]).concat(body,foam))}
-function hpOpen(k){pracStop();const v=PRAC[k];hpClose(true);
+function hpOpen(k){pracStop();HPS={before:null,after:null};const v=PRAC[k];hpClose(true);
   const o=document.createElement('div');o.id='hpOv';o.className='rp hp';o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');o.setAttribute('aria-label',v.name);o.style.setProperty('--c',v.color);
   document.body.appendChild(o);document.body.classList.add('rp-open');try{history.pushState({v:route.v,arg:route.arg,hp:1},'')}catch(e){}hpDraw(k,'intro');
   o.addEventListener('keydown',e=>{if(e.key==='Escape')hpBack()})}
 function hpBack(){if(history.state&&history.state.hp)history.back();else hpClose()}
 function hpClose(silent){pracStop();const o=document.getElementById('hpOv');if(o)o.remove();if(!silent)document.body.classList.remove('rp-open')}
+/* Шкала «Отметьте ваше состояние»: одна и та же плашка во всех практиках, до и после */
+function stateScale(key,q,val){return `<div class="rp-ratebox"><p class="rp-q">${q}</p><div class="rp-rate" data-rate="${key}">${[1,2,3,4,5].map(v=>`<button type="button" aria-pressed="${val===v}" data-v="${v}" aria-label="${v} из 5"><i style="--s:${.35+v*.13}"></i></button>`).join('')}</div><div class="rp-rate__l"><span>легко</span><span>очень тяжело</span></div></div>`}
+let HPS={before:null,after:null};
 function hpDraw(k,stage){const v=PRAC[k],o=$('#hpOv');if(!o)return;const steps=PSTEP[k];
   const snd=typeof RSND!=='undefined'?`<button type="button" class="rpt__snd" id="hpSnd" aria-pressed="${RSND}">${RSND?SND_ON:SND_OFF}<span>${RSND?'Звук включен':'Без звука'}</span></button>`:'';
   let side='',nav='';
-  if(stage==='intro'){side=`<p class="eyebrow">${esc(v.time)}</p><h2 class="rp-h">${esc(v.name)}</h2><ol class="rp-plan">${steps.map(x=>`<li>${esc(x)}</li>`).join('')}</ol><p class="rp-dev">${SND_ON}<span>Можно закрыть глаза и дышать вместе со звуком: вдох, пауза и выдох звучат по-разному</span></p>`;
+  if(stage==='intro'){side=`<p class="eyebrow">${esc(v.time)}</p><h2 class="rp-h">${esc(v.name)}</h2><ol class="rp-plan">${steps.map(x=>`<li>${esc(x)}</li>`).join('')}</ol><p class="rp-dev">${SND_ON}<span>Можно закрыть глаза и дышать вместе со звуком: вдох, пауза и выдох звучат по-разному</span></p>${stateScale('before','Отметьте ваше состояние',HPS.before)}`;
     nav=`<button type="button" class="btn btn--ghost" id="hpOther">Другая практика</button><button type="button" class="btn btn--primary" id="hpGo">Начать</button>`}
   if(stage==='run'){side=`<p class="eyebrow">${esc(v.name)}</p><p class="rp-phase" id="prPh" aria-live="polite">Приготовьтесь</p><ol class="rp-plan rp-plan--run">${steps.map((x,i)=>`<li data-st="${i}">${esc(x)}</li>`).join('')}</ol><div class="prac__prog"><i id="prBar"></i></div>`;
     nav=`<button type="button" class="btn btn--ghost" id="hpOther">Другая практика</button><button type="button" class="btn btn--outline" id="hpStop">Остановить</button>`}
-  if(stage==='end'){side=`<p class="eyebrow">${esc(v.name)}</p><h2 class="rp-h">Как вы сейчас?</h2><div class="rp-yn"><button type="button" class="chip" data-after="ok">Стало легче</button><button type="button" class="chip" data-after="same">Так же</button><button type="button" class="chip" data-after="bad">Хуже</button></div><p class="rp-p" id="prAfter" style="margin-top:16px"></p>`;
+  if(stage==='end'){side=`<p class="eyebrow">${esc(v.name)}</p><h2 class="rp-h">Как вы сейчас?</h2>${stateScale('after','Отметьте ваше состояние после практики',HPS.after)}<p class="rp-p" id="prAfter" style="margin-top:16px"></p>`;
     nav=`<button type="button" class="btn btn--ghost" id="hpOther">Другая практика</button><button type="button" class="btn btn--outline" id="hpAgain">Еще раз</button>`}
   o.innerHTML=`<div class="rpt__top"><button type="button" class="rpt__x" id="hpX">${BACK}К выбору практики</button><span class="rpt__right">${snd}</span></div>
     <div class="rpt__body"><div class="rpt__img hp__img"><div class="prac__play ${stage==='end'?'pl--end':'pl--ready'}" id="hpPl">${pracImg(k,true)}</div></div><div class="rpt__side">${side}</div></div>
@@ -4189,10 +4192,14 @@ function hpDraw(k,stage){const v=PRAC[k],o=$('#hpOv');if(!o)return;const steps=P
   const sb=$('#hpSnd');if(sb)sb.onclick=()=>{RSND=!RSND;if(!RSND&&typeof brookStop==='function')brookStop();else if(RSND&&RPS&&RPS.id==='cold'&&RPS.i>=0&&RPS.i<=1&&typeof brookStart==='function')brookStart();try{localStorage.setItem('vydoh-snd',RSND?'1':'0')}catch(e){}if(RSND){acx();chime('in')}sb.setAttribute('aria-pressed',String(RSND));sb.innerHTML=(RSND?SND_ON:SND_OFF)+`<span>${RSND?'Звук включен':'Без звука'}</span>`};
   if(stage==='intro'){$('#hpGo').onclick=()=>{if(typeof RSND!=='undefined'&&RSND)acx();hpDraw(k,'run')};$('#hpGo').focus()}
   if(stage==='run')hpRun(k);
-  if(stage==='end'){$$('[data-after]',o).forEach(b=>b.onclick=()=>{$$('[data-after]',o).forEach(x=>x.setAttribute('aria-pressed',String(x===b)));const a=b.dataset.after;
-      $('#prAfter').innerHTML=a==='ok'?'Хорошо. Можно вернуться к делам в своем темпе':a==='same'?'Попробуйте другую практику или откройте свой план на тяжелый момент':'Откройте свой план на тяжелый момент или напишите психологу. Не оставайтесь с этим одни';
-      if(a!=='ok'&&!$('#hpPlanB')){const pb=document.createElement('button');pb.type='button';pb.className='btn btn--primary';pb.id='hpPlanB';pb.style.marginTop='14px';pb.textContent='Открыть мой план';$('.rpt__side',o).appendChild(pb);pb.onclick=()=>{hpBack();setTimeout(()=>{const d=$('#hblkPlan');if(d){d.open=true;d.scrollIntoView({behavior:'smooth',block:'start'})}},250)}}});
-    $('#hpAgain').onclick=()=>hpDraw(k,'run')}}
+  $$('[data-rate]',o).forEach(g=>$$('button',g).forEach(b=>b.onclick=()=>{HPS[g.dataset.rate]=+b.dataset.v;$$('button',g).forEach(x=>x.setAttribute('aria-pressed',String(x===b)));if(g.dataset.rate==='after')hpAfter(o)}));
+  if(stage==='end'){
+    $('#hpAgain').onclick=()=>{HPS.after=null;hpDraw(k,'run')}}}
+/* После практики сравниваем с отметкой до нее и подсказываем, что делать дальше */
+function hpAfter(o){const b=HPS.before,f=HPS.after;const a=b?(f<b?'ok':f===b?'same':'bad'):(f<=2?'ok':f===3?'same':'bad');
+  $('#prAfter').innerHTML=a==='ok'?(b?'Стало легче. ':'')+'Можно вернуться к делам в своем темпе':a==='same'?'Попробуйте другую практику или откройте свой план на тяжелый момент':'Откройте свой план на тяжелый момент или напишите психологу. Не оставайтесь с этим одни';
+  const old=$('#hpPlanB');if(a==='ok'){old&&old.remove();return}
+  if(!old){const pb=document.createElement('button');pb.type='button';pb.className='btn btn--primary';pb.id='hpPlanB';pb.style.marginTop='14px';pb.textContent='Открыть мой план';$('.rpt__side',o).appendChild(pb);pb.onclick=()=>{hpBack();setTimeout(()=>{const d=$('#hblkPlan');if(d){d.open=true;d.scrollIntoView({behavior:'smooth',block:'start'})}},250)}}}
 function hpRun(k){pracStop();const v=PRAC[k],seq=v.seq(),o=$('#hpOv');const pl=$('#hpPl'),ph=$('#prPh'),bar=$('#prBar');const total=seq.reduce((a,x)=>a+x[1],0);let done=0,i=0;PR={t:0,raf:0,nodes:[]};
   const dot=$('.sqdot',o),path=$('.sqpath',o),L=path?path.getTotalLength():0;
   if(dot&&path){const t0=performance.now()+1500;const sideT=4;const loop=n=>{if(!PR)return;const el=Math.max(0,(n-t0)/1000);const q=Math.min(el/(sideT*4),seq.length/4);const p=path.getPointAtLength(L*((q%1+1)%1));dot.setAttribute('cx',p.x);dot.setAttribute('cy',p.y);if(el<total)PR.raf=requestAnimationFrame(loop)};PR.raf=requestAnimationFrame(loop)}
