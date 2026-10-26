@@ -810,6 +810,8 @@ body.rp-open{overflow:hidden}
 .rp-paper{position:relative;max-height:240px;overflow:auto;margin-bottom:18px;padding:18px 22px;background:#fbf8f2;background-image:repeating-linear-gradient(transparent 0 27px,rgba(0,0,0,.06) 27px 28px);background-position:0 16px;font-size:16px;line-height:28px;color:#2b2925;box-shadow:0 1px 0 rgba(0,0,0,.04),0 14px 34px -14px rgba(0,0,0,.18);transition:none}
 .rp-paper__v{display:flex;align-items:center;gap:8px;margin:0 0 4px;font-size:14px;color:#6b665e}
 .rp-paper.is-empty{background-image:none;box-shadow:none;background:transparent;padding:0;font-family:var(--serif);font-size:22px;color:var(--muted)}
+.burn{position:fixed;z-index:120;pointer-events:none}
+.rp-erase{display:flex;flex-wrap:wrap;gap:10px}
 .shred{position:fixed;z-index:120;pointer-events:none;filter:drop-shadow(0 6px 8px rgba(0,0,0,.12))}
 .shred__p{position:absolute;inset:0;background:#fbf8f2;background-image:repeating-linear-gradient(transparent 0 27px,rgba(0,0,0,.06) 27px 28px);background-position:0 16px;will-change:transform,opacity}
 .shred__in{height:100%;overflow:hidden;color:#2b2925}
@@ -4764,8 +4766,8 @@ const RP={
     steps:[{h:'Лягте удобно',p:'Вам будет загадано слово. На каждую его букву представляйте любые предметы, например на «К»: кот, кружка, ключ, кит'},{t:'letters',sec:30}]},
   rule20:{title:'Правило 20 минут',kind:'head',time:'1 минута',c:'lavender',img:'moon',lead:'Если сон не приходит, короткий перерыв в попытках уснуть помогает не усиливать напряжение в постели',plan:['Если чувствуете, что долго лежите без сна, ненадолго встаньте','При приглушенном свете займитесь спокойным делом без экрана','Вернитесь в постель, когда снова появится сонливость'],
     steps:[{h:'Если не спите дольше 20 минут, встаньте',p:'Лежать и заставлять себя уснуть только добавляет напряжения'},{h:'Займитесь чем-то спокойным при тусклом свете',p:'Почитайте бумажную книгу или сложите белье. Без телефона'},{h:'Вернитесь в постель, когда захочется спать',p:'Если снова не получается, повторите. Это нормально, со временем сон наладится'}]},
-  letter:{title:'Письмо без отправки',kind:'head',time:'5 минут',c:'drain',img:'letter',lead:'Можно выразить накопившиеся чувства в письме, которое не нужно никому отправлять',plan:['Напишите все, что хочется сказать, не подбирая идеальные слова','Перечитайте текст, если хочется, или сразу переходите дальше','Нажмите «Разорвать письмо», чтобы убрать его с экрана'],
-    steps:[{t:'input',h:'Выскажите все, что хочется сказать',p:'Напишите или наговорите голосом. Никто это не услышит и не прочитает, письмо не сохранится',key:'t',multi:1,ph:'Можно не выбирать слова',nosave:1,voice:1},{t:'erase',h:'Теперь разорвите письмо',p:'Нажмите на кнопку и посмотрите, как оно разлетается на клочки'}]},
+  letter:{title:'Письмо без отправки',kind:'head',time:'5 минут',c:'drain',img:'letter',lead:'Можно выразить накопившиеся чувства в письме, которое не нужно никому отправлять',plan:['Напишите все, что хочется сказать, не подбирая идеальные слова','Перечитайте текст, если хочется, или сразу переходите дальше','Разорвите или сожгите письмо, чтобы убрать его с экрана'],
+    steps:[{t:'input',h:'Выскажите все, что хочется сказать',p:'Напишите или наговорите голосом. Никто это не услышит и не прочитает, письмо не сохранится',key:'t',multi:1,ph:'Можно не выбирать слова',nosave:1,voice:1},{t:'erase',h:'Выберите, как избавиться от письма',p:'Нажмите на кнопку и посмотрите, как письмо исчезает'}]},
   role:{title:'Смена роли',kind:'head',time:'3 минуты',c:'drain',img:'role',lead:'Попытка посмотреть на ситуацию с другой стороны помогает расширить представление о причинах поступка',plan:['Назовите человека, чье поведение вас задело','Выберите возможный контекст его поступка, не считая его доказанным','Предположите, что этот человек мог чувствовать','Отметьте, изменился ли ваш взгляд. Ваши чувства и границы остаются важными'],
     steps:[{t:'input',h:'Кто вас сейчас злит?',key:'who',ph:'Например: коллега'},
       {t:'chips',h:'Попробуйте посмотреть на того, кто вас злит, иначе. Представьте его как…',key:'r',opts:['уставшего ребенка','больного человека','того, кто чему-то меня учит','того, кому сейчас страшно']},
@@ -4796,6 +4798,12 @@ let RSND=(()=>{try{return localStorage.getItem('vydoh-snd')!=='0'}catch(e){retur
 function acx(){try{ACX=ACX||new (window.AudioContext||window.webkitAudioContext)();if(ACX.state==='suspended')ACX.resume()}catch(e){}return ACX}
 /* Мягкие сигналы: end - колокольчик в конце таймера, in/out - тихая подсказка вдоха и выдоха, rip - звук рвущейся бумаги */
 function chime(kind){if(!RSND)return;const c=acx();if(!c)return;try{const t=c.currentTime;
+  if(kind==='burn'){const D=3.4,len=c.sampleRate*D,b=c.createBuffer(1,len,c.sampleRate),d=b.getChannelData(0);let l=0;for(let i=0;i<len;i++){const w=Math.random()*2-1;l=(l+.06*w)/1.06;d[i]=l*4}
+    const src=c.createBufferSource(),f=c.createBiquadFilter(),g=c.createGain();src.buffer=b;f.type='lowpass';f.frequency.setValueAtTime(300,t);f.frequency.linearRampToValueAtTime(900,t+.6);f.frequency.linearRampToValueAtTime(500,t+D);
+    g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.32,t+.5);g.gain.setValueAtTime(.32,t+2.3);g.gain.exponentialRampToValueAtTime(.0001,t+D);src.connect(f).connect(g).connect(c.destination);src.start(t);
+    for(let n=0;n<34;n++){const at=t+.25+Math.random()*2.6,cl=Math.floor(c.sampleRate*(.004+Math.random()*.012)),cb=c.createBuffer(1,cl,c.sampleRate),cd=cb.getChannelData(0);for(let i=0;i<cl;i++)cd[i]=(Math.random()*2-1)*Math.pow(1-i/cl,3);
+      const cs=c.createBufferSource(),hp=c.createBiquadFilter(),cg=c.createGain();cs.buffer=cb;hp.type='highpass';hp.frequency.value=1200+Math.random()*2500;cg.gain.value=.05+Math.random()*.16;cs.connect(hp).connect(cg).connect(c.destination);cs.start(at)}
+    return}
   if(kind==='rip'){const len=c.sampleRate*.55,b=c.createBuffer(1,len,c.sampleRate),d=b.getChannelData(0);for(let i=0;i<len;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/len,2)*(Math.random()<.35?1:.25);const src=c.createBufferSource(),f=c.createBiquadFilter(),g=c.createGain();src.buffer=b;f.type='bandpass';f.frequency.setValueAtTime(2600,t);f.frequency.exponentialRampToValueAtTime(900,t+.5);g.gain.value=.22;src.connect(f).connect(g).connect(c.destination);src.start(t);return}
   const T=kind==='end'?[[659.3,0,.16,2.2],[987.8,.22,.12,2.4]]:kind==='in'?[[392,0,.045,.9]]:[[293.7,0,.04,1.1]];
   T.forEach(([f,d,v,len])=>{const o=c.createOscillator(),o2=c.createOscillator(),g=c.createGain();o.type='sine';o2.type='sine';o.frequency.value=f;o2.frequency.value=f*2.01;
@@ -4822,6 +4830,51 @@ function brookStart(){if(BROOK||typeof RSND==='undefined'||!RSND)return;const c=
 function brookStop(){if(!BROOK)return;const B=BROOK;BROOK=null;clearTimeout(B.dt);try{const n=B.c.currentTime;B.g.gain.cancelScheduledValues(n);B.g.gain.setValueAtTime(B.g.gain.value||.2,n);B.g.gain.exponentialRampToValueAtTime(.0001,n+1.2);setTimeout(()=>{[B.src,B.lfo,B.lfo2].forEach(x=>{try{x.stop()}catch(e){}})},1300)}catch(e){}}
 function recStop(){brookStop();if(RPS){clearTimeout(RPS.t);clearTimeout(RPS.adv);clearInterval(RPS.iv);clearInterval(RPS.riv);recKill(RPS);RPS=null}const o=document.getElementById('rpBox');if(o)o.remove();$$('.shred').forEach(x=>x.remove());document.body.classList.remove('rp-open');apStop()}
 function rpAdvance(s,i){clearTimeout(s.adv);s.adv=setTimeout(()=>{if(RPS===s&&s.i===i){s.i++;rpDraw()}},1700)}
+/* Сжечь письмо: бумага прогорает снизу неровной кромкой, по краю тлеют угли, вверх летят искры и дым */
+function burnAway(el){const r=el.getBoundingClientRect();const reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduce||!r.width){el.style.transition='opacity 1.2s';el.style.opacity='0';setTimeout(()=>{el.style.opacity='';el.style.visibility='hidden'},1300);return}
+  const cs=getComputedStyle(el),TOP=160,PAD=40,k=Math.min(window.devicePixelRatio||1,1.5);const W=Math.round(r.width),H=Math.round(r.height);
+  const cv=document.createElement('canvas');cv.className='burn';cv.width=Math.round((W+PAD*2)*k);cv.height=Math.round((H+TOP+PAD)*k);
+  cv.style.cssText=`left:${r.left-PAD}px;top:${r.top-TOP}px;width:${W+PAD*2}px;height:${H+TOP+PAD}px`;
+  const g=cv.getContext('2d');g.scale(k,k);
+  /* Рисуем лист: фон, линовку и текст письма */
+  const pw=document.createElement('canvas');pw.width=Math.round(W*k);pw.height=Math.round(H*k);const q=pw.getContext('2d');q.scale(k,k);
+  q.fillStyle='#fbf8f2';q.beginPath();q.roundRect?q.roundRect(0,0,W,H,6):q.rect(0,0,W,H);q.fill();q.save();q.clip();
+  q.fillStyle='rgba(0,0,0,.06)';for(let y=16+27;y<H;y+=28)q.fillRect(0,y,W,1);
+  const pl=parseFloat(cs.paddingLeft)||22,pt=parseFloat(cs.paddingTop)||18,lh=parseFloat(cs.lineHeight)||28;q.fillStyle=cs.color||'#2b2925';q.font=`${cs.fontSize} ${cs.fontFamily}`;q.textBaseline='middle';
+  const maxW=W-pl*2;let y=pt+lh/2;const txt=(el.innerText||'').split('\n');
+  for(const para of txt){let line='';for(const w of para.split(' ')){const t2=line?line+' '+w:w;if(q.measureText(t2).width>maxW&&line){q.fillText(line,pl,y);y+=lh;line=w}else line=t2}q.fillText(line,pl,y);y+=lh;if(y>H+lh)break}
+  q.restore();
+  const src=q.getImageData(0,0,pw.width,pw.height),PWd=pw.width,PHd=pw.height,N=PWd*PHd;
+  /* Карта прогорания: огонь идет от двух-трех точек снизу, шум делает кромку неровной */
+  const G=Math.max(14,Math.round(18*k)),gw=Math.ceil(PWd/G)+2,gh=Math.ceil(PHd/G)+2,rnd=new Float32Array(gw*gh).map(()=>Math.random());
+  const noise=(x,y)=>{const gx=x/G,gy=y/G,x0=gx|0,y0=gy|0,fx=gx-x0,fy=gy-y0,sx=fx*fx*(3-2*fx),sy=fy*fy*(3-2*fy),i=(y0%(gh-1))*gw+(x0%(gw-1));return (rnd[i]*(1-sx)+rnd[i+1]*sx)*(1-sy)+(rnd[i+gw]*(1-sx)+rnd[i+gw+1]*sx)*sy};
+  const ign=[[PWd*(.15+Math.random()*.2),PHd],[PWd*(.55+Math.random()*.3),PHd],[PWd*Math.random(),PHd*(.6+Math.random()*.3)]];
+  const T=new Float32Array(N);let mx=0;for(let yy=0;yy<PHd;yy++)for(let xx=0;xx<PWd;xx++){let d=1e9;for(const [ix,iy] of ign){const dd=Math.hypot(xx-ix,(yy-iy)*1.25);if(dd<d)d=dd}const v=d+noise(xx,yy)*PWd*.09+noise(xx*2.7,yy*2.7)*PWd*.025;T[yy*PWd+xx]=v;if(v>mx)mx=v}
+  for(let i=0;i<N;i++)T[i]/=mx;
+  const out=g.createImageData(PWd,PHd),o=out.data,d0=src.data;const sparks=[],smoke=[];
+  document.body.appendChild(cv);el.style.visibility='hidden';
+  const tmp=document.createElement('canvas');tmp.width=PWd;tmp.height=PHd;const tctx=tmp.getContext('2d');const DUR=2900,t0=performance.now();
+  const frame=now=>{const p=(now-t0)/DUR,front=p*1.12-.04;let edge=0;
+    for(let i=0;i<N;i++){const j=i*4,dt=T[i]-front;
+      if(dt<-.016){o[j+3]=0;continue}
+      if(dt<0){const e=1+dt/.016;o[j]=255;o[j+1]=120+e*110;o[j+2]=30+e*50;o[j+3]=255*(.25+e*.75);continue}
+      if(dt<.03){const c=1-dt/.03,ch=Math.pow(c,1.6);o[j]=d0[j]*(1-ch)+34*ch;o[j+1]=d0[j+1]*(1-ch)+20*ch;o[j+2]=d0[j+2]*(1-ch)+12*ch;o[j+3]=d0[j+3];continue}
+      if(dt<.1){const c=Math.pow(1-(dt-.03)/.07,2);o[j]=d0[j]-c*40;o[j+1]=d0[j+1]-c*62;o[j+2]=d0[j+2]-c*90;o[j+3]=d0[j+3];continue}
+      o[j]=d0[j];o[j+1]=d0[j+1];o[j+2]=d0[j+2];o[j+3]=d0[j+3]}
+    g.clearRect(0,0,W+PAD*2,H+TOP+PAD);
+    tctx.putImageData(out,0,0);g.drawImage(tmp,PAD,TOP,W,H);
+    /* Искры и дым рождаются там, где сейчас проходит кромка */
+    if(p<1)for(let a=0;a<70&&sparks.length<160;a++){const i=(Math.random()*N)|0,dt=T[i]-front;if(dt<.004&&dt>-.016){const x=PAD+(i%PWd)/k,yy=TOP+((i/PWd)|0)/k;
+      if(Math.random()<.55)sparks.push({x,y:yy,vx:(Math.random()-.5)*.8,vy:-.6-Math.random()*1.6,l:1,s:.8+Math.random()*1.6});
+      if(Math.random()<.07)smoke.push({x,y:yy,vx:(Math.random()-.5)*.3,vy:-.35-Math.random()*.4,l:1,r:8+Math.random()*10})}}
+    for(const m of smoke){m.x+=m.vx+Math.sin((now+m.y)*.003)*.2;m.y+=m.vy;m.r+=.35;m.l-=.012;if(m.l>0){const rg=g.createRadialGradient(m.x,m.y,0,m.x,m.y,m.r);rg.addColorStop(0,`rgba(110,104,98,${m.l*.14})`);rg.addColorStop(1,'rgba(110,104,98,0)');g.fillStyle=rg;g.beginPath();g.arc(m.x,m.y,m.r,0,7);g.fill()}}
+    g.globalCompositeOperation='lighter';
+    for(const sp of sparks){sp.x+=sp.vx+Math.sin((now+sp.x*40)*.01)*.35;sp.y+=sp.vy;sp.vy-=.012;sp.l-=.016;if(sp.l>0){g.fillStyle=`rgba(255,${150+sp.l*90|0},60,${sp.l})`;g.beginPath();g.arc(sp.x,sp.y,sp.s*sp.l+.3,0,7);g.fill()}}
+    g.globalCompositeOperation='source-over';
+    for(let a=sparks.length-1;a>=0;a--)if(sparks[a].l<=0)sparks.splice(a,1);for(let a=smoke.length-1;a>=0;a--)if(smoke[a].l<=0)smoke.splice(a,1);
+    if(p<1||sparks.length||smoke.length)requestAnimationFrame(frame);else cv.remove()};
+  requestAnimationFrame(frame);setTimeout(()=>cv.remove(),DUR+4000)}
 function shred(el){const r=el.getBoundingClientRect(),cols=7,rows=5,w=r.width/cols,h=r.height/rows,html=el.innerHTML,cs=getComputedStyle(el);
   const wrap=document.createElement('div');wrap.className='shred';wrap.style.cssText=`left:${r.left}px;top:${r.top}px;width:${r.width}px;height:${r.height}px`;
   const j=()=>Math.random()*10-5;const pts={};const P=(x,y)=>{const k=x+'_'+y;if(!pts[k])pts[k]=[(x===0||x===cols)?x*w:x*w+j(),(y===0||y===rows)?y*h:y*h+j()];return pts[k]};
@@ -4858,7 +4911,7 @@ function rpDraw(){const s=RPS;if(!s)return;if(s.id==='cold'&&s.i>=0&&s.i<=1)broo
       side+=lines.length?`<div class="rp-sort">${s.a.sorted.map(([x,k],ri)=>`<div><span>${esc(x)}</span><div class="rp-sort__b">${st.opts.map(op=>`<button type="button" class="chip" data-so="${ri}" data-v="${op}" aria-pressed="${k===op}">${op}</button>`).join('')}</div></div>`).join('')}</div>`:'<p class="rp-p">Вернитесь на шаг назад и запишите хотя бы одну мысль</p>'}
     if(t==='letters'){const W=['ОБЛАКО','ПЕСОК','ЛОДКА','ВЕТЕР','ЛУНА','САД'];s.a.word=s.a.word||W[Math.floor(Math.random()*W.length)];s.a.li=s.a.li||0;
       side+=`<p class="rp-p">Ваше слово: ${s.a.word.split('').map((ch,k)=>`<b class="${k===s.a.li?'is-now':''}">${ch}</b>`).join(' ')}</p><p class="rp-letter" id="rpL">${s.a.word[s.a.li]}</p><p class="rp-left" id="rpT">${fmtS(st.sec)}</p>`;img=rImg('letters',200)}
-    if(t==='erase')side+=`<div class="rp-paper" id="rpPaper">${s.voice?`<p class="rp-paper__v">${MIC} Голосовое письмо · ${fmtS(s.voiceSec||0)}</p>`:''}${esc(s.a.t||'').replace(/\n/g,'<br>')||(s.voice?'':'<em>Письмо пустое</em>')}</div><button type="button" class="btn btn--primary" id="rpErase">Разорвать письмо</button>`;
+    if(t==='erase')side+=`<div class="rp-paper" id="rpPaper">${s.voice?`<p class="rp-paper__v">${MIC} Голосовое письмо · ${fmtS(s.voiceSec||0)}</p>`:''}${esc(s.a.t||'').replace(/\n/g,'<br>')||(s.voice?'':'<em>Письмо пустое</em>')}</div><div class="rp-erase"><button type="button" class="btn btn--primary" id="rpErase" data-how="rip">Разорвать письмо</button><button type="button" class="btn btn--primary" id="rpBurn" data-how="burn">Сжечь письмо</button></div>`;
     if(t==='sum')side+=`<div class="rp-sum">${st.render(s.a,s)}</div>`;}
   o.innerHTML=`<div class="rpt__top"><button type="button" class="rpt__x" id="rpX">${BACK}Выйти из практики</button>${dots}</div>
     <div class="rpt__body"><div class="rpt__img${st&&st.t==='breath'?'':' is-idle'}">${img}</div><div class="rpt__side">${side}</div></div>
@@ -4888,8 +4941,9 @@ function rpDraw(){const s=RPS;if(!s)return;if(s.id==='cold'&&s.i>=0&&s.i<=1)broo
   if(t==='scale')$$('[data-sc]',o).forEach(g=>$$('button',g).forEach(b=>b.onclick=()=>{const v=s.a[st.key]=s.a[st.key]||[];v[+g.dataset.sc]=+b.dataset.v;$$('button',g).forEach(x=>x.setAttribute('aria-pressed',String(x===b)))}));
   if(t==='sort')$$('[data-so]',o).forEach(b=>b.onclick=()=>{s.a.sorted[+b.dataset.so][1]=b.dataset.v;$$(`[data-so="${b.dataset.so}"]`,o).forEach(x=>x.setAttribute('aria-pressed',String(x===b)))});
   if(t==='letters'){let left=st.sec;s.iv=setInterval(()=>{left--;if(!$('#rpT')){clearInterval(s.iv);return}$('#rpT').textContent=fmtS(Math.max(0,left));if(left<=0){clearInterval(s.iv);if(s.a.li<s.a.word.length-1){s.a.li++;chime('in');rpDraw()}else{chime('end');$('#rpL').textContent='Хорошо';$('#rpT').textContent='Можно закрыть глаза и продолжать самостоятельно';$('#rpNext').classList.add('is-ready')}}},1000)}
-  if(t==='erase')$('#rpErase').onclick=()=>{const pp=$('#rpPaper');chime('rip');shred(pp);$$('.rp-env',o).forEach(x=>x.classList.add('is-gone'));s.a.t='';recKill(s);s.voice=null;$('#rpErase').disabled=true;
-    const ei=s.i;setTimeout(()=>{if(RPS===s&&s.i===ei&&document.body.contains(pp)){pp.innerHTML='<em>Письма больше нет. Сделайте глубокий выдох</em>';pp.classList.add('is-empty');pp.style.visibility='visible';const eb=$('#rpErase');eb&&eb.remove();const nb=$('#rpNext');nb&&nb.classList.add('is-ready')}},2000)};
+  if(t==='erase')$$('[data-how]',o).forEach(btn=>btn.onclick=()=>{const pp=$('#rpPaper');const how=btn.dataset.how;$$('[data-how]',o).forEach(x=>x.disabled=true);
+    if(how==='burn'){chime('burn');burnAway(pp)}else{chime('rip');shred(pp)}$$('.rp-env',o).forEach(x=>x.classList.add('is-gone'));s.a.t='';recKill(s);s.voice=null;
+    const ei=s.i;setTimeout(()=>{if(RPS===s&&s.i===ei&&document.body.contains(pp)){pp.innerHTML=how==='burn'?'<em>Письмо сгорело. Сделайте глубокий выдох</em>':'<em>Письма больше нет. Сделайте глубокий выдох</em>';pp.classList.add('is-empty');pp.style.visibility='visible';const eb=$('.rp-erase',o);eb&&eb.remove();const nb=$('#rpNext');nb&&nb.classList.add('is-ready')}},how==='burn'?3600:2000)});
   if((t==='input'||t==='chips')&&st.voice){const rb=$('#rpRec');const vp=$('#rpVPlay');const vk=st.key;s.vo=s.vo||{};if(vp)vp.onclick=()=>{const a=new Audio(s.vo[vk].url);window._aps.push(a);a.play().catch(()=>{})};
     rb.onclick=async()=>{if(s.rec&&s.rec.state==='recording'){s.rec.stop();return}
       if(s.vo[vk]){try{URL.revokeObjectURL(s.vo[vk].url)}catch(e){}delete s.vo[vk];if(st.key===s.vkLast)s.voice=null}
