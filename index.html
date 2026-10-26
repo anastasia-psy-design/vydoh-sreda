@@ -4798,29 +4798,42 @@ const MBY=Object.fromEntries([...C.METHODS.map(x=>[x.id,x]),...Object.entries(RP
    Голос переводится в текст на устройстве человека (модель Whisper), запись никуда не отправляется.
    Модель скачивается один раз (около 75 МБ) и дальше хранится в браузере */
 let STT=null,STT_CB=null;
-function sttLoad(){if(!STT){STT=(async()=>{const T=await import('https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.7.5');T.env.allowLocalModels=false;const prog={};
-    return T.pipeline('automatic-speech-recognition','onnx-community/whisper-base',{dtype:'q8',device:'wasm',progress_callback:p=>{if(p.status==='progress'&&p.total>200000){prog[p.file]=[p.loaded,p.total];let a=0,b=0;Object.values(prog).forEach(([x,y])=>{a+=x;b+=y});STT_CB&&STT_CB(Math.min(99,Math.round(a/b*100)))}}})})();
+const STT_LIB='https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.7.5',STT_MODEL='onnx-community/whisper-base';
+const STT_OPT={language:'russian',task:'transcribe',chunk_length_s:30,stride_length_s:5,max_new_tokens:180,no_repeat_ngram_size:4,repetition_penalty:1.15};
+/* Расшифровка идет в фоновом потоке, чтобы страница не подвисала и запись не прерывалась */
+const STT_WORKER=`import * as T from '${STT_LIB}';T.env.allowLocalModels=false;let asr=null;const prog={};
+async function load(){if(!asr)asr=T.pipeline('automatic-speech-recognition','${STT_MODEL}',{dtype:'q8',device:'wasm',progress_callback:p=>{if(p.status==='progress'&&p.total>200000){prog[p.file]=[p.loaded,p.total];let a=0,b=0;for(const k in prog){a+=prog[k][0];b+=prog[k][1]}postMessage({type:'progress',pc:Math.min(99,Math.round(a/b*100))})}}});return asr}
+onmessage=async e=>{const m=e.data;try{const f=await load();if(m.type==='load'){postMessage({type:'ready'});return}const out=await f(m.audio,m.opt);postMessage({type:'result',id:m.id,text:out&&out.text||''})}catch(err){postMessage({type:'error',id:m.id,msg:String(err&&err.message||err)})}};`;
+function sttLoad(){if(!STT){STT=new Promise((res,rej)=>{let w;try{w=new Worker(URL.createObjectURL(new Blob([STT_WORKER],{type:'text/javascript'})),{type:'module'})}catch(e){w=null}
+      if(w){const wait={};let n=0;let ready=false;
+        w.onmessage=e=>{const m=e.data;if(m.type==='progress'){STT_CB&&STT_CB(m.pc);return}if(m.type==='ready'){ready=true;res(x=>new Promise((ok,no)=>{const id=++n;wait[id]=[ok,no];w.postMessage({type:'run',id,audio:x,opt:STT_OPT},[x.buffer])}));return}
+          if(m.type==='error'&&!ready){rej(new Error(m.msg));return}const p=wait[m.id];if(!p)return;delete wait[m.id];m.type==='result'?p[0](m.text):p[1](new Error(m.msg))};
+        w.onerror=e=>{if(!ready)rej(new Error(e.message||'worker'))};w.postMessage({type:'load'});return}
+      /* Старый браузер без фоновых модулей: расшифровываем на странице */
+      (async()=>{const T=await import(STT_LIB);T.env.allowLocalModels=false;const prog={};
+        const f=await T.pipeline('automatic-speech-recognition',STT_MODEL,{dtype:'q8',device:'wasm',progress_callback:p=>{if(p.status==='progress'&&p.total>200000){prog[p.file]=[p.loaded,p.total];let a=0,b=0;Object.values(prog).forEach(([x,y])=>{a+=x;b+=y});STT_CB&&STT_CB(Math.min(99,Math.round(a/b*100)))}}});
+        return x=>f(x,STT_OPT).then(o=>o&&o.text||'')})().then(res,rej)});
     STT.catch(e=>{STT=null;if(window.__vyAuto)window.__vyAuto('Распознавание речи не загрузилось: '+(e&&e.message||e),navigator.userAgent.slice(0,120))})}
   return STT}
-/* Whisper иногда «слышит» в тишине титры из видео: такие фразы убираем */
+/* Whisper иногда «слышит» в тишине титры из видео или зацикливается на слоге: такое убираем */
 const STT_JUNK=/(субтитр\S*[^.!?]*[.!?]?|продолжение следует\.*|спасибо за просмотр\S*|подписывайтесь на канал\S*|редактор субтитров[^.!?]*[.!?]?|корректор[^.!?]*[.!?]?)/gi;
-const sttClean=t=>String(t||'').replace(STT_JUNK,'').replace(/\s{2,}/g,' ').trim();
-async function sttRun(x,onLoad){STT_CB=onLoad||null;let asr;try{asr=await sttLoad()}finally{STT_CB=null}
-  if(x.length<16000*.35)return '';const out=await asr(x,{language:'russian',task:'transcribe',chunk_length_s:30,stride_length_s:5});return sttClean(out&&out.text)}
+const sttClean=t=>String(t||'').replace(STT_JUNK,'').replace(/(\S{1,12}?)(?:[-\s,]+\1){3,}/gi,'$1').replace(/\s{2,}/g,' ').trim();
+async function sttRun(x,onLoad){STT_CB=onLoad||null;let run;try{run=await sttLoad()}finally{STT_CB=null}
+  if(x.length<16000*.35)return '';return sttClean(await run(x))}
 /* Диктовка как в мессенджерах: пока человек говорит, звук делится на фразы по паузам,
    и каждая фраза превращается в текст, не дожидаясь конца записи. onText получает новый кусок текста */
 function sttLive(stream,{onText,onLoad,onFail}){
   const C=window.AudioContext||window.webkitAudioContext;const ac=new C();try{ac.resume()}catch(e){}
   const src=ac.createMediaStreamSource(stream),sp=ac.createScriptProcessor(4096,1,1),ratio=ac.sampleRate/16000,BL=4096/ac.sampleRate;
   let seg=[],len=0,speech=0,sil=0,floor=.003,stopped=false,busy=false,fin=null,failed=false;const q=[];
-  const cut=()=>{if(speech>.25&&len){const a=new Float32Array(len);let o=0;for(const c of seg){a.set(c,o);o+=c.length}q.push(a);pump()}seg=[];len=0;speech=0;sil=0};
+  const cut=()=>{if(speech>.45&&len){const a=new Float32Array(len);let o=0;for(const c of seg){a.set(c,o);o+=c.length}q.push(a);pump()}seg=[];len=0;speech=0;sil=0};
   sp.onaudioprocess=e=>{if(stopped)return;const d=e.inputBuffer.getChannelData(0);let e2=0;for(let i=0;i<d.length;i++)e2+=d[i]*d[i];const rms=Math.sqrt(e2/d.length);
     if(rms<floor*2.5)floor=floor*.96+rms*.04;const talk=rms>Math.max(.012,floor*3.2);
     const n=Math.floor(d.length/ratio),y=new Float32Array(n);for(let i=0;i<n;i++)y[i]=d[Math.floor(i*ratio)];seg.push(y);len+=n;
     if(talk){speech+=BL;sil=0}else sil+=BL;
     if(!speech&&len>16000*1.2){const keep=seg.slice(-4);seg=keep;len=keep.reduce((a,c)=>a+c.length,0)}
     /* Фразу отдаем на перевод, когда после речи наступила пауза, а если человек говорит без пауз - каждые 15 секунд */
-    if((speech>.25&&sil>.65&&len>16000*2.5)||len>16000*15)cut()};
+    if((speech>.45&&sil>.65&&len>16000*2.5)||len>16000*15)cut()};
   src.connect(sp);sp.connect(ac.destination);
   async function pump(){if(busy)return;busy=true;while(q.length){const a=q.shift();try{const t=await sttRun(a,onLoad);if(t)onText(t)}catch(e){if(!failed){failed=true;onFail&&onFail(e)}}}busy=false;if(stopped&&fin)fin()}
   return {stop(){if(stopped)return Promise.resolve();stopped=true;cut();try{sp.disconnect();src.disconnect();ac.close()}catch(e){}
