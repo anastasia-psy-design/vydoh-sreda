@@ -3266,7 +3266,7 @@ const CONTENT = {
   /* Что можно сделать, если сил мало. */
   lowEnergy: {'point': 'заполните только блок про обычный день, а остальное добавьте позже', 'pulse': 'отметьте только силы и напряжение и сохраните', 'radar': 'отметьте один-два сигнала, которые замечаете чаще всего', 'load': 'добавьте три дела и разложите их по чашам весов', 'stress': 'выберите один стрессор и отметьте, насколько можете на него повлиять', 'chain': 'ответьте только на первые два вопроса, а остальное разберите с психологом', 'recovery': 'просто выберите свое состояние и попробуйте первый способ из списка', 'range': 'достаточно посмотреть на картинку, заполнять ничего не нужно', 'resp': 'разложите только три пункта, которые давят сильнее всего', 'nhv': 'разложите только три пункта и пропустите вопросы', 'lab': 'запишите только убеждение, а эксперимент придумайте вместе с психологом', 'peak': 'выберите период и просто прочитайте, что собралось само', 'nav': 'ничего делать не нужно, карта собирается сама', 'body': 'отметьте только два-три маркера напряжения, которые замечаете чаще всего', 'values': 'отметьте несколько ценностей и выберите одну главную', 'road': 'выберите только то, что сохраняете каждую неделю'},
   /* Короткая инструкция, которую видит клиент вверху каждого инструмента - один абзац. */
-  howShort: {'point': 'Ответьте на вопросы о том, как вы живете сейчас - в основном нажатиями. В конце трека вы сравните ответы с финальными и увидите изменения на конкретных ответах',
+  howShort: {'point': 'Ответьте на вопросы о том, как вы живете сейчас - в основном нажатиями. В конце трека вы пройдете ее еще раз и увидите изменения на конкретных ответах',
     'pulse': '2-3 раза в неделю отмечайте, чем вы заняты, что чувствуете и сколько у вас сил. Обязательно нужно отметить только силы и напряжение, остальное можно пропустить. Из отметок складывается график, по которому видно, что забирает у вас силы и что их возвращает',
     'radar': 'Сначала отметьте первые звоночки - что вы замечаете в теле, эмоциях, мыслях и поведении, когда нагрузка только начинает расти. Потом отметьте, что бывает, когда вы уже на пределе. Так вы научитесь останавливаться вовремя',
     'load': 'Сначала добавьте дела, которые регулярно повторяются в вашей жизни, например работу, дорогу или заботу о близких. Потом разложите их по чашам весов: на одну - дела, которые забирают у вас силы, на другую - те, что их возвращают. Весы сразу покажут, что перевешивает',
@@ -3459,7 +3459,7 @@ try{PSY=localStorage.getItem('vydoh-psy')==='1'}catch(e){}
   /* Ключ психолога можно передать прямо в ссылке: ?psy=1&k=<ключ> - вводить его вручную не нужно */
   if(q.has('k')&&/^[\w-]{6,64}$/.test(q.get('k'))){try{localStorage.setItem('vydoh-psykey',q.get('k'))}catch(e){}ch=true}
   /* Тестовая ссылка: ?open=all открывает все задания трека сразу */
-  if(q.get('open')==='all'){C.tools.forEach(t=>S.open[t.id]=1);pendingToast='Открыты все задания трека';ch=true}
+  if(q.get('open')==='all'){C.tools.forEach(t=>S.open[t.id]=1);S.openAll=1;pendingToast='Открыты все задания трека';ch=true}
   else if(q.has('open')){const added=[];q.get('open').split(',').map(x=>+x).forEach(n=>{const t=TN[n];if(t&&!S.open[t.id]){S.open[t.id]=1;added.push(t.title)}});
     if(added.length)pendingToast='Психолог открыл: '+added.join(', ');ch=true}
   if(!S.start)S.start=new Date().toISOString().slice(0,10);
@@ -3469,7 +3469,10 @@ try{PSY=localStorage.getItem('vydoh-psy')==='1'}catch(e){}
   if((ch||q.has('c')||S.ctoken)&&location.pathname+location.search!==want)try{history.replaceState(null,'',want)}catch(e){}})();
 function weekNo(){const d=Math.floor((Date.now()-new Date(S.start).getTime())/864e5);return Math.min(12,Math.max(1,Math.floor(d/7)+1))}
 /* Неделя для подписи маршрута: если психолог уже открыл более поздний этап, показываем неделю этого этапа, чтобы «неделя N из 12» и «вы здесь» не расходились */
-function weekShown(){let w=weekNo();try{const st=C.stages[curStage()-1];const m=st&&String(st.weeks).match(/\d+/);if(m)w=Math.max(w,+m[0])}catch(e){}return Math.min(12,w)}
+/* Повторная диагностика появляется, только когда пришло ее время: психолог открыл последний этап или идет 11-12 неделя.
+   Тестовая ссылка ?open=all открывает все практики, но финал трека не включает */
+function finalTime(){return (curStage()>=9&&!S.openAll)||weekNo()>=11}
+function weekShown(){let w=weekNo();if(S.openAll)return w;try{const st=C.stages[curStage()-1];const m=st&&String(st.weeks).match(/\d+/);if(m)w=Math.max(w,+m[0])}catch(e){}return Math.min(12,w)}
 const STAGE_OF=Object.fromEntries(C.stages.flatMap(s=>s.tools.map(id=>[id,s.n])));
 function curStage(){let c=1;C.stages.forEach(s=>{if(s.tools.some(id=>S.open[id]&&id!=='nav'))c=Math.max(c,s.n)});if(S.open.lab&&S.open.range&&c<8&&S.open.nhv)c=8;return c}
 /* Личная ссылка клиента: этапы открывает психолог в своей панели, кабинет подтягивает их сам */
@@ -3616,17 +3619,17 @@ const emptyNote=(text,n)=>`<div class="empty"><p style="font-size:16px">${text}<
 /* ================= УКАЗАТЕЛЬ: один следующий шаг ================= */
 const NEXT_T={point:'Пройдите стартовую диагностику',pulse:'Отметьте, как вы сейчас'};
 function nextAfter(cur){const pd=!!(S.point&&S.point.saved);const wk=Date.now()-7*864e5;const nP=S.pulses.filter(p=>new Date(p.d).getTime()>=wk).length;
-  if(!pd&&cur!=='point')return S.pointStart?{id:'point',final:true,h:'Пройдите финальную диагностику',why:'Ваши предыдущие ответы сохранены. После сохранения вы увидите их рядом с новыми',time:'10-15 минут',go:['tool','point']}:{id:'point',h:NEXT_T.point,why:'Это ваша точка А: с ней вы сравните себя в конце программы',time:'10-15 минут',go:['tool','point']};
-  if(cur!=='point'&&ptCanFinal()&&curStage()>=9)return {id:'point',final:true,h:'Пройдите финальную диагностику',why:'Ответьте на те же вопросы, что в начале трека, и сравните, что изменилось',time:'10-15 минут',go:['tool','point'],jump:1};
+  if(!pd&&cur!=='point')return S.pointStart?{id:'point',final:true,h:'Пройдите диагностику еще раз',why:'Ваши предыдущие ответы сохранены. После сохранения вы увидите их рядом с новыми',time:'10-15 минут',go:['tool','point']}:{id:'point',h:NEXT_T.point,why:'Это ваша точка А: с ней вы сравните себя в конце программы',time:'10-15 минут',go:['tool','point']};
+  if(cur!=='point'&&ptCanFinal())return {id:'point',final:true,h:'Пройдите диагностику еще раз',why:'Ответьте на те же вопросы, что в начале трека, и сравните, что изменилось',time:'10-15 минут',go:['tool','point'],jump:1};
   const PULSE={id:'pulse',h:NEXT_T.pulse,why:'Из отметок складывается график, по которому видно, что вас разряжает',time:'1 минута',go:['tool','pulse']};
   const today=new Date().toISOString().slice(0,10);const markedToday=S.pulses.some(p=>p.d===today);
   /* Отметки - привычка, а не условие: первая отметка недели идет первой, дальше сразу практики */
   if(nP===0&&cur!=='pulse')return S.pulses.length?PULSE:Object.assign({},PULSE,{h:'Сделайте первую короткую отметку',why:'В диагностике вы описали свою обычную неделю. В отметке вы за минуту фиксируете, как вы прямо сейчас. Повторяйте ее 2-3 раза в неделю, и станет видно, что вас разряжает',explain:true});
   const cs=curStage();const stg=(C.stages[cs-1]||{tools:[]}).tools;
-  const todo=C.tools.filter(t=>isOpen(t.id)&&!t.final&&!['point','pulse',cur].includes(t.id)&&tStatus(t.id)!=='done').sort((a,b)=>(stg.includes(b.id)?1:0)-(stg.includes(a.id)?1:0));
+  const todo=C.tools.filter(t=>isOpen(t.id)&&!t.final&&!['point','pulse',cur].includes(t.id)&&tStatus(t.id)!=='done').sort((a,b)=>S.openAll?(STAGE_OF[a.id]||1)-(STAGE_OF[b.id]||1):(stg.includes(b.id)?1:0)-(stg.includes(a.id)?1:0));
   if(todo.length){const t=todo[0];return {id:t.id,h:t.id==='lab'&&S.lab.some(l=>l.started&&!l.result)?'Запишите, что получилось в эксперименте':WHY[t.id]||t.title,why:t.title,time:t.time,go:['tool',t.id],tool:true}}
   if(nP<3&&!markedToday&&cur!=='pulse')return PULSE;
-  if(cs>=9&&cur!=='nav')return {id:'nav',h:'Соберите «Ключ к своему состоянию»',why:'Все ваши ответы собрались в одном месте: как вы устроены и что вам помогает',time:'5 минут',go:['navself','']};
+  if(finalTime()&&cur!=='nav')return {id:'nav',h:'Соберите «Ключ к своему состоянию»',why:'Все ваши ответы собрались в одном месте: как вы устроены и что вам помогает',time:'5 минут',go:['navself','']};
   return {id:'rest',h:markedToday?'На сегодня все сделано':'Отметьте, как вы себя чувствуете',why:'Практики между встречами откроет психолог после встречи, и они сами появятся здесь. До встречи отмечайте силы и напряжение 2-3 раза в неделю',time:'',go:markedToday?['tools','']:['tool','pulse'],rest:true,marked:markedToday}}
 function nextBlock(t){if((t.id==='point'&&!(S.point&&S.point.saved))||(t.id==='pulse'&&!route.pwDone))return '';
   const done=tStatus(t.id)==='done'||(t.id==='pulse'&&route.pwDone==='saved'),n=nextAfter(t.id);const mats=MAT.filter(x=>x.rel.includes(t.id));
@@ -3717,8 +3720,8 @@ function weekDots(){const now=new Date();const dow=(now.getDay()+6)%7;const mon=
 const WHY={radar:'Научитесь замечать перегрузку на первых звоночках, пока помочь себе проще всего',load:'Посмотрите, какие дела забирают у вас силы, а какие их возвращают',stress:'Отделите то, на что вы можете повлиять, от того, что не в ваших руках',chain:'Найдите правило, которое заставляет вас перегружаться',recovery:'Соберите свой набор способов прийти в себя',range:'Найдите свою нагрузку, при которой хватает сил',resp:'Разделите, что ваше, а что можно отдать',nhv:'Отделите «надо» от «хочу» и «важно»',lab:'Проверьте одно маленькое изменение на практике',peak:'Подготовьтесь к следующему сложному периоду заранее',body:'Узнайте, как ваше тело показывает напряжение и как - что вы в ресурсе',values:'Найдите, что для вас по-настоящему важно и где жизнь с этим расходится',road:'Решите, что вы делаете после трека и как действовать, если снова станет тяжело'};
 function homePath(){const pd=!!(S.point&&S.point.saved);const wk=Date.now()-7*864e5;const nP=S.pulses.filter(p=>new Date(p.d).getTime()>=wk).length;const cs=curStage();
   const cur=(C.stages[cs-1]||{tools:[]}).tools;const open=C.tools.filter(t=>isOpen(t.id)&&!t.final&&!['point','pulse'].includes(t.id));
-  const todo=open.filter(t=>tStatus(t.id)!=='done').sort((a,b)=>(cur.includes(b.id)?1:0)-(cur.includes(a.id)?1:0));
-  const last=cs>=9;
+  const todo=open.filter(t=>tStatus(t.id)!=='done').sort((a,b)=>S.openAll?(STAGE_OF[a.id]||1)-(STAGE_OF[b.id]||1):(cur.includes(b.id)?1:0)-(cur.includes(a.id)?1:0));
+  const last=finalTime();
   const P=[{k:'point',name:'Точка старта',st:pd?'done':'now',sub:pd?'зафиксирована':'сейчас · 10-15 минут',d:'Фиксируем сон, энергию, эмоции и нагрузку',go:['tool','point']},
     {k:'pulse',name:'Сверка с состоянием',d:'Отмечаете силы и напряжение 2-3 раза в неделю',st:pd?'now':'later',sub:pd?`${Math.min(nP,3)} из 3 на неделе`:'2-3 раза в неделю',go:['tool','pulse']},
     {k:'tools',name:'Практики между встречами',d:'Психолог открывает новые после каждой встречи',st:pd?(todo.length?'now':'done'):'later',sub:pd?`этап ${cs} из 9`:'после встреч',go:['tools','']},
@@ -4264,7 +4267,7 @@ function bindWheel(box,v,onSet){const draw=()=>{box.innerHTML=wheelSvg(v,true)};
   box.addEventListener('keydown',e=>{const d=e.target.closest('[data-wk]');if(!d)return;if(e.key==='Enter'||e.key===' '){e.preventDefault();box._kb=1;set(d.dataset.wk,+d.dataset.wv)}})}
 let PT_JUMP=0;document.addEventListener('click',e=>{if(e.target.closest('[data-ptfin]'))PT_JUMP=1},true);
 /* Финальная диагностика появляется только в конце трека и никогда в день стартовой */
-const ptCanFinal=()=>!!(S.point&&S.point.saved&&!S.pointStart&&S.point.savedAt!==new Date().toISOString().slice(0,10)&&(curStage()>=9||(PSY&&S.psy)));
+const ptCanFinal=()=>!!(S.point&&S.point.saved&&!S.pointStart&&S.point.savedAt!==new Date().toISOString().slice(0,10)&&(finalTime()||(PSY&&S.psy)));
 TOOL.point=(m,t)=>{const p=S.point;p.spheres=p.spheres||{};p.ownSph=p.ownSph||[];SPHERES=sphList(p);const fin=!!S.pointStart;
   m.innerHTML=wrap(t,`${fin&&!p.saved?`<div class="note pt-fin"><b>Вы проходите диагностику второй раз</b><span>Ваши предыдущие ответы сохранены. Отвечайте так, как чувствуете себя сейчас. После сохранения вы увидите оба результата рядом</span><button class="link" id="ptFinCancel">Отменить и вернуть стартовые ответы</button></div>`:''}<section class="dsec"><h2 class="dsec__h">Отметьте, как проходит ваш обычный день</h2><div class="form">
     ${field('Оцените, сколько у вас сил утром в обычный день',scaleSeg('morning',ENERGY_W,p.morning))}
@@ -4292,10 +4295,10 @@ TOOL.point=(m,t)=>{const p=S.point;p.spheres=p.spheres||{};p.ownSph=p.ownSph||[]
    $$('[data-delsph]',m).forEach(b=>b.onclick=()=>{const n=p.ownSph.splice(+b.dataset.delsph,1)[0];delete p.spheres['own:'+n];S.point=p;save();route.pst=2;render()})}
   $('#pChange').addEventListener('input',e=>autosave('pt',()=>{p.change=e.target.value;S.point=p}));$$('[data-mk]',m).forEach(i=>i.addEventListener('input',()=>autosave('pt',()=>{p.markers=$$('[data-mk]',m).map(x=>x.value.trim()).filter(Boolean);S.point=p})));
   {const g=$('[data-seg="sleepProb"]',m);if(g)g.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;setTimeout(()=>{const ok='со сном все в порядке';let a=p.sleepProb||[];if(b.dataset.v===ok&&a.includes(ok))a=[ok];else if(b.dataset.v!==ok)a=a.filter(x=>x!==ok);p.sleepProb=a;$$('button',g).forEach(x=>x.setAttribute('aria-pressed',String(a.includes(x.dataset.v))));S.point=p;save()},0)})}
-  {const c=$('#ptFinCancel',m);if(c)c.onclick=()=>confirmBox('Отменить финальную диагностику?','Новые ответы будут удалены, а в инструменте снова появятся ответы с начала трека','Да, отменить',()=>{S.point=S.pointStart;delete S.pointStart;save();route.pst=0;render()})}
+  {const c=$('#ptFinCancel',m);if(c)c.onclick=()=>confirmBox('Отменить новые ответы в диагностике?','Новые ответы будут удалены, а в инструменте снова появятся ответы с начала трека','Да, отменить',()=>{S.point=S.pointStart;delete S.pointStart;save();route.pst=0;render()})}
   {const f=$('#ptFinal',m);if(f)f.onclick=()=>{S.pointStart=JSON.parse(JSON.stringify(p));S.point={spheres:{},ownSph:(p.ownSph||[]).slice(),change:p.change||'',markers:(p.markers||[]).slice()};save();route.pst=0;render();window.scrollTo({top:0,behavior:'smooth'});toast('Стартовые ответы сохранены. Отвечайте так, как сейчас')}}
   if(PT_JUMP){PT_JUMP=0;setTimeout(()=>{const b=$('#ptFinalBox');if(b)b.scrollIntoView({behavior:'smooth',block:'center'})},120)}
-  $('#pSave').onclick=()=>{if(!p.morning&&!p.evening&&!p.sleep){route.pst=0;render();toast('Ответьте хотя бы на вопросы первого шага: про силы и сон');return}p.change=$('#pChange').value.trim();p.markers=$$('[data-mk]',m).map(i=>i.value.trim()).filter(Boolean);p.energy=p.morning||p.energy;p.load=Math.max(0,...Object.values(p.spheres))||p.load;p.saved=1;p.savedAt=new Date().toISOString().slice(0,10);S.point=p;save();toast(S.pointStart?'Финальная диагностика сохранена. Сравните результаты ниже':'Диагностика сохранена. В конце трека она встанет рядом с финальной');render();const r=$('#ptRes');if(r)r.scrollIntoView({behavior:'smooth',block:'start'})};
+  $('#pSave').onclick=()=>{if(!p.morning&&!p.evening&&!p.sleep){route.pst=0;render();toast('Ответьте хотя бы на вопросы первого шага: про силы и сон');return}p.change=$('#pChange').value.trim();p.markers=$$('[data-mk]',m).map(i=>i.value.trim()).filter(Boolean);p.energy=p.morning||p.energy;p.load=Math.max(0,...Object.values(p.spheres))||p.load;p.saved=1;p.savedAt=new Date().toISOString().slice(0,10);S.point=p;save();toast(S.pointStart?'Диагностика сохранена. Сравните результаты ниже':'Диагностика сохранена. В конце трека вы пройдете ее еще раз и сравните результаты');render();const r=$('#ptRes');if(r)r.scrollIntoView({behavior:'smooth',block:'start'})};
   pointSteps(m,p);
 };
 function pointResult(p){const W=a=>(ENERGY_W.find(x=>x[0]===a)||[,'-'])[1];const sp=p.spheres||{};
@@ -4305,7 +4308,7 @@ function pointResult(p){const W=a=>(ENERGY_W.find(x=>x[0]===a)||[,'-'])[1];const
     <div class="pt-res__grid">${tile('Сил утром',W(p.morning))}${tile('Сил к вечеру',W(p.evening))}${tile('Сон',p.sleep)}${tile('Больше всего сил уходит на',top.join(', ')||'не отмечено')}</div>
     ${Object.keys(sp).length?`<div class="pt-res__wheel"><div class="wheel">${wheelSvg(sp)}</div></div>`:''}
     ${p.change?`<div class="pt-res__goal"><small>Ваша цель на три месяца</small><p>${esc(p.change)}</p>${(p.markers||[]).length?`<ul>${p.markers.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:''}</div>`:''}
-    ${S.pointStart?ptCompare(S.pointStart,p):ptCanFinal()?`<div class="pt-finbox" id="ptFinalBox"><h3>Пройдите диагностику еще раз в конце трека</h3><p>Ответьте на те же вопросы так, как сейчас. Стартовые ответы сохранятся, и вы увидите оба результата рядом</p><button class="btn btn--primary" id="ptFinal">Пройти финальную диагностику</button></div>`:`<p class="muted">Результаты сохранены. В конце трека вы пройдете диагностику еще раз и увидите, что изменилось</p>`}`}
+    ${S.pointStart?ptCompare(S.pointStart,p):ptCanFinal()?`<div class="pt-finbox" id="ptFinalBox"><h3>Пройдите диагностику еще раз в конце трека</h3><p>Ответьте на те же вопросы так, как сейчас. Стартовые ответы сохранятся, и вы увидите оба результата рядом</p><button class="btn btn--primary" id="ptFinal">Пройти диагностику еще раз</button></div>`:`<p class="muted">Результаты сохранены. В конце трека вы пройдете диагностику еще раз и увидите, что изменилось</p>`}`}
 function ptCompare(a,b){const W=v=>(ENERGY_W.find(x=>x[0]===v)||[,'-'])[1];const sp=x=>{const s=x.spheres||{};return SPHERES.filter(([k])=>s[k]).sort((p,q)=>s[q[0]]-s[p[0]]).slice(0,2).map(x=>x[1]).join(', ')||'-'};
   const L=x=>(x||[]).length?(x||[]).join(', '):'-';
   const R=[['Сил утром',W(a.morning),W(b.morning)],['Сил к вечеру',W(a.evening),W(b.evening)],['Сон',a.sleep||'-',b.sleep||'-'],['Выходные восстанавливают',a.weekend||'-',b.weekend||'-'],['Больше всего сил уходит на',sp(a),sp(b)],['Частые чувства',L(a.emotions),L(b.emotions)],['Ощущения в теле',L(a.body),L(b.body)]];
