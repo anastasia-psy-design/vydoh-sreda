@@ -761,6 +761,7 @@ body.rp-open{overflow:hidden}
 .rp-big{margin:0 0 12px;font-family:var(--serif);font-size:clamp(24px,2.4vw,32px);line-height:1.2;color:var(--ink);text-align:left!important}
 .rp-quote{display:grid;gap:10px;margin-bottom:18px;padding-left:18px;border-left:2px solid var(--ink)}.rp-quote p{margin:0;font-family:var(--serif);font-size:clamp(22px,2.2vw,28px);line-height:1.25;color:var(--ink);text-align:left!important}
 .rp-dl{display:grid;grid-template-columns:150px minmax(0,1fr);gap:10px 16px;margin:0 0 16px}.rp-dl dt{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}.rp-dl dd{margin:0;font-size:17px;color:var(--ink)}
+.rp-ans{padding:16px 18px;background:color-mix(in srgb,var(--c,var(--mint)) 35%,var(--bg));border-left:2px solid var(--ink);margin:4px 0 20px}
 .rp-letter{margin:4px 0;font-family:var(--serif);font-size:clamp(90px,10vw,150px);line-height:1;color:var(--ink)}
 .rp-p b{font-weight:400;color:var(--ghost)}.rp-p b.is-now{color:var(--ink);text-decoration:underline;text-underline-offset:4px}
 .rp-paper{max-height:220px;overflow:auto;margin-bottom:16px;padding:18px;background:var(--cream);font-size:16px;line-height:1.5;color:var(--ink);transition:opacity 1.2s,filter 1.2s,transform 1.2s}
@@ -3463,6 +3464,8 @@ try{PSY=localStorage.getItem('vydoh-psy')==='1'}catch(e){}
   const want=location.pathname+(S.ctoken&&!PSY?'?c='+S.ctoken:'');
   if((ch||q.has('c')||S.ctoken)&&location.pathname+location.search!==want)try{history.replaceState(null,'',want)}catch(e){}})();
 function weekNo(){const d=Math.floor((Date.now()-new Date(S.start).getTime())/864e5);return Math.min(12,Math.max(1,Math.floor(d/7)+1))}
+/* Неделя для подписи маршрута: если психолог уже открыл более поздний этап, показываем неделю этого этапа, чтобы «неделя N из 12» и «вы здесь» не расходились */
+function weekShown(){let w=weekNo();try{const st=C.stages[curStage()-1];const m=st&&String(st.weeks).match(/\d+/);if(m)w=Math.max(w,+m[0])}catch(e){}return Math.min(12,w)}
 const STAGE_OF=Object.fromEntries(C.stages.flatMap(s=>s.tools.map(id=>[id,s.n])));
 function curStage(){let c=1;C.stages.forEach(s=>{if(s.tools.some(id=>S.open[id]&&id!=='nav'))c=Math.max(c,s.n)});if(S.open.lab&&S.open.range&&c<8&&S.open.nhv)c=8;return c}
 /* Личная ссылка клиента: этапы открывает психолог в своей панели, кабинет подтягивает их сам */
@@ -3575,7 +3578,7 @@ function head(t){
   const h=C.howTo[t.id]||{};
   return `<button class="back" ${t.id==='pulse'?'data-go="today"':'data-back'}>${BACK}${t.id==='pulse'?'Вернуться на «Сегодня»':'Назад'}</button>${RET&&RET!==t.id&&T[RET]?`<button class="retbar" data-go="tool" data-arg="${RET}">${BACK}Вернуться в «${esc(T[RET].title)}»</button>`:''}<header class="thero">
     <div class="thero__img" style="background:${HBG[t.id]||'var(--mint)'}">${bigIco(t.id,150)}</div>
-    <div class="thero__txt"><p class="eyebrow">${t.role?esc(t.role)+' · ':''}${esc(t.time)}</p><h1>${esc(t.title)}</h1>
+    <div class="thero__txt"><p class="eyebrow">${t.role?esc(t.role)+' · ':''}${esc(t.time)}</p><h1>${esc(t.id==='point'?'Диагностика':t.title)}</h1>
       <p class="thero__met">${esc((C.metaphor||{})[t.id]||t.goal)}</p>
       <div class="thero__pills"><button type="button" class="tpill" data-tp="how" aria-expanded="false">${ico('nav',16)}Как это работает</button>${C.lowEnergy[t.id]?`<button type="button" class="tpill" data-tp="low" aria-expanded="false"><span class="thead__bat" aria-hidden="true"><i></i></span>Если сил мало</button>`:''}</div>
       <div class="tpanel" data-tpp="how" hidden><p>${esc(t.goal)}</p><p>${esc(C.howShort[t.id]||'')}</p></div>
@@ -3609,7 +3612,7 @@ const emptyNote=(text,n)=>`<div class="empty"><p style="font-size:16px">${text}<
 /* ================= УКАЗАТЕЛЬ: один следующий шаг ================= */
 const NEXT_T={point:'Пройдите стартовую диагностику',pulse:'Отметьте, как вы сейчас'};
 function nextAfter(cur){const pd=!!(S.point&&S.point.saved);const wk=Date.now()-7*864e5;const nP=S.pulses.filter(p=>new Date(p.d).getTime()>=wk).length;
-  if(!pd&&cur!=='point')return S.pointStart?{id:'point',final:true,h:'Пройдите финальную диагностику',why:'Ответы с начала трека сохранены. После сохранения вы увидите их рядом с новыми',time:'10-15 минут',go:['tool','point']}:{id:'point',h:NEXT_T.point,why:'Это ваша точка А: с ней вы сравните себя в конце программы',time:'10-15 минут',go:['tool','point']};
+  if(!pd&&cur!=='point')return S.pointStart?{id:'point',final:true,h:'Пройдите финальную диагностику',why:'Ваши предыдущие ответы сохранены. После сохранения вы увидите их рядом с новыми',time:'10-15 минут',go:['tool','point']}:{id:'point',h:NEXT_T.point,why:'Это ваша точка А: с ней вы сравните себя в конце программы',time:'10-15 минут',go:['tool','point']};
   if(cur!=='point'&&ptCanFinal()&&curStage()>=9)return {id:'point',final:true,h:'Пройдите финальную диагностику',why:'Ответьте на те же вопросы, что в начале трека, и сравните, что изменилось',time:'10-15 минут',go:['tool','point'],jump:1};
   const PULSE={id:'pulse',h:NEXT_T.pulse,why:'Из отметок складывается график, по которому видно, что вас разряжает',time:'1 минута',go:['tool','pulse']};
   const today=new Date().toISOString().slice(0,10);const markedToday=S.pulses.some(p=>p.d===today);
@@ -3715,7 +3718,7 @@ function homePath(){const pd=!!(S.point&&S.point.saved);const wk=Date.now()-7*86
   const P=[{k:'point',name:'Точка старта',st:pd?'done':'now',sub:pd?'зафиксирована':'сейчас · 10-15 минут',d:'Фиксируем сон, энергию, эмоции и нагрузку',go:['tool','point']},
     {k:'pulse',name:'Сверка с состоянием',d:'Отмечаете силы и напряжение 2-3 раза в неделю',st:pd?'now':'later',sub:pd?`${Math.min(nP,3)} из 3 на неделе`:'2-3 раза в неделю',go:['tool','pulse']},
     {k:'tools',name:'Практики между встречами',d:'Психолог открывает новые после каждой встречи',st:pd?(todo.length?'now':'done'):'later',sub:pd?`этап ${cs} из 9`:'после встреч',go:['tools','']},
-    {k:'final',name:'Финал и план после трека',d:'Фиксируем изменения и готовим план на трудные периоды',st:last?'now':'later',sub:last?'неделя 12':'неделя 12',go:['navself','']}];
+    {k:'final',name:'Финал и план после трека',d:'Фиксируем изменения и готовим план на трудные периоды',st:last?'now':'later',sub:'недели 11-12',go:['navself','']}];
   let i,card;
   if(!pd){i=0;card={eb:'Шаг 1 из 4 · 10-15 минут',t:'Пройдите стартовую диагностику',p:'Это ваша точка А. В конце программы вы пройдете ее еще раз и увидите, что изменилось',b:'Начать',go:['tool','point'],art:'point'}}
   else if(nP<2||!todo.length){i=1;card={eb:'Шаг 2 из 4 · 1 минута',t:'Как вы сейчас?',p:nP?`На этой неделе уже ${nP} ${plural(nP,'отметка','отметки','отметок')} - это хорошо. Из отметок складывается график, по которому видно, что вас разряжает`:'Отметьте силы и напряжение. Из отметок складывается график, по которому видно, что вас разряжает',b:'Отметить',go:['tool','pulse'],art:'pulse'}}
@@ -3736,7 +3739,7 @@ function vToday(m){const {P}=homePath();const n=nextAfter(null);const t=n.tool?T
       <button class="btn btn--primary hs__btn" data-go="${n.go[0]}" ${n.go[1]?`data-arg="${n.go[1]}"`:''}${n.jump?' data-ptfin':''}>${n.rest?(n.marked?'Посмотреть весь маршрут':'Отметить, как вы сейчас'):t&&tStatus(t.id)==='work'?'Продолжить':'Начать'}</button>
       ${!S.seenHelp&&n.id==='point'&&!n.final?`<p class="hs__first">Впервые здесь? <button class="link" data-go="help">Посмотрите, как устроен кабинет</button> · 1 минута</p>`:''}
     </div>
-    <aside class="hs__route" aria-label="Ваш путь в программе"><p class="hs__rl">Ваш путь в программе · неделя ${weekNo()} из 12</p>
+    <aside class="hs__route" aria-label="Ваш путь в программе"><p class="hs__rl">Ваш путь в программе · неделя ${weekShown()} из 12</p>
       <ol>${P.map((p,k)=>`<li class="hs__r hs__r--${p.st}${k===i?' is-cur':''}"><span class="hs__ri"><svg viewBox="0 0 40 40" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" aria-hidden="true">${PI[k]}</svg></span><span class="hs__rt"><b>${p.name}${k===i?'<em>вы здесь</em>':''}</b><small>${k===i?esc(p.sub):esc(p.d)}</small></span></li>`).join('')}</ol>
       <p class="hs__links"><button class="link" data-go="tools">Посмотреть весь маршрут</button><button class="link" data-go="meet">Темы для встречи${S.discuss.length?' ('+S.discuss.length+')':''}</button></p></aside>
   </div>`;
@@ -3948,7 +3951,7 @@ function vTools(m){const cs=curStage();const stg=C.stages[cs-1];
     const inner=`<span class="tt__ico">${bigIco(id,58)}${dn?`<span class="tt__ok">${ico('check',14)}</span>`:''}${!op?`<span class="tt__lock" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="3" y="6.5" width="8" height="6" rx="1.5"/><path d="M4.8 6.5V5a2.2 2.2 0 014.4 0v1.5"/></svg></span>`:''}</span><span class="tt__t">${esc(t.title)}</span><span class="tt__s">${t.final?'собирается сама':dn?'готово':op?(tStatus(id)==='work'?'в работе · '+esc(t.time):esc(t.time)):'откроется после встречи'}</span>`;
     return `<div class="tt-wrap">${op?`<button class="tt tt--${cls}" data-go="tool" data-arg="${id}">${inner}</button>`:`<button type="button" class="tt tt--${cls}" data-locked="${id}" aria-label="${esc(t.title)}: откроется после встречи">${inner}</button>`}${S.psy&&!t.final?`<label class="tt__psy"><input type="checkbox" data-open="${id}" ${S.open[id]?'checked':''}> открыт</label>`:''}</div>`};
   m.innerHTML=`<div class="page rmap">
-    <header class="r-head"><p class="eyebrow">Неделя ${weekNo()} из 12</p><h1>Посмотрите свой маршрут</h1>
+    <header class="r-head"><p class="eyebrow">Неделя ${weekShown()} из 12</p><h1>Посмотрите свой маршрут</h1>
       <p class="r-lead">Сейчас вы на этапе «${esc(stg.title)}». Новые инструменты появляются постепенно, после встреч с психологом</p>
       <div class="r-rel"><div><b>${ico('pulse',16)}Сегодня</b><span>Одно главное дело на день. Оно берется из текущего этапа маршрута</span></div><div><b>${ico('point',16)}Маршрут</b><span>Вся программа на 12 недель: где вы сейчас и что откроется дальше</span></div></div></header>
     <div class="bat2"><div class="bat2__icon" role="img" aria-label="Пройдено этапов: ${cs-1} из 9"><div class="bat2__body"><div class="bat2__fill" style="--lvl:${Math.round((cs-0.5)/9*100)}%"><span class="bat2__shine"></span></div><span class="bat2__ticks"></span><svg class="bat2__bolt" width="22" height="30" viewBox="0 0 22 30" aria-hidden="true"><path d="M13 1L2 17h7l-2 12 11-16h-7z" fill="var(--ink)"/></svg></div><span class="bat2__nub"></span></div>
@@ -4259,7 +4262,7 @@ let PT_JUMP=0;document.addEventListener('click',e=>{if(e.target.closest('[data-p
 /* Финальная диагностика появляется только в конце трека и никогда в день стартовой */
 const ptCanFinal=()=>!!(S.point&&S.point.saved&&!S.pointStart&&S.point.savedAt!==new Date().toISOString().slice(0,10)&&(curStage()>=9||(PSY&&S.psy)));
 TOOL.point=(m,t)=>{const p=S.point;p.spheres=p.spheres||{};p.ownSph=p.ownSph||[];SPHERES=sphList(p);const fin=!!S.pointStart;
-  m.innerHTML=wrap(t,`${fin&&!p.saved?`<div class="note pt-fin"><b>Вы проходите диагностику второй раз</b><span>Ответы с начала трека сохранены. Ответьте на вопросы так, как сейчас, и после сохранения увидите оба результата рядом</span><button class="link" id="ptFinCancel">Отменить и вернуть стартовые ответы</button></div>`:''}<section class="dsec"><h2 class="dsec__h">Отметьте, как проходит ваш обычный день</h2><div class="form">
+  m.innerHTML=wrap(t,`${fin&&!p.saved?`<div class="note pt-fin"><b>Вы проходите диагностику второй раз</b><span>Ваши предыдущие ответы сохранены. Отвечайте так, как чувствуете себя сейчас. После сохранения вы увидите оба результата рядом</span><button class="link" id="ptFinCancel">Отменить и вернуть стартовые ответы</button></div>`:''}<section class="dsec"><h2 class="dsec__h">Отметьте, как проходит ваш обычный день</h2><div class="form">
     ${field('Оцените, сколько у вас сил утром в обычный день',scaleSeg('morning',ENERGY_W,p.morning))}
     ${field('Оцените, сколько сил остается к вечеру в обычный день',scaleSeg('evening',ENERGY_W,p.evening))}
     ${field('Оцените, восстанавливает ли вас сон',`<div class="ans-radio">${seg('sleep',[['восстанавливает','да, после сна есть силы'],['так себе','частично'],['не восстанавливает','нет, просыпаюсь без сил']],p.sleep)}</div><label class="ans-note"><span>Можете описать, что происходит со сном</span><input class="line" id="pSleepNote" placeholder="Например: долго не могу уснуть" value="${esc(p.sleepNote||'')}"></label>`)}
@@ -4749,7 +4752,7 @@ const RP={
       {t:'yn',h:'Что случится, если отложить это дело до завтра?',key:'q1',opts:[['ok','ничего страшного'],['no','будут серьезные последствия']]},
       {t:'yn',h:'Кому нужно, чтобы это дело было сделано именно сегодня?',key:'q2',opts:[['ok','скорее другим'],['no','мне самой (самому)']]},
       {t:'yn',h:'Если отдохнуть, завтра вы сделаете это дело лучше?',key:'q3',opts:[['ok','скорее да'],['no','скорее нет']]},
-      {t:'sum',h:'Посмотрите, что показывают ваши ответы',render:a=>{const n=['q1','q2','q3'].filter(k=>a[k]==='ok').length;return `<p class="rp-big">${n>=2?'Можно остановиться':'Похоже, это действительно важно сегодня'}</p><p class="rp-p">${n>=2?'Запишите, с чего начнете завтра, и закройте работу. «Ритуал завершения» поможет это сделать':'Тогда выберите самую маленькую часть, которая действительно нужна сегодня, сделайте только ее и остановитесь'}</p>`}}]},
+      {t:'sum',h:'Посмотрите, что показывают ваши ответы:',render:a=>{const n=['q1','q2','q3'].filter(k=>a[k]==='ok').length;const L=(k,o)=>((o.find(x=>x[0]===a[k])||[])[1])||'-';const ST=RP.need.steps;return `<dl class="rp-dl rp-ans"><dt>Дело</dt><dd>${esc(a.x||'-')}</dd><dt>Если отложить</dt><dd>${esc(L('q1',ST[1].opts))}</dd><dt>Кому нужно сегодня</dt><dd>${esc(L('q2',ST[2].opts))}</dd><dt>После отдыха</dt><dd>${esc(L('q3',ST[3].opts))}</dd></dl><p class="rp-big">${n>=2?'Можно остановиться':'Похоже, это действительно важно сегодня'}</p><p class="rp-p">${n>=2?'Запишите, с чего начнете завтра, и закройте работу. «Ритуал завершения» поможет это сделать':'Тогда выберите самую маленькую часть, которая действительно нужна сегодня, сделайте только ее и остановитесь'}</p>`}}]},
   finish:{title:'Ритуал завершения',kind:'head',time:'3 минуты',c:'beige',img:'finish',lead:'Короткий ритуал помогает обозначить конец рабочего дня и сохранить понятную точку возвращения',plan:['Запишите, на чем остановились','Отметьте, с чего начнете в следующий раз','Сохраните файлы, закройте рабочие вкладки и по возможности уберите ноутбук'],
     steps:[{t:'input',h:'На чем вы остановились в работе?',key:'w',ph:'Например: дописала второй раздел'},{t:'input',h:'С чего начнете завтра?',key:'n',ph:'Например: проверю цифры в таблице'},
       {t:'check',h:'Отметьте, как вы закроете рабочий день',key:'c',opts:['сохранить файлы','закрыть почту и вкладки','убрать ноутбук с глаз']},
@@ -4839,14 +4842,15 @@ function rpDraw(){const s=RPS;if(!s)return;if(s.id==='cold'&&s.i>=0&&s.i<=1)broo
   let side='',next='Дальше',img=rImg(P.img,200);
   if(s.i<0){side=`<p class="eyebrow">${P.kind==='body'?'Прямо сейчас':'Когда станет чуть легче'} · ${esc(P.time)}</p><h2 class="rp-h">${esc(P.title)}</h2><p class="rp-p">${esc(P.lead)}</p>${P.warn?`<p class="rp-warn">${esc(P.warn)}</p>`:''}
       ${plan.length>(P.plan?0:1)?`<ol class="rp-plan">${plan.map(x=>`<li>${esc(x)}</li>`).join('')}</ol>`:''}${dev?`<p class="rp-dev">${hasT&&P.kind==='body'?SND_ON:PHONE}<span>${esc(dev)}</span></p>`:''}${rate('before','Насколько вам сейчас тяжело?')}`;next='Начать'}
-  else if(s.i>=n){side=`<h2 class="rp-h">Как вы сейчас?</h2>${rate('after','Насколько тяжело теперь?')}<p class="rp-q" style="margin-top:22px">Оставить практику в вашем наборе?</p><div class="rp-yn"><button type="button" class="chip" data-keep="1">Да, помогло</button><button type="button" class="chip" data-keep="0">Не в этот раз</button></div>`;next=''}
-  else{const h=typeof st.h==='function'?st.h(s.a):st.h;const t=st.t||'text';side=t==='breath'?`<p class="eyebrow">${esc(h)}</p>`:`<h2 class="rp-h">${esc(h)}</h2>${st.p?`<p class="rp-p">${esc(st.p)}</p>`:''}`;
+  else if(s.i>=n){side=`<p class="eyebrow">${esc(P.title)}</p><h2 class="rp-h">Как вы сейчас?</h2>${rate('after','Насколько тяжело теперь?')}<p class="rp-q" style="margin-top:22px">Оставить практику в вашем наборе?</p><div class="rp-yn"><button type="button" class="chip" data-keep="1">Да, помогло</button><button type="button" class="chip" data-keep="0">Не в этот раз</button></div>`;next=''}
+  else{const h=typeof st.h==='function'?st.h(s.a):st.h;const t=st.t||'text';side=t==='breath'?`<p class="eyebrow">${esc(P.title)} · ${esc(h)}</p>`:`<p class="eyebrow">${esc(P.title)}</p><h2 class="rp-h">${esc(h)}</h2>${st.p?`<p class="rp-p">${esc(st.p)}</p>`:''}`;
     if(t==='text'&&st.sec)side+=`<div class="rp-timer"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="21" class="trk"/><circle cx="24" cy="24" r="21" class="bar" id="rpBar" stroke-dasharray="132" stroke-dashoffset="0"/></svg><span id="rpT">${fmtS(st.sec)}</span></div>`;
     if(t==='breath')side+=`<p class="rp-phase" id="rpPh">Приготовьтесь</p><p class="rp-left" id="rpT">${fmtS(st.total)}</p>`;
     if(t==='count')side+=`<div class="rp-count">${[...Array(st.n)].map((_,k)=>`<button type="button" aria-pressed="${(s.a['c'+s.i]||0)>k}" aria-label="Найдено: ${k+1}"></button>`).join('')}</div>`;
     const vo=(s.vo=s.vo||{})[st.key];if((t==='input'||t==='chips')&&st.voice)side+=`<div class="rp-voice" id="rpVoice">${vo?`<span class="rp-vchip"><button type="button" class="rp-vplay" id="rpVPlay" aria-label="Прослушать">${'<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 6l11 6-11 6z"/></svg>'}</button>${s.id==='letter'?'Голосовое письмо':'Голосовая запись'} · ${fmtS(vo.sec||0)}</span><button type="button" class="linkbtn" id="rpRec">Записать заново</button>`:`<button type="button" class="btn btn--outline rp-recb" id="rpRec">${MIC}<span>${s.id==='letter'?'Наговорить голосом':'Записать голосом вместо текста'}</span></button><span class="rp-rect" id="rpRecT"></span>`}</div>`;
     if(t==='input')side+=st.multi?`<textarea class="area rp-in" id="rpIn" placeholder="${esc(st.ph||'')}">${esc(s.a[st.key]||'')}</textarea>`:`<input class="line rp-in" id="rpIn" placeholder="${esc(st.ph||'')}" value="${esc(s.a[st.key]||'')}">`;
     if(t==='chips'){const v=s.a[st.key];const opts=[...st.opts,...(st.multi?(v||[]).filter(x=>!st.opts.includes(x)):(v&&!st.opts.includes(v)?[v]:[]))];side+=`<div class="chips rp-chips">${opts.map(x=>`<button type="button" class="chip" data-ch="${esc(x)}" aria-pressed="${st.multi?(v||[]).includes(x):v===x}">${esc(x)}</button>`).join('')}</div>${st.own?`<div class="input rp-own"><input class="line" id="rpOwn" placeholder="Свой вариант"><button class="btn btn--sm btn--ghost" id="rpOwnB" type="button">+</button></div>`:''}`}
+    if(t==='yn')next='';
     if(t==='yn')side+=`<div class="rp-yn">${st.opts.map(([k,l])=>`<button type="button" class="chip" data-yn="${k}" aria-pressed="${s.a[st.key]===k}">${esc(l)}</button>`).join('')}</div>`;
     if(t==='check'){const v=s.a[st.key]||[];side+=`<div class="rp-check">${st.opts.map(x=>`<button type="button" data-ck="${esc(x)}" aria-pressed="${v.includes(x)}"><i></i>${esc(x)}</button>`).join('')}</div>`}
     if(t==='scale'){const v=s.a[st.key]||[];side+=`<div class="rp-scale">${st.rows.map((r,ri)=>`<div><span>${esc(r)}</span><div class="rp-rate rp-rate--sm" data-sc="${ri}">${[1,2,3,4,5].map(x=>`<button type="button" aria-pressed="${v[ri]===x}" data-v="${x}"><i style="--s:${.35+x*.13}"></i></button>`).join('')}</div></div>`).join('')}<div class="rp-scale__l"><span></span><div class="rp-rate__l"><span>${esc(st.lo||'слабо')}</span><span>${esc(st.hi||'сильно')}</span></div></div></div>`}
@@ -4907,7 +4911,7 @@ TOOL.recovery=(m,t)=>{const state=route.state||null;
     return `<article class="rc rc--${kind}" style="--c:var(--${P.c})"><div class="rc__img">${rImg(P.img,150)}</div><div class="rc__txt">
       <p class="eyebrow">${kind==='body'?'Прямо сейчас':'Когда станет чуть легче'}${helped?' · вам уже помогало':''}</p><h3 class="rc__h">${esc(P.title)}</h3><p class="rc__p">${esc(P.lead)}</p>
       <div class="rc__a"><button type="button" class="btn btn--primary" data-rp="${main}">Начать</button><span class="rc__time">${esc(P.time)}</span></div>${rest.length?`<p class="rc__or">Или выберите ${rest.map(id=>`<button type="button" class="linkbtn" data-rp="${id}">${esc(RP[id].title)}</button>`).join(', ')}</p>`:''}</div></article>`};
-  const kit={};S.recovery.filter(r=>r.keep&&(r.after==null||r.before==null||r.after<r.before)).forEach(r=>{(kit[r.state]=kit[r.state]||{});kit[r.state][r.m]=(kit[r.state][r.m]||0)+1});
+  const kit={};S.recovery.filter(r=>r.keep&&r.state).forEach(r=>{(kit[r.state]=kit[r.state]||{});kit[r.state][r.m]=(kit[r.state][r.m]||0)+1});
   m.innerHTML=wrap(t,`<section><div class="sec__h"><h2>Выберите, что с вами сейчас происходит</h2></div>
     ${(()=>{const l=S.pulses[S.pulses.length-1];if(!l||state)return '';const g=l.tension>=4?'взвинчен(а)':l.energy<=2?'пусто, нет сил':null;return g?`<p class="muted" style="margin-bottom:12px">По последней отметке в «Карте состояния» похоже на «${g}»</p>`:''})()}
     <div class="states">${C.STATES.map(s=>`<button class="state" data-state="${esc(s)}" aria-pressed="${state===s}">${stateIco(s)}<span>${esc(s)}</span></button>`).join('')}</div></section>
@@ -5152,7 +5156,7 @@ TOOL.lab=(m,t)=>{const i=route.sub!=null&&S.lab[route.sub]?route.sub:(S.lab.leng
 };
 
 /* 12. Протокол пиковой нагрузки */
-function kitText(){const k={};S.recovery.filter(r=>r.keep&&r.after<r.before).forEach(r=>k[r.m]=(k[r.m]||0)+1);return Object.keys(k).sort((a,b)=>k[b]-k[a]).map(id=>MBY[id]?MBY[id].title:id)}
+function kitText(){const k={};S.recovery.filter(r=>r.keep).forEach(r=>k[r.m]=(k[r.m]||0)+1);return Object.keys(k).sort((a,b)=>k[b]-k[a]).map(id=>MBY[id]?MBY[id].title:id)}
 function peakDraft(){const P=S.resp.place,N=S.nhv.place;
   return {signals:S.signals.filter(s=>s.zone==='ранний').map(s=>s.t).join(', '),
     drain:[...S.load.filter(x=>x.after<=-2).map(x=>x.name),...S.stressors.filter(s=>s.power>=4).map(s=>s.name)].filter((v,i,a)=>a.indexOf(v)===i).join(', '),
