@@ -761,7 +761,6 @@ body.rp-open{overflow:hidden}
 .rp-big{margin:0 0 12px;font-family:var(--serif);font-size:clamp(24px,2.4vw,32px);line-height:1.2;color:var(--ink);text-align:left!important}
 .rp-quote{display:grid;gap:10px;margin-bottom:18px;padding-left:18px;border-left:2px solid var(--ink)}.rp-quote p{margin:0;font-family:var(--serif);font-size:clamp(22px,2.2vw,28px);line-height:1.25;color:var(--ink);text-align:left!important}
 .rp-dl{display:grid;grid-template-columns:150px minmax(0,1fr);gap:10px 16px;margin:0 0 16px}.rp-dl dt{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}.rp-dl dd{margin:0;font-size:17px;color:var(--ink)}
-.rp-cmp{margin:22px 0 4px;padding-top:16px;border-top:1px solid var(--line)}
 .rp-ans{padding:16px 18px;background:color-mix(in srgb,var(--c,var(--mint)) 35%,var(--bg));border-left:2px solid var(--ink);margin:4px 0 20px}
 .rp-letter{margin:4px 0;font-family:var(--serif);font-size:clamp(90px,10vw,150px);line-height:1;color:var(--ink)}
 .rp-p b{font-weight:400;color:var(--ghost)}.rp-p b.is-now{color:var(--ink);text-decoration:underline;text-underline-offset:4px}
@@ -1219,6 +1218,13 @@ button.tt{cursor:pointer}
 }
 .umenu__psy{border-top:1px solid var(--line);margin-top:6px;padding-top:6px;font-size:13px;color:var(--muted)}.umenu__psy .umenu__i{font-size:13px;color:var(--muted)}
 .umenu__row[hidden]{display:none}
+
+/* Вводный экран практики: один размер текста, шкала состояния в отдельной плашке */
+.rpt__side .rp-lead,.rpt__side .rp-plan li,.rpt__side .rp-dev,.rpt__side .rp-dev span{font-size:16px;line-height:1.5}
+.rpt__side .rp-dev{background:none;border:0;padding:0;color:var(--muted)}
+.rpt__side .rp-ratebox{margin-top:24px;padding:18px 20px 16px;background:color-mix(in srgb,var(--c,var(--mint)) 40%,var(--bg));border-radius:0}
+.rpt__side .rp-ratebox .rp-q{margin:0 0 12px;font-size:16px;font-weight:500;color:var(--ink)}
+.rpt__side .rp-ratebox .rp-rate__l{font-size:13px}
 </style>
 <style id="vy-skin">
 /* =====================================================================
@@ -4978,11 +4984,11 @@ function rpDraw(){const s=RPS;if(!s)return;if(s.id==='cold'&&s.i>=0&&s.i<=1)broo
   const dots=`<span class="rpt__right"><button type="button" class="rpt__snd" id="rpSnd" aria-pressed="${RSND}" title="${RSND?'Выключить звук':'Включить звук'}">${RSND?SND_ON:SND_OFF}<span>${RSND?'Звук включен':'Без звука'}</span></button><span class="rpt__dots">${[...Array(n+2)].map((_,k)=>`<i class="${k<=s.i+1?'on':''}"></i>`).join('')}</span></span>`;
   const hasT=P.steps.some(x=>x.sec||x.t==='breath');const dev=P.dev||(P.kind==='head'?'Отвечайте прямо здесь, в телефоне или на компьютере':hasT?'Можно держать телефон в руке или положить рядом: когда время выйдет, прозвучит мягкий сигнал':'');
   const plan=P.plan||P.steps.map(x=>typeof x.h==='function'?null:x.h).filter(Boolean);
-  const rate=(key,q)=>`<p class="rp-q">${q}</p><div class="rp-rate" data-rate="${key}">${[1,2,3,4,5].map(v=>`<button type="button" aria-pressed="${s[key]===v}" data-v="${v}" aria-label="${v} из 5"><i style="--s:${.35+v*.13}"></i></button>`).join('')}</div><div class="rp-rate__l"><span>легко</span><span>очень тяжело</span></div>`;
+  const rate=(key,q)=>`<div class="rp-ratebox"><p class="rp-q">${q}</p><div class="rp-rate" data-rate="${key}">${[1,2,3,4,5].map(v=>`<button type="button" aria-pressed="${s[key]===v}" data-v="${v}" aria-label="${v} из 5"><i style="--s:${.35+v*.13}"></i></button>`).join('')}</div><div class="rp-rate__l"><span>легко</span><span>очень тяжело</span></div></div>`;
   let side='',next='Дальше',img=rImg(P.img,200);
-  if(s.i<0){side=`<p class="eyebrow">${P.kind==='body'?'Прямо сейчас':'Когда станет чуть легче'} · ${esc(P.time)}</p><h2 class="rp-h">${esc(P.title)}</h2><p class="rp-p">${esc(P.lead)}</p>${P.warn?`<p class="rp-warn">${esc(P.warn)}</p>`:''}
-      ${plan.length>(P.plan?0:1)?`<ol class="rp-plan">${plan.map(x=>`<li>${esc(x)}</li>`).join('')}</ol>`:''}${dev?`<p class="rp-dev">${hasT&&P.kind==='body'?SND_ON:PHONE}<span>${esc(dev)}</span></p>`:''}<p class="rp-p rp-cmp">Отметьте ваше самочувствие сейчас и еще раз после практики, чтобы сравнить, изменилось ли состояние</p>${rate('before','Насколько вам сейчас тяжело?')}`;next='Начать'}
-  else if(s.i>=n){side=`<p class="eyebrow">${esc(P.title)}</p><h2 class="rp-h">Как вы сейчас?</h2>${rate('after','Насколько тяжело теперь?')}<p class="rp-q" style="margin-top:22px">Оставить практику в вашем наборе?</p><div class="rp-yn"><button type="button" class="chip" data-keep="1">Да, помогло</button><button type="button" class="chip" data-keep="0">Не в этот раз</button></div>`;next=''}
+  if(s.i<0){side=`<p class="eyebrow">${P.kind==='body'?'Прямо сейчас':'Когда станет чуть легче'} · ${esc(P.time)}</p><h2 class="rp-h">${esc(P.title)}</h2><p class="rp-p rp-lead">${esc(P.lead)}</p>${P.warn?`<p class="rp-warn">${esc(P.warn)}</p>`:''}
+      ${plan.length>(P.plan?0:1)?`<ol class="rp-plan">${plan.map(x=>`<li>${esc(x)}</li>`).join('')}</ol>`:''}${dev?`<p class="rp-dev">${hasT&&P.kind==='body'?SND_ON:PHONE}<span>${esc(dev)}</span></p>`:''}${rate('before','Отметьте ваше состояние')}`;next='Начать'}
+  else if(s.i>=n){side=`<p class="eyebrow">${esc(P.title)}</p><h2 class="rp-h">Как вы сейчас?</h2>${rate('after','Отметьте ваше состояние после практики')}<p class="rp-q" style="margin-top:22px">Оставить практику в вашем наборе?</p><div class="rp-yn"><button type="button" class="chip" data-keep="1">Да, помогло</button><button type="button" class="chip" data-keep="0">Не в этот раз</button></div>`;next=''}
   else{const h=typeof st.h==='function'?st.h(s.a):st.h;const t=st.t||'text';side=t==='breath'?`<p class="eyebrow">${esc(P.title)} · ${esc(h)}</p>`:`<p class="eyebrow">${esc(P.title)}</p><h2 class="rp-h">${esc(h)}</h2>${st.p?`<p class="rp-p">${esc(st.p)}</p>`:''}`;
     if(t==='text'&&st.sec)side+=`<div class="rp-timer"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="21" class="trk"/><circle cx="24" cy="24" r="21" class="bar" id="rpBar" stroke-dasharray="132" stroke-dashoffset="0"/></svg><span id="rpT">${fmtS(st.sec)}</span></div>`;
     if(t==='breath')side+=`<p class="rp-phase" id="rpPh">Приготовьтесь</p><p class="rp-left" id="rpT">${fmtS(st.total)}</p>`;
