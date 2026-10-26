@@ -4804,13 +4804,27 @@ function sttLoad(){if(!STT){STT=(async()=>{const T=await import('https://cdn.jsd
   return STT}
 /* Whisper иногда «слышит» в тишине титры из видео: такие фразы убираем */
 const STT_JUNK=/(субтитр\S*[^.!?]*[.!?]?|продолжение следует\.*|спасибо за просмотр\S*|подписывайтесь на канал\S*|редактор субтитров[^.!?]*[.!?]?|корректор[^.!?]*[.!?]?)/gi;
-async function sttText(blob,onLoad){STT_CB=onLoad||null;let asr;try{asr=await sttLoad()}finally{STT_CB=null}
-  const C=window.AudioContext||window.webkitAudioContext;let ac;try{ac=new C({sampleRate:16000})}catch(e){ac=new C()}
-  let au;try{au=await ac.decodeAudioData(await blob.arrayBuffer())}finally{try{ac.close()}catch(e){}}
-  let x=au.getChannelData(0);if(au.sampleRate!==16000){const k=au.sampleRate/16000,n=Math.floor(x.length/k),y=new Float32Array(n);for(let i=0;i<n;i++)y[i]=x[Math.floor(i*k)];x=y}
-  if(x.length<16000*.4)return '';
-  const out=await asr(x,{language:'russian',task:'transcribe',chunk_length_s:30,stride_length_s:5});
-  return String(out&&out.text||'').replace(STT_JUNK,'').replace(/\s{2,}/g,' ').trim()}
+const sttClean=t=>String(t||'').replace(STT_JUNK,'').replace(/\s{2,}/g,' ').trim();
+async function sttRun(x,onLoad){STT_CB=onLoad||null;let asr;try{asr=await sttLoad()}finally{STT_CB=null}
+  if(x.length<16000*.35)return '';const out=await asr(x,{language:'russian',task:'transcribe',chunk_length_s:30,stride_length_s:5});return sttClean(out&&out.text)}
+/* Диктовка как в мессенджерах: пока человек говорит, звук делится на фразы по паузам,
+   и каждая фраза превращается в текст, не дожидаясь конца записи. onText получает новый кусок текста */
+function sttLive(stream,{onText,onLoad,onFail}){
+  const C=window.AudioContext||window.webkitAudioContext;const ac=new C();try{ac.resume()}catch(e){}
+  const src=ac.createMediaStreamSource(stream),sp=ac.createScriptProcessor(4096,1,1),ratio=ac.sampleRate/16000,BL=4096/ac.sampleRate;
+  let seg=[],len=0,speech=0,sil=0,floor=.003,stopped=false,busy=false,fin=null,failed=false;const q=[];
+  const cut=()=>{if(speech>.25&&len){const a=new Float32Array(len);let o=0;for(const c of seg){a.set(c,o);o+=c.length}q.push(a);pump()}seg=[];len=0;speech=0;sil=0};
+  sp.onaudioprocess=e=>{if(stopped)return;const d=e.inputBuffer.getChannelData(0);let e2=0;for(let i=0;i<d.length;i++)e2+=d[i]*d[i];const rms=Math.sqrt(e2/d.length);
+    if(rms<floor*2.5)floor=floor*.96+rms*.04;const talk=rms>Math.max(.012,floor*3.2);
+    const n=Math.floor(d.length/ratio),y=new Float32Array(n);for(let i=0;i<n;i++)y[i]=d[Math.floor(i*ratio)];seg.push(y);len+=n;
+    if(talk){speech+=BL;sil=0}else sil+=BL;
+    if(!speech&&len>16000*1.2){const keep=seg.slice(-4);seg=keep;len=keep.reduce((a,c)=>a+c.length,0)}
+    /* Фразу отдаем на перевод, когда после речи наступила пауза, а если человек говорит без пауз - каждые 15 секунд */
+    if((speech>.25&&sil>.65&&len>16000*2.5)||len>16000*15)cut()};
+  src.connect(sp);sp.connect(ac.destination);
+  async function pump(){if(busy)return;busy=true;while(q.length){const a=q.shift();try{const t=await sttRun(a,onLoad);if(t)onText(t)}catch(e){if(!failed){failed=true;onFail&&onFail(e)}}}busy=false;if(stopped&&fin)fin()}
+  return {stop(){if(stopped)return Promise.resolve();stopped=true;cut();try{sp.disconnect();src.disconnect();ac.close()}catch(e){}
+    return new Promise(r=>{if(!busy&&!q.length)r();else fin=r})},get failed(){return failed},get busy(){return busy||q.length>0}}}
 
 /* ================= ПЛЕЕР ПРАКТИКИ ================= */
 let RPS=null;
@@ -5004,14 +5018,17 @@ function rpDraw(){const s=RPS;if(!s)return;if(s.id==='cold'&&s.i>=0&&s.i<=1)broo
     rb.onclick=async()=>{if(s.rec&&s.rec.state==='recording'){s.rec.stop();return}
       if(s.vo[vk]){try{URL.revokeObjectURL(s.vo[vk].url)}catch(e){}delete s.vo[vk];if(st.key===s.vkLast)s.voice=null}
       if(!navigator.mediaDevices||!window.MediaRecorder){toast('Запись голоса недоступна в этом браузере. Можно написать текстом');return}
-      try{const stream=await navigator.mediaDevices.getUserMedia({audio:true});const r=new MediaRecorder(stream),ch=[];s.stream=stream;s.rec=r;const t0=Date.now();
-        r.ondataavailable=e=>e.data.size&&ch.push(e.data);r.onstop=async()=>{clearInterval(s.riv);stream.getTracks().forEach(x=>x.stop());if(RPS!==s)return;rpSave();const blob=new Blob(ch,{type:r.mimeType||'audio/webm'}),sec=(Date.now()-t0)/1000,si=s.i;
-          const say=m=>{const e=$('#rpVoice');if(e&&RPS===s&&s.i===si)e.innerHTML=`<span class="rp-stt"><i></i>${esc(m)}</span>`};const nb=$('#rpNext');if(nb)nb.disabled=true;
-          say('Перевожу голос в текст…');let txt='';try{txt=await sttText(blob,pc=>say(`Готовлю перевод голоса в текст, это нужно только один раз · ${pc}%`))}catch(e){}
-          if(RPS!==s)return;
-          if(txt){if(st.t==='chips'){if(st.multi)(s.a[vk]=s.a[vk]||[]).push(txt);else s.a[vk]=txt}else s.a[vk]=((s.a[vk]||'')+' '+txt).trim();if(s.i===si)rpDraw()}
-          else{const u=URL.createObjectURL(blob);s.vo[vk]={url:u,sec};s.voice=u;s.voiceSec=sec;s.vkLast=vk;if(s.i===si)rpDraw();toast('Не получилось перевести голос в текст. Запись сохранена как голосовая')}};
-        sttLoad().catch(()=>{});r.start();rb.classList.add('is-rec');rb.innerHTML=`<i class="rp-dot"></i><span>Остановить запись</span>`;s.riv=setInterval(()=>{const e=$('#rpRecT');if(e)e.textContent=fmtS((Date.now()-t0)/1000)},300)}
+      try{const stream=await navigator.mediaDevices.getUserMedia({audio:true});const r=new MediaRecorder(stream),ch=[];s.stream=stream;s.rec=r;const t0=Date.now(),si=s.i;let heard='';
+        const say=m=>{const e=$('#rpRecT');if(e&&RPS===s&&s.i===si)e.textContent=m};
+        /* Новый кусок текста сразу дописываем в поле */
+        const add=t=>{if(RPS!==s||s.i!==si)return;heard=(heard+' '+t).trim();say(fmtS((Date.now()-t0)/1000));if(st.t==='input'){const el=$('#rpIn');const base=(el?el.value:(s.a[vk]||'')).replace(/\s+$/,'');const v=base?base+' '+t:t;s.a[vk]=v;if(el){el.value=v;el.scrollTop=el.scrollHeight}}};
+        const live=sttLive(stream,{onText:add,onLoad:pc=>say(`Готовлю перевод голоса в текст, это нужно только один раз · ${pc}%`)});
+        r.ondataavailable=e=>e.data.size&&ch.push(e.data);r.onstop=async()=>{clearInterval(s.riv);if(RPS!==s)return;rpSave();const sec=(Date.now()-t0)/1000;
+          const rb2=$('#rpRec');if(rb2){rb2.disabled=true;rb2.innerHTML=`<i class="rp-dot"></i><span>Дописываю последние слова…</span>`}const nb=$('#rpNext');if(nb)nb.disabled=true;
+          await live.stop();stream.getTracks().forEach(x=>x.stop());if(RPS!==s)return;
+          if(heard){if(st.t==='chips'){if(st.multi)(s.a[vk]=s.a[vk]||[]).push(heard);else s.a[vk]=heard}if(s.i===si)rpDraw()}
+          else{const u=URL.createObjectURL(new Blob(ch,{type:r.mimeType||'audio/webm'}));s.vo[vk]={url:u,sec};s.voice=u;s.voiceSec=sec;s.vkLast=vk;if(s.i===si)rpDraw();toast(live.failed?'Не получилось перевести голос в текст. Запись сохранена как голосовая':'Не удалось разобрать слова. Запись сохранена как голосовая')}};
+        r.start();rb.classList.add('is-rec');rb.innerHTML=`<i class="rp-dot"></i><span>Остановить запись</span>`;say('Говорите, текст появится по ходу речи');s.riv=setInterval(()=>{const e=$('#rpRecT');if(e&&/^\d|Говорите/.test(e.textContent))e.textContent=fmtS((Date.now()-t0)/1000)},300)}
       catch(e){toast('Нет доступа к микрофону. Разрешите его в настройках браузера или напишите текстом')}}}
 }
 function rpSave(){const s=RPS;if(!s)return;const st=RP[s.id].steps[s.i];if(st&&st.t==='input'){const i=$('#rpIn');if(i)s.a[st.key]=i.value.trim()}}
@@ -5603,19 +5620,15 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-tp]');if(!
   const idle=b=>{b.classList.remove('is-on','is-busy');b.setAttribute('aria-pressed','false');b.title='Надиктовать голосом'};
   const stop=()=>{const c=cur;if(!c)return;cur=null;try{c.rec.state==='recording'&&c.rec.stop()}catch(e){}};
   const start=async(el,btn)=>{if(cur&&cur.el===el){stop();return}stop();if(btn.classList.contains('is-busy'))return;
-    if(!navigator.mediaDevices||!window.MediaRecorder){toast('В этом браузере голосовой ввод не работает. Можно написать текстом');return}
+    if(!navigator.mediaDevices||!window.AudioContext&&!window.webkitAudioContext){toast('В этом браузере голосовой ввод не работает. Можно написать текстом');return}
     let stream;try{stream=await navigator.mediaDevices.getUserMedia({audio:true})}catch(e){toast('Нет доступа к микрофону. Нажмите на значок замка слева от адреса сайта, разрешите микрофон и попробуйте еще раз');return}
-    const rec=new MediaRecorder(stream),ch=[],t0=Date.now();const c={el,btn,rec};cur=c;
-    rec.ondataavailable=e=>e.data.size&&ch.push(e.data);
-    rec.onstop=async()=>{stream.getTracks().forEach(x=>x.stop());if(cur===c)cur=null;btn.classList.remove('is-on');btn.classList.add('is-busy');btn.title='Перевожу голос в текст';
-      if(Date.now()-t0<700){idle(btn);return}
-      toast('Перевожу голос в текст…');let txt='';
-      try{txt=await sttText(new Blob(ch,{type:rec.mimeType||'audio/webm'}),pc=>toast(`Готовлю перевод голоса в текст, это нужно только один раз · ${pc}%`))}catch(e){}
-      idle(btn);
-      if(!txt){toast('Не получилось разобрать речь. Попробуйте еще раз или напишите текстом');return}
-      let v=el.value.replace(/\s+$/,'');v=v?v+' '+txt:txt.charAt(0).toUpperCase()+txt.slice(1);el.value=v;
-      el.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('change',{bubbles:true}));toast('Готово, текст добавлен')};
-    sttLoad().catch(()=>{});rec.start();btn.classList.add('is-on');btn.setAttribute('aria-pressed','true');btn.title='Остановить запись';toast('Говорите. Чтобы закончить, нажмите на микрофон еще раз')};
+    let got=false;
+    const add=t=>{got=true;let v=el.value.replace(/\s+$/,'');v=v?v+' '+t:t.charAt(0).toUpperCase()+t.slice(1);el.value=v;el.scrollTop=el.scrollHeight;el.dispatchEvent(new Event('input',{bubbles:true}))};
+    const live=sttLive(stream,{onText:add,onLoad:pc=>toast(`Готовлю перевод голоса в текст, это нужно только один раз · ${pc}%`)});
+    const c={el,btn,rec:{state:'recording',stop:async()=>{c.rec.state='inactive';btn.classList.remove('is-on');btn.classList.add('is-busy');btn.title='Дописываю последние слова';
+      await live.stop();stream.getTracks().forEach(x=>x.stop());idle(btn);el.dispatchEvent(new Event('change',{bubbles:true}));
+      if(!got)toast(live.failed?'Не получилось перевести голос в текст. Попробуйте еще раз или напишите текстом':'Не удалось разобрать слова. Попробуйте говорить чуть громче')}}};
+    cur=c;btn.classList.add('is-on');btn.setAttribute('aria-pressed','true');btn.title='Остановить запись';toast('Говорите, текст появится по ходу речи. Чтобы закончить, нажмите на микрофон еще раз')};
   const deco=root=>{(root||document).querySelectorAll('textarea,input').forEach(el=>{if(!ok(el))return;el.dataset.mic='1';el.setAttribute('autocomplete','off');
     const w=document.createElement('span');w.className='mic-w'+(el.tagName==='TEXTAREA'?' mic-w--area':'');el.parentNode.insertBefore(w,el);w.appendChild(el);
     const b=document.createElement('button');b.type='button';b.className='mic';b.innerHTML=MIC;b.title='Надиктовать голосом';b.setAttribute('aria-label','Надиктовать голосом');b.setAttribute('aria-pressed','false');
