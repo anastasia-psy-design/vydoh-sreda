@@ -808,6 +808,8 @@ body.rp-open{overflow:hidden}
 .rp-vchip{display:inline-flex;align-items:center;gap:12px;padding:6px 16px 6px 6px;border-radius:999px;background:var(--c);font-size:15px;color:var(--ink)}
 .rp-vplay{display:grid;place-items:center;width:34px;height:34px;border:0;border-radius:50%;background:var(--ink);color:var(--bg);cursor:pointer;padding:0}
 .rp-paper{position:relative;max-height:240px;overflow:auto;margin-bottom:18px;padding:18px 22px;background:#fbf8f2;background-image:repeating-linear-gradient(transparent 0 27px,rgba(0,0,0,.06) 27px 28px);background-position:0 16px;font-size:16px;line-height:28px;color:#2b2925;box-shadow:0 1px 0 rgba(0,0,0,.04),0 14px 34px -14px rgba(0,0,0,.18);transition:none}
+.rp-stt{display:inline-flex;align-items:center;gap:10px;min-height:44px;font-size:15px;color:var(--muted)}.rp-stt i{width:10px;height:10px;border-radius:50%;background:currentColor;animation:sttp 1.1s ease-in-out infinite}@keyframes sttp{50%{opacity:.25;transform:scale(.7)}}
+.mic.is-busy{color:var(--ink);animation:sttp 1.1s ease-in-out infinite}
 .rp-paper__v{display:flex;align-items:center;gap:8px;margin:0 0 4px;font-size:14px;color:#6b665e}
 .rp-paper.is-empty{background-image:none;box-shadow:none;background:transparent;padding:0;font-family:var(--serif);font-size:22px;color:var(--muted)}
 .burn{position:fixed;z-index:120;pointer-events:none}
@@ -4792,6 +4794,24 @@ const RSTATE={
   'голова кипит':{body:['walk','sigh'],head:['sort','scale'],audio:'body'}};
 const MBY=Object.fromEntries([...C.METHODS.map(x=>[x.id,x]),...Object.entries(RP).map(([id,p])=>[id,{title:p.title}])]);
 
+/* ================= РАСПОЗНАВАНИЕ РЕЧИ ПРЯМО В БРАУЗЕРЕ =================
+   Голос переводится в текст на устройстве человека (модель Whisper), запись никуда не отправляется.
+   Модель скачивается один раз (около 75 МБ) и дальше хранится в браузере */
+let STT=null,STT_CB=null;
+function sttLoad(){if(!STT){STT=(async()=>{const T=await import('https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.7.5');T.env.allowLocalModels=false;const prog={};
+    return T.pipeline('automatic-speech-recognition','onnx-community/whisper-base',{dtype:'q8',device:'wasm',progress_callback:p=>{if(p.status==='progress'&&p.total>200000){prog[p.file]=[p.loaded,p.total];let a=0,b=0;Object.values(prog).forEach(([x,y])=>{a+=x;b+=y});STT_CB&&STT_CB(Math.min(99,Math.round(a/b*100)))}}})})();
+    STT.catch(e=>{STT=null;if(window.__vyAuto)window.__vyAuto('Распознавание речи не загрузилось: '+(e&&e.message||e),navigator.userAgent.slice(0,120))})}
+  return STT}
+/* Whisper иногда «слышит» в тишине титры из видео: такие фразы убираем */
+const STT_JUNK=/(субтитр\S*[^.!?]*[.!?]?|продолжение следует\.*|спасибо за просмотр\S*|подписывайтесь на канал\S*|редактор субтитров[^.!?]*[.!?]?|корректор[^.!?]*[.!?]?)/gi;
+async function sttText(blob,onLoad){STT_CB=onLoad||null;let asr;try{asr=await sttLoad()}finally{STT_CB=null}
+  const C=window.AudioContext||window.webkitAudioContext;let ac;try{ac=new C({sampleRate:16000})}catch(e){ac=new C()}
+  let au;try{au=await ac.decodeAudioData(await blob.arrayBuffer())}finally{try{ac.close()}catch(e){}}
+  let x=au.getChannelData(0);if(au.sampleRate!==16000){const k=au.sampleRate/16000,n=Math.floor(x.length/k),y=new Float32Array(n);for(let i=0;i<n;i++)y[i]=x[Math.floor(i*k)];x=y}
+  if(x.length<16000*.4)return '';
+  const out=await asr(x,{language:'russian',task:'transcribe',chunk_length_s:30,stride_length_s:5});
+  return String(out&&out.text||'').replace(STT_JUNK,'').replace(/\s{2,}/g,' ').trim()}
+
 /* ================= ПЛЕЕР ПРАКТИКИ ================= */
 let RPS=null;
 let RSND=(()=>{try{return localStorage.getItem('vydoh-snd')!=='0'}catch(e){return true}})();let ACX=null;
@@ -4936,8 +4956,8 @@ function rpDraw(){const s=RPS;if(!s)return;if(s.id==='cold'&&s.i>=0&&s.i<=1)broo
     if(t==='text'&&st.sec)side+=`<div class="rp-timer"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="21" class="trk"/><circle cx="24" cy="24" r="21" class="bar" id="rpBar" stroke-dasharray="132" stroke-dashoffset="0"/></svg><span id="rpT">${fmtS(st.sec)}</span></div>`;
     if(t==='breath')side+=`<p class="rp-phase" id="rpPh">Приготовьтесь</p><p class="rp-left" id="rpT">${fmtS(st.total)}</p>`;
     if(t==='count')side+=`<div class="rp-count">${[...Array(st.n)].map((_,k)=>`<button type="button" aria-pressed="${(s.a['c'+s.i]||0)>k}" aria-label="Найдено: ${k+1}"></button>`).join('')}</div>`;
-    const vo=(s.vo=s.vo||{})[st.key];if((t==='input'||t==='chips')&&st.voice)side+=`<div class="rp-voice" id="rpVoice">${vo?`<span class="rp-vchip"><button type="button" class="rp-vplay" id="rpVPlay" aria-label="Прослушать">${'<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 6l11 6-11 6z"/></svg>'}</button>${s.id==='letter'?'Голосовое письмо':'Голосовая запись'} · ${fmtS(vo.sec||0)}</span><button type="button" class="linkbtn" id="rpRec">Записать заново</button>`:`<button type="button" class="btn btn--outline rp-recb" id="rpRec">${MIC}<span>${s.id==='letter'?'Наговорить голосом':'Записать голосом вместо текста'}</span></button><span class="rp-rect" id="rpRecT"></span>`}</div>`;
-    if(t==='input')side+=st.multi?`<textarea class="area rp-in" id="rpIn" placeholder="${esc(st.ph||'')}">${esc(s.a[st.key]||'')}</textarea>`:`<input class="line rp-in" id="rpIn" placeholder="${esc(st.ph||'')}" value="${esc(s.a[st.key]||'')}">`;
+    const vo=(s.vo=s.vo||{})[st.key];if((t==='input'||t==='chips')&&st.voice)side+=`<div class="rp-voice" id="rpVoice">${vo?`<span class="rp-vchip"><button type="button" class="rp-vplay" id="rpVPlay" aria-label="Прослушать">${'<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 6l11 6-11 6z"/></svg>'}</button>${s.id==='letter'?'Голосовое письмо':'Голосовая запись'} · ${fmtS(vo.sec||0)}</span><button type="button" class="linkbtn" id="rpRec">Записать заново</button>`:`<button type="button" class="btn btn--outline rp-recb" id="rpRec">${MIC}<span>${s.id==='letter'?'Наговорить голосом':'Наговорить голосом'}</span></button><span class="rp-rect" id="rpRecT"></span>`}</div>`;
+    if(t==='input')side+=st.multi?`<textarea class="area rp-in" id="rpIn" ${st.voice?'data-mic="skip" ':''}placeholder="${esc(st.ph||'')}">${esc(s.a[st.key]||'')}</textarea>`:`<input class="line rp-in" id="rpIn" ${st.voice?'data-mic="skip" ':''}placeholder="${esc(st.ph||'')}" value="${esc(s.a[st.key]||'')}">`;
     if(t==='chips'){const v=s.a[st.key];const opts=[...st.opts,...(st.multi?(v||[]).filter(x=>!st.opts.includes(x)):(v&&!st.opts.includes(v)?[v]:[]))];side+=`<div class="chips rp-chips">${opts.map(x=>`<button type="button" class="chip" data-ch="${esc(x)}" aria-pressed="${st.multi?(v||[]).includes(x):v===x}">${esc(x)}</button>`).join('')}</div>${st.own?`<div class="input rp-own"><input class="line" id="rpOwn" placeholder="Свой вариант"><button class="btn btn--sm btn--ghost" id="rpOwnB" type="button">+</button></div>`:''}`}
     if(t==='yn')next='';
     if(t==='yn')side+=`<div class="rp-yn">${st.opts.map(([k,l])=>`<button type="button" class="chip" data-yn="${k}" aria-pressed="${s.a[st.key]===k}">${esc(l)}</button>`).join('')}</div>`;
@@ -4985,8 +5005,13 @@ function rpDraw(){const s=RPS;if(!s)return;if(s.id==='cold'&&s.i>=0&&s.i<=1)broo
       if(s.vo[vk]){try{URL.revokeObjectURL(s.vo[vk].url)}catch(e){}delete s.vo[vk];if(st.key===s.vkLast)s.voice=null}
       if(!navigator.mediaDevices||!window.MediaRecorder){toast('Запись голоса недоступна в этом браузере. Можно написать текстом');return}
       try{const stream=await navigator.mediaDevices.getUserMedia({audio:true});const r=new MediaRecorder(stream),ch=[];s.stream=stream;s.rec=r;const t0=Date.now();
-        r.ondataavailable=e=>e.data.size&&ch.push(e.data);r.onstop=()=>{clearInterval(s.riv);stream.getTracks().forEach(x=>x.stop());if(RPS!==s)return;const u=URL.createObjectURL(new Blob(ch,{type:r.mimeType||'audio/webm'})),sec=(Date.now()-t0)/1000;s.vo[vk]={url:u,sec};s.voice=u;s.voiceSec=sec;s.vkLast=vk;rpSave();rpDraw()};
-        r.start();rb.classList.add('is-rec');rb.innerHTML=`<i class="rp-dot"></i><span>Остановить запись</span>`;s.riv=setInterval(()=>{const e=$('#rpRecT');if(e)e.textContent=fmtS((Date.now()-t0)/1000)},300)}
+        r.ondataavailable=e=>e.data.size&&ch.push(e.data);r.onstop=async()=>{clearInterval(s.riv);stream.getTracks().forEach(x=>x.stop());if(RPS!==s)return;rpSave();const blob=new Blob(ch,{type:r.mimeType||'audio/webm'}),sec=(Date.now()-t0)/1000,si=s.i;
+          const say=m=>{const e=$('#rpVoice');if(e&&RPS===s&&s.i===si)e.innerHTML=`<span class="rp-stt"><i></i>${esc(m)}</span>`};const nb=$('#rpNext');if(nb)nb.disabled=true;
+          say('Перевожу голос в текст…');let txt='';try{txt=await sttText(blob,pc=>say(`Готовлю перевод голоса в текст, это нужно только один раз · ${pc}%`))}catch(e){}
+          if(RPS!==s)return;
+          if(txt){if(st.t==='chips'){if(st.multi)(s.a[vk]=s.a[vk]||[]).push(txt);else s.a[vk]=txt}else s.a[vk]=((s.a[vk]||'')+' '+txt).trim();if(s.i===si)rpDraw()}
+          else{const u=URL.createObjectURL(blob);s.vo[vk]={url:u,sec};s.voice=u;s.voiceSec=sec;s.vkLast=vk;if(s.i===si)rpDraw();toast('Не получилось перевести голос в текст. Запись сохранена как голосовая')}};
+        sttLoad().catch(()=>{});r.start();rb.classList.add('is-rec');rb.innerHTML=`<i class="rp-dot"></i><span>Остановить запись</span>`;s.riv=setInterval(()=>{const e=$('#rpRecT');if(e)e.textContent=fmtS((Date.now()-t0)/1000)},300)}
       catch(e){toast('Нет доступа к микрофону. Разрешите его в настройках браузера или напишите текстом')}}}
 }
 function rpSave(){const s=RPS;if(!s)return;const st=RP[s.id].steps[s.i];if(st&&st.t==='input'){const i=$('#rpIn');if(i)s.a[st.key]=i.value.trim()}}
@@ -5575,32 +5600,22 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-tp]');if(!
     if(el.matches('[data-pc],[data-pl="psy"]'))return false;const ph=(el.getAttribute('placeholder')||'').toLowerCase();if(/телефон|@ник|ключ|код/.test(ph))return false;return true};
   const MIC='<svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><rect x="6.2" y="2" width="5.6" height="9" rx="2.8"/><path d="M3.8 8.6a5.2 5.2 0 0010.4 0M9 13.8V16"/></svg>';
   let cur=null;
-  const isWin=/Windows/.test(navigator.userAgent),isMac=/Macintosh/.test(navigator.userAgent),isMob=/Android|iPhone|iPad/.test(navigator.userAgent);
-  const SYS=isMob?'Нажмите на микрофон на клавиатуре телефона':isWin?'Нажмите в поле и затем клавиши Win + H: включится голосовой ввод Windows':isMac?'Нажмите в поле и затем дважды клавишу Fn: включится диктовка Mac':'Можно написать текстом';
-  const off=c=>{if(!c)return;clearTimeout(c.wd);c.btn.classList.remove('is-on');c.btn.setAttribute('aria-pressed','false');c.btn.title='Надиктовать голосом';const el=c.el;el.value=el.value.replace(/\s+$/,'');el.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('change',{bubbles:true}));if(cur===c)cur=null};
-  /* Остановка срабатывает сразу, даже если сервис распознавания не ответил */
-  const stop=()=>{const c=cur;if(!c)return;off(c);try{c.rec.stop()}catch(e){}setTimeout(()=>{try{c.rec.abort()}catch(e){}},1200)};
-  const fail=(c,msg)=>{if(c.failed)return;c.failed=1;toast(msg);if(window.__vyAuto)window.__vyAuto('Голосовой ввод: '+c.ev.join(' > '),navigator.userAgent.slice(0,120));if(cur===c)stop()};
-  const start=(el,btn)=>{if(cur&&cur.el===el){stop();return}stop();
-    if(!SR){toast('В этом браузере голосовой ввод не работает. '+SYS);el.focus();return}
-    const rec=new SR();rec.lang='ru-RU';rec.continuous=true;rec.interimResults=true;
-    const c={el,btn,rec,ev:['start'],got:false};
-    let base=el.value;if(base&&!/\s$/.test(base))base+=' ';let fin='';
-    const put=t=>{let v=base+t;if(!base.trim())v=v.charAt(0).toUpperCase()+v.slice(1);el.value=v;el.dispatchEvent(new Event('input',{bubbles:true}))};
-    ['audiostart','soundstart','speechstart','speechend','nomatch'].forEach(n=>{rec['on'+n]=()=>{c.ev.push(n);if(n==='audiostart'&&cur===c)toast('Слушаю. Говорите, а чтобы закончить, нажмите на микрофон еще раз')}});
-    rec.onresult=e=>{if(!c.got)c.ev.push('result');c.got=true;let it='';for(let i=e.resultIndex;i<e.results.length;i++){const r=e.results[i];if(r.isFinal)fin+=r[0].transcript.trim()+' ';else it+=r[0].transcript}put((fin+it).replace(/\s{2,}/g,' '))};
-    rec.onerror=e=>{c.ev.push('error:'+e.error);
-      if(e.error==='not-allowed'||e.error==='service-not-allowed'){let inFrame=false;try{inFrame=window.top!==window}catch(x){inFrame=true}
-        fail(c,inFrame&&!/vercel\.app$/.test(location.hostname)?'В предпросмотре микрофон не работает. Откройте кабинет на сайте vydoh-sreda.vercel.app: там браузер спросит разрешение':'Нет доступа к микрофону. Нажмите на значок замка слева от адреса сайта, разрешите микрофон и попробуйте еще раз')}
-      else if(e.error==='network')fail(c,'Сервис распознавания речи сейчас недоступен. '+SYS);
-      else if(e.error==='audio-capture')fail(c,'Браузер не нашел микрофон. Проверьте, что он подключен. '+SYS);
-      else if(e.error==='no-speech')fail(c,'Ничего не слышно. Проверьте микрофон и попробуйте еще раз');
-      else if(e.error!=='aborted')fail(c,'Голосовой ввод прервался. '+SYS)};
-    rec.onend=()=>{c.ev.push('end');if(cur===c)off(c)};
-    try{rec.start()}catch(e){toast('Голосовой ввод не запустился. '+SYS);return}
-    cur=c;btn.classList.add('is-on');btn.setAttribute('aria-pressed','true');btn.title='Остановить диктовку';toast('Включаю микрофон…');
-    /* Если за 9 секунд не пришло ни одного слова, честно говорим об этом и предлагаем другой способ */
-    c.wd=setTimeout(()=>{if(cur===c&&!c.got)fail(c,(c.ev.includes('audiostart')?'Браузер слышит микрофон, но не распознает речь. ':'Микрофон не включился. ')+SYS)},9000)};
+  const idle=b=>{b.classList.remove('is-on','is-busy');b.setAttribute('aria-pressed','false');b.title='Надиктовать голосом'};
+  const stop=()=>{const c=cur;if(!c)return;cur=null;try{c.rec.state==='recording'&&c.rec.stop()}catch(e){}};
+  const start=async(el,btn)=>{if(cur&&cur.el===el){stop();return}stop();if(btn.classList.contains('is-busy'))return;
+    if(!navigator.mediaDevices||!window.MediaRecorder){toast('В этом браузере голосовой ввод не работает. Можно написать текстом');return}
+    let stream;try{stream=await navigator.mediaDevices.getUserMedia({audio:true})}catch(e){toast('Нет доступа к микрофону. Нажмите на значок замка слева от адреса сайта, разрешите микрофон и попробуйте еще раз');return}
+    const rec=new MediaRecorder(stream),ch=[],t0=Date.now();const c={el,btn,rec};cur=c;
+    rec.ondataavailable=e=>e.data.size&&ch.push(e.data);
+    rec.onstop=async()=>{stream.getTracks().forEach(x=>x.stop());if(cur===c)cur=null;btn.classList.remove('is-on');btn.classList.add('is-busy');btn.title='Перевожу голос в текст';
+      if(Date.now()-t0<700){idle(btn);return}
+      toast('Перевожу голос в текст…');let txt='';
+      try{txt=await sttText(new Blob(ch,{type:rec.mimeType||'audio/webm'}),pc=>toast(`Готовлю перевод голоса в текст, это нужно только один раз · ${pc}%`))}catch(e){}
+      idle(btn);
+      if(!txt){toast('Не получилось разобрать речь. Попробуйте еще раз или напишите текстом');return}
+      let v=el.value.replace(/\s+$/,'');v=v?v+' '+txt:txt.charAt(0).toUpperCase()+txt.slice(1);el.value=v;
+      el.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('change',{bubbles:true}));toast('Готово, текст добавлен')};
+    sttLoad().catch(()=>{});rec.start();btn.classList.add('is-on');btn.setAttribute('aria-pressed','true');btn.title='Остановить запись';toast('Говорите. Чтобы закончить, нажмите на микрофон еще раз')};
   const deco=root=>{(root||document).querySelectorAll('textarea,input').forEach(el=>{if(!ok(el))return;el.dataset.mic='1';el.setAttribute('autocomplete','off');
     const w=document.createElement('span');w.className='mic-w'+(el.tagName==='TEXTAREA'?' mic-w--area':'');el.parentNode.insertBefore(w,el);w.appendChild(el);
     const b=document.createElement('button');b.type='button';b.className='mic';b.innerHTML=MIC;b.title='Надиктовать голосом';b.setAttribute('aria-label','Надиктовать голосом');b.setAttribute('aria-pressed','false');
