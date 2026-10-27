@@ -1225,6 +1225,15 @@ button.tt{cursor:pointer}
 .rpt__side .rp-ratebox{margin-top:24px;padding:18px 20px 16px;background:color-mix(in srgb,var(--c,var(--mint)) 40%,var(--bg));border-radius:0}
 .rpt__side .rp-ratebox .rp-q{margin:0 0 12px;font-size:16px;font-weight:500;color:var(--ink)}
 .rpt__side .rp-ratebox .rp-rate__l{font-size:13px}
+
+/* Карта сигналов: пустой вариант - белый с рамкой, отмеченный - цветной с галочкой, отмеченный на другом шаге - бледный с пунктиром */
+.rw .rw__c:not(.on):not(.is-other):not(.rw__add){background:#fff;border-color:#cdd2ce;color:#2d2c2a}
+.rw__c.on::before{content:'✓';margin-right:6px;font-size:13px}
+.rw__c.is-other{background:#fff;color:#a2a6a3;border-style:dashed;border-color:#cfd3cf}
+.rw__legend{display:flex;align-items:center;gap:10px;flex-wrap:nowrap;margin:-6px 0 18px;font-size:14px;color:#737773}
+.rw__legend .rw__c{pointer-events:none;min-height:28px;padding:2px 10px;font-size:13px}
+.rw__cnt.is-ping{color:#7a3a32;animation:rwping .9s ease 2}@keyframes rwping{50%{opacity:.35}}
+.btn[data-empty]{opacity:.55}
 </style>
 <style id="vy-skin">
 /* =====================================================================
@@ -3134,6 +3143,9 @@ body{background:var(--page);font-size:15px;line-height:1.5}
 
 @media (max-width:860px){.cl-sel{flex-direction:column;align-items:stretch;width:100%;gap:4px}.cl-sel select{max-width:none;width:100%}.cl-top .cl-who small{white-space:nowrap}}
 
+
+/* Кнопки внизу практик одной ширины: при смене «Начать» на «Остановить» не остается следа от прежней кнопки */
+.rpt__nav .btn--primary,.rpt__nav .btn--outline{min-width:180px}
 </style>
 </head>
 <body>
@@ -3510,11 +3522,16 @@ const asT={};function autosave(k,fn){clearTimeout(asT[k]);asT[k]=setTimeout(()=>
 function keepPulseDraft(){if(route&&route.v==='tool'&&route.arg==='pulse'&&route.pw){const c=document.getElementById('ctx');if(c)route.pw.p.ctx=c.value.trim();const p=route.pw.p;const has=p.energy||p.tension||p.ctx||(p.emo||[]).length||Object.keys(p.bmap||{}).length||p.clarity||p.want;if(has){S.pwDraft=route.pw;save()}}}
 window.addEventListener('pagehide',keepPulseDraft);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')keepPulseDraft()});
 let RET=null;
-function go(v,arg,noPush){if(document.getElementById('hpOv')&&typeof hpClose==='function')hpClose();keepPulseDraft();if(route&&route.arg!==arg)route.pst=0;if(typeof pracStop==='function')pracStop();if(typeof recStop==='function')recStop();const mn=document.getElementById('main');if(mn){mn.classList.add('enter');clearTimeout(window._ent);window._ent=setTimeout(()=>mn.classList.remove('enter'),1800)}route={v,arg};$('#sidebar').classList.remove('open');if(!noPush)try{history.pushState({v,arg},'')}catch(e){}render();window.scrollTo({top:0})}
+/* Куда ведет кнопка «Назад»: запоминаем путь по разделам, чтобы подписать ее названием предыдущего экрана */
+const NAVH=[];
+function routeName(r){if(!r)return 'Маршрут программы';if(r.v==='tool'){const t=T[r.arg];return t?(t.id==='point'?'Диагностика':t.title):'Маршрут программы'}
+  return {today:'Сегодня',tools:'Маршрут программы',navself:'Ключ к своему состоянию',mat:'Материалы',meet:'Темы для встречи',hard:'Выдохнуть',audio:'Записи Насти',help:'Как устроен кабинет',links:'Панель клиентов'}[r.v]||'Маршрут программы'}
+function backLbl(){const r=NAVH[NAVH.length-1];return `Вернуться в раздел «${esc(routeName(r||{v:'tools'}))}»`}
+function go(v,arg,noPush){if(document.getElementById('hpOv')&&typeof hpClose==='function')hpClose();keepPulseDraft();if(route&&route.arg!==arg)route.pst=0;if(typeof pracStop==='function')pracStop();if(typeof recStop==='function')recStop();const mn=document.getElementById('main');if(mn){mn.classList.add('enter');clearTimeout(window._ent);window._ent=setTimeout(()=>mn.classList.remove('enter'),1800)}if(!noPush&&route&&!(route.v===v&&route.arg===arg)){NAVH.push({v:route.v,arg:route.arg});if(NAVH.length>40)NAVH.shift()}route={v,arg};$('#sidebar').classList.remove('open');if(!noPush)try{history.pushState({v,arg},'')}catch(e){}render();window.scrollTo({top:0})}
 window.__vy={go:(...a)=>go(...a),get S(){return S},save:()=>save(),render:()=>render(),get route(){return route}};
-window.addEventListener('popstate',e=>{if(document.getElementById('hpOv')){hpClose();return}const st=e.state;if(st&&st.v)go(st.v,st.arg,true);else go('today',null,true)});
+window.addEventListener('popstate',e=>{if(document.getElementById('hpOv')){hpClose();return}NAVH.pop();const st=e.state;if(st&&st.v)go(st.v,st.arg,true);else go('today',null,true)});
 try{history.replaceState({v:'today'},'')}catch(e){}
-document.addEventListener('click',e=>{if(e.target.closest('[data-back]')){e.preventDefault();if(history.state&&history.length>1&&history.state.v!=='today')history.back();else go('tools')}});
+document.addEventListener('click',e=>{if(e.target.closest('[data-back]')){e.preventDefault();if(NAVH.length&&history.state&&history.state.v!=='today')history.back();else go(NAVH.length?NAVH[NAVH.length-1].v:'tools',NAVH.length?NAVH[NAVH.length-1].arg:undefined)}});
 document.addEventListener('click',e=>{const g=e.target.closest('[data-go]');if(g&&!g.disabled){e.preventDefault();if(g.dataset.go==='tool'&&route.v==='tool'&&route.arg&&g.dataset.arg!==route.arg&&g.dataset.arg!==RET)RET=route.arg;else if(g.dataset.go!=='tool'||g.dataset.arg===RET)RET=null;go(g.dataset.go,g.dataset.arg)}});
 $('#menuBtn').onclick=()=>$('#sidebar').classList.toggle('open');
 function render(){try{render0()}catch(e){const m=$('#main');if(window.__vyAuto)window.__vyAuto('render: '+(e&&e.message||e),String(e&&e.stack||'').split('\n')[1]||'');
@@ -3523,7 +3540,7 @@ function render(){try{render0()}catch(e){const m=$('#main');if(window.__vyAuto)w
 function render0(){nav();const m=$('#main');m.innerHTML='';
   if(route.v==='tool'){const t=T[route.arg];if(!t||!isOpen(t.id)){go('tools');return}TOOL[t.id](m,t);return}
   ({today:vToday,tools:vTools,audio:vAudio,navself:m=>TOOL.nav(m,T.nav),mat:vMat,meet:vMeet,links:vLinks,help:vHelp,hard:vHard}[route.v]||vToday)(m);
-  if(route.v!=='today'&&!$('[data-back],.back',m)){const pg=$('.page',m);if(pg)pg.insertAdjacentHTML('afterbegin',`<button class="back" data-back>${BACK}Назад</button>`)}
+  if(route.v!=='today'&&!$('[data-back],.back',m)){const pg=$('.page',m);if(pg)pg.insertAdjacentHTML('afterbegin',`<button class="back" data-back>${BACK}${backLbl()}</button>`)}
 }
 function sos(){const s=C.safety;const b=document.createElement('div');b.className='modal-back';
   b.innerHTML=`<div class="modal" role="dialog" aria-modal="true"><h2>${esc(s.title)}</h2><p>${esc(s.text)}</p><div class="phones">${s.phones.map(p=>`<a href="${esc(p.href)}">${esc(p.label)}</a>`).join('')}</div><p class="muted">${esc(s.note)}</p><div><button class="btn btn--primary">Понятно</button></div></div>`;
@@ -3590,7 +3607,7 @@ const field=(label,inner,hint)=>`<div class="field"><div class="field__label"><s
 function head(t){
   const lk=ns=>ns.map(n=>`<button data-go="tool" data-arg="${TN[n].id}" class="${isOpen(TN[n].id)?'':'is-closed'}" ${isOpen(TN[n].id)?'':'disabled'}>${n}. ${esc(TN[n].title)}</button>`).join('');
   const h=C.howTo[t.id]||{};
-  return `<button class="back" ${t.id==='pulse'?'data-go="today"':'data-back'}>${BACK}${t.id==='pulse'?'Вернуться на «Сегодня»':'Назад'}</button>${RET&&RET!==t.id&&T[RET]?`<button class="retbar" data-go="tool" data-arg="${RET}">${BACK}Вернуться в «${esc(T[RET].title)}»</button>`:''}<header class="thero">
+  const prv=NAVH[NAVH.length-1];return `<button class="back" ${t.id==='pulse'?'data-go="today"':'data-back'}>${BACK}${t.id==='pulse'?'Вернуться на «Сегодня»':backLbl()}</button>${RET&&RET!==t.id&&T[RET]&&!(prv&&prv.v==='tool'&&prv.arg===RET)?`<button class="retbar" data-go="tool" data-arg="${RET}">${BACK}Вернуться в «${esc(T[RET].title)}»</button>`:''}<header class="thero">
     <div class="thero__img" style="background:${HBG[t.id]||'var(--mint)'}">${bigIco(t.id,150)}</div>
     <div class="thero__txt"><p class="eyebrow">${t.role?esc(t.role)+' · ':''}${esc(t.time)}</p><h1>${esc(t.id==='point'?'Диагностика':t.title)}</h1>
       <p class="thero__met">${esc((C.metaphor||{})[t.id]||t.goal)}</p>
@@ -3633,7 +3650,7 @@ function nextAfter(cur){const pd=!!(S.point&&S.point.saved);const wk=Date.now()-
   /* Отметки - привычка, а не условие: первая отметка недели идет первой, дальше сразу практики */
   if(nP===0&&cur!=='pulse')return S.pulses.length?PULSE:Object.assign({},PULSE,{h:'Сделайте первую короткую отметку',why:'В диагностике вы описали свою обычную неделю. В отметке вы за минуту фиксируете, как вы прямо сейчас. Повторяйте ее 2-3 раза в неделю, и станет видно, что вас разряжает',explain:true});
   const cs=curStage();const stg=(C.stages[cs-1]||{tools:[]}).tools;
-  const todo=C.tools.filter(t=>isOpen(t.id)&&!t.final&&!['point','pulse',cur].includes(t.id)&&tStatus(t.id)!=='done').sort((a,b)=>S.openAll?(STAGE_OF[a.id]||1)-(STAGE_OF[b.id]||1):(stg.includes(b.id)?1:0)-(stg.includes(a.id)?1:0));
+  const todo=C.tools.filter(t=>isOpen(t.id)&&!t.final&&!['point','pulse',cur].includes(t.id)&&tStatus(t.id)!=='done').sort((a,b)=>{const cs0=cur&&STAGE_OF[cur];if(cs0){const ba=(STAGE_OF[a.id]||1)<cs0?1:0,bb=(STAGE_OF[b.id]||1)<cs0?1:0;if(ba!==bb)return ba-bb}return S.openAll?(STAGE_OF[a.id]||1)-(STAGE_OF[b.id]||1):(stg.includes(b.id)?1:0)-(stg.includes(a.id)?1:0)});
   if(todo.length){const t=todo[0];return {id:t.id,h:t.id==='lab'&&S.lab.some(l=>l.started&&!l.result)?'Запишите, что получилось в эксперименте':WHY[t.id]||t.title,why:t.title,time:t.time,go:['tool',t.id],tool:true}}
   if(nP<3&&!markedToday&&cur!=='pulse')return PULSE;
   if(finalTime()&&cur!=='nav')return {id:'nav',h:'Соберите «Ключ к своему состоянию»',why:'Все ваши ответы собрались в одном месте: как вы устроены и что вам помогает',time:'5 минут',go:['navself','']};
@@ -4176,6 +4193,7 @@ function hpClose(silent){pracStop();const o=document.getElementById('hpOv');if(o
 /* Шкала «Отметьте ваше состояние»: одна и та же плашка во всех практиках, до и после */
 function stateScale(key,q,val){return `<div class="rp-ratebox"><p class="rp-q">${q}</p><div class="rp-rate" data-rate="${key}">${[1,2,3,4,5].map(v=>`<button type="button" aria-pressed="${val===v}" data-v="${v}" aria-label="${v} из 5"><i style="--s:${.35+v*.13}"></i></button>`).join('')}</div><div class="rp-rate__l"><span>легко</span><span>очень тяжело</span></div></div>`}
 let HPS={before:null,after:null};
+function navRepaint(o){const n=o&&o.querySelector('.rpt__nav');if(!n)return;n.style.transform='translateZ(0)';requestAnimationFrame(()=>requestAnimationFrame(()=>{n.style.transform=''}))}
 function hpDraw(k,stage){const v=PRAC[k],o=$('#hpOv');if(!o)return;const steps=PSTEP[k];
   const snd=typeof RSND!=='undefined'?`<button type="button" class="rpt__snd" id="hpSnd" aria-pressed="${RSND}">${RSND?SND_ON:SND_OFF}<span>${RSND?'Звук включен':'Без звука'}</span></button>`:'';
   let side='',nav='';
@@ -4188,7 +4206,7 @@ function hpDraw(k,stage){const v=PRAC[k],o=$('#hpOv');if(!o)return;const steps=P
   o.innerHTML=`<div class="rpt__top"><button type="button" class="rpt__x" id="hpX">${BACK}К выбору практики</button><span class="rpt__right">${snd}</span></div>
     <div class="rpt__body"><div class="rpt__img hp__img"><div class="prac__play ${stage==='end'?'pl--end':'pl--ready'}" id="hpPl">${pracImg(k,true)}</div></div><div class="rpt__side">${side}</div></div>
     <div class="rpt__nav">${nav}</div>`;
-  $('#hpX').onclick=hpBack;$('#hpOther')&&($('#hpOther').onclick=hpBack);
+  navRepaint(o);$('#hpX').onclick=hpBack;$('#hpOther')&&($('#hpOther').onclick=hpBack);
   const sb=$('#hpSnd');if(sb)sb.onclick=()=>{RSND=!RSND;if(!RSND&&typeof brookStop==='function')brookStop();else if(RSND&&RPS&&RPS.id==='cold'&&RPS.i>=0&&RPS.i<=1&&typeof brookStart==='function')brookStart();try{localStorage.setItem('vydoh-snd',RSND?'1':'0')}catch(e){}if(RSND){acx();chime('in')}sb.setAttribute('aria-pressed',String(RSND));sb.innerHTML=(RSND?SND_ON:SND_OFF)+`<span>${RSND?'Звук включен':'Без звука'}</span>`};
   if(stage==='intro'){$('#hpGo').onclick=()=>{if(typeof RSND!=='undefined'&&RSND)acx();hpDraw(k,'run')};$('#hpGo').focus()}
   if(stage==='run')hpRun(k);
@@ -4400,13 +4418,14 @@ TOOL.radar=(m,t)=>{
   let body;
   if(st<2){const n=st?nL:nE;
     const Q=st?['Что бывает, когда сил почти не осталось?','Вспомните самый тяжелый период. Отметьте 2-5 вариантов в любых группах']:['Что вы замечаете первым, когда нагрузка начинает расти?','Вспомните начало трудной недели. Отметьте 2-5 вариантов в любых группах'];
-    body=`<div class="rw ${st?'rw--lim':'rw--early'}"><h2 class="rw__q">${Q[0]}</h2><p class="rw__h">${Q[1]}</p>
+    const hasOther=S.signals.some(x=>(x.zone||'ранний')!==RZ);
+    body=`<div class="rw ${st?'rw--lim':'rw--early'}"><h2 class="rw__q">${Q[0]}</h2><p class="rw__h">${Q[1]}</p>${hasOther?`<p class="rw__legend"><span class="rw__c is-other" aria-hidden="true">пример</span><span>${st?'Так показано то, что вы уже отметили как первые звоночки. Если это бывает и на пределе, нажмите, и вариант перейдет сюда':'Так показано то, что вы уже отметили как «на пределе». Если это бывает и в начале, нажмите, и вариант перейдет сюда'}</span></p>`:''}
       <div class="rw__grid">${C.RADAR_TYPES.map(type=>{const sugg=type==='тело'?bodyS:[...new Set(C.RADAR_SUGGEST[type]||[])];const own=S.signals.filter(x=>x.type===type&&!sugg.includes(x.t)).map(x=>x.t);
         return `<div class="rw__g" data-type="${type}"><p class="rw__gh"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" aria-hidden="true">${ICO[type]||''}</svg><b>${type[0].toUpperCase()+type.slice(1)}</b><small>${TD[type]}</small></p>
           <div class="rw__chips">${[...sugg,...own].map(v=>{const z=zOf(type,v);const other=z&&z!==RZ;return `<button type="button" class="rw__c${z===RZ?' on':''}${other?' is-other':''}" aria-pressed="${z===RZ}" data-tg="${esc(v)}"${other?` title="Уже отмечено как ${z==='предел'?'«на пределе»':'первый звоночек'}. Нажмите, чтобы перенести сюда"`:''}>${esc(v)}</button>`}).join('')}
           <button type="button" class="rw__c rw__add" data-ownopen>+ свое</button><span class="rw__own" hidden><input data-own placeholder="Ваш вариант" aria-label="Свой сигнал: ${type}"><button type="button" class="btn btn--sm" data-ownadd>Добавить</button></span></div></div>`}).join('')}</div>
-      <div class="rw__nav"><button type="button" class="btn btn--primary" data-rgo="${st+1}"${n?'':' disabled'}>${st?'Посмотреть, что это значит':'Дальше: на пределе'}<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M6 3l5 5-5 5"/></svg></button>
-        <span class="rw__cnt">${n?`Отмечено ${n} ${plural(n,'вариант','варианта','вариантов')}`:'Отметьте хотя бы один вариант'}</span>${st?'<button type="button" class="btn btn--ghost" data-rgo="0">Назад</button>':''}</div></div>`}
+      <div class="rw__nav"><button type="button" class="btn btn--primary" data-rgo="${st+1}"${n?'':' data-empty="1"'}>${st?'Посмотреть, что это значит':'Дальше: на пределе'}<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M6 3l5 5-5 5"/></svg></button>
+        <span class="rw__cnt" id="rwCnt">${n?`Отмечено ${n} ${plural(n,'вариант','варианта','вариантов')}`:'Нажмите на подходящие варианты, и они станут цветными'}</span>${st?'<button type="button" class="btn btn--ghost" data-rgo="0">Предыдущий шаг</button>':''}</div></div>`}
   else body=`${S.signals.length?radarMeaning():'<p class="muted">Сигналы пока не отмечены</p>'}<div class="rw__nav rw__nav--end"><button type="button" class="btn btn--ghost" data-rgo="0">Изменить отметки</button></div>`;
   m.innerHTML=wrap(t,`<section class="sec rw-sec">${stepper}${body}</section>`);
   if(st<2){const nx=$('.nxt',m);if(nx)nx.hidden=true;const rs=$('.nxt__reset',m);if(rs)rs.hidden=true}
@@ -4414,7 +4433,7 @@ TOOL.radar=(m,t)=>{
   const top=()=>{const e=$('.rw-steps',m);if(e){const y=e.getBoundingClientRect().top+window.scrollY-96;window.scrollTo({top:Math.max(0,y),behavior:'smooth'})}};
   const keep=()=>{save();const y=window.scrollY;render();window.scrollTo({top:y})};
   const toggle=(type,v)=>{const k=S.signals.findIndex(x=>x.type===type&&x.t===v);if(k>=0){if((S.signals[k].zone||'ранний')===RZ)S.signals.splice(k,1);else S.signals[k].zone=RZ}else S.signals.push({t:v,type,zone:RZ});keep()};
-  $$('[data-rst],[data-rgo]',m).forEach(b=>b.onclick=()=>{route.rst=+(b.dataset.rst??b.dataset.rgo);render();top()});
+  $$('[data-rst],[data-rgo]',m).forEach(b=>b.onclick=()=>{if(b.dataset.empty){toast('Сначала отметьте хотя бы один вариант: нажмите на подходящие слова');const c=$('#rwCnt',m);if(c){c.classList.remove('is-ping');void c.offsetWidth;c.classList.add('is-ping')}return}route.rst=+(b.dataset.rst??b.dataset.rgo);render();top()});
   $$('.rw__g[data-type]',m).forEach(g=>{const type=g.dataset.type;
     $$('[data-tg]',g).forEach(b=>b.onclick=()=>toggle(type,b.dataset.tg));
     const op=$('[data-ownopen]',g),box=$('.rw__own',g),inp=$('[data-own]',g);
@@ -5016,7 +5035,7 @@ function rpDraw(){const s=RPS;if(!s)return;if(s.id==='cold'&&s.i>=0&&s.i<=1)broo
   o.innerHTML=`<div class="rpt__top"><button type="button" class="rpt__x" id="rpX">${BACK}Выйти из практики</button>${dots}</div>
     <div class="rpt__body"><div class="rpt__img${st&&st.t==='breath'?'':' is-idle'}">${img}</div><div class="rpt__side">${side}</div></div>
     <div class="rpt__nav">${s.i>=0?`<button type="button" class="btn btn--ghost" id="rpPrev">Предыдущий шаг</button>`:'<span></span>'}${next?`<button type="button" class="btn btn--primary" id="rpNext">${next}</button>`:''}</div>`;
-  $('#rpX').onclick=recStop;$('#rpSnd').onclick=()=>{RSND=!RSND;if(!RSND&&typeof brookStop==='function')brookStop();else if(RSND&&RPS&&RPS.id==='cold'&&RPS.i>=0&&RPS.i<=1&&typeof brookStart==='function')brookStart();try{localStorage.setItem('vydoh-snd',RSND?'1':'0')}catch(e){}if(RSND){acx();chime('in')}const b=$('#rpSnd');b.setAttribute('aria-pressed',String(RSND));b.innerHTML=(RSND?SND_ON:SND_OFF)+`<span>${RSND?'Звук включен':'Без звука'}</span>`};
+  navRepaint(o);$('#rpX').onclick=recStop;$('#rpSnd').onclick=()=>{RSND=!RSND;if(!RSND&&typeof brookStop==='function')brookStop();else if(RSND&&RPS&&RPS.id==='cold'&&RPS.i>=0&&RPS.i<=1&&typeof brookStart==='function')brookStart();try{localStorage.setItem('vydoh-snd',RSND?'1':'0')}catch(e){}if(RSND){acx();chime('in')}const b=$('#rpSnd');b.setAttribute('aria-pressed',String(RSND));b.innerHTML=(RSND?SND_ON:SND_OFF)+`<span>${RSND?'Звук включен':'Без звука'}</span>`};
   if(s.i<0&&$('#rpNext'))$('#rpNext').addEventListener('click',()=>{if(RSND)acx()},{capture:true});$('#rpPrev')&&($('#rpPrev').onclick=()=>{rpSave();s.i--;rpDraw()});$('#rpNext')&&($('#rpNext').onclick=()=>{rpSave();s.i++;rpDraw();const sd=$('.rpt__side');sd&&sd.focus&&sd.scrollTo&&sd.scrollTo({top:0})});
   $$('[data-rate]',o).forEach(g=>$$('button',g).forEach(b=>b.onclick=()=>{s[g.dataset.rate]=+b.dataset.v;$$('button',g).forEach(x=>x.setAttribute('aria-pressed',String(x===b)))}));
   $$('[data-keep]',o).forEach(b=>b.onclick=()=>{S.recovery.push({state:s.state,m:s.id,before:s.before,after:s.after,keep:b.dataset.keep==='1'});
