@@ -4607,17 +4607,17 @@ TOOL.stress=(m,t)=>{const L=S.stressors;
   if(route.sst==null)route.sst=L.length&&L.every(x=>x.path)?3:L.length&&L.every(x=>stZ(x))?2:L.length?1:0;const st=route.sst;
   const ST=['Что создает нагрузку','Можно ли повлиять','Первый шаг','Карта рычагов'];
   const stepper=`<ol class="pw-steps rw-steps vw-steps" aria-label="Шаги карты">${ST.map((x,k)=>`<li class="${k<st?'done':k===st?'now':''}"><button type="button" class="pw-step" data-sgo="${k}" aria-current="${k===st?'step':'false'}"${k>0&&!L.length?' disabled':''}><span>${k+1}</span>${x}</button></li>`).join('')}</ol>`;
-  const nav=(next,label,ok,cnt,back)=>`<div class="rw__nav"><button type="button" class="btn btn--primary" data-sgo="${next}"${ok?'':' disabled'}>${label}<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M6 3l5 5-5 5"/></svg></button><span class="rw__cnt">${cnt}</span>${back!=null?`<button type="button" class="btn btn--ghost" data-sgo="${back}">Назад</button>`:''}</div>`;
+  const nav=(next,label,ok,cnt,back)=>`<div class="rw__nav"><button type="button" class="btn btn--primary" data-sgo="${next}"${ok?'':' data-empty="1"'}>${label}<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M6 3l5 5-5 5"/></svg></button><span class="rw__cnt">${cnt}</span>${back!=null?`<button type="button" class="btn btn--ghost" data-sgo="${back}">Предыдущий шаг</button>`:''}</div>`;
   const zi=(k,sz)=>{const z=ST_Z.find(x=>x[0]===k);return `<svg width="${sz||20}" height="${sz||20}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${z[4]}</svg>`};
   let body;
   if(st===0){const fromLoad=S.load.filter(x=>x.after<0).map(x=>x.name);const all=[...new Set([...fromLoad,...L.map(x=>x.name)])];const sel=L.map(x=>x.name);
     const row=v=>`<button type="button" class="bw__i" aria-pressed="${sel.includes(v)}" data-sp="${esc(v)}"><span class="bw__box" aria-hidden="true">${ico('check',12)}</span><span>${esc(v)}</span></button>`;
-    body=`<h2 class="rw__q">Что сейчас создает у вас больше всего нагрузки?</h2><p class="rw__h">Выберите 1-3 самых тяжелых дела или обстоятельства. Остальное можно разобрать позже${fromLoad.length?'. Ниже то, что забирает силы, из вашей карты нагрузки':''}</p>
+    body=`<h2 class="rw__q">Что сейчас создает у вас больше всего нагрузки?</h2><p class="rw__h">Отметьте от одного до трех дел, которые сейчас забирают у вас больше всего сил${fromLoad.length?'. Список взят из вашей «Карты нагрузки и ресурсов». Если нужного дела в нем нет, добавьте свое':'. Если нужного дела нет в списке, добавьте свое'}</p>
       <div class="st-pick bw--tense">${all.map(row).join('')}<button type="button" class="bw__i bw__add" data-ownopen><span class="bw__box" aria-hidden="true">+</span><span>Добавить свое</span></button><span class="rw__own" hidden><input id="stIn" placeholder="Например: ремонт, болезнь мамы, дедлайн проекта" aria-label="Что еще создает нагрузку"><button type="button" class="btn btn--sm" id="stAdd">Добавить</button></span></div>
-      ${nav(1,'Дальше',L.length>=1,L.length?`Выбрано ${L.length} из 3`:'Выберите хотя бы одно',null)}`}
-  else if(st===1)body=`<h2 class="rw__q">Насколько вы можете на это повлиять?</h2><p class="rw__h">Подумайте о каждом по очереди. Честного ответа достаточно</p>
+      ${nav(1,'Дальше',L.length>=1,L.length?`Выбрано ${L.length} из 3`:'Отметьте хотя бы одно дело',null)}`}
+  else if(st===1)body=`<h2 class="rw__q">Насколько вы можете на это повлиять?</h2><p class="rw__h">Подумайте о каждом деле по очереди и выберите самый честный ответ</p>
       <div class="st-q">${L.map((x,i)=>`<div class="st-q__r"><p class="st-q__n">${esc(x.name)}</p><div class="st-q__o">${ST_Z.map(([k,l,d])=>`<button type="button" class="st-opt st-opt--${k}" aria-pressed="${stZ(x)===k}" data-si="${i}" data-sz="${k}">${zi(k)}<span><b>${l}</b><small>${d}</small></span></button>`).join('')}</div></div>`).join('')}</div>
-      ${nav(2,'Дальше',L.every(x=>stZ(x)),L.every(x=>stZ(x))?'Все отмечено':'Ответьте про каждое',0)}`;
+      ${nav(2,'Дальше',L.every(x=>stZ(x)),L.every(x=>stZ(x))?'Ответы есть для всех дел':'Ответьте на вопрос для каждого дела',0)}`;
   else if(st===2)body=`<h2 class="rw__q">Что вы попробуете на этой неделе?</h2><p class="rw__h">Мы уже подобрали подходящий способ. Можно выбрать другой и написать один маленький шаг</p>
       <div class="st-q">${L.map((x,i)=>{const z=stZ(x)||'part';const rec=ST_Z.find(q=>q[0]===z)[3];const pth=x.path||rec;const P=C.PATHS.find(q=>q[0]===pth)||C.PATHS[0];
         return `<div class="st-q__r"><p class="st-q__n">${esc(x.name)}<span class="st-tag st-tag--${z}">${zi(z,14)}${ST_Z.find(q=>q[0]===z)[1].toLowerCase()}</span></p>
@@ -4636,7 +4636,7 @@ TOOL.stress=(m,t)=>{const L=S.stressors;
   bindDisc(m);
   const top=()=>{const e=$('.rw-steps',m);if(e){const y=e.getBoundingClientRect().top+window.scrollY-96;window.scrollTo({top:Math.max(0,y),behavior:'smooth'})}};
   const keep=()=>{save();const y=window.scrollY;render();window.scrollTo({top:y})};
-  $$('[data-sgo]',m).forEach(b=>b.onclick=()=>{$$('[data-sact]',m).forEach(i=>L[+i.dataset.sact].action=i.value.trim());
+  $$('[data-sgo]',m).forEach(b=>b.onclick=()=>{if(b.dataset.empty){toast(st===0?'Сначала отметьте хотя бы одно дело: нажмите на него в списке':'Сначала ответьте на вопрос для каждого дела');return}$$('[data-sact]',m).forEach(i=>L[+i.dataset.sact].action=i.value.trim());
     if(+b.dataset.sgo===3)L.forEach(x=>{if(!x.path){const z=stZ(x)||'part';x.path=ST_Z.find(q=>q[0]===z)[3]}});save();route.sst=+b.dataset.sgo;render();top()});
   const add=v=>{v=v.trim();if(!v)return;if(L.some(x=>x.name===v))return;if(L.length>=3){toast('Выберите не больше трех. Снимите галочку с одного, чтобы добавить другое');return}L.push({name:v,power:4,freq:'иногда',time:'сейчас',infl:null,source:'внешнее требование',path:null,action:''});keep()};
   $$('[data-sp]',m).forEach(b=>b.onclick=()=>{const v=b.dataset.sp,i=L.findIndex(x=>x.name===v);if(i>=0){L.splice(i,1);keep()}else add(v)});
