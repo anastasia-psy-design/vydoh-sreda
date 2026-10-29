@@ -3146,6 +3146,28 @@ body{background:var(--page);font-size:15px;line-height:1.5}
 
 /* Кнопки внизу практик одной ширины: при смене «Начать» на «Остановить» не остается следа от прежней кнопки */
 .rpt__nav .btn--primary,.rpt__nav .btn--outline{min-width:180px}
+
+/* Круговой таймер практик: побольше, с подписью фазы и цикла */
+.rp-tw{display:flex;align-items:center;gap:18px;margin-top:6px}
+.rp-tw .rp-timer{margin-top:0;flex:0 0 auto}
+.rp-timer--cyc .bar{transition:none}
+.rp-timer--cyc span{font-size:34px}
+.rp-cyc{margin:0;font-size:16px;color:var(--muted);line-height:1.4}
+.rp-how{margin-top:22px;border-top:1px solid var(--line);padding-top:14px}
+.rp-how summary{cursor:pointer;font-size:16px;color:var(--ink);list-style:none;display:inline-flex;align-items:center;gap:8px}
+.rp-how summary::-webkit-details-marker{display:none}
+.rp-how summary::after{content:'+';font-size:18px;color:var(--muted)}
+.rp-how[open] summary::after{content:'−'}
+.rp-how p{margin:10px 0 0;font-size:16px;line-height:1.5;color:var(--text)}
+/* Бегунок по кругу картинки в практиках «Выдохнуть» */
+.pring{fill:none;stroke:var(--ink);stroke-width:1.6;stroke-linecap:round}
+.pring__dot{fill:var(--ink)}
+.hp #prLeft{margin-top:14px}
+/* Стрелка спидометра встает на место и слегка покачивается */
+.rg-needle{animation:rgIn 1.3s cubic-bezier(.3,1.5,.5,1) both,rgSway 4s ease-in-out 1.3s infinite}
+@keyframes rgIn{from{transform:rotate(var(--from))}to{transform:rotate(0)}}
+@keyframes rgSway{0%,100%{transform:rotate(0)}50%{transform:rotate(2deg)}}
+@media (prefers-reduced-motion:reduce){.rg-needle{animation:none}}
 </style>
 </head>
 <body>
@@ -3749,7 +3771,7 @@ function homePath(){const pd=!!(S.point&&S.point.saved);const wk=Date.now()-7*86
   const P=[{k:'point',name:'Точка старта',st:pd?'done':'now',sub:pd?'зафиксирована':'сейчас · 10-15 минут',d:'Фиксируем сон, энергию, эмоции и нагрузку',go:['tool','point']},
     {k:'pulse',name:'Сверка с состоянием',d:'Отмечаете силы и напряжение 2-3 раза в неделю',st:pd?'now':'later',sub:pd?`${Math.min(nP,3)} из 3 на неделе`:'2-3 раза в неделю',go:['tool','pulse']},
     {k:'tools',name:'Практики между встречами',d:'Психолог открывает новые после каждой встречи',st:pd?(todo.length?'now':'done'):'later',sub:pd?`этап ${cs} из 9`:'после встреч',go:['tools','']},
-    {k:'final',name:'Финал и план после трека',d:'Фиксируем изменения и готовим план на трудные периоды',st:last?'now':'later',sub:'недели 11-12',go:['navself','']}];
+    {k:'final',name:'Итоги и план после трека',d:'Фиксируем изменения и готовим план на трудные периоды',st:last?'now':'later',sub:'недели 11-12',go:['navself','']}];
   let i,card;
   if(!pd){i=0;card={eb:'Шаг 1 из 4 · 10-15 минут',t:'Пройдите стартовую диагностику',p:'Это ваша точка А. В конце программы вы пройдете ее еще раз и увидите, что изменилось',b:'Начать',go:['tool','point'],art:'point'}}
   else if(nP<2||!todo.length){i=1;card={eb:'Шаг 2 из 4 · 1 минута',t:'Как вы сейчас?',p:nP?`На этой неделе уже ${nP} ${plural(nP,'отметка','отметки','отметок')} - это хорошо. Из отметок складывается график, по которому видно, что вас разряжает`:'Отметьте силы и напряжение. Из отметок складывается график, по которому видно, что вас разряжает',b:'Отметить',go:['tool','pulse'],art:'pulse'}}
@@ -4153,7 +4175,7 @@ const PSTEP={calm:['Вдыхайте носом, пока вода прибыв�
   anxious:['Вдох через нос - 4 счета','Задержите дыхание - 4 счета','Выдох через рот - 4 счета','Задержите дыхание - 4 счета']};
 const PHASE_STEP={calm:{in:0,out:1},energy:{in:0,out:1,move:2},anxious:{s0:0,s1:1,s2:2,s3:3}};
 let PR=null;
-function pracStop(){if(PR){clearTimeout(PR.t);cancelAnimationFrame(PR.raf);(PR.nodes||[]).forEach(n=>{try{n.stop()}catch(e){}});PR=null}}
+function pracStop(){if(PR){clearTimeout(PR.t);cancelAnimationFrame(PR.raf);cancelAnimationFrame(PR.raf2);(PR.nodes||[]).forEach(n=>{try{n.stop()}catch(e){}});PR=null}}
 /* Мягкие звуки практик: волна для «Прилива», тихие тона для вдоха, выдоха и паузы */
 function hpSound(k,mode,sec){if(typeof RSND==='undefined'||!RSND)return;const c=acx();if(!c)return;const t=c.currentTime;
   try{if(k==='calm'&&(mode==='in'||mode==='out')){hpWave(c,t,mode,sec);return}
@@ -4199,7 +4221,7 @@ function hpDraw(k,stage){const v=PRAC[k],o=$('#hpOv');if(!o)return;const steps=P
   let side='',nav='';
   if(stage==='intro'){side=`<p class="eyebrow">${esc(v.time)}</p><h2 class="rp-h">${esc(v.name)}</h2><ol class="rp-plan">${steps.map(x=>`<li>${esc(x)}</li>`).join('')}</ol><p class="rp-dev">${SND_ON}<span>Можно закрыть глаза и дышать вместе со звуком: вдох, пауза и выдох звучат по-разному</span></p>${stateScale('before','Отметьте ваше состояние',HPS.before)}`;
     nav=`<button type="button" class="btn btn--ghost" id="hpOther">Другая практика</button><button type="button" class="btn btn--primary" id="hpGo">Начать</button>`}
-  if(stage==='run'){side=`<p class="eyebrow">${esc(v.name)}</p><p class="rp-phase" id="prPh" aria-live="polite">Приготовьтесь</p><ol class="rp-plan rp-plan--run">${steps.map((x,i)=>`<li data-st="${i}">${esc(x)}</li>`).join('')}</ol><div class="prac__prog"><i id="prBar"></i></div>`;
+  if(stage==='run'){side=`<p class="eyebrow">${esc(v.name)}</p><p class="rp-phase" id="prPh" aria-live="polite">Приготовьтесь</p><ol class="rp-plan rp-plan--run">${steps.map((x,i)=>`<li data-st="${i}">${esc(x)}</li>`).join('')}</ol><p class="rp-left" id="prLeft"></p>`;
     nav=`<button type="button" class="btn btn--ghost" id="hpOther">Другая практика</button><button type="button" class="btn btn--outline" id="hpStop">Остановить</button>`}
   if(stage==='end'){side=`<p class="eyebrow">${esc(v.name)}</p><h2 class="rp-h">Как вы сейчас?</h2>${stateScale('after','Отметьте ваше состояние после практики',HPS.after)}<p class="rp-p" id="prAfter" style="margin-top:16px"></p>`;
     nav=`<button type="button" class="btn btn--ghost" id="hpOther">Другая практика</button><button type="button" class="btn btn--outline" id="hpAgain">Еще раз</button>`}
@@ -4218,12 +4240,19 @@ function hpAfter(o){const b=HPS.before,f=HPS.after;const a=b?(f<b?'ok':f===b?'sa
   $('#prAfter').innerHTML=a==='ok'?(b?'Стало легче. ':'')+'Можно вернуться к делам в своем темпе':a==='same'?'Попробуйте другую практику или откройте свой план на тяжелый момент':'Откройте свой план на тяжелый момент или напишите психологу. Не оставайтесь с этим одни';
   const old=$('#hpPlanB');if(a==='ok'){old&&old.remove();return}
   if(!old){const pb=document.createElement('button');pb.type='button';pb.className='btn btn--primary';pb.id='hpPlanB';pb.style.marginTop='14px';pb.textContent='Открыть мой план';$('.rpt__side',o).appendChild(pb);pb.onclick=()=>{hpBack();setTimeout(()=>{const d=$('#hblkPlan');if(d){d.open=true;d.scrollIntoView({behavior:'smooth',block:'start'})}},250)}}}
-function hpRun(k){pracStop();const v=PRAC[k],seq=v.seq(),o=$('#hpOv');const pl=$('#hpPl'),ph=$('#prPh'),bar=$('#prBar');const total=seq.reduce((a,x)=>a+x[1],0);let done=0,i=0;PR={t:0,raf:0,nodes:[]};
+function hpRun(k){pracStop();const v=PRAC[k],seq=v.seq(),o=$('#hpOv');const pl=$('#hpPl'),ph=$('#prPh'),bar=null;const total=seq.reduce((a,x)=>a+x[1],0);let done=0,i=0;PR={t:0,raf:0,nodes:[]};
+  /* Таймер по кругу картинки: по пунктирной окружности бежит точка и за ней прорисовывается линия */
+  const svg=$('#hpPl svg.pimg',o),lf=$('#prLeft',o);let ring=null,rdot=null;const C2=2*Math.PI*96,tR=performance.now()+1500;
+  if(svg&&k!=='anxious'){const ns='http://www.w3.org/2000/svg';ring=document.createElementNS(ns,'circle');ring.setAttribute('cx',100);ring.setAttribute('cy',100);ring.setAttribute('r',96);ring.setAttribute('class','pring');ring.setAttribute('transform','rotate(-90 100 100)');ring.setAttribute('stroke-dasharray',C2);ring.setAttribute('stroke-dashoffset',C2);
+    rdot=document.createElementNS(ns,'circle');rdot.setAttribute('r',5);rdot.setAttribute('class','pring__dot');rdot.setAttribute('cx',100);rdot.setAttribute('cy',4);svg.appendChild(ring);svg.appendChild(rdot)}
+  const tick=n=>{if(!PR)return;const el=Math.max(0,(n-tR)/1000),q=Math.min(1,el/total);
+    if(ring){ring.setAttribute('stroke-dashoffset',C2*(1-q));const a=-Math.PI/2+q*2*Math.PI;rdot.setAttribute('cx',100+96*Math.cos(a));rdot.setAttribute('cy',100+96*Math.sin(a))}
+    if(lf)lf.textContent=q<1?'Осталось '+fmtS(total-el):'';if(q<1)PR.raf2=requestAnimationFrame(tick)};PR.raf2=requestAnimationFrame(tick);
   const dot=$('.sqdot',o),path=$('.sqpath',o),L=path?path.getTotalLength():0;
   if(dot&&path){const t0=performance.now()+1500;const sideT=4;const loop=n=>{if(!PR)return;const el=Math.max(0,(n-t0)/1000);const q=Math.min(el/(sideT*4),seq.length/4);const p=path.getPointAtLength(L*((q%1+1)%1));dot.setAttribute('cx',p.x);dot.setAttribute('cy',p.y);if(el<total)PR.raf=requestAnimationFrame(loop)};PR.raf=requestAnimationFrame(loop)}
   const next=()=>{if(!PR)return;if(i>=seq.length){pracStop();chime('end');hpDraw(k,'end');return}const [w,sec,mode]=seq[i];ph.textContent=w;
     pl.style.setProperty('--dur',sec+'s');pl.className='prac__play pl--'+mode;const si=(PHASE_STEP[k]||{})[mode];$$('[data-st]',o).forEach(x=>x.classList.toggle('on',+x.dataset.st===si));
-    hpSound(k,mode,sec);done+=sec;bar.style.transition=`width ${sec}s linear`;bar.style.width=(done/total*100)+'%';i++;PR.t=setTimeout(next,sec*1000)};
+    hpSound(k,mode,sec);done+=sec;i++;PR.t=setTimeout(next,sec*1000)};
   PR.t=setTimeout(next,1500);
   $('#hpStop').onclick=()=>{pracStop();hpDraw(k,'intro')}}
 function bindPrac(box){$$('[data-prac]',box).forEach(b=>b.onclick=()=>hpOpen(b.dataset.prac))}
@@ -4735,19 +4764,16 @@ const rImg=(k,s)=>`<svg class="rpi rpi--${k}" width="${s||120}" height="${s||120
 /* ================= ПРАКТИКИ ================= */
 const RP={
   sigh:{voice:1,title:'Двойной вдох',kind:'body',time:'1 минута',c:'mint',img:'breath',lead:'Самый быстрый способ сбавить внутреннюю гонку',plan:['Сядьте удобно, расслабьте плечи','Вдохните через нос, затем добавьте еще один небольшой вдох','Медленно выдохните через рот. Повторяйте около минуты без усилия'],
-    steps:[{h:'Сядьте удобно',p:'Самый быстрый способ сбавить внутреннюю гонку. Следите за кругом или закройте глаза и дышите вместе с голосом: два вдоха носом и долгий выдох ртом'},
-      {t:'breath',h:'Дышите вместе с кругом',total:60,phases:[['Вдохните носом',1.6,1.25],['Добавьте еще маленький вдох',.9,1.4],['Медленно выдохните ртом',5,.75]]}]},
+    steps:[{t:'breath',h:'Дышите вместе с кругом',total:60,phases:[['Вдохните носом',1.6,1.25],['Добавьте еще маленький вдох',.9,1.4],['Медленно выдохните ртом',5,.75]]}]},
   exhale:{title:'Длинный выдох',kind:'body',time:'2 минуты',c:'mint',img:'breath',lead:'Спокойный выдох, чуть длиннее вдоха, может помочь снизить ощущение напряжения',plan:['Вдохните в течение 4 счетов','Плавно выдыхайте в течение 8 счетов','Повторяйте в удобном ритме. Если тяжело, дышите как обычно'],
     steps:[{t:'breath',h:'Сделайте выдох длиннее вдоха',total:96,phases:[['Вдохните',4,1.3],['Медленно выдохните',8,.75]]}]},
   hum:{title:'Выдох со звуком',kind:'body',time:'1 минута',c:'beige',img:'hum',lead:'Тихий звук на выдохе помогает сосредоточиться на дыхании и ощущениях в теле',plan:['Сомкните губы без напряжения','Вдохните через нос. На медленном выдохе негромко тяните «м-м-м»','Прислушайтесь к легкой вибрации. Продолжайте около минуты'],
-    steps:[{h:'Сомкните губы',p:'На выдохе тяните негромкое «м-м-м», как будто напеваете себе под нос'},
-      {t:'breath',h:'Тяните «м-м-м» на выдохе',total:60,phases:[['Вдохните носом',4,1.3],['Выдыхайте со звуком «м-м-м»',7,.75]]}]},
+    steps:[{t:'breath',h:'Тяните «м-м-м» на выдохе',total:60,phases:[['Вдохните носом',4,1.3],['Выдыхайте со звуком «м-м-м»',7,.75]]}]},
   squeeze:{title:'Напрячь и отпустить',kind:'body',time:'2 минуты',c:'beige',img:'squeeze',lead:'Чередование напряжения и расслабления помогает расслаблять мышцы тела',plan:['Положите телефон рядом, чтобы освободить руки','Сожмите лицо, будто в кулачок: зажмурьте глаза, сомкните зубы или вытяните губы в трубочку. Задержите напряжение на 10 секунд и с выдохом расслабьте','Поднимите плечи к ушам, задержите на 10 секунд и с выдохом расслабьте','Сожмите кулаки настолько сильно, насколько можете без боли, задержите на 10 секунд и с выдохом расслабьте'],
     dev:'Положите телефон на стол или на колени: смену подскажет тихий звук',
-    steps:[{h:'Положите телефон',p:'На стол или на колени, чтобы руки были свободны. Каждую смену подскажет звук, на экран можно не смотреть. Напрягайте мышцы без боли'},
-      {t:'breath',h:'Лицо',total:40,phases:[['Сожмите лицо, будто в кулачок: зажмурьте глаза, сомкните зубы или вытяните губы в трубочку. Держите',10,.7,1],['С выдохом расслабьте лицо и челюсть',10,1.15]]},
-      {t:'breath',h:'Плечи',total:40,phases:[['Поднимите плечи к ушам и держите',10,.7,1],['С выдохом расслабьте плечи',10,1.15]]},
-      {t:'breath',h:'Кулаки',total:40,phases:[['Сожмите кулаки так сильно, как можете без боли, и держите',10,.7,1],['С выдохом расслабьте кулаки',10,1.15]]}]},
+    steps:[{t:'breath',cyc:1,h:'Лицо',total:40,phases:[['Сожмите лицо, будто в кулачок: зажмурьте глаза, сомкните зубы или вытяните губы в трубочку. Держите',10,.7,1],['С выдохом расслабьте лицо и челюсть',10,1.15]]},
+      {t:'breath',cyc:1,h:'Плечи',total:40,phases:[['Поднимите плечи к ушам и держите',10,.7,1],['С выдохом расслабьте плечи',10,1.15]]},
+      {t:'breath',cyc:1,h:'Кулаки',total:40,phases:[['Сожмите кулаки так сильно, как можете без боли, и держите',10,.7,1],['С выдохом расслабьте кулаки',10,1.15]]}]},
   look:{title:'Оглядеться',kind:'body',time:'1 минута',c:'mint',img:'look',lead:'Небольшое упражнение на внимание помогает вернуться к происходящему вокруг и почувствовать опору',plan:['Медленно осмотритесь по сторонам','Найдите три синих предмета и прислушайтесь к двум звукам','Заметьте опору под стопами и спиной'],
     steps:[{h:'Медленно оглядите комнату',p:'Поворачивайте голову не спеша, слева направо. Взгляд сам будет останавливаться на чем-то',sec:20},
       {t:'count',h:'Найдите вокруг три синих предмета',n:3,p:'Нажимайте на кружок, когда найдете очередной'},
@@ -4755,21 +4781,21 @@ const RP={
       {h:'Почувствуйте опору',p:'Заметьте, как стопы стоят на полу, а спина касается спинки стула',sec:15}]},
   shake:{title:'Потряхивание',kind:'body',time:'1 минута',c:'drain',img:'shake',lead:'Мягкие встряхивающие движения помогают расслабить мышцы и немного отпустить накопившееся напряжение',plan:['Встаньте устойчиво, слегка согните колени','Свободно потряхивайте кистями около 20 секунд','Добавьте движения предплечий и плеч, затем ног и тела','Остановитесь. Почувствуйте опору и отметьте ощущения'],
     dev:'Положите телефон перед собой: каждую смену подскажет звук',
-    steps:[{h:'Положите телефон и встаньте',p:'Поставьте ноги на ширину плеч, колени чуть согнуты. Дальше смену движений подскажет звук'},{h:'Потрясите кистями',p:'Свободно, как будто стряхиваете с рук воду',sec:20},
+    steps:[{h:'Встаньте и потрясите кистями',p:'Ноги на ширине плеч, колени чуть согнуты. Трясите кистями свободно, как будто стряхиваете с рук воду',sec:20},
       {h:'Подключите руки и плечи',sec:20},{h:'Добавьте ноги и все тело',p:'Если удобно, можно легко пружинить на месте',sec:20},{h:'Остановитесь и постойте',p:'Заметьте, как тело гудит и теплеет',sec:10}]},
   dawn:{title:'Рассвет',kind:'body',time:'1 минута',c:'drain',img:'dawn',lead:'Немного более активное дыхание и потягивание могут помочь почувствовать себя бодрее',plan:['Следуйте за кругом: вдох 3 счета, короткий выдох 2 счета','Дышите без усилия примерно 45 секунд','Потянитесь руками вверх и спокойно опустите их'],
     steps:[{t:'breath',h:'Дышите бодро и коротко',total:45,phases:[['Вдохните',3,1.3],['Коротко выдохните',2,.85]]},{h:'Положите телефон и потянитесь',p:'Поднимите руки, потянитесь всем телом и со вздохом опустите руки',sec:15}]},
-  walk:{title:'Пройтись',kind:'body',time:'5 минут',c:'mint',img:'walk',lead:'Короткая прогулка помогает сменить обстановку и переключить внимание',plan:['Пройдитесь пять минут там, где вам удобно и безопасно','По пути замечайте шаги, звуки и детали вокруг','Можно убрать телефон: по окончании прозвучит сигнал'],
+  walk:{title:'Пройтись',kind:'body',time:'5 минут',c:'mint',img:'walk',lead:'Короткая прогулка помогает сменить обстановку и переключить внимание',plan:['Пройдитесь пять минут там, где вам удобно: по комнате, по коридору или на улице','По пути замечайте шаги, звуки и детали вокруг','Телефон можно убрать в карман: через пять минут прозвучит сигнал'],
     dev:'Возьмите телефон с собой, но не смотрите в него: через 5 минут прозвучит сигнал',
-    steps:[{h:'Уберите телефон в карман',p:'Выйдите на улицу, в коридор или на лестницу. Через 5 минут прозвучит сигнал, до этого в телефон можно не смотреть'},{h:'Идите и замечайте',p:'Смотрите по сторонам, слушайте звуки, чувствуйте каждый шаг',sec:300}]},
+    steps:[{h:'Идите и замечайте',p:'Смотрите по сторонам, слушайте звуки, чувствуйте каждый шаг. Ходить можно и по комнате, выходить на улицу не обязательно',sec:300}]},
   cold:{title:'Холодная вода',kind:'body',time:'30 секунд',c:'mint',img:'cold',lead:'Прохладная вода может помочь переключить внимание с мыслей на телесные ощущения',plan:['Наберите прохладную воду в ладони','Осторожно умойтесь, не надавливая на область глаз','Сделайте несколько спокойных вдохов и выдохов. Отметьте свои ощущения'],warn:'Не делайте эту практику, если у вас проблемы с сердцем',
     dev:'Положите телефон рядом с раковиной: через 30 секунд прозвучит сигнал',
-    steps:[{h:'Положите телефон рядом и наберите воду',p:'Прохладную, в ладони или в раковину. Когда нажмете «Дальше», пойдет таймер на 30 секунд'},{h:'Умойте лицо и подержите ладони',p:'Задержите мокрые ладони на лбу и вокруг глаз',sec:30},{h:'Медленно выдохните',p:'Отметьте свои ощущения'}]},
+    steps:[{h:'Умойте лицо и подержите ладони',p:'Задержите мокрые ладони на лбу и вокруг глаз',sec:30},{h:'Медленно выдохните',p:'Отметьте свои ощущения'}]},
   name:{title:'Назвать чувство',kind:'head',time:'2 минуты',c:'lavender',img:'name',lead:'Когда вы называете свое чувство, бывает легче понять, что с вами происходит',plan:['Выберите слово, которое ближе всего описывает ваше состояние, или добавьте свое','Оцените, насколько сильное это чувство сейчас','Трижды произнесите про себя: «Я замечаю, что чувствую…»','Посмотрите, изменилось ли что-то. Если нет - это тоже нормально'],
     steps:[{t:'chips',h:'Какое слово точнее всего описывает то, что вы чувствуете?',p:'Выберите одно или допишите свое',key:'e',own:1,opts:['злость','раздражение','тревога','страх','обида','беспомощность','стыд','перегруз']},
       {t:'scale',h:'Оцените, насколько сильно вы сейчас это чувствуете',key:'v',rows:['сейчас'],lo:'слабое',hi:'очень сильное'},
-      {h:a=>'Скажите про себя: «Я замечаю, что чувствую '+(a.e||'это')+'»',p:'Медленно, три раза, на каждом выдохе. Не нужно ничего менять, достаточно назвать',sec:30},
-      {t:'sum',h:'Заметьте, изменилось ли что-то после того, как вы назвали чувство',render:a=>`<p class="rp-big">«Я замечаю, что чувствую ${esc(a.e||'это')}»</p><p class="rp-p">Так работает мозг: когда мы подбираем чувству точное слово, сигнал тревоги в нем ослабевает. Чувство остается, но перестает управлять вами</p>`}]},
+      {h:a=>'Скажите про себя: «Я замечаю, что чувствую '+(a.e||'это')+'»',p:'Медленно, три раза, на каждом выдохе. Не нужно ничего менять, достаточно назвать',sec:30}],
+    how:'Когда мы подбираем чувству точное слово, сигнал тревоги в мозге ослабевает. Чувство остается, но перестает управлять вами'},
   fact:{title:'Факт или интерпретация',kind:'head',time:'5 минут',c:'lavender',img:'fact',lead:'Помогает отделить произошедшее событие от предположений о его причинах',plan:['Кратко опишите, что произошло, без оценок','Запишите первую мысль о случившемся','Подумайте, какие еще объяснения возможны','Сравните варианты: что известно точно, а что пока остается предположением?'],
     steps:[{t:'input',voice:1,h:'Что случилось?',p:'Опишите так, как это сняла бы камера, без оценок',key:'f',ph:'Например: руководитель не ответил на письмо'},
       {t:'input',voice:1,h:'Что вы об этом подумали?',key:'m',ph:'Например: он недоволен моей работой'},
@@ -4781,18 +4807,18 @@ const RP={
       {t:'sum',h:'Тревога записана',render:a=>`<p class="rp-big">Она подождет вас ${a.at?'в '+esc(a.at):'вечером'}</p><p class="rp-p">Если тревога вернется раньше, скажите себе: «Я подумаю об этом ${a.at?'в '+esc(a.at):'вечером'}» - и вернитесь к делу</p>`}]},
   step2:{title:'Один шаг',kind:'head',time:'2 минуты',c:'beige',img:'stepi',lead:'Когда сил немного, можно начать с одного небольшого и посильного действия',plan:['Выберите самое простое действие из списка или придумайте свое','Попробуйте выполнить его в течение двух минут','Отметьте, как вы себя чувствуете. Если сегодня не получилось, можно вернуться позже'],
     steps:[{t:'chips',h:'Выберите одно маленькое действие, которое можно сделать прямо сейчас',key:'a',own:1,opts:['выпить стакан воды','умыть лицо','открыть окно','выйти на балкон','включить любимую песню','потянуться']},
-      {h:a=>a.a?'Сделайте это сейчас: '+a.a:'Сделайте это сейчас',p:'Две минуты, не больше. Можно медленно',sec:120},
-      {t:'sum',h:'Вы сделали шаг',render:()=>`<p class="rp-big">Это уже движение</p><p class="rp-p">Когда сил мало, маленькие действия возвращают их лучше, чем ожидание, что силы появятся сами</p>`}]},
+      {h:a=>a.a?'Сделайте это сейчас: '+a.a:'Сделайте это сейчас',p:'Две минуты, не больше. Можно медленно',sec:120}],
+    how:'Когда сил мало, маленькое действие возвращает их быстрее, чем ожидание, что силы появятся сами. Даже один стакан воды или открытое окно уже меняют состояние'},
   friend:{title:'Слова для себя',kind:'head',time:'3 минуты',c:'drain',img:'friend',lead:'Поддерживающие слова помогают попробовать отнестись к себе с большей мягкостью',plan:['Назовите одной фразой, что сейчас особенно трудно','Выберите слова поддержки, которые действительно вам подходят, или напишите свои','Медленно прочитайте их. При желании положите ладонь на грудь'],
     steps:[{t:'input',h:'Что сейчас тяжелее всего?',key:'s',ph:'Одной фразой'},
       {t:'chips',h:'Выберите слова, которые хочется услышать',key:'ph',multi:1,own:1,opts:['Это правда тяжело, и ты справляешься как можешь','Тебе не нужно справляться в одиночку','Сегодня достаточно того, что уже сделано','Отдых - это тоже часть работы','Можно позаботиться о себе прямо сейчас']},
       {t:'sum',h:'Медленно прочитайте слова, которые вы выбрали',render:a=>`<div class="rp-quote">${(a.ph||['Это правда тяжело, и ты справляешься как можешь']).map(x=>`<p>${esc(x)}</p>`).join('')}</div><p class="rp-p">Положите ладонь на грудь и прочитайте еще раз, как будто эти слова говорит вам тот, кто вас любит</p>`}]},
   need:{title:'Мне это надо?',kind:'head',time:'2 минуты',c:'lavender',img:'need',lead:'Три вопроса помогают проверить, насколько задача срочная и обязательно ли делать ее сегодня',plan:['Запишите задачу, из-за которой трудно остановиться','Ответьте, что произойдет, если перенести ее на завтра, кому она нужна сегодня и поможет ли отдых выполнить ее лучше','Посмотрите на ответы и определите минимально необходимый объем работы'],
-    steps:[{t:'input',h:'Что не дает вам остановиться?',key:'x',ph:'Например: доделать презентацию'},
-      {t:'yn',h:'Что случится, если отложить это дело до завтра?',key:'q1',opts:[['ok','ничего страшного'],['no','будут серьезные последствия']]},
-      {t:'yn',h:'Кому нужно, чтобы это дело было сделано именно сегодня?',key:'q2',opts:[['ok','скорее другим'],['no','мне самой (самому)']]},
+    steps:[{t:'input',h:'В каком деле вам сейчас трудно остановиться?',key:'x',ph:'Например: доделать презентацию'},
+      {t:'yn',h:'Что случится, если отложить это дело до завтра?',key:'q1',opts:[['ok','ничего не изменится'],['mid','будет неприятно, но можно потерпеть'],['no','будут серьезные последствия']]},
+      {t:'yn',h:'Кому нужно, чтобы это дело было сделано именно сегодня?',key:'q2',opts:[['ok','скорее другим'],['mid','и мне, и другим'],['no','скорее мне']]},
       {t:'yn',h:'Если отдохнуть, завтра вы сделаете это дело лучше?',key:'q3',opts:[['ok','скорее да'],['no','скорее нет']]},
-      {t:'sum',h:'Посмотрите, что показывают ваши ответы:',render:a=>{const n=['q1','q2','q3'].filter(k=>a[k]==='ok').length;const L=(k,o)=>((o.find(x=>x[0]===a[k])||[])[1])||'-';const ST=RP.need.steps;return `<dl class="rp-dl rp-ans"><dt>Дело</dt><dd>${esc(a.x||'-')}</dd><dt>Если отложить</dt><dd>${esc(L('q1',ST[1].opts))}</dd><dt>Кому нужно сегодня</dt><dd>${esc(L('q2',ST[2].opts))}</dd><dt>После отдыха</dt><dd>${esc(L('q3',ST[3].opts))}</dd></dl><p class="rp-big">${n>=2?'Можно остановиться':'Похоже, это действительно важно сегодня'}</p><p class="rp-p">${n>=2?'Запишите, с чего начнете завтра, и закройте работу. «Ритуал завершения» поможет это сделать':'Тогда выберите самую маленькую часть, которая действительно нужна сегодня, сделайте только ее и остановитесь'}</p>`}}]},
+      {t:'sum',h:'Посмотрите, что показывают ваши ответы:',render:a=>{const n=['q1','q2','q3'].reduce((x,k)=>x+(a[k]==='ok'?1:a[k]==='mid'?.5:0),0);const L=(k,o)=>((o.find(x=>x[0]===a[k])||[])[1])||'-';const ST=RP.need.steps;return `<dl class="rp-dl rp-ans"><dt>Дело</dt><dd>${esc(a.x||'-')}</dd><dt>Если отложить</dt><dd>${esc(L('q1',ST[1].opts))}</dd><dt>Кому нужно сегодня</dt><dd>${esc(L('q2',ST[2].opts))}</dd><dt>После отдыха</dt><dd>${esc(L('q3',ST[3].opts))}</dd></dl><p class="rp-big">${n>=2?'Можно остановиться':'Похоже, это действительно важно сегодня'}</p><p class="rp-p">${n>=2?'Запишите, с чего начнете завтра, и закройте работу. «Ритуал завершения» поможет это сделать':'Тогда выберите самую маленькую часть, которая действительно нужна сегодня, сделайте только ее и остановитесь'}</p>`}}]},
   finish:{title:'Ритуал завершения',kind:'head',time:'3 минуты',c:'beige',img:'finish',lead:'Короткий ритуал помогает обозначить конец рабочего дня и сохранить понятную точку возвращения',plan:['Запишите, на чем остановились','Отметьте, с чего начнете в следующий раз','Сохраните файлы, закройте рабочие вкладки и по возможности уберите ноутбук'],
     steps:[{t:'input',h:'На чем вы остановились в работе?',key:'w',ph:'Например: дописала второй раздел'},{t:'input',h:'С чего начнете завтра?',key:'n',ph:'Например: проверю цифры в таблице'},
       {t:'check',h:'Отметьте, как вы закроете рабочий день',key:'c',opts:['сохранить файлы','закрыть почту и вкладки','убрать ноутбук с глаз']},
@@ -5006,18 +5032,18 @@ function rpOpen(id,state){recStop();const P=RP[id];RPS={id,state,i:-1,a:{},befor
   const o=document.createElement('div');o.id='rpBox';o.className='rp';o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');o.setAttribute('aria-label',P.title);o.style.setProperty('--c',`var(--${P.c})`);
   document.body.appendChild(o);document.body.classList.add('rp-open');rpDraw();
   o.addEventListener('keydown',e=>{if(e.key==='Escape')recStop()})}
-function rpDraw(){const s=RPS;if(!s)return;if(s.id==='cold'&&s.i>=0&&s.i<=1)brookStart();else brookStop();clearTimeout(s.t);clearInterval(s.iv);const P=RP[s.id],o=$('#rpBox');const n=P.steps.length;const st=s.i>=0&&s.i<n?P.steps[s.i]:null;
+function rpDraw(){const s=RPS;if(!s)return;if(s.id==='cold'&&s.i===0)brookStart();else brookStop();clearTimeout(s.t);clearInterval(s.iv);const P=RP[s.id],o=$('#rpBox');const n=P.steps.length;const st=s.i>=0&&s.i<n?P.steps[s.i]:null;
   const dots=`<span class="rpt__right"><button type="button" class="rpt__snd" id="rpSnd" aria-pressed="${RSND}" title="${RSND?'Выключить звук':'Включить звук'}">${RSND?SND_ON:SND_OFF}<span>${RSND?'Звук включен':'Без звука'}</span></button><span class="rpt__dots">${[...Array(n+2)].map((_,k)=>`<i class="${k<=s.i+1?'on':''}"></i>`).join('')}</span></span>`;
   const hasT=P.steps.some(x=>x.sec||x.t==='breath');const dev=P.dev||(P.kind==='head'?'Отвечайте прямо здесь, в телефоне или на компьютере':hasT?'Можно держать телефон в руке или положить рядом: когда время выйдет, прозвучит мягкий сигнал':'');
   const plan=P.plan||P.steps.map(x=>typeof x.h==='function'?null:x.h).filter(Boolean);
   const rate=(key,q)=>`<div class="rp-ratebox"><p class="rp-q">${q}</p><div class="rp-rate" data-rate="${key}">${[1,2,3,4,5].map(v=>`<button type="button" aria-pressed="${s[key]===v}" data-v="${v}" aria-label="${v} из 5"><i style="--s:${.35+v*.13}"></i></button>`).join('')}</div><div class="rp-rate__l"><span>легко</span><span>очень тяжело</span></div></div>`;
   let side='',next='Дальше',img=rImg(P.img,200);
   if(s.i<0){side=`<p class="eyebrow">${P.kind==='body'?'Прямо сейчас':'Когда станет чуть легче'} · ${esc(P.time)}</p><h2 class="rp-h">${esc(P.title)}</h2><p class="rp-p rp-lead">${esc(P.lead)}</p>${P.warn?`<p class="rp-warn">${esc(P.warn)}</p>`:''}
-      ${plan.length>(P.plan?0:1)?`<ol class="rp-plan">${plan.map(x=>`<li>${esc(x)}</li>`).join('')}</ol>`:''}${dev?`<p class="rp-dev">${hasT&&P.kind==='body'?SND_ON:PHONE}<span>${esc(dev)}</span></p>`:''}${rate('before','Отметьте ваше состояние')}`;next='Начать'}
-  else if(s.i>=n){side=`<p class="eyebrow">${esc(P.title)}</p><h2 class="rp-h">Как вы сейчас?</h2>${rate('after','Отметьте ваше состояние после практики')}<p class="rp-q" style="margin-top:22px">Оставить практику в вашем наборе?</p><div class="rp-yn"><button type="button" class="chip" data-keep="1">Да, помогло</button><button type="button" class="chip" data-keep="0">Не в этот раз</button></div>`;next=''}
+      ${plan.length>(P.plan?0:1)?`<ol class="rp-plan">${plan.map(x=>`<li>${esc(x)}</li>`).join('')}</ol>`:''}${dev?`<p class="rp-dev">${hasT&&P.kind==='body'?SND_ON:PHONE}<span>${esc(dev)}</span></p>`:''}${rate('before','Отметьте ваше состояние')}`;const f0=P.steps[0];next=f0&&(f0.t||'text')==='text'&&f0.sec?'Включить таймер':'Начать'}
+  else if(s.i>=n){side=`<p class="eyebrow">${esc(P.title)}</p><h2 class="rp-h">Как вы сейчас?</h2>${rate('after','Отметьте ваше состояние после практики')}${P.how?`<details class="rp-how"><summary>Как это работает</summary><p>${esc(P.how)}</p></details>`:''}<p class="rp-q" style="margin-top:22px">Оставить практику в вашем наборе?</p><div class="rp-yn"><button type="button" class="chip" data-keep="1">Да, помогло</button><button type="button" class="chip" data-keep="0">Не в этот раз</button></div>`;next=''}
   else{const h=typeof st.h==='function'?st.h(s.a):st.h;const t=st.t||'text';side=t==='breath'?`<p class="eyebrow">${esc(P.title)} · ${esc(h)}</p>`:`<p class="eyebrow">${esc(P.title)}</p><h2 class="rp-h">${esc(h)}</h2>${st.p?`<p class="rp-p">${esc(st.p)}</p>`:''}`;
     if(t==='text'&&st.sec)side+=`<div class="rp-timer"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="21" class="trk"/><circle cx="24" cy="24" r="21" class="bar" id="rpBar" stroke-dasharray="132" stroke-dashoffset="0"/></svg><span id="rpT">${fmtS(st.sec)}</span></div>`;
-    if(t==='breath')side+=`<p class="rp-phase" id="rpPh">Приготовьтесь</p><p class="rp-left" id="rpT">${fmtS(st.total)}</p>`;
+    if(t==='breath')side+=`<p class="rp-phase" id="rpPh">Приготовьтесь</p><div class="rp-tw"><div class="rp-timer${st.cyc?' rp-timer--cyc':''}"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="21" class="trk"/><circle cx="24" cy="24" r="21" class="bar" id="rpBar" stroke-dasharray="132" stroke-dashoffset="132"/></svg><span id="rpT">${st.cyc?'':fmtS(st.total)}</span></div><p class="rp-cyc" id="rpCyc">${st.cyc?'Приготовьтесь':''}</p></div>`;
     if(t==='count')side+=`<div class="rp-count">${[...Array(st.n)].map((_,k)=>`<button type="button" aria-pressed="${(s.a['c'+s.i]||0)>k}" aria-label="Найдено: ${k+1}"></button>`).join('')}</div>`;
     const vo=(s.vo=s.vo||{})[st.key];if((t==='input'||t==='chips')&&st.voice)side+=`<div class="rp-voice" id="rpVoice">${vo?`<span class="rp-vchip"><button type="button" class="rp-vplay" id="rpVPlay" aria-label="Прослушать">${'<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 6l11 6-11 6z"/></svg>'}</button>${s.id==='letter'?'Голосовое письмо':'Голосовая запись'} · ${fmtS(vo.sec||0)}</span><button type="button" class="linkbtn" id="rpRec">Записать заново</button>`:`<button type="button" class="btn btn--outline rp-recb" id="rpRec">${MIC}<span>${s.id==='letter'?'Наговорить голосом':'Наговорить голосом'}</span></button><span class="rp-rect" id="rpRecT"></span>`}</div>`;
     if(t==='input')side+=st.multi?`<textarea class="area rp-in" id="rpIn" ${st.voice?'data-mic="skip" ':''}placeholder="${esc(st.ph||'')}">${esc(s.a[st.key]||'')}</textarea>`:`<input class="line rp-in" id="rpIn" ${st.voice?'data-mic="skip" ':''}placeholder="${esc(st.ph||'')}" value="${esc(s.a[st.key]||'')}">`;
@@ -5043,13 +5069,18 @@ function rpDraw(){const s=RPS;if(!s)return;if(s.id==='cold'&&s.i>=0&&s.i<=1)broo
     save();const better=s.before&&s.after&&s.after<s.before;recStop();toast(b.dataset.keep==='1'?(better?'Сохранено: стало легче':'Сохранено в вашем наборе'):'Записано. Это тоже важная информация');render()});
   if(!st){$('#rpNext')&&$('#rpNext').focus();return}
   const t=st.t||'text';
-  if(t==='text'&&st.sec){let left=st.sec;const bar=$('#rpBar');s.iv=setInterval(()=>{left--;if(!$('#rpT')){clearInterval(s.iv);return}$('#rpT').textContent=fmtS(Math.max(0,left));bar.style.strokeDashoffset=132*(1-left/st.sec);if(left<=0){clearInterval(s.iv);$('#rpT').textContent='Готово';$('#rpNext')&&$('#rpNext').classList.add('is-ready');chime('end');rpAdvance(s,s.i)}},1000)}
-  if(t==='breath'){const orbs=[1,2,3].map(q=>$('.rp-orb--'+q,o)).filter(Boolean),wav=$('.rp-waves',o);let left=st.total,k=0;
+  if(t==='text'&&st.sec){let left=st.sec;const bar=$('#rpBar');chime('in');s.iv=setInterval(()=>{left--;if(!$('#rpT')){clearInterval(s.iv);return}$('#rpT').textContent=fmtS(Math.max(0,left));bar.style.strokeDashoffset=132*(1-left/st.sec);if(left<=0){clearInterval(s.iv);$('#rpT').textContent='Готово';$('#rpNext')&&$('#rpNext').classList.add('is-ready');chime('end');rpAdvance(s,s.i)}},1000)}
+  if(t==='breath'){const orbs=[1,2,3].map(q=>$('.rp-orb--'+q,o)).filter(Boolean),wav=$('.rp-waves',o);let left=st.total,k=0;const tStart=Date.now();
     const setO=(sc,sec,dark)=>orbs.forEach((e,q)=>{const m=dark?sc*(1-q*.06):1+(sc-1)*(1+q*.35);e.style.transition=`transform ${sec}s cubic-bezier(.45,0,.55,1) ${q*.14}s, fill .7s, opacity .7s`;e.style.transform=`scale(${m})`;e.classList.toggle('is-dark',!!dark&&q===0)});
     const run=()=>{if(!RPS||RPS!==s)return;if(left<=0){$('#rpPh').textContent='Готово';setO(1,1.2,0);wav&&wav.classList.remove('is-on');$('#rpNext')&&$('#rpNext').classList.add('is-ready');chime('end');rpAdvance(s,s.i);return}
       const [lab,sec,sc,dark]=st.phases[k%st.phases.length];const ph=$('#rpPh');ph.classList.add('is-sw');setTimeout(()=>{ph.textContent=lab;ph.classList.remove('is-sw')},180);setO(sc,sec,dark);if(P.voice&&RSND&&typeof hpBreath==='function'){const c=acx();if(c)hpBreath(c,c.currentTime,sc>1&&!dark?'in':'out',sec)}else chime(sc>1&&!dark?'in':'out');
-      if(wav)wav.classList.toggle('is-on',sc<1);k++;s.t=setTimeout(run,sec*1000)};
-    s.iv=setInterval(()=>{left--;if($('#rpT'))$('#rpT').textContent=left>0?'осталось '+fmtS(left):'';if(left<=0)clearInterval(s.iv)},1000);s.t=setTimeout(run,700)}
+      if(wav)wav.classList.toggle('is-on',sc<1);s.ph={t0:Date.now(),sec,dark:!!dark,k};k++;s.t=setTimeout(run,sec*1000)};
+    /* Круговой таймер: в обычном дыхании показывает, сколько осталось всего, в «Напрячь и отпустить» - сколько осталось в текущей фазе и какой идет цикл */
+    const per=st.phases.reduce((a,x)=>a+x[1],0),cycles=Math.max(1,Math.round(st.total/per)),bar=$('#rpBar'),t0=Date.now();
+    s.iv=setInterval(()=>{const T=$('#rpT');if(!T){clearInterval(s.iv);return}const el=(Date.now()-t0-700)/1000;left=Math.max(0,Math.ceil(st.total-Math.max(0,el)));
+      if(st.cyc&&s.ph&&left>0){const pl=Math.max(0,s.ph.sec-(Date.now()-s.ph.t0)/1000);T.textContent=Math.ceil(pl);if(bar)bar.style.strokeDashoffset=132*(pl/s.ph.sec);const c=$('#rpCyc');if(c)c.textContent=(s.ph.dark?'Напряжение':'Расслабление')+' · цикл '+(Math.floor(s.ph.k/st.phases.length)+1)+' из '+cycles}
+      else if(!st.cyc){T.textContent=fmtS(left);if(bar)bar.style.strokeDashoffset=132*(left/st.total)}
+      if(left<=0){T.textContent='Готово';if(bar)bar.style.strokeDashoffset=0;const c=$('#rpCyc');if(c)c.textContent='';clearInterval(s.iv)}},200);s.t=setTimeout(run,700)}
   if(t==='count')$$('.rp-count button',o).forEach((b,k)=>b.onclick=()=>{s.a['c'+s.i]=k+1;$$('.rp-count button',o).forEach((x,j)=>x.setAttribute('aria-pressed',String(j<=k)));if(k+1===st.n)$('#rpNext').classList.add('is-ready')});
   if(t==='input'){const i=$('#rpIn');i.focus();i.oninput=()=>s.a[st.key]=i.value}
   if(t==='chips'){$$('[data-ch]',o).forEach(b=>b.onclick=()=>{const v=b.dataset.ch;if(st.multi){const a=s.a[st.key]=s.a[st.key]||[];const j=a.indexOf(v);j>=0?a.splice(j,1):a.push(v);b.setAttribute('aria-pressed',String(j<0))}else{s.a[st.key]=v;$$('[data-ch]',o).forEach(x=>x.setAttribute('aria-pressed',String(x===b)))}});
@@ -5091,7 +5122,7 @@ TOOL.recovery=(m,t)=>{const state=route.state||null;
   const card=(arr,kind)=>{const [main,...rest]=order(arr);const P=RP[main];const helped=score(main,state);
     return `<article class="rc rc--${kind}" style="--c:var(--${P.c})"><div class="rc__img">${rImg(P.img,150)}</div><div class="rc__txt">
       <p class="eyebrow">${kind==='body'?'Прямо сейчас':'Когда станет чуть легче'}${helped?' · вам уже помогало':''}</p><h3 class="rc__h">${esc(P.title)}</h3><p class="rc__p">${esc(P.lead)}</p>
-      <div class="rc__a"><button type="button" class="btn btn--primary" data-rp="${main}">Начать</button><span class="rc__time">${esc(P.time)}</span></div>${rest.length?`<p class="rc__or">Или выберите ${rest.map(id=>`<button type="button" class="linkbtn" data-rp="${id}">${esc(RP[id].title)}</button>`).join(', ')}</p>`:''}</div></article>`};
+      <div class="rc__a"><button type="button" class="btn btn--primary" data-rp="${main}">Открыть</button><span class="rc__time">${esc(P.time)}</span></div>${rest.length?`<p class="rc__or">Или выберите ${rest.map(id=>`<button type="button" class="linkbtn" data-rp="${id}">${esc(RP[id].title)}</button>`).join(', ')}</p>`:''}</div></article>`};
   const kit={};S.recovery.filter(r=>r.keep&&r.state).forEach(r=>{(kit[r.state]=kit[r.state]||{});kit[r.state][r.m]=(kit[r.state][r.m]||0)+1});
   m.innerHTML=wrap(t,`<section><div class="sec__h"><h2>Выберите, что с вами сейчас происходит</h2></div>
     ${(()=>{const l=S.pulses[S.pulses.length-1];if(!l||state)return '';const g=l.tension>=4?'взвинчен(а)':l.energy<=2?'пусто, нет сил':null;return g?`<p class="muted" style="margin-bottom:12px">По последней отметке в «Карте состояния» похоже на «${g}»</p>`:''})()}
@@ -5127,19 +5158,19 @@ const RG_Q=[['q1','Что выбивает вас из ресурса?','Отм�
 const rgList=v=>String(v||'').split(',').map(x=>x.trim()).filter(Boolean);
 function rangeGauge(ps,z,c){const cx=160,cy=150,R=120,r=70;const col=['#deebe1','#f6ecd6','#f6e3e0'],st=['#8fad99','#c9a96a','#d6a49c'],lb=['В ресурсе','Через усилие','В долг'];
   const pt=(a,rad)=>[cx+rad*Math.cos(a),cy-rad*Math.sin(a)];const arc=i=>{const a0=Math.PI-i*Math.PI/3,a1=Math.PI-(i+1)*Math.PI/3;const [x0,y0]=pt(a0,R),[x1,y1]=pt(a1,R),[x2,y2]=pt(a1,r),[x3,y3]=pt(a0,r);return `M${x0} ${y0}A${R} ${R} 0 0 1 ${x1} ${y1}L${x2} ${y2}A${r} ${r} 0 0 0 ${x3} ${y3}Z`};
-  const has=ps.length>=4,last=z[z.length-1];const ang=has?Math.PI-(last+.5)*Math.PI/3:Math.PI/2;const [nx,ny]=pt(ang,r-12);
+  const has=ps.length>=1,last=z[z.length-1];const ang=has?Math.PI-(last+.5)*Math.PI/3:Math.PI/2;const [nx,ny]=pt(ang,r-12);const from=-((Math.PI-ang)*180/Math.PI).toFixed(1);
   return `<svg viewBox="0 0 320 180" class="rg-g" role="img" aria-label="Шкала режима нагрузки">${[0,1,2].map(i=>{const [lx,ly]=pt(Math.PI-(i+.5)*Math.PI/3,(R+r)/2);return `<path d="${arc(i)}" fill="${col[i]}" stroke="#fff" stroke-width="3" opacity="${has?1:.55}"/><text x="${lx}" y="${ly+4}" text-anchor="middle" class="rg-g__t">${has?c[i]:''}</text>`}).join('')}
-    ${has?`<line x1="${cx}" y1="${cy}" x2="${nx}" y2="${ny}" stroke="#2d2c2a" stroke-width="2.4" stroke-linecap="round"/>`:''}<circle cx="${cx}" cy="${cy}" r="${has?7:5}" fill="#2d2c2a"/>
+    ${has?`<g class="rg-needle" style="--from:${from}deg;transform-origin:${cx}px ${cy}px"><line x1="${cx}" y1="${cy}" x2="${nx}" y2="${ny}" stroke="#2d2c2a" stroke-width="2.4" stroke-linecap="round"/></g>`:''}<circle cx="${cx}" cy="${cy}" r="${has?7:5}" fill="#2d2c2a"/>
     ${[0,1,2].map(i=>{const [lx,ly]=pt(Math.PI-(i+.5)*Math.PI/3,R+16);return `<text x="${lx}" y="${ly}" text-anchor="middle" class="rg-g__l" fill="${st[i]}">${lb[i]}</text>`}).join('')}</svg>`}
-TOOL.range=(m,t)=>{const ps=S.pulses;const z=ps.map((p,i)=>zoneOf(p,ps[i-1]));const c=[0,1,2].map(k=>z.filter(x=>x===k).length);const r=S.range;const has=ps.length>=4;
+TOOL.range=(m,t)=>{const ps=S.pulses;const z=ps.map((p,i)=>zoneOf(p,ps[i-1]));const c=[0,1,2].map(k=>z.filter(x=>x===k).length);const r=S.range;const has=ps.length>=1;
   const top=c.indexOf(Math.max(...c)),last=z[z.length-1];
   if(route.rgst==null)route.rgst=r.q1&&r.q2&&r.q3&&r.q4?5:0;const st=route.rgst;
   const nav=(next,label,back)=>`<div class="rw__nav"><button type="button" class="btn btn--primary" data-rgst="${next}">${label}<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M6 3l5 5-5 5"/></svg></button>${back!=null?`<button type="button" class="btn btn--ghost" data-rgst="${back}">Назад</button>`:''}</div>`;
   let body;
   if(st===0){const now=['в ресурсе','через усилие','в долг по силам'];
-    body=`<div class="rg-hero"><div class="rg-hero__g">${rangeGauge(ps,z,c)}${has?`<p class="rg-hero__cap">Стрелка - ваша последняя отметка. Числа - сколько отметок в каждом режиме</p>`:''}</div>
-      <div class="rg-hero__t">${has?`<p class="act__eb">По ${ps.length} ${plural(ps.length,'отметке','отметкам','отметкам')} в «Карте состояния»</p><h2 class="rw__q">${['Сейчас вы в ресурсе','Сейчас вы живете через усилие','Сейчас вы живете в долг по силам'][last]}</h2><p class="rw__h">${['Чаще всего вы в ресурсе: нагрузка есть, но вы успеваете восстанавливаться','Чаще всего вы живете через усилие. Ненадолго это нормально, если потом вы возвращаетесь','Чаще всего вы живете в долг: тратите больше сил, чем успеваете восстановить. Обсудите это с психологом на ближайшей встрече'][top]}</p>`
-        :`<p class="act__eb">Шкала заполнится сама</p><h2 class="rw__q">Посмотрите, в каком режиме вы живете</h2><p class="rw__h">Шкала строится по отметкам в «Карте состояния». Нужно хотя бы 4, сейчас ${ps.length}</p><div class="rg-dots">${[0,1,2,3].map(i=>`<span class="${i<ps.length?'on':''}"></span>`).join('')}</div><button type="button" class="btn btn--sm" data-go="tool" data-arg="pulse">Сделать отметку</button>`}
+    body=`<div class="rg-hero"><div class="rg-hero__g">${rangeGauge(ps,z,c)}${has?`<p class="rg-hero__cap">Стрелка - ваша последняя отметка. Числа - сколько отметок в каждом режиме${ps.length<4?`. Чем больше отметок, тем точнее шкала: сейчас ${ps.length} из 4`:''}</p>`:''}</div>
+      <div class="rg-hero__t">${has?`<p class="act__eb">По ${ps.length} ${plural(ps.length,'отметке','отметкам','отметкам')} в «Карте состояния»</p><h2 class="rw__q">${['Сейчас вы в ресурсе','Сейчас вы живете через усилие','Сейчас вы живете в долг по силам'][last]}</h2><p class="rw__h">${ps.length<4?'Это картина по первым отметкам. Отмечайте силы и напряжение 2-3 раза в неделю, и шкала покажет, в каком режиме вы живете чаще всего':['Чаще всего вы в ресурсе: нагрузка есть, но вы успеваете восстанавливаться','Чаще всего вы живете через усилие. Ненадолго это нормально, если потом вы возвращаетесь','Чаще всего вы живете в долг: тратите больше сил, чем успеваете восстановить. Обсудите это с психологом на ближайшей встрече'][top]}</p>`
+        :`<p class="act__eb">Шкала заполнится сама</p><h2 class="rw__q">Посмотрите, в каком режиме вы живете</h2><p class="rw__h">Шкала строится по отметкам в «Карте состояния». После первой отметки стрелка покажет ваш режим</p><div class="rg-dots">${[0,1,2,3].map(i=>`<span class="${i<ps.length?'on':''}"></span>`).join('')}</div><button type="button" class="btn btn--sm" data-go="tool" data-arg="pulse">Сделать отметку</button>`}
         <ul class="rg-legend">${RANGE_Z.map(([h,d],i)=>`<li><i style="background:${['#8fad99','#c9a96a','#d6a49c'][i]}"></i><b>${h}</b> ${esc(d)}</li>`).join('')}</ul></div></div>
       ${nav(1,'Дальше: что вас выбивает',null)}`}
   else if(st<=4){const [k,q,h,multi,src]=RG_Q[st-1];const sel=rgList(r[k]);const opts=[...new Set([...src(),...sel])];
