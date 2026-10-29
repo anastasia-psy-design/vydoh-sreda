@@ -4627,7 +4627,7 @@ TOOL.stress=(m,t)=>{const L=S.stressors;
   else{const lane=([k,l,d])=>{const a=L.filter(x=>stZ(x)===k);return `<div class="st-lane st-lane--${k}"><div class="st-lane__h"><span class="st-lane__i">${zi(k,22)}</span><b>${l}</b><small>${d}</small></div>
       ${a.length?a.map(x=>{const P=C.PATHS.find(q=>q[0]===x.path);return `<article class="st-card"><p class="st-card__n">${esc(x.name)}</p>${P?`<p class="st-card__p">${esc(P[1])}</p>`:''}${x.action?`<p class="st-card__s">Шаг: ${esc(x.action)}</p>`:''}</article>`}).join(''):'<p class="st-lane__e">Сюда пока ничего не попало</p>'}</div>`};
     const first=L.find(x=>stZ(x)==='hand')||L.find(x=>stZ(x)==='part');
-    body=`<h2 class="rw__q">Посмотрите на свою карту рычагов</h2><p class="rw__h">Слева находится то, что вы можете менять сами, справа то, что от вас не зависит. Начинайте с левой части: там ваши шаги быстрее всего дадут результат</p>
+    body=`<h2 class="rw__q">Посмотрите на свою карту рычагов</h2><p class="rw__h">Слева находится то, что вы можете менять сами, справа то, что от вас не зависит. Двигайтесь слева направо</p>
       <div class="st-map"><div class="st-route" aria-hidden="true"></div>${ST_Z.map(lane).join('')}</div>
       ${first?`<div class="lab-rule"><p class="act__eb">С чего начать</p><p>${esc(first.name)}${first.action?`: ${esc(first.action)}`:''}</p></div>`:`<div class="lab-rule"><p class="act__eb">С чего начать</p><p>Сейчас все это от вас не зависит. Начните с того, что помогает вам восстанавливаться, например с практик в «Центре восстановления», и обсудите ситуацию с психологом</p></div>`}
       <div class="rw__nav rw__nav--end"><button type="button" class="btn btn--ghost" data-sgo="0">Изменить ответы</button></div>`}
