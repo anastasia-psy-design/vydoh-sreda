@@ -5671,7 +5671,7 @@ const MAT=[
   text:['Перед сном пройдитесь по дню от вечера к утру и найдите, за что себя похвалить. Вспомните не только сам факт, но и то, что вы почувствовали в этот момент. Записывать лучше, чем держать в голове: так достижения не теряются'],wins:true}];
 const MATI=Object.fromEntries(MAT.map(x=>[x.id,x]));
 const LISTEN_SPH=['Работа','Здоровье','Отношения','Отдых и хобби','Развитие','Деньги','Творчество и вера'];
-const SCAN=[['t','Телу холодно или тепло?',['холодно','нейтрально','тепло']],['h','Тело тяжелое или легкое?',['тяжело','обычно','легко']],['r','Мышцы напряжены или расслаблены?',['напряженно','обычно','расслабленно']]];
+const SCAN=[['t','Вам сейчас холодно или тепло?',['мне зябко','мне комфортно','мне жарко']],['h','Как ощущается тело?',['тяжелое, хочется лечь','как обычно','легкое, хочется двигаться']],['r','Есть ли в теле зажатость?',['да, что-то сжато','немного','нет, тело расслаблено']]];
 /* Сканер тела: силуэт, по которому сверху вниз проходит линия; отмеченные зоны мягко светятся */
 const SCAN_SEG=[[6,'Макушка, лоб и глаза'],[62,'Челюсть, горло и шея'],[110,'Плечи, грудь и дыхание'],[200,'Живот, спина и руки'],[280,'Таз, бедра и кисти'],[400,'Колени и голени'],[520,'Стопы и опора под ними'],[596,'']];
 function scanGlow(sel){return ZONES.filter(([k])=>sel.includes(k)).map(([k,es])=>es.map(([x,y,rx,ry])=>`<ellipse cx="${x}" cy="${y}" rx="${rx+8}" ry="${ry+8}"/>`).join('')).join('')}
@@ -5702,7 +5702,7 @@ function vMat(m){S.mat=S.mat||{};const x=route.arg&&MATI[route.arg];
   if(x.scan){const cur=route.scan||(route.scan={});D.log=D.log||[];
     body+=`<div class="msec scan"><div class="scan__fig">${scanSvg(cur.z||[])}<p class="scan__cap" id="scCap">Линия пройдет по телу за одну минуту. Можно закрыть глаза: смену места подскажет тихий звук</p><button type="button" class="btn btn--primary scan__go" id="scGo">Начать сканирование</button></div>
       <div class="scan__q" id="scQ">${SCAN.map(([k,l,o])=>`<div class="scan__r"><p class="scan__l">${l}</p><div class="scan__seg" data-scan="${k}">${o.map(v=>`<button type="button" aria-pressed="${cur[k]===v}" data-v="${v}">${v}</button>`).join('')}</div></div>`).join('')}
-      <div class="scan__r"><p class="scan__l">Где ощущение сильнее всего?</p><p class="scan__h">Отметьте на силуэте или в списке</p><div class="scan__zs">${ZONES.map(z=>z[0]).map(z=>`<button type="button" aria-pressed="${(cur.z||[]).includes(z)}" data-sz="${z}">${z}</button>`).join('')}</div></div>
+      <div class="scan__r"><p class="scan__l">Где вы сильнее всего чувствуете напряжение, тяжесть или дискомфорт?</p><p class="scan__h">Нажмите на это место на силуэте или выберите в списке</p><div class="scan__zs">${ZONES.map(z=>z[0]).map(z=>`<button type="button" aria-pressed="${(cur.z||[]).includes(z)}" data-sz="${z}">${z}</button>`).join('')}</div></div>
       <button type="button" class="btn btn--primary" id="scSave">Сохранить сканирование</button></div></div>
       ${D.log.length?`<div class="msec"><p class="msec__h">Посмотрите свои прошлые сканирования</p><ul class="mlog">${D.log.slice(0,6).map(e=>`<li><span class="muted">${esc(e.d)}</span><span>${esc([e.t,e.h,e.r].filter(Boolean).join(', '))}${e.z&&e.z.length?' · '+esc(e.z.join(', ')):''}</span></li>`).join('')}</ul></div>`:''}`}
   if(x.listen){D.log=D.log||[];const dr=route.lst||(route.lst={});
@@ -5734,13 +5734,13 @@ function vMat(m){S.mat=S.mat||{};const x=route.arg&&MATI[route.arg];
       if(done){cap.innerHTML='<b>Готово.</b> Ответьте на вопросы о том, что вы заметили';if(typeof chime==='function')chime('end');if(matchMedia('(max-width:860px)').matches){const q=$('#scQ',m);q&&q.scrollIntoView({behavior:'smooth',block:'start'})}}else{place(6)}};
     go.onclick=()=>{if(run){stop(false);return}if(typeof acx==='function'&&typeof RSND!=='undefined'&&RSND)acx();const N=SCAN_SEG.length-1,T=60000,t0=performance.now();let last=-1;
       ln.classList.add('is-on');tr.setAttribute('opacity','1');go.textContent='Остановить';run={};
-      const f=n=>{if(!run||!document.body.contains(ln))return;const el=n-t0,q=Math.min(1,el/T),pos=q*N,i=Math.min(N-1,Math.floor(pos)),k=pos-i;
+      const f=n=>{if(!run||!document.body.contains(ln))return;const el=Math.max(0,performance.now()-t0),q=Math.min(1,el/T),pos=q*N,i=Math.max(0,Math.min(N-1,Math.floor(pos))),k=pos-i;
         const y=SCAN_SEG[i][0]+(SCAN_SEG[i+1][0]-SCAN_SEG[i][0])*k;place(y);
         if(i!==last){last=i;if(i&&typeof chime==='function')chime('in')}
         cap.innerHTML=`<b>${esc(SCAN_SEG[i][1])}</b><span>осталось ${fmtS((T-el)/1000)}</span>`;
         if(q>=1){stop(true);return}run.raf=requestAnimationFrame(f)};
       run.raf=requestAnimationFrame(f)};
-    $('#scSave',m).onclick=()=>{if(!cur.t&&!cur.h&&!cur.r){toast('Отметьте хотя бы одно ощущение');return}D.log.unshift({d:today(),t:cur.t,h:cur.h,r:cur.r,z:cur.z||[]});route.scan={};keep();toast('Сканирование сохранено')}}
+    $('#scSave',m).onclick=()=>{if(!cur.t&&!cur.h&&!cur.r){toast('Ответьте хотя бы на один вопрос');return}D.log.unshift({d:today(),t:cur.t,h:cur.h,r:cur.r,z:cur.z||[]});route.scan={};keep();toast('Сканирование сохранено')}}
   if(x.listen){const dr=route.lst;$$('[data-lsph]',m).forEach(b=>b.onclick=()=>{dr.sph=dr.sph===b.dataset.lsph?null:b.dataset.lsph;$$('[data-lsph]',m).forEach(z=>z.setAttribute('aria-pressed',String(dr.sph===z.dataset.lsph)))});
     $$('[data-lst]',m).forEach(a=>a.addEventListener('input',()=>dr[a.dataset.lst]=a.value.trim()));
     $('#lsSave',m).onclick=()=>{if(!dr.w){toast('Начните с желания: чего вам сейчас хочется?');return}D.log.unshift({d:today(),...dr});route.lst={};keep();toast('Запись сохранена')}}
