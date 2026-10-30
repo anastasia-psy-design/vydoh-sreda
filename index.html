@@ -3203,7 +3203,7 @@ body{background:var(--page);font-size:15px;line-height:1.5}
 .scan__q{display:grid;gap:26px}
 .scan__l{margin:0 0 10px;font-size:17px;color:var(--ink)}
 .scan__h{margin:-6px 0 10px;font-size:14px;color:var(--muted)}
-.scan__seg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border:1px solid var(--line);max-width:420px}
+.scan__seg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:1px solid var(--line);max-width:560px}
 .scan__seg button{min-height:48px;border:0;border-right:1px solid var(--line);background:var(--bg);font:inherit;font-size:15px;color:var(--text);cursor:pointer;border-radius:0}
 .scan__seg button:last-child{border-right:0}
 .scan__seg button:hover{background:color-mix(in srgb,var(--mint) 45%,var(--bg))}
@@ -5683,7 +5683,7 @@ const MAT=[
   text:['Перед сном пройдитесь по дню от вечера к утру и найдите, за что себя похвалить. Вспомните не только сам факт, но и то, что вы почувствовали в этот момент. Записывать лучше, чем держать в голове: так достижения не теряются'],wins:true}];
 const MATI=Object.fromEntries(MAT.map(x=>[x.id,x]));
 const LISTEN_SPH=['Работа','Здоровье','Отношения','Отдых и хобби','Развитие','Деньги','Творчество и вера'];
-const SCAN=[['t','Сверьте ощущения по температуре',['холодно','горячо']],['h','Сверьте ощущения по весу',['тяжело','легко']],['r','Сверьте ощущения по напряжению',['напряженно','расслабленно']]];
+const SCAN=[['t','Сверьте ощущения по температуре',['холодно','тепло','горячо']],['h','Сверьте ощущения по весу',['тяжело','нейтрально','легко']],['r','Сверьте ощущения по уровню напряжения в теле',['напряженно','слегка напряженно','расслабленно']]];
 /* Сканер тела: силуэт, по которому сверху вниз проходит линия; отмеченные зоны мягко светятся */
 const SCAN_SEG=[[6,'Макушка, лоб и глаза'],[62,'Челюсть, горло и шея'],[110,'Плечи, грудь и дыхание'],[200,'Живот, спина и руки'],[280,'Таз, бедра и кисти'],[400,'Колени и голени'],[520,'Стопы и опора под ними'],[596,'']];
 function scanSvg(sel,mode){const id='sc'+mode;return `<svg viewBox="0 0 300 600" class="scan__svg bodymap" role="${mode==='a'?'group':'img'}" aria-label="Силуэт тела">
