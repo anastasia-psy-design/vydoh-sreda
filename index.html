@@ -3327,6 +3327,103 @@ body{background:var(--page);font-size:15px;line-height:1.5}
 .mat .note{max-width:780px}
 
 .mat .msteps,.mat .mfields,.mat .msec>.mfield,.mat .mopt{max-width:780px}
+/* === Ключ к своему состоянию: карта === */
+.km{--km-ok:#deebe1;--km-ok-d:#8fad99;--km-ok-i:#3d6b5d;--km-warn:#f6ecd6;--km-warn-d:#c9a96a;--km-warn-i:#7c5a1f;--km-bad:#f6e3e0;--km-bad-d:#d6a49c;--km-bad-i:#9f4a3e;--km-lav:#e7e4ee}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .km{--km-ok:rgba(143,173,153,.2);--km-warn:rgba(201,169,106,.2);--km-bad:rgba(214,164,156,.2);--km-lav:rgba(184,176,206,.16);--km-ok-i:#a9cbb5;--km-warn-i:#dcc08a;--km-bad-i:#e2aaa0}}
+:root[data-theme="dark"] .km{--km-ok:rgba(143,173,153,.2);--km-warn:rgba(201,169,106,.2);--km-bad:rgba(214,164,156,.2);--km-lav:rgba(184,176,206,.16);--km-ok-i:#a9cbb5;--km-warn-i:#dcc08a;--km-bad-i:#e2aaa0}
+.km-sec{margin-top:clamp(36px,5vw,56px)}
+.km-sec>h2{font-family:var(--serif);font-weight:400;font-size:clamp(24px,2.6vw,30px);color:var(--ink);line-height:1.2}
+.km-lead{color:var(--muted);margin-top:8px;max-width:72ch;line-height:1.5}
+.km-lbl{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:16px 0 8px;line-height:1.35}
+.km-chips{display:flex;flex-wrap:wrap;gap:6px}
+.km-c{display:inline-flex;align-items:center;gap:4px;padding:5px 11px;border-radius:999px;background:var(--soft);color:var(--ink);font-size:14px;line-height:1.3}
+.km-c--ok{background:var(--km-ok)}.km-c--warn{background:var(--km-warn)}.km-c--bad{background:var(--km-bad)}.km-c--lav{background:var(--km-lav)}
+.km-c--own{background:transparent;border:1px dashed var(--line);box-shadow:inset 0 0 0 1px var(--line)}
+.km-c--own button{border:0;background:none;color:var(--muted);font-size:16px;line-height:1;padding:0 0 0 2px;cursor:pointer}
+.km-p{color:var(--ink);line-height:1.5}
+.km-note{color:var(--text);font-size:14px;line-height:1.5;margin-top:10px}
+.km-empty{color:var(--muted);font-size:14px;line-height:1.5}
+.km-lnk,.km-src{border:0;background:none;padding:0;font:inherit;color:var(--ink);text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--line);cursor:pointer}
+.km-src{font-size:13px;color:var(--muted);text-decoration:none;text-align:left;line-height:1.4}
+.km-src:hover,.km-lnk:hover{color:var(--ink)}
+.km-add{margin-top:10px}
+.km-add__b{border:0;background:none;padding:2px 0;font:inherit;font-size:13px;color:var(--muted);cursor:pointer}
+.km-add__b:hover{color:var(--ink)}
+.km-add__f{display:flex;gap:8px;align-items:center}
+.km-add__f[hidden]{display:none}
+.km-add__f input{flex:1;min-width:0;padding:8px 12px;border:1px solid var(--line);border-radius:var(--r-sm);font:inherit;font-size:14px;background:var(--bg);color:var(--ink)}
+/* шкала */
+.km-band{position:relative;display:grid;grid-template-columns:repeat(3,1fr);height:14px;margin-top:64px}
+.km-band.is-empty{margin-top:28px}
+.km-band i:nth-child(1){background:var(--km-ok-d);border-radius:8px 0 0 8px}
+.km-band i:nth-child(2){background:var(--km-warn-d)}
+.km-band i:nth-child(3){background:var(--km-bad-d);border-radius:0 8px 8px 0}
+.km-here{position:absolute;top:50%;transform:translate(-50%,-50%);width:22px;height:22px;border-radius:50%;background:var(--bg);border:3px solid var(--ink)}
+.km-here b{position:absolute;bottom:calc(100% + 10px);left:50%;transform:translateX(-50%);white-space:nowrap;background:var(--ink);color:var(--bg);font-size:13px;font-weight:500;padding:5px 12px;border-radius:999px}
+.km-here b:after{content:'';position:absolute;top:100%;left:50%;margin-left:-5px;border:5px solid transparent;border-top-color:var(--ink)}
+@media (max-width:700px){.km-here--0 b{left:-14px;transform:none}.km-here--0 b:after{left:20px}.km-here--2 b{left:auto;right:-14px;transform:none}.km-here--2 b:after{left:auto;right:15px}}
+.km-zones{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+.km-z{padding:20px 22px 22px;border-right:1px dashed var(--line)}
+.km-z:last-child{border-right:0}
+.km-z.is-now{background:linear-gradient(180deg,var(--soft),transparent 70%)}
+.km-z h3{font-family:var(--serif);font-weight:400;font-size:24px;color:var(--ink);line-height:1.2}
+.km-z__d{color:var(--muted);font-size:14px;line-height:1.45;margin-top:4px}
+.km-do{list-style:none;padding:0;margin:0;counter-reset:km}
+.km-do li{counter-increment:km;display:flex;gap:10px;align-items:flex-start;color:var(--ink);line-height:1.4;margin-bottom:9px}
+.km-do li:before{content:counter(km);flex:none;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:12px;color:#fff;background:var(--ink);margin-top:-1px}
+.km-z--ok .km-do li:before{background:var(--km-ok-d)}.km-z--warn .km-do li:before{background:var(--km-warn-d)}.km-z--bad .km-do li:before{background:var(--km-bad-d)}
+.km-z__go{margin-top:14px}
+/* карточки */
+.km-card{border:1px solid var(--line);border-radius:var(--r-lg);padding:20px 22px;background:var(--bg);margin-top:16px}
+.km-card--ok{background:var(--km-ok);border-color:transparent}.km-card--bad{background:var(--km-bad);border-color:transparent}.km-card--lav{background:var(--km-lav);border-color:transparent}
+.km-card--ok .km-c,.km-card--bad .km-c,.km-card--lav .km-c{background:var(--bg)}
+.km-card__h{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:4px 14px;margin-bottom:10px}
+.km-card__h h3{font-family:var(--sans);font-weight:600;font-size:16px;color:var(--ink);line-height:1.35}
+.km-row{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:16px;align-items:start}
+.km-side{display:grid;gap:0}
+.km-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:start}
+.km-grid .km-card,.km-row>.km-card{margin-top:16px}
+/* фигура */
+.km-legend{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:13px;color:var(--muted)}
+.km-legend span{display:inline-flex;align-items:center;gap:6px}
+.km-legend i{width:10px;height:10px;border-radius:50%}
+.km-i--t{background:var(--km-bad-d)}.km-i--ok{background:var(--km-ok-d)}
+.km-fig{position:relative;height:440px;margin-top:14px}
+.km-fig__body{position:absolute;left:50%;top:0;height:100%;width:auto;transform:translateX(-50%)}
+.km-fig__lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+.km-ln{fill:none;stroke-width:1;stroke-dasharray:3 3}
+.km-ln--t{stroke:var(--km-bad-d)}.km-ln--ok{stroke:var(--km-ok-d)}
+.km-dot{stroke:var(--bg);stroke-width:2.5}
+.km-dot--t{fill:var(--km-bad-d)}.km-dot--ok{fill:var(--km-ok-d)}
+.km-pin{position:absolute;top:0;font-size:13px;line-height:1.35;color:var(--ink);padding:5px 10px;border-radius:10px;background:var(--km-bad)}
+.km-pin b{font-weight:400}
+.km-pin--ok{background:var(--km-ok)}
+.km-pin--l{text-align:right}
+.km-fig__list{display:none;list-style:none;padding:0;margin:12px 0 0}
+.km-fig__list li{display:flex;gap:8px;align-items:baseline;font-size:14px;color:var(--ink);line-height:1.45;margin-bottom:6px}
+.km-fig__list i{flex:none;width:9px;height:9px;border-radius:50%;background:var(--km-bad-d);transform:translateY(-1px)}
+.km-fig__list .km-li--ok i{background:var(--km-ok-d)}
+.km-fig__list b{font-weight:600}
+.km-fig.is-narrow{height:300px}
+.km-fig.is-narrow .km-pin,.km-fig.is-narrow .km-fig__lines{display:none}
+.km-fig.is-narrow+.km-fig__list{display:block}
+/* перегрузка */
+.km-trap__r+.km-trap__r{margin-top:18px;padding-top:18px;border-top:1px solid var(--line)}
+.km-trap__q q{font-family:var(--serif);font-size:clamp(20px,2.2vw,24px);color:var(--ink);line-height:1.3;quotes:'«' '»'}
+.km-trap__flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:4px 22px}
+.km-trap__flow p:not(.km-lbl){color:var(--ink);line-height:1.45}
+.km-trap__new p:not(.km-lbl){font-weight:500}
+.km-infl{list-style:none;padding:0;margin:0}
+.km-infl li{display:grid;grid-template-columns:minmax(160px,.7fr) minmax(0,1.6fr);gap:4px 20px;padding:12px 0;border-top:1px solid var(--line);line-height:1.45}
+.km-infl li:first-child{border-top:0;padding-top:2px}
+.km-infl b{font-weight:600;color:var(--ink)}
+.km-infl span{color:var(--text)}
+.km-if{color:var(--ink);line-height:1.5;margin-bottom:8px}
+.km-if span{color:var(--muted)}
+@media (max-width:980px){.km-zones{grid-template-columns:1fr}.km-z{border-right:0;border-bottom:1px dashed var(--line);padding-left:0;padding-right:0}.km-z:last-child{border-bottom:0}.km-row,.km-grid{grid-template-columns:1fr}
+  .km-here b{font-size:12px}}
+@media (max-width:600px){.km-infl li{grid-template-columns:1fr}.km-card{padding:16px}}
+@media print{.km-add,.km-src,.km-lnk,.km-z__go{display:none!important}.km-card,.km-z{break-inside:avoid}}
 </style>
 </head>
 <body>
@@ -5745,20 +5842,123 @@ function islCard(x){const own=(S.navOwn||{})[x.k]||[];const st=STAGE_OF[x.src];c
     <div class="isl__b">${x.ok?x.body:`<p class="isl__empty">${op?'Соберется, когда вы заполните инструмент':'Появится на этапе '+(st||'')+', после встречи с психологом'}</p>`}
       ${own.length?`<div class="isl__row"><small>Мое</small><div class="isl__tags">${own.map((v,i)=>`<span class="t-own">${esc(v)}<button type="button" data-islx="${x.k}" data-i="${i}" aria-label="Убрать">×</button></span>`).join('')}</div></div>`:''}</div>
     <div class="isl__add"><button type="button" class="isl__plus" data-isla="${x.k}">+ Добавить свое</button><span class="input isl__in" hidden><input data-isli="${x.k}" placeholder="Что вы еще знаете о себе" aria-label="Добавить в раздел «${esc(x.t)}»"><button type="button" class="btn btn--sm" data-islok="${x.k}">Добавить</button></span></div></article>`}
-TOOL.nav=(m,t)=>{S.navOwn=S.navOwn||{};const I=islands();const has=x=>x.ok||(S.navOwn[x.k]||[]).length;const n=I.filter(has).length;
-  m.innerHTML=`<div class="page page--narrow">${head(t)}
-    <div class="isl-prog"><span class="isl-prog__t">Заполнено ${n} из ${I.length} разделов</span><span class="isl-dots" aria-hidden="true">${I.map(x=>`<i class="${has(x)?'on g'+x.g:''}"></i>`).join('')}</span></div>
-    <section class="sec"><div class="sec__h"><h2>Узнайте, в какой зоне вы сейчас</h2></div><p class="pw-why">Состояние меняется постепенно: из ресурса к первым звоночкам и дальше к пределу. По признакам вы поймете, где вы сейчас, и сразу увидите, что делать</p>${zonesHtml()}</section>
-    <div class="isl-map">${ISL_G.map((G,gi)=>`<section class="isl-grp"><div class="isl-grp__h"><span class="isl-grp__n" style="background:${G[2]}">${gi+1}</span><div><h2>${esc(G[0])}</h2><p>${esc(G[1])}</p></div></div><div class="isl-grid">${I.filter(x=>x.g===gi).map(islCard).join('')}</div></section>`).join('')}</div>
+/* Ключ к своему состоянию: карта-навигатор. Шкала из трех зон, фигура с сигналами тела и все, что человек узнал о себе */
+const KM_BZ=[[/глаз|лоб|голов|виск|макушк|мысл/,'глаза'],[/челюст|зуб|лиц/,'челюсть'],[/горл|шея|шеи|шею|ком в/,'горло и шея'],[/плеч/,'плечи'],[/дыхан|дыша|груд|сердц/,'грудь'],[/диафрагм/,'диафрагма'],[/живот|желуд|тошн/,'живот'],[/спин|поясн|таз/,'таз'],[/кулак|кист|пальц|ладон/,'кисти'],[/рук/,'руки'],[/ног|двига|колен/,'ноги'],[/стоп/,'стопы']];
+const kmLc=s=>{s=String(s||'').trim();return s&&!/^[А-ЯA-Z]{2}/.test(s)?s[0].toLowerCase()+s.slice(1):s};
+const kmW=x=>x.toLowerCase().replace(/[«»"]/g,'').split(/[^а-яёa-z]+/).filter(w=>w.length>=5).map(w=>w.slice(0,5));
+const kmSame=(a,b)=>{if(a.toLowerCase()===b.toLowerCase())return true;const A=kmW(a),Bw=kmW(b);return a.split(' ').length<=3&&b.split(' ').length<=3&&A.some(w=>Bw.includes(w))};
+const kmUniq=a=>{const out=[];a.map(kmLc).forEach(x=>{if(x&&!out.some(y=>kmSame(x,y)))out.push(x)});return out};
+function kmPins(){const B=S.bodyMk||{tense:[],ok:[]};const by={};const loose=[];
+  const add=(txt,kind)=>{const t=kmLc(txt);if(!t)return;const z=(KM_BZ.find(([r])=>r.test(t.toLowerCase()))||[])[1];
+    if(!z){if(!loose.some(x=>x[0].slice(0,7)===t.slice(0,7)))loose.push([t,kind]);return}
+    const key=z+'|'+kind;const g=by[key]=by[key]||{z,kind,t:[]};if(!g.t.some(x=>kmSame(x,t)))g.t.push(t)};
+  (B.tense||[]).forEach(x=>add(x,'t'));(B.ok||[]).forEach(x=>add(x,'ok'));
+  S.signals.filter(x=>x.type==='тело').forEach(x=>add(x.t,'t'));
+  S.pulses.forEach(p=>{if(p.bmap)Object.entries(p.bmap).forEach(([z,a])=>{if(ZONES.some(([k])=>k===z)){(a||[]).forEach(s=>{const key=z+'|t';const g=by[key]=by[key]||{z,kind:'t',t:[]};const v=kmLc(s);if(v&&!g.t.includes(v))g.t.push(v)})}})});
+  return {pins:Object.values(by),loose}}
+function kmFigure(){const {pins,loose}=kmPins();
+  const pt=z=>{const e=(ZONES.find(([k])=>k===z)||[,[[150,300,0,0]]])[1];return e[0]};
+  /* Делим подписи на две стороны так, чтобы слева и справа их было поровну */
+  const L=[],R=[];pins.slice().sort((a,b)=>pt(a.z)[1]-pt(b.z)[1]).forEach(p=>{(L.length<=R.length?L:R).push(p)});
+  /* Точка на той стороне тела, где стоит подпись; для точек по центру тела сдвигаем их чуть в сторону подписи */
+  const at=(p,side)=>{const [x,y]=pt(p.z);let cx=side==='l'?Math.min(x,300-x):Math.max(x,300-x);if(cx===150&&pins.filter(q=>q.z===p.z).length>1)cx+=side==='l'?-11:11;return [cx,y]};
+  const lab=(p,side)=>{const [cx,y]=at(p,side);
+    return `<span class="km-pin km-pin--${side} km-pin--${p.kind}" data-x="${cx}" data-y="${y}"><b>${esc(p.t.join(', '))}</b></span>`};
+  const dots=[...L.map(p=>[p,'l']),...R.map(p=>[p,'r'])].map(([p,side])=>{const [x,y]=at(p,side);return `<circle cx="${x}" cy="${y}" r="7" class="km-dot km-dot--${p.kind}"/>`}).join('');
+  return {has:pins.length+loose.length>0,
+    html:`<div class="km-fig" data-km-fig><svg class="km-fig__lines" aria-hidden="true"></svg>
+      <svg class="km-fig__body" viewBox="0 0 300 600" role="img" aria-label="Силуэт тела с отмеченными сигналами"><ellipse cx="150" cy="50" rx="29" ry="37" fill="var(--bg)" stroke="var(--ink)" stroke-width="1.6"/><path d="${BODY_PATH}" fill="var(--bg)" stroke="var(--ink)" stroke-width="1.6" stroke-linejoin="round"/>${dots}</svg>
+      ${L.map(p=>lab(p,'l')).join('')}${R.map(p=>lab(p,'r')).join('')}</div>
+      <ul class="km-fig__list">${pins.map(p=>`<li class="km-li--${p.kind}"><i></i><span>${esc(p.t.join(', '))}</span></li>`).join('')}</ul>
+      ${loose.length?`<p class="km-lbl">Что я еще замечаю в теле</p><div class="km-chips">${loose.map(([t,k])=>`<span class="km-c km-c--${k==='ok'?'ok':'bad'}">${esc(t)}</span>`).join('')}</div>`:''}`}}
+/* Расставляем подписи у фигуры: каждая подпись стоит сбоку, тонкая линия ведет к точке на теле */
+function kmLayout(box){const fig=$('[data-km-fig]',box);if(!fig)return;const W=fig.clientWidth,H=fig.clientHeight,k=H/600,bl=W/2-150*k;
+  const narrow=bl<120;fig.classList.toggle('is-narrow',narrow);const svg=$('.km-fig__lines',fig);if(narrow){svg.innerHTML='';return}
+  svg.setAttribute('viewBox',`0 0 ${W} ${H}`);let lines='';
+  ['l','r'].forEach(side=>{let last=-99;$$(`.km-pin--${side}`,fig).sort((a,b)=>a.dataset.y-b.dataset.y).forEach(p=>{
+    const px=bl+(+p.dataset.x)*k,py=(+p.dataset.y)*k;p.style.maxWidth=Math.max(120,bl-28)+'px';
+    const h=p.offsetHeight;let y=Math.max(py-h/2,last+10,0);y=Math.min(y,H-h);last=y+h;p.style.top=y+'px';
+    if(side==='l'){p.style.right=(W-bl+18)+'px';p.style.left='auto'}else{p.style.left=(bl+300*k+18)+'px';p.style.right='auto'}
+    const ex=side==='l'?bl+12:bl+300*k-12,ey=y+h/2;
+    lines+=`<path d="M${side==='l'?bl-14:bl+300*k+14} ${ey}L${ex} ${ey}L${px} ${py}" class="km-ln km-ln--${p.classList.contains('km-pin--ok')?'ok':'t'}"/>`})});
+  svg.innerHTML=lines}
+
+TOOL.nav=(m,t)=>{S.navOwn=S.navOwn||{};const O=S.navOwn;const pt=S.point||{},kit=kitText(),V=S.values||{},B=S.bodyMk||{tense:[],ok:[]},P=S.plan||{};
+  const pz=S.pulses.map((p,i)=>zoneOf(p,S.pulses[i-1]));const last=pz.length?pz[pz.length-1]:null;
+  const steady=S.pulses.filter((p,i)=>pz[i]===0);const avg=k=>{const v=steady.map(p=>+p[k]).filter(x=>!isNaN(x));return v.length?Math.round(v.reduce((a,b)=>a+b,0)/v.length):null};
+  const ctx=[...new Set(steady.map(p=>p.ctx).filter(Boolean))].slice(0,3);
+  const sig=z=>S.signals.filter(s=>(s.zone||'ранний')===z).map(s=>s.t);
+  const emoC={};S.pulses.forEach(p=>(p.emo||[]).forEach(e=>emoC[e]=(emoC[e]||0)+1));(pt.emotions||[]).forEach(e=>emoC[e]=(emoC[e]||0)+1);const emos=Object.keys(emoC).sort((a,b)=>emoC[b]-emoC[a]).slice(0,8);
+  const drains=S.load.filter(x=>x.after<0).map(x=>x.name),fills=S.load.filter(x=>x.after>0).map(x=>x.name);
+  const rg=k=>typeof rgList==='function'?rgList(S.range[k]):String(S.range[k]||'').split(',').map(x=>x.trim()).filter(Boolean);
+  const split=s=>String(s||'').split(/[,;\n]/).map(x=>x.trim()).filter(Boolean);
+  const people=[...(P.people||[]).map(p=>p.name).filter(Boolean),...(P.psy?['психолог']:[])];
+  const chains=S.chains.filter(c=>c.rule||c.action);const labs=S.lab.filter(l=>l.ifx&&l.ify);const wins=(((S.mat||{}).wins||{}).log||[]).map(e=>e.w).slice(0,6);
+  const resp=C.RESP_SECTORS.map(([k,l])=>[l,Object.keys(S.resp.place).filter(i=>S.resp.place[i]===k)]).filter(x=>x[1].length);
+  const nhvOk=Object.keys(S.nhv.place||{}).filter(i=>['want','important','choose'].includes(S.nhv.place[i]));
+  const more=(V.main||[]).filter(v=>V.place&&V.place[v]&&V.place[v]<=2);
+  /* Общие кусочки разметки */
+  const chips=(a,cls)=>a.length?`<div class="km-chips">${a.map(x=>`<span class="km-c${cls?' km-c--'+cls:''}">${esc(x)}</span>`).join('')}</div>`:'';
+  const own=(k,cls)=>{const a=O[k]||[];return a.length?`<div class="km-chips">${a.map((v,i)=>`<span class="km-c km-c--own${cls?' km-c--'+cls:''}">${esc(v)}<button type="button" data-kmx="${k}" data-i="${i}" aria-label="Убрать «${esc(v)}»">×</button></span>`).join('')}</div>`:''};
+  const plus=(k,ph)=>`<div class="km-add"><button type="button" class="km-add__b" data-kma="${k}">+ Добавить свое</button><span class="km-add__f" hidden><input data-kmi="${k}" placeholder="${esc(ph||'Что вы еще знаете о себе')}" aria-label="${esc(ph||'Добавить свое')}"><button type="button" class="btn btn--sm" data-kmok="${k}">Добавить</button></span></div>`;
+  const from=src=>{const tt=(T[src]||{}).title||'';return isOpen(src)?`<p class="km-empty">Заполнится, когда вы пройдете инструмент «${esc(tt)}». <button type="button" class="km-lnk" data-go="tool" data-arg="${src}">Открыть инструмент</button></p>`:`<p class="km-empty">Заполнится на этапе ${STAGE_OF[src]||''}, когда откроется инструмент «${esc(tt)}»</p>`};
+  const src=s=>isOpen(s)?`<button type="button" class="km-src" data-go="tool" data-arg="${s}">из инструмента «${esc(T[s].title)}» ›</button>`:'';
+  const card=(cls,title,body,k,ph,s)=>`<article class="km-card ${cls}"><div class="km-card__h"><h3>${title}</h3>${s&&!body.includes('km-empty')?src(s):''}</div>${body}${own(k)}${plus(k,ph)}</article>`;
+  /* 1. Шкала из трех зон */
+  const ok0=kmUniq([...B.ok,...(pt.markers||[])]),ok1=kmUniq([...sig('ранний'),...B.tense]),ok2=kmUniq([...sig('предел'),...sig('уже перегружен'),...split(P.signs)]);
+  const do0=kmUniq([...fills,...rg('q3')]).slice(0,5),do1=kmUniq(kit).slice(0,4),do2=kmUniq(split(P.helps)).slice(0,4);
+  const Z=[['ok','В ресурсе','Сил хватает и на дела, и на себя',ok0,'state','radar',
+      `${avg('energy')!=null?`<p class="km-note">Обычно в этом состоянии у меня ${avg('energy')} из 5 по силам и ${avg('tension')} из 5 по напряжению${ctx.length?'. Чаще всего так бывает: '+esc(ctx.join(', ')):''}</p>`:''}`,
+      'Что помогает мне сохранить это состояние',do0.length?do0:[],'do0'],
+    ['warn','Первые звоночки','Нагрузка растет, но силы еще есть, и сейчас проще всего сбавить темп',ok1,'early','radar','',
+      'Что мне помогает, когда я замечаю звоночки',do1.length?do1:['сделать паузу и выдохнуть','убрать одно дело из списка'],'do1'],
+    ['bad','На пределе','Сил почти не осталось, и в одиночку с этим трудно справиться',ok2,'limit','radar','',
+      'Что мне помогает, когда я на пределе',[...do2,'открыть «Выдохнуть» и выбрать практику'],'do2']];
+  const scale=`<div class="km-band${last==null?' is-empty':''}" aria-hidden="true"><i></i><i></i><i></i>${last!=null?`<span class="km-here km-here--${last}" style="left:${last*33.333+16.667}%"><b>По последней отметке вы здесь</b></span>`:''}</div>
+    <div class="km-zones">${Z.map(([c,h,d,signs,k,s,note,dl,dos,dk],i)=>`<section class="km-z km-z--${c}${last===i?' is-now':''}"><h3>${h}</h3><p class="km-z__d">${d}</p>${note}
+      <p class="km-lbl">Как я замечаю это состояние</p>${signs.length?chips(signs,c):i===0&&!S.bodyMk?from('body'):from(s)}${own(k,c)}${plus(k,'Какой признак вы еще замечаете')}
+      <p class="km-lbl">${dl}</p>${dos.length?`<ol class="km-do">${dos.map(x=>`<li>${esc(x)}</li>`).join('')}</ol>`:from('load')}${own(dk,c)}${plus(dk,'Что еще вам помогает')}
+      ${i===2&&people.length?`<p class="km-lbl">К кому я обращаюсь за поддержкой</p>${chips(people,c)}`:''}
+      ${i===2?`<button type="button" class="btn btn--sm btn--outline km-z__go" data-go="hard">Открыть «Выдохнуть»</button>`:''}</section>`).join('')}</div>`;
+  /* 2. Тело, что истощает, что восстанавливает, чувства */
+  const F=kmFigure();
+  const body=`<article class="km-card km-card--fig"><div class="km-card__h"><h3>Как мое тело подает сигналы</h3>${F.has?src('body'):''}</div>
+      ${F.has?`<p class="km-legend"><span><i class="km-i--t"></i>так тело реагирует на перегрузку</span><span><i class="km-i--ok"></i>так тело ощущается в ресурсе</span></p>${F.html}`:from('body')}${own('body')}${plus('body','Какой сигнал тела вы еще замечаете')}</article>`;
+  const side=`<div class="km-side">
+      ${card('km-card--bad','Что приводит меня к предельной перегрузке',(drains.length||rg('q1').length)?chips(kmUniq([...drains,...rg('q1')]),'bad'):from('load'),'drain','Что еще забирает у вас силы','load')}
+      ${card('km-card--ok','Что возвращает меня в ресурсное состояние',(fills.length||kit.length||rg('q3').length)?chips(kmUniq([...fills,...kit,...rg('q3')]),'ok')+own('energy'):from('recovery'),'kit','Что еще возвращает вам силы','recovery')}
+      ${card('','Какие чувства я испытываю чаще всего',emos.length?chips(kmUniq(emos)):from('pulse'),'feel','Какое чувство вы еще замечаете','pulse')}</div>`;
+  /* 3. Как запускается перегрузка */
+  const trap=chains.length?chains.map(c=>`<div class="km-trap__r">${c.rule?`<div class="km-trap__q"><p class="km-lbl">Правило, которое запускает перегрузку</p><q>${esc(String(c.rule).replace(/^[«"]|[»"]$/g,''))}</q></div>`:''}
+      <div class="km-trap__flow">${c.action?`<div><p class="km-lbl">Что я обычно делаю</p><p>${esc(c.action)}</p></div>`:''}${c.cost?`<div><p class="km-lbl">Чего мне это стоит</p><p>${esc(c.cost)}</p></div>`:''}${c.next?`<div class="km-trap__new"><p class="km-lbl">Что я делаю вместо этого</p><p>${esc(chHint(c))}</p></div>`:labs.length?`<div class="km-trap__new"><p class="km-lbl">Что я делаю вместо этого</p><p>Если ${esc(kmLc(labs[0].ifx))}, то я ${esc(kmLc(labs[0].ify))}</p></div>`:''}</div></div>`).join(''):from('chain');
+  /* 4. На что я могу влиять */
+  const infl=S.stressors.length?`<ul class="km-infl">${S.stressors.map(s=>{const p=C.PATHS.find(x=>x[0]===s.path);return `<li><b>${esc(s.name)}</b><span>${p?esc(p[1]):'Способ пока не выбран'}${s.action?`: ${esc(kmLc(s.action))}`:''}</span></li>`}).join('')}</ul>`:from('stress');
+  /* 5. Опоры */
+  const vals=(V.main||[]).length||nhvOk.length?`${(V.main||[]).length?`<p class="km-lbl">Самое главное для меня</p>${chips(kmUniq(V.main),'lav')}`:''}${more.length?`<p class="km-lbl">Чему нужно больше места в моей жизни</p>${chips(kmUniq(more),'warn')}`:''}${nhvOk.length?`<p class="km-lbl">Что я выбираю сохранять</p>${chips(kmUniq(nhvOk))}`:''}`:from('values');
+  const bnd=resp.length?resp.map(([l,a])=>`<p class="km-lbl">${esc(l)}</p>${chips(kmUniq(a))}`).join(''):from('resp');
+  const rng=(rg('q2').length||rg('q4').length)?`${rg('q2').length?`<p class="km-lbl">Сколько я выдерживаю повышенную нагрузку</p><p class="km-p">${esc(rg('q2').join(', '))}</p>`:''}${rg('q4').length?`<p class="km-lbl">От чего я отказываюсь первым, когда сил становится мало</p><p class="km-p">${esc(rg('q4').join(', '))}</p>`:''}`:from('range');
+  const tested=labs.length||S.works.length||wins.length?`${labs.map(l=>`<p class="km-if"><span>Если</span> ${esc(kmLc(l.ifx))}, <span>то я</span> ${esc(kmLc(l.ify))}</p>`).join('')}${S.works.length?`<p class="km-lbl">Что у меня уже получается</p>${chips(kmUniq(S.works),'ok')}`:''}${wins.length?`<p class="km-lbl">Мои записи из дневника достижений</p>${chips(wins)}`:''}`:from('lab');
+  m.innerHTML=`<div class="page km">${head(t)}
+    <section class="km-sec"><h2>Как меняется мое состояние</h2><p class="km-lead">Состояние меняется постепенно: из ресурса к первым звоночкам и дальше к пределу. Найдите зону, признаки которой вы замечаете у себя сейчас, и посмотрите, что помогает именно в ней</p>${scale}</section>
+    <section class="km-sec"><h2>Что на меня влияет</h2><div class="km-row">${body}${side}</div>
+      ${card('km-card--lav km-trap','Как у меня запускается перегрузка',trap,'cycle','Что еще вы заметили о своей перегрузке','chain')}
+      ${card('','На что я могу влиять и как',infl,'stress','Что еще вы можете изменить','stress')}</section>
+    <section class="km-sec"><h2>На что я могу опереться</h2><div class="km-grid">
+      ${card('','Что для меня по-настоящему важно',vals,'values','Что еще для вас важно','values')}
+      ${card('','Где моя ответственность, а где чужая',bnd,'bound','Что еще вы решили о своих границах','resp')}
+      ${card('','Какую нагрузку я выдерживаю',rng,'range','Что еще вы знаете о своей нагрузке','range')}</div>
+      ${card('km-card--ok','Что я уже проверил(а) на практике',tested,'tested','Что еще у вас получилось','lab')}</section>
     ${matBlock('nav')}
-    <section class="nav-next"><h2>Решите, что делать дальше</h2><p>Разделы заполняются из ваших ответов в инструментах. Добавляйте в них то, что узнаете о себе, и возвращайтесь сюда перед сложными периодами</p>
+    <section class="nav-next"><h2>Решите, что делать дальше</h2><p>Карта собирается из ваших ответов в инструментах. Дополняйте ее тем, что узнаете о себе, и возвращайтесь к ней перед сложными периодами</p>
       <div class="nav-next__b">${isOpen('road')?`<button class="btn btn--primary" data-go="tool" data-arg="road">Открыть дорожную карту после трека</button>`:''}<button class="btn ${isOpen('road')?'btn--outline':'btn--primary'}" onclick="window.print()">Сохранить в PDF</button><button class="btn btn--ghost" data-go="tools">Посмотреть свой маршрут</button></div></section></div>`;
   const keep=()=>{save();const y=window.scrollY;render();window.scrollTo({top:y})};
-  $$('[data-isla]',m).forEach(b=>b.onclick=()=>{const w=b.parentElement;b.hidden=true;const r=$('.isl__in',w);r.hidden=false;$('input',r).focus()});
-  const addOwn=k=>{const i=$(`[data-isli="${k}"]`,m);const v=i.value.trim();if(v){(S.navOwn[k]=S.navOwn[k]||[]).push(v);keep()}};
-  $$('[data-islok]',m).forEach(b=>b.onclick=()=>addOwn(b.dataset.islok));
-  $$('[data-isli]',m).forEach(i=>i.onkeydown=e=>{if(e.key==='Enter')addOwn(i.dataset.isli);if(e.key==='Escape')keep()});
-  $$('[data-islx]',m).forEach(b=>b.onclick=()=>{S.navOwn[b.dataset.islx].splice(+b.dataset.i,1);keep()});
+  $$('[data-kma]',m).forEach(b=>b.onclick=()=>{b.hidden=true;const f=b.nextElementSibling;f.hidden=false;$('input',f).focus()});
+  const addOwn=k=>{const i=$(`[data-kmi="${k}"]`,m);const v=i.value.trim();if(v){(O[k]=O[k]||[]).push(v);keep()}};
+  $$('[data-kmok]',m).forEach(b=>b.onclick=()=>addOwn(b.dataset.kmok));
+  $$('[data-kmi]',m).forEach(i=>i.onkeydown=e=>{if(e.key==='Enter')addOwn(i.dataset.kmi);if(e.key==='Escape')keep()});
+  $$('[data-kmx]',m).forEach(b=>b.onclick=()=>{O[b.dataset.kmx].splice(+b.dataset.i,1);keep()});
+  const lay=()=>kmLayout(m);requestAnimationFrame(lay);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(lay);
+  if(!window.__kmRs){window.__kmRs=1;window.addEventListener('resize',()=>{const r=$('#main .km');if(r)kmLayout(r)})}
 };
 
 /* ================= МАТЕРИАЛЫ: раскрыть тему глубже ================= */
