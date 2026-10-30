@@ -3226,6 +3226,80 @@ body{background:var(--page);font-size:15px;line-height:1.5}
 .scan2 .rp-timer span{font-size:26px}
 .scan2 .scan__q{gap:24px}
 @media (max-width:860px){.scan2__st{grid-template-columns:minmax(0,1fr);gap:20px}.scan2__txt{padding-top:0}.scan2 .scan__svg{max-width:150px;margin:0 auto}}
+
+/* ================= МАТЕРИАЛЫ: наглядные блоки ================= */
+.mhero .thero__img .bigico{width:120px;height:120px}
+.mwhy{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:6px 0 4px}
+.mwhy__c{display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;align-items:start;padding:18px 20px;background:var(--cream);border:1px solid var(--hair,var(--line))}
+.mwhy__i,.mhow__i,.memo__ic,.mcol2__i{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--bg);border:1px solid var(--line);color:var(--ink)}
+.mwhy__c p{margin:0;font-size:16px;line-height:1.5;color:var(--text)}
+.mwhy__c b,.mhow b{font-weight:500;color:var(--ink)}
+.mhow{list-style:none;margin:6px 0 10px;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;counter-reset:mh}
+.mhow li{display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px;align-items:center;padding:16px 18px;background:var(--cream);border:1px solid var(--hair,var(--line))}
+.mhow p{margin:0;font-size:15px;line-height:1.45;color:var(--text)}
+.memo__head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 18px;margin-bottom:12px}
+.memo__head .msec__h{margin:0}
+.memo__cnt{margin:0;font-size:15px;color:var(--muted)}.memo__cnt b{font-weight:500;color:var(--ink)}
+.memo{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.memo__i{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:16px;align-items:center;padding:14px 16px;border:1px solid var(--line);background:var(--bg);transition:background-color .25s,border-color .25s}
+.memo--time .memo__i{grid-template-columns:118px 44px minmax(0,1fr) auto;position:relative}
+.memo__t{font-size:14px;color:var(--muted);text-align:right}
+.memo--time{position:relative}
+.memo__tx{display:grid;gap:3px}
+.memo__tx b{font-weight:400;font-size:17px;line-height:1.35;color:var(--ink)}
+.memo__tx small{font-size:14px;line-height:1.4;color:var(--muted)}
+.memo__ck{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:6px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);font:inherit;font-size:14px;color:var(--text);cursor:pointer;white-space:nowrap}
+.memo__ck i{display:grid;place-items:center;width:18px;height:18px;border:1px solid var(--line);color:transparent}
+.memo__ck[aria-pressed="true"]{border-color:#8fad99;color:#244232;background:#deebe1}
+.memo__ck[aria-pressed="true"] i{background:#5f8a72;border-color:#5f8a72;color:#fff}
+.memo__i.is-on{background:color-mix(in srgb,#deebe1 55%,var(--bg));border-color:#cfe0da}
+.memo__i.is-on .memo__ic{background:#deebe1;border-color:#8fad99}
+.mopt{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.mopt--4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.mopt button{min-height:52px;padding:10px 14px;border:1px solid var(--line);border-radius:10px;background:var(--bg);font:inherit;font-size:15px;line-height:1.35;color:var(--text);text-align:left;cursor:pointer}
+.mopt button:hover{border-color:color-mix(in srgb,var(--ink) 45%,transparent)}
+.mopt button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.mopt__own{margin-top:12px;max-width:640px}
+.mres{margin-top:18px;padding:18px 22px;background:color-mix(in srgb,var(--mint) 55%,var(--bg));border-left:2px solid var(--ink)}
+.mres__eb{margin:0 0 6px;font-size:13px;color:var(--muted)}
+.mres__t{margin:0;font-family:var(--serif);font-size:22px;line-height:1.35;color:var(--ink)}
+.mcols2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:8px 0 6px}
+.mcol2{display:grid;gap:6px;align-content:start;padding:22px 22px 20px;border:1px solid var(--hair,var(--line))}
+.mcol2--0{background:color-mix(in srgb,var(--beige) 70%,var(--bg))}.mcol2--1{background:color-mix(in srgb,var(--mint) 70%,var(--bg))}
+.mcol2__i{margin-bottom:6px}
+.mcol2__h{margin:0;font-family:var(--serif);font-size:22px;line-height:1.2;color:var(--ink)}
+.mcol2__s{margin:0 0 6px;font-size:14px;color:var(--muted)}
+.mcol2__p{margin:0;font-size:16px;line-height:1.55;color:var(--text)}
+.mflow{display:grid;gap:4px}
+.mflow__s{display:grid;grid-template-columns:44px minmax(0,1fr);gap:16px;position:relative}
+.mflow__s:not(:last-child)::before{content:'';position:absolute;left:21px;top:52px;bottom:-30px;border-left:1px dashed var(--line)}
+.mflow__n{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--ink);color:var(--bg);font-family:var(--serif);font-size:20px}
+.mflow .msec__h{margin-top:8px}
+.mjar{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 18px;align-items:center;margin:8px 0 6px;padding:18px 22px;background:color-mix(in srgb,#f6ecd6 70%,var(--bg));border:1px solid var(--hair,var(--line))}
+.mjar__n{grid-row:1 / 3;font-family:var(--serif);font-size:48px;line-height:1;color:var(--ink)}
+.mjar__l{font-size:15px;color:var(--text)}
+.mjar__s{display:flex;flex-wrap:wrap;gap:4px;color:#c9a96a}
+.mcard__art{display:grid;place-items:center;width:64px;height:64px;border-radius:50%;margin-bottom:4px}
+.mcard__art .bigico{width:58px;height:58px}
+@media (max-width:860px){
+  .mwhy,.mcols2{grid-template-columns:minmax(0,1fr)}
+  .mhow{grid-template-columns:minmax(0,1fr)}
+  .memo--time .memo__i{grid-template-columns:40px minmax(0,1fr);grid-template-areas:"ic t" "ic tx" "ck ck";gap:4px 14px}
+  .memo--time .memo__t{grid-area:t;text-align:left;font-size:13px}
+  .memo--time .memo__ic{grid-area:ic;width:40px;height:40px}
+  .memo--time .memo__tx{grid-area:tx}
+  .memo--time .memo__ck{grid-area:ck;justify-self:start;margin-top:8px}
+  .memo__i{grid-template-columns:40px minmax(0,1fr);gap:10px 14px}
+  .memo__i .memo__ck{grid-column:1 / -1;justify-self:start}
+  .mopt,.mopt--4{grid-template-columns:minmax(0,1fr)}
+  .mopt--4{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+.memo--time .memo__i:not(:first-child)::before{content:'';position:absolute;left:172px;top:-9px;height:calc(50% - 13px);border-left:1px dashed #b9c4bd}
+.memo--time .memo__i:not(:last-child)::after{content:'';position:absolute;left:172px;bottom:-9px;height:calc(50% - 13px);border-left:1px dashed #b9c4bd}
+@media (max-width:860px){.memo--time .memo__i::before,.memo--time .memo__i::after{display:none}}
+
+@media (max-width:860px){.mhero .thero__img .bigico{width:70px!important;height:70px!important}}
 </style>
 </head>
 <body>
@@ -5662,27 +5736,96 @@ TOOL.nav=(m,t)=>{S.navOwn=S.navOwn||{};const I=islands();const has=x=>x.ok||(S.n
 
 /* ================= МАТЕРИАЛЫ: раскрыть тему глубже ================= */
 const MAT=[
- {id:'sleep',stage:2,kind:'read',time:'3 минуты',rel:['recovery'],title:'Подготовьте вечер ко сну',lead:'Во время сна восстанавливаются тело и психика',
-  text:['Когда сна мало, хуже работают внимание и память, сложнее справляться с эмоциями, и любая нагрузка ощущается тяжелее','Вечером организм начинает вырабатывать мелатонин - гормон, который помогает уснуть. Ему нужны темнота и спокойствие, а яркий свет экранов, кофеин и алкоголь мешают'],
-  check:{h:'Отметьте, что у вас уже есть',items:['Ложусь и встаю примерно в одно время, даже в выходные','За час до сна убираю телефон и яркий свет','В спальне темно и прохладно','Кофе и крепкий чай - только до обеда','Не использую алкоголь, чтобы уснуть','Днем есть движение, но не поздно вечером','Перед сном есть спокойный ритуал: душ, книга, дыхание']},
-  fields:[['try','Что одно вы попробуете на этой неделе?']],note:'Если сон не восстанавливает несколько недель подряд, обсудите это с психологом или врачом'},
- {id:'choice',stage:3,kind:'read',time:'3 минуты',rel:['stress','resp'],title:'Разделите то, что можно изменить, и то, что нельзя',lead:'Если ситуацию можно изменить, меняйте ее. Если нельзя, вы все равно выбираете, как к ней относиться',
-  cols:[['Внешние стрессоры','События и обстоятельства','Помогает самоорганизация: понять цель, расставить дела по важности и срочности, поставить реальные сроки, говорить «нет» лишнему и делать сложное первым'],['Внутренние стрессоры','Ваши реакции и мысли','Помогает саморегуляция: дыхание, расслабление мышц, успокаивающий образ или слово']],
-  check:{h:'Попробуйте это, если ситуацию не изменить',items:['Спросить себя: «Мне это правда нужно?»','Разделить, где ваша ответственность, а где чужая','Отделить факт от интерпретации','Посмотреть шире: как это будет выглядеть через год','Найти «но зато»: что в этом есть полезного для вас','Дать эмоциям выход: проговорить, записать, подвигаться']},
-  note:'Если стрессор - другой человек, попробуйте представить его уставшим или испуганным человеком, которому сейчас тоже трудно'},
- {id:'stressan',stage:3,kind:'work',time:'15 минут',rel:['stress','chain'],title:'Разберите одну стрессовую ситуацию',lead:'Выберите недавнюю ситуацию, после которой вы долго не могли прийти в себя, и разберите ее по шагам',
-  groups:[['Опишите, что произошло',[['sit','Что случилось?'],['pre','Что этому предшествовало?'],['res','К чему это привело?']]],['Вспомните, как вы реагировали',[['th','Что вы думали?'],['act','Что вы делали?'],['fe','Что вы чувствовали?']]],['Решите, что поможет в следующий раз',[['th2','Какая мысль поддержит?'],['act2','Что вы сделаете?'],['fe2','Какое чувство поможет опереться?']]]]},
- {id:'scanner',stage:4,kind:'work',time:'1 минута',rel:['body','radar','pulse'],title:'Просканируйте тело за одну минуту',lead:'Минуту вы с закрытыми глазами прислушиваетесь к ощущениям в теле, а потом отмечаете, что заметили',scan:true},
- {id:'askself',stage:5,kind:'work',time:'20 минут',rel:['chain','lab','load'],title:'Задайте себе честные вопросы о работе',lead:'Подумайте о работе целиком: о задачах, общении, дороге, ожиданиях. Ответы видите только вы',
-  groups:[['',[['q1','Как я себя чувствую в своей работе?'],['q2','Насколько мне нравится то, что я делаю?'],['q3','Готов(а) ли я продолжать так же еще много лет?'],['q4','Сколько сил забирает у меня работа?'],['q5','Сколько сил она мне дает?'],['q6','Что я получаю, когда все устроено так, как сейчас?'],['q7','Что я теряю, когда все устроено так?'],['q8','Если бы все было так, как я хочу, чем бы наполнилась моя жизнь?'],['q9','От чего меня спасает моя работа?','Иногда работа помогает не смотреть на то, на что смотреть страшно'],['q10','Какую скрытую выгоду мне дает то, как все устроено сейчас?']]]]},
- {id:'rights',stage:6,kind:'read',time:'2 минуты',rel:['resp'],title:'Напомните себе о своих правах',lead:'Границы начинаются с того, что вы разрешаете себе',
-  check:{h:'Отметьте то, что вам пока трудно себе разрешить',items:['Хотеть и не хотеть','Не объяснять причины своих решений','Сказать, когда со мной обращаются недопустимо','Говорить о своем мнении и своих интересах','Выбирать цели, людей и дела, которые подходят мне','Отдаляться от людей, рядом с которыми мне плохо','Радоваться жизни и следовать своим желаниям','Не отвечать за чувства других людей в ответ на мои границы']},
-  fields:[['hard','Какое право вам сейчас нужнее всего и где вы попробуете его себе дать?']]},
- {id:'listen',stage:7,kind:'work',time:'5 минут',rel:['nhv','values'],title:'Сверьте желание с телом',lead:'Четыре шага, которые помогают отличить свое желание от «надо». Пробуйте в разных сферах жизни',listen:true},
- {id:'wins',stage:9,kind:'work',time:'5 минут вечером',rel:['lab','road','nav'],title:'Ведите дневник достижений',lead:'Достижение - это все, что вы сами считаете достижением: отношения, навык, трудный разговор, преодоленный страх, время для себя. Оценить, насколько оно большое, можете только вы',
-  text:['Перед сном пройдитесь по дню от вечера к утру и найдите, за что себя похвалить. Вспомните не только сам факт, но и то, что вы почувствовали в этот момент. Записывать лучше, чем держать в голове: так достижения не теряются'],wins:true}];
+ {id:'sleep',stage:2,kind:'read',time:'3 минуты',rel:['recovery'],title:'Подготовьтесь ко сну',bg:'#e7e4ee',
+  lead:'Сон восстанавливает тело и психику. Несколько привычек днем и вечером помогают уснуть легче и проснуться отдохнувшим(ей)',
+  why:[['battery','Когда сна мало','хуже работают внимание и память, труднее справляться с эмоциями, и любая нагрузка кажется тяжелее'],['moon','Вечером','организм вырабатывает мелатонин, гормон сна. Ему помогают темнота и тишина, а мешают яркий экран, кофеин и алкоголь']],
+  memo:{h:'Пройдите по своему дню и отметьте, что вы уже делаете',ck:'Уже делаю',cnt:['Вы уже делаете','из'],time:1,items:[
+    ['до 14:00','cup','Выпейте последний кофе или крепкий чай до обеда','Кофеин бодрит еще 6-8 часов'],
+    ['днем','walk','Подвигайтесь: пройдитесь пешком или потренируйтесь','Вечером оставьте только спокойную прогулку'],
+    ['вечером','glass','Не пейте алкоголь, чтобы уснуть','Он помогает заснуть, но делает сон поверхностным'],
+    ['за час до сна','phone','Отложите телефон и приглушите свет','Темнота подсказывает организму, что пора спать'],
+    ['за 30 минут','book','Сделайте спокойный ритуал: примите душ, почитайте или подышите','Одинаковый ритуал каждый вечер настраивает на сон'],
+    ['перед сном','moon','Проверьте, что в спальне темно и прохладно','В прохладной комнате спится глубже'],
+    ['каждый день','clock','Ложитесь и вставайте в одно и то же время, даже в выходные','Так организм привыкает засыпать сам']]},
+  pick:{h:'Выберите одно, что попробуете на этой неделе',from:'free',key:'try',own:'Или напишите свое',res:'Ваш шаг на эту неделю'},
+  note:'Если сон не восстанавливает несколько недель подряд, обсудите это с психологом или врачом'},
+ {id:'choice',stage:3,kind:'read',time:'3 минуты',rel:['stress','resp'],title:'Разделите то, что можно изменить, и то, что нельзя',bg:'#e2e9e9',
+  lead:'Если ситуацию можно изменить, меняйте ее. Если нельзя, вы все равно выбираете, как к ней относиться',
+  cols:[['hand','Обстоятельства вокруг вас','события, задачи, сроки, другие люди','Меняйте то, что можно: определите цель, расставьте дела по важности и срочности, поставьте реальные сроки, откажитесь от лишнего и начинайте со сложного'],
+        ['heart','Ваши реакции и мысли','то, что происходит внутри вас','Успокаивайте себя: дышите медленнее, расслабляйте мышцы, вспоминайте успокаивающий образ или слово']],
+  memo:{h:'Если ситуацию изменить нельзя, отметьте, что вы попробуете',ck:'Попробую',cnt:['Вы выбрали','из'],items:[
+    ['','question','Спросите себя: «Мне это правда нужно?»',''],
+    ['','split','Разделите, где ваша ответственность, а где чужая',''],
+    ['','eye','Отделите то, что произошло, от того, как вы это объяснили',''],
+    ['','calendar','Представьте, как эта ситуация будет выглядеть через год',''],
+    ['','sun','Найдите, что в этой ситуации есть полезного для вас',''],
+    ['','wave','Дайте чувствам выход: проговорите их, запишите или подвигайтесь','']]},
+  note:'Если трудности создает другой человек, представьте его уставшим или испуганным: возможно, ему сейчас тоже трудно'},
+ {id:'stressan',stage:3,kind:'work',time:'15 минут',rel:['stress','chain'],title:'Разберите одну стрессовую ситуацию',bg:'#efe9e3',
+  lead:'Выберите недавнюю ситуацию, после которой вы долго не могли прийти в себя, и разберите ее в три шага',flow:1,
+  groups:[['Опишите, что произошло',[['sit','Что случилось?'],['pre','Что этому предшествовало?'],['res','К чему это привело?']]],['Вспомните, как вы реагировали',[['th','Что вы думали?'],['act','Что вы делали?'],['fe','Что вы чувствовали?']]],['Решите, что поможет в следующий раз',[['th2','Какая мысль вас поддержит?'],['act2','Что вы сделаете иначе?'],['fe2','На какое чувство вы сможете опереться?']]]]},
+ {id:'scanner',stage:4,kind:'work',time:'1 минута',rel:['body','radar','pulse'],title:'Просканируйте тело за одну минуту',bg:'#f1ddd5',lead:'Минуту вы с закрытыми глазами прислушиваетесь к ощущениям в теле, а потом отмечаете, что заметили',scan:true},
+ {id:'askself',stage:5,kind:'work',time:'20 минут',rel:['chain','lab','load'],title:'Задайте себе честные вопросы о работе',bg:'#e7e4ee',
+  lead:'Подумайте о работе целиком: о задачах, общении, дороге и ожиданиях. Ваши ответы видите только вы, отвечать на все вопросы не обязательно',flow:1,
+  groups:[['Посмотрите, как вам в работе сейчас',[['q1','Как я себя чувствую в своей работе?'],['q2','Насколько мне нравится то, что я делаю?'],['q3','Готов(а) ли я продолжать так же еще много лет?']]],
+          ['Сравните, что работа дает и что забирает',[['q4','Сколько сил забирает у меня работа?'],['q5','Сколько сил она мне дает?'],['q6','Что я получаю, когда все устроено так, как сейчас?'],['q7','Что я теряю, когда все устроено так?']]],
+          ['Подумайте, что стоит за тем, как все устроено',[['q8','Если бы все было так, как я хочу, чем бы наполнилась моя жизнь?'],['q9','От чего меня спасает моя работа?','Иногда работа помогает не смотреть на то, на что смотреть страшно'],['q10','Какую скрытую выгоду мне дает то, как все устроено сейчас?']]]]},
+ {id:'rights',stage:6,kind:'read',time:'2 минуты',rel:['resp'],title:'Напомните себе о своих правах',bg:'#efe9e3',
+  lead:'Границы начинаются с того, что вы разрешаете себе. Прочитайте права ниже и отметьте те, что даются вам труднее всего',
+  memo:{h:'Отметьте права, которые вам пока трудно себе разрешить',ck:'Трудно',cnt:['Отмечено','из'],items:[
+    ['','heart','Я имею право хотеть и не хотеть',''],
+    ['','mute','Я имею право не объяснять причины своих решений',''],
+    ['','stop','Я имею право сказать, когда со мной обращаются недопустимо',''],
+    ['','speech','Я имею право говорить о своем мнении и своих интересах',''],
+    ['','compass','Я имею право выбирать цели, людей и дела, которые мне подходят',''],
+    ['','door','Я имею право отдаляться от людей, рядом с которыми мне плохо',''],
+    ['','sun','Я имею право радоваться жизни и следовать своим желаниям',''],
+    ['','shield','Я имею право не отвечать за чувства других, когда обозначаю свои границы','']]},
+  pick:{h:'Выберите право, которое вам сейчас нужнее всего',from:'checked',key:'right',empty:'Сначала отметьте выше права, которые вам трудно себе разрешить',res:'Право, которое вы себе даете'},
+  fields:[['hard','Где на этой неделе вы попробуете дать себе это право?']]},
+ {id:'listen',stage:7,kind:'work',time:'5 минут',rel:['nhv','values'],title:'Сверьте желание с телом',bg:'#e2e9e9',lead:'Четыре шага помогают отличить свое желание от «надо». Выберите сферу жизни и пройдите шаги по порядку',listen:true},
+ {id:'wins',stage:9,kind:'work',time:'5 минут вечером',rel:['lab','road','nav'],title:'Ведите дневник достижений',bg:'#f6ecd6',
+  lead:'Достижением считается все, что вы сами так называете: трудный разговор, новый навык, преодоленный страх, время для себя. Насколько оно большое, решаете только вы',
+  how:[['moon','Вечером','вспомните день от вечера к утру'],['star','Найдите','за что можно себя похвалить'],['heart','Запишите','что вы сделали и что почувствовали']],
+  text:['Записанные достижения не теряются, и их приятно перечитывать в трудный день'],wins:true}];
 const MATI=Object.fromEntries(MAT.map(x=>[x.id,x]));
 const LISTEN_SPH=['Работа','Здоровье','Отношения','Отдых и хобби','Развитие','Деньги','Творчество и вера'];
+/* Иконки материалов: тонкие линии 24×24, как в остальном кабинете */
+const MICO={
+  cup:'<path d="M5 9h11v5a5 5 0 0 1-5 5h-1a5 5 0 0 1-5-5z"/><path d="M16 11h1.5a2.5 2.5 0 0 1 0 5H16"/><path d="M8.5 3c0 1.5 1.5 1.5 1.5 3M12 3c0 1.5 1.5 1.5 1.5 3"/>',
+  walk:'<circle cx="13" cy="4.5" r="1.8"/><path d="M11 8.5l-2 5 3 2.5v5M9 13.5l-3 1.5M12 8.5l3 3 3 1M9.5 16l-2 5"/>',
+  glass:'<path d="M8 3h8l-1 6a3 3 0 0 1-6 0z"/><path d="M12 12v8M8.5 20h7"/><path d="M4 4l16 16" opacity=".7"/>',
+  phone:'<rect x="7" y="3" width="10" height="18" rx="2"/><path d="M11 18h2"/>',
+  book:'<path d="M4 5c3-1 6-1 8 1 2-2 5-2 8-1v13c-3-1-6-1-8 1-2-2-5-2-8-1z"/><path d="M12 6v13"/>',
+  moon:'<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/>',
+  clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  battery:'<rect x="3" y="8" width="16" height="9" rx="1.5"/><path d="M21 11v3"/><path d="M6 11v3" stroke-width="2.4"/>',
+  hand:'<path d="M8 13V6.5a1.5 1.5 0 013 0V12M11 11V5a1.5 1.5 0 013 0v6M14 11V6.5a1.5 1.5 0 013 0V14c0 3.5-2.5 6-6 6-2.6 0-4.2-1.3-5.4-3.4L4 13.5a1.5 1.5 0 012.6-1.5L8 14"/>',
+  heart:'<path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/>',
+  question:'<circle cx="12" cy="12" r="9"/><path d="M9.6 9.2a2.5 2.5 0 1 1 3.4 2.3c-.6.3-1 .9-1 1.6M12 16.6h.01"/>',
+  split:'<path d="M12 3v18"/><path d="M3 9h6l-2-2M9 9l-2 2M21 15h-6l2-2M15 15l2 2"/>',
+  eye:'<path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/>',
+  calendar:'<rect x="4" y="5" width="16" height="15" rx="1.5"/><path d="M4 10h16M9 3v4M15 3v4"/>',
+  sun:'<circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4L7 17M17 7l1.4-1.4"/>',
+  wave:'<path d="M3 9c2-3 4-3 6 0s4 3 6 0 4-3 6 0M3 15c2-3 4-3 6 0s4 3 6 0 4-3 6 0"/>',
+  mute:'<path d="M4 5h16v11H9l-5 4z"/><path d="M10 8.5l4 4M14 8.5l-4 4"/>',
+  stop:'<path d="M8 3h8l5 5v8l-5 5H8l-5-5V8z"/><path d="M8 12h8"/>',
+  speech:'<path d="M4 5h16v11H9l-5 4z"/><path d="M8 9h8M8 12h5"/>',
+  compass:'<circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/>',
+  door:'<path d="M6 21V4h9v17M3 21h18"/><path d="M15 6l4 1.5V21"/><circle cx="12" cy="13" r=".6" fill="currentColor"/>',
+  shield:'<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/>',
+  star:'<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>'};
+const mico=(k,sz=22)=>`<svg width="${sz}" height="${sz}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${MICO[k]||''}</svg>`;
+/* Иллюстрации в шапке материалов, в стиле иллюстраций инструментов */
+Object.assign(HERO,{
+  m_sleep:`<path d="M74 26a30 30 0 1 0 22 46 24 24 0 0 1-22-46z" fill="${HC.lav}"/><g fill="currentColor" stroke="none"><circle cx="34" cy="34" r="2"/><circle cx="26" cy="54" r="1.5"/><circle cx="44" cy="22" r="1.4"/></g><path d="M22 92h76" /><path d="M30 92v-8h60v8" fill="var(--bg)"/>`,
+  m_choice:`<circle cx="60" cy="60" r="38" fill="${HC.mintL}"/><circle cx="60" cy="60" r="18" fill="var(--bg)"/><path d="M53 63V54.5a2 2 0 014 0V61M57 60v-8a2 2 0 014 0v8M61 60v-5.5a2 2 0 014 0V64c0 4-3 7-7 7-3 0-5-1.5-6.5-4L49 63"/>`,
+  m_stressan:`<path d="M18 74c8-24 16-24 24 0s16 24 24 0 16-24 24 0 8 12 12 12" fill="none"/><circle cx="30" cy="62" r="4" fill="${HC.peach}"/><circle cx="60" cy="74" r="4" fill="${HC.sun}"/><circle cx="90" cy="62" r="4" fill="${HC.mint}"/><path d="M30 40v10M60 40v22M90 40v10" stroke-dasharray="1 3"/>`,
+  m_scanner:`<path d="M60 22a9 9 0 1 1 0 18 9 9 0 0 1 0-18zM48 44h24l6 26-6 2-2 30h-8l-2-22-2 22h-8l-2-30-6-2z" fill="var(--bg)"/><path d="M30 60h60" stroke="#5f8a72" stroke-width="2"/><circle cx="30" cy="60" r="2.5" fill="#5f8a72" stroke="none"/><circle cx="90" cy="60" r="2.5" fill="#5f8a72" stroke="none"/>`,
+  m_askself:`<rect x="26" y="30" width="68" height="46" rx="6" fill="var(--bg)"/><path d="M44 76l-8 14 18-14"/><path d="M54 46a6 6 0 1 1 8 5.6c-1.4.6-2 1.6-2 3M60 61h.01" stroke-width="2"/><circle cx="88" cy="30" r="10" fill="${HC.lav}"/>`,
+  m_rights:`<path d="M60 22l30 11v20c0 20-13 32-30 37-17-5-30-17-30-37V33z" fill="${HC.beige}"/><path d="M48 56l9 9 16-18" stroke-width="2"/>`,
+  m_listen:`<path d="M60 92s-30-18-30-40a16 16 0 0 1 30-8 16 16 0 0 1 30 8c0 22-30 40-30 40z" fill="${HC.mintL}"/><path d="M38 58h10l5-10 7 20 5-10h17" stroke-width="1.8"/>`,
+  m_wins:`<path d="M38 36h44l-4 56H42z" fill="var(--bg)"/><path d="M36 30h48v6H36z" fill="${HC.beige}"/><g fill="${HC.sun}"><path d="M52 60l2.7 5.6 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/><circle cx="68" cy="80" r="4"/><circle cx="66" cy="62" r="3"/></g>`});
 const SCAN=[['t','Сверьте ощущения по температуре',['холодно','тепло','горячо']],['h','Сверьте ощущения по весу',['тяжело','нейтрально','легко']],['r','Сверьте ощущения по уровню напряжения в теле',['напряженно','слегка напряженно','расслабленно']]];
 /* Сканер тела: силуэт, по которому сверху вниз проходит линия; отмеченные зоны мягко светятся */
 const SCAN_SEG=[[6,'Макушка, лоб и глаза'],[62,'Челюсть, горло и шея'],[110,'Плечи, грудь и дыхание'],[200,'Живот, спина и руки'],[280,'Таз, бедра и кисти'],[400,'Колени и голени'],[520,'Стопы и опора под ними'],[596,'']];
@@ -5694,20 +5837,32 @@ function scanSvg(sel,mode){const id='sc'+mode;return `<svg viewBox="0 0 300 600"
   ${mode==='r'?`<g clip-path="url(#${id}Clip)" pointer-events="none"><rect id="scTrailR" x="0" y="-80" width="300" height="80" fill="url(#${id}Trail)"/></g>
   <g id="scLine" class="scan__line is-on" transform="translate(0,6)" pointer-events="none"><line x1="14" x2="286" y1="0" y2="0"/><circle cx="14" cy="0" r="3"/><circle cx="286" cy="0" r="3"/></g>`:''}</svg>`}
 function matFilled(id){const d=(S.mat||{})[id];if(!d)return false;return Object.values(d).some(v=>Array.isArray(v)?v.length:v&&typeof v==='object'?Object.keys(v).length:!!v)}
-function matCard(x){const st=C.stages[x.stage-1];return `<button type="button" class="mcard${matFilled(x.id)?' is-done':''}" data-go="mat" data-arg="${x.id}"><span class="mcard__k mcard__k--${x.kind}">${x.kind==='read'?'Почитать':'Упражнение'} · ${esc(x.time)}</span><span class="mcard__t">${esc(x.title)}</span><span class="mcard__s">Этап ${x.stage} · ${esc(st.title)}</span>${matFilled(x.id)?`<span class="mcard__ok">${ico('check',14)}</span>`:''}</button>`}
+function matCard(x){const st=C.stages[x.stage-1];return `<button type="button" class="mcard${matFilled(x.id)?' is-done':''}" data-go="mat" data-arg="${x.id}"><span class="mcard__art" style="background:${x.bg||'var(--mint)'}">${bigIco('m_'+x.id,64)}</span><span class="mcard__k mcard__k--${x.kind}">${x.kind==='read'?'Почитать':'Упражнение'} · ${esc(x.time)}</span><span class="mcard__t">${esc(x.title)}</span><span class="mcard__s">Этап ${x.stage} · ${esc(st.title)}</span>${matFilled(x.id)?`<span class="mcard__ok">${ico('check',14)}</span>`:''}</button>`}
 function matBlock(id){const L=MAT.filter(x=>x.rel.includes(id));if(!L.length)return '';
   return `<section class="sec mblock"><div class="sec__h"><h2>Раскройте тему глубже</h2></div><div class="mgrid">${L.map(matCard).join('')}</div></section>`}
 function vMat(m){S.mat=S.mat||{};const x=route.arg&&MATI[route.arg];
   if(!x){const cs=curStage();const by=C.stages.filter(s=>MAT.some(x=>x.stage===s.n));
-    m.innerHTML=`<div class="page page--narrow"><header class="thead"><p class="eyebrow">Дополнительно</p><h1>Раскройте темы трека глубже</h1><p class="thead__goal">Короткие тексты и упражнения к этапам маршрута. Возвращайтесь к ним, когда захотите разобраться подробнее: ответы сохраняются и попадают в «Ключ к своему состоянию»</p></header>
+    m.innerHTML=`<div class="page page--narrow"><header class="thead"><p class="eyebrow">Дополнительно</p><h1>Раскройте темы трека глубже</h1><p class="thead__goal">Здесь собраны короткие тексты и упражнения к этапам трека. Открывайте их, когда хочется разобраться глубже: ответы сохранятся и попадут в «Ключ к своему состоянию»</p></header>
       <ol class="mlist">${by.map(s=>`<li class="mlist__i${s.n===cs?' is-now':''}"><p class="mlist__h">Этап ${s.n} · ${esc(s.title)}${s.n===cs?' · <b>вы здесь</b>':''}</p><div class="mgrid">${MAT.filter(x=>x.stage===s.n).map(matCard).join('')}</div></li>`).join('')}</ol></div>`;return}
   const D=S.mat[x.id]=S.mat[x.id]||{};const st=C.stages[x.stage-1];
   const ta=(k,l,h)=>`<label class="mfield"><span class="mfield__l">${esc(l)}</span>${h?`<span class="mfield__h">${esc(h)}</span>`:''}<textarea class="area" data-mf="${k}" rows="2">${esc(D[k]||'')}</textarea></label>`;
   let body='';
+  /* Почему это важно: две карточки с иконками */
+  if(x.why)body+=`<div class="mwhy">${x.why.map(([ic,h,p])=>`<div class="mwhy__c"><span class="mwhy__i">${mico(ic,26)}</span><p><b>${esc(h)}</b> ${esc(p)}</p></div>`).join('')}</div>`;
+  /* Как это делать: три коротких шага в ряд */
+  if(x.how)body+=`<ol class="mhow">${x.how.map(([ic,h,p],i)=>`<li><span class="mhow__i">${mico(ic,26)}</span><p><b>${esc(h)}</b> ${esc(p)}</p></li>`).join('')}</ol>`;
   if(x.text)body+=x.text.map(p=>`<p class="mtext">${esc(p)}</p>`).join('');
-  if(x.cols)body+=`<div class="mcols">${x.cols.map(([h,s,p],i)=>`<div class="mcol mcol--${i}"><p class="mcol__h">${esc(h)}</p><p class="mcol__s">${esc(s)}</p><p>${esc(p)}</p></div>`).join('')}</div>`;
-  if(x.check){D.chk=D.chk||[];body+=`<div class="msec"><p class="msec__h">${esc(x.check.h)}</p><div class="mchk">${x.check.items.map(v=>`<button type="button" class="bmk-i" aria-pressed="${D.chk.includes(v)}" data-mc="${esc(v)}"><span class="bmk-i__c" aria-hidden="true">${ico('check',14)}</span><span>${esc(v)}</span></button>`).join('')}</div></div>`}
-  if(x.groups)body+=x.groups.map(([h,F])=>`<div class="msec">${h?`<p class="msec__h">${esc(h)}</p>`:''}<div class="mfields${F.length===3?' mfields--3':''}">${F.map(([k,l,hh])=>ta(k,l,hh)).join('')}</div></div>`).join('');
+  if(x.cols)body+=`<div class="mcols2">${x.cols.map(([ic,h,s2,p],i)=>`<div class="mcol2 mcol2--${i}"><span class="mcol2__i">${mico(ic,28)}</span><p class="mcol2__h">${esc(h)}</p><p class="mcol2__s">${esc(s2)}</p><p class="mcol2__p">${esc(p)}</p></div>`).join('')}</div>`;
+  /* Памятка: шаги с иконками и отметкой; если у шагов есть время - выстраиваются в линию дня */
+  if(x.memo){const M=x.memo;D.chk=(D.chk||[]).filter(v=>M.items.some(it=>it[2]===v));const n=D.chk.length;
+    body+=`<section class="msec"><div class="memo__head"><p class="msec__h">${esc(M.h)}</p><p class="memo__cnt" id="memoCnt">${M.cnt[0]} <b>${n}</b> ${M.cnt[1]} ${M.items.length}</p></div>
+      <ol class="memo${M.time?' memo--time':''}">${M.items.map(([tm,ic,a,w])=>{const on=D.chk.includes(a);return `<li class="memo__i${on?' is-on':''}">${M.time?`<span class="memo__t">${esc(tm)}</span>`:''}<span class="memo__ic">${mico(ic,24)}</span><span class="memo__tx"><b>${esc(a)}</b>${w?`<small>${esc(w)}</small>`:''}</span><button type="button" class="memo__ck" aria-pressed="${on}" data-mc="${esc(a)}"><i>${ico('check',14)}</i>${esc(M.ck)}</button></li>`}).join('')}</ol></section>`}
+  /* Выбор одного шага: из того, что еще не делается, или из отмеченного */
+  if(x.pick){const P=x.pick,M=x.memo;const pool=M?M.items.map(it=>it[2]).filter(a=>P.from==='checked'?(D.chk||[]).includes(a):!(D.chk||[]).includes(a)):[];const cur=D[P.key]||'';const own=cur&&!pool.includes(cur)&&P.own?cur:'';
+    body+=`<section class="msec" id="mpick"><p class="msec__h">${esc(P.h)}</p>${pool.length?`<div class="mopt">${pool.map(a=>`<button type="button" aria-pressed="${cur===a}" data-pk="${esc(a)}">${esc(a)}</button>`).join('')}</div>`:`<p class="muted">${esc(P.empty||'Вы уже делаете все из списка. Это хорошая опора')}</p>`}
+      ${P.own?`<div class="input mopt__own"><input class="line" id="pkOwn" placeholder="${esc(P.own)}" value="${esc(own)}"></div>`:''}
+      <div class="mres" id="pkRes"${cur?'':' hidden'}><p class="mres__eb">${esc(P.res)}</p><p class="mres__t" id="pkResT">${esc(cur)}</p></div></section>`}
+  if(x.groups)body+=`<div class="${x.flow?'mflow':''}">${x.groups.map(([h,F],gi)=>`<section class="msec${x.flow?' mflow__s':''}">${x.flow?`<span class="mflow__n">${gi+1}</span>`:''}<div>${h?`<p class="msec__h">${esc(h)}</p>`:''}<div class="mfields${F.length===3&&!x.flow?' mfields--3':''}">${F.map(([k,l,hh])=>ta(k,l,hh)).join('')}</div></div></section>`).join('')}</div>`;
   if(x.fields)body+=`<div class="msec">${x.fields.map(([k,l])=>ta(k,l)).join('')}</div>`;
   if(x.scan){const cur=route.scan||(route.scan={});D.log=D.log||[];const ph=route.scph||'intro';
     body+=`<div class="msec scan2">
@@ -5725,23 +5880,27 @@ function vMat(m){S.mat=S.mat||{};const x=route.arg&&MATI[route.arg];
         <div class="scan2__btns"><button type="button" class="btn btn--primary" id="scSave">Сохранить сканирование</button><button type="button" class="btn btn--ghost" id="scAgain">Пройти сканирование еще раз</button></div></div></div></div>
       ${D.log.length?`<div class="msec"><p class="msec__h">Посмотрите свои прошлые сканирования</p><ul class="mlog">${D.log.slice(0,6).map(e=>`<li><span class="muted">${esc(e.d)}</span><span>${esc([e.t,e.h,e.r].filter(Boolean).join(', '))}${e.z&&e.z.length?' · '+esc(e.z.join(', ')):''}</span></li>`).join('')}</ul></div>`:''}`}
   if(x.listen){D.log=D.log||[];const dr=route.lst||(route.lst={});
-    body+=`<div class="msec"><p class="msec__h">Выберите сферу жизни</p><div class="chips">${LISTEN_SPH.map(v=>`<button type="button" class="chip" aria-pressed="${dr.sph===v}" data-lsph="${esc(v)}">${esc(v)}</button>`).join('')}</div></div>
-      <ol class="msteps">${[['w','Заметьте желание','Чего мне сейчас хочется?'],['th','Поймайте мысль','Что я об этом думаю? Сформулируйте от первого лица: «Я…»'],['b','Сверьтесь с чувствами и телом','Что я чувствую и где это в теле? Если от мысли становится тяжело, переформулируйте ее'],['st','Сделайте маленький шаг','Какой самый маленький шаг я сделаю?']].map(([k,h,p],i)=>`<li><span class="msteps__n">${i+1}</span><label class="mfield"><span class="mfield__l">${h}</span><span class="mfield__h">${p}</span><textarea class="area" rows="2" data-lst="${k}">${esc(dr[k]||'')}</textarea></label></li>`).join('')}</ol>
+    body+=`<div class="msec"><p class="msec__h">Выберите сферу жизни, о которой хотите подумать</p><div class="mopt mopt--4">${LISTEN_SPH.map(v=>`<button type="button" aria-pressed="${dr.sph===v}" data-lsph="${esc(v)}">${esc(v)}</button>`).join('')}</div></div>
+      <ol class="msteps">${[['w','Заметьте желание','Чего мне сейчас хочется?'],['th','Поймайте мысль','Что я об этом думаю? Начните фразу со слова «Я…»'],['b','Сверьтесь с чувствами и телом','Что я чувствую и где это ощущается в теле? Если от мысли становится тяжело, переформулируйте ее'],['st','Сделайте маленький шаг','Какой самый маленький шаг я сделаю?']].map(([k,h,p],i)=>`<li><span class="msteps__n">${i+1}</span><label class="mfield"><span class="mfield__l">${h}</span><span class="mfield__h">${p}</span><textarea class="area" rows="2" data-lst="${k}">${esc(dr[k]||'')}</textarea></label></li>`).join('')}</ol>
       <button type="button" class="btn btn--primary" id="lsSave">Сохранить запись</button>
       ${D.log.length?`<div class="msec"><p class="msec__h">Перечитайте свои записи</p><ul class="mlog">${D.log.slice(0,8).map(e=>`<li><span class="muted">${esc(e.d)}${e.sph?' · '+esc(e.sph):''}</span><span>${esc(e.w||'')}${e.st?' → '+esc(e.st):''}</span></li>`).join('')}</ul></div>`:''}`}
   if(x.wins){D.log=D.log||[];
-    body+=`<div class="msec"><div class="mfields"><label class="mfield"><span class="mfield__l">Что у вас получилось?</span><textarea class="area" rows="2" id="wW"></textarea></label><label class="mfield"><span class="mfield__l">Что вы почувствовали?</span><textarea class="area" rows="2" id="wF"></textarea></label></div><button type="button" class="btn btn--primary" id="wAdd" style="margin-top:14px">Записать достижение</button></div>
+    body+=`${!D.log.length?'':`<div class="mjar"><span class="mjar__n">${D.log.length}</span><span class="mjar__l">${plural(D.log.length,'достижение записано','достижения записано','достижений записано')}</span><span class="mjar__s">${Array.from({length:Math.min(D.log.length,30)},()=>mico('star',16)).join('')}</span></div>`}
+      <div class="msec"><p class="msec__h">Запишите достижение за сегодня</p><div class="mfields"><label class="mfield"><span class="mfield__l">Что у вас получилось?</span><textarea class="area" rows="2" id="wW"></textarea></label><label class="mfield"><span class="mfield__l">Что вы почувствовали?</span><textarea class="area" rows="2" id="wF"></textarea></label></div><button type="button" class="btn btn--primary" id="wAdd" style="margin-top:14px">Записать достижение</button></div>
       ${D.log.length?`<div class="msec"><p class="msec__h">Перечитайте свои достижения · ${D.log.length}</p><ul class="mlog">${D.log.map((e,i)=>`<li><span class="muted">${esc(e.d)}</span><span>${esc(e.w)}${e.f?`<em> - ${esc(e.f)}</em>`:''}</span><button type="button" class="btn btn--ghost btn--sm" data-wx="${i}" aria-label="Удалить">×</button></li>`).join('')}</ul></div>`:''}`}
   if(x.note)body+=`<div class="note" style="margin-top:24px">${esc(x.note)}</div>`;
   const rel=x.rel.filter(id=>T[id]&&isOpen(id));
   m.innerHTML=`<div class="page page--narrow mat"><button class="back" data-go="mat">${BACK}Все материалы</button>
-    <header class="thead"><p class="eyebrow">${x.kind==='read'?'Почитать':'Упражнение'} · ${esc(x.time)} · этап ${x.stage}</p><h1>${esc(x.title)}</h1><p class="thead__goal">${esc(x.lead)}</p></header>
+    <header class="thero mhero"><div class="thero__img" style="background:${x.bg||'var(--mint)'}">${bigIco('m_'+x.id,150)}</div><div class="thero__txt"><p class="eyebrow">${x.kind==='read'?'Почитать':'Упражнение'} · ${esc(x.time)} · этап ${x.stage}</p><h1>${esc(x.title)}</h1><p class="thero__met">${esc(x.lead)}</p></div></header>
     ${body}
     <div class="mat__foot">${(x.groups||x.fields)?`<span class="saved">Ответы сохраняются сами</span>`:''}${rel.map(id=>`<button type="button" class="btn btn--outline btn--sm" data-go="tool" data-arg="${id}">Открыть «${esc(T[id].title)}»</button>`).join('')}<button type="button" class="btn btn--ghost btn--sm" data-go="mat">Вернуться к материалам</button></div></div>`;
   const keep=()=>{save();const y=window.scrollY;render();window.scrollTo({top:y})};
   const today=()=>new Date().toLocaleDateString('ru-RU',{day:'numeric',month:'long'});
   $$('[data-mf]',m).forEach(a=>a.addEventListener('input',()=>autosave('mf',()=>{D[a.dataset.mf]=a.value.trim()})));
-  $$('[data-mc]',m).forEach(b=>b.onclick=()=>{const v=b.dataset.mc,i=D.chk.indexOf(v);i>=0?D.chk.splice(i,1):D.chk.push(v);b.setAttribute('aria-pressed',String(i<0));save()});
+  $$('[data-mc]',m).forEach(b=>b.onclick=()=>{const v=b.dataset.mc,i=D.chk.indexOf(v);i>=0?D.chk.splice(i,1):D.chk.push(v);if(x.pick&&D[x.pick.key]===v&&x.pick.from==='free'&&i<0)delete D[x.pick.key];if(x.pick&&x.pick.from==='checked'&&i>=0&&D[x.pick.key]===v)delete D[x.pick.key];keep()});
+  $$('[data-pk]',m).forEach(b=>b.onclick=()=>{const k=x.pick.key;D[k]=D[k]===b.dataset.pk?'':b.dataset.pk;const o=$('#pkOwn',m);if(o&&D[k])o.value='';save();
+    $$('[data-pk]',m).forEach(z=>z.setAttribute('aria-pressed',String(z.dataset.pk===D[k])));const r=$('#pkRes',m);r.hidden=!D[k];$('#pkResT',m).textContent=D[k]||''});
+  const pko=$('#pkOwn',m);if(pko)pko.addEventListener('input',()=>{const k=x.pick.key,v=pko.value.trim();D[k]=v;$$('[data-pk]',m).forEach(z=>z.setAttribute('aria-pressed','false'));const r=$('#pkRes',m);r.hidden=!v;$('#pkResT',m).textContent=v;autosave('mf',()=>{})});
   if(x.scan){const cur=route.scan;$$('[data-scan]',m).forEach(g=>g.onclick=e=>{const b=e.target.closest('button');if(!b)return;cur[g.dataset.scan]=cur[g.dataset.scan]===b.dataset.v?null:b.dataset.v;$$('button',g).forEach(z=>z.setAttribute('aria-pressed',String(cur[g.dataset.scan]===z.dataset.v)))});
     const tz=z=>{cur.z=cur.z||[];const i=cur.z.indexOf(z);i>=0?cur.z.splice(i,1):cur.z.push(z);$$(`[data-sz="${z}"]`,m).forEach(b=>b.setAttribute('aria-pressed',String(i<0)));$$(`[data-hz="${z}"]`,m).forEach(g=>{g.classList.toggle('on',i<0);g.setAttribute('aria-pressed',String(i<0))})};
     $$('[data-sz]',m).forEach(b=>b.onclick=()=>tz(b.dataset.sz));
