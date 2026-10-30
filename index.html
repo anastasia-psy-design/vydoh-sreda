@@ -3300,6 +3300,31 @@ body{background:var(--page);font-size:15px;line-height:1.5}
 @media (max-width:860px){.memo--time .memo__i::before,.memo--time .memo__i::after{display:none}}
 
 @media (max-width:860px){.mhero .thero__img .bigico{width:70px!important;height:70px!important}}
+
+/* Памятка: галочка сразу слева, вся строка нажимается, ширина как у текста */
+.memo{max-width:780px}
+.memo li{list-style:none}
+.memo__i{display:grid;grid-template-columns:24px 40px minmax(0,1fr);gap:14px;align-items:center;width:100%;padding:12px 16px;border:1px solid var(--line);border-radius:10px;background:var(--bg);font:inherit;text-align:left;cursor:pointer;transition:background-color .2s,border-color .2s}
+.memo--time .memo__i{grid-template-columns:24px 100px 40px minmax(0,1fr)}
+.memo__i:hover{border-color:color-mix(in srgb,var(--ink) 35%,transparent)}
+.memo__box{display:grid;place-items:center;width:22px;height:22px;border:1.5px solid #b9c0bb;border-radius:4px;color:transparent;background:var(--bg)}
+.memo__i.is-on{background:color-mix(in srgb,#deebe1 55%,var(--bg));border-color:#cfe0da}
+.memo__i.is-on .memo__box{background:#5f8a72;border-color:#5f8a72;color:#fff}
+.memo__i .memo__ic{width:40px;height:40px}
+.memo__i.is-on .memo__ic{background:#deebe1;border-color:#8fad99}
+.memo__t{text-align:left!important}
+.memo--time li:not(:first-child) .memo__i::before,.memo--time li:not(:last-child) .memo__i::after{display:none}
+.memo__head{max-width:780px}
+.mwhy,.mcols2,.mhow{max-width:780px}
+@media (max-width:860px){
+  .memo__i,.memo--time .memo__i{grid-template-columns:24px 36px minmax(0,1fr);gap:10px 12px;grid-template-areas:none}
+  .memo--time .memo__t{grid-column:3;grid-row:1;font-size:13px}
+  .memo--time .memo__ic{grid-column:2;grid-row:1 / 3;width:36px;height:36px}
+  .memo--time .memo__tx{grid-column:3;grid-row:2}
+  .memo--time .memo__box{grid-row:1 / 3}
+}
+
+.mat .note{max-width:780px}
 </style>
 </head>
 <body>
@@ -5736,43 +5761,42 @@ TOOL.nav=(m,t)=>{S.navOwn=S.navOwn||{};const I=islands();const has=x=>x.ok||(S.n
 
 /* ================= МАТЕРИАЛЫ: раскрыть тему глубже ================= */
 const MAT=[
- {id:'sleep',stage:2,kind:'read',time:'3 минуты',rel:['recovery'],title:'Подготовьтесь ко сну',bg:'#e7e4ee',
-  lead:'Сон восстанавливает тело и психику. Несколько привычек днем и вечером помогают уснуть легче и проснуться отдохнувшим(ей)',
-  why:[['battery','Когда сна мало','хуже работают внимание и память, труднее справляться с эмоциями, и любая нагрузка кажется тяжелее'],['moon','Вечером','организм вырабатывает мелатонин, гормон сна. Ему помогают темнота и тишина, а мешают яркий экран, кофеин и алкоголь']],
-  memo:{h:'Пройдите по своему дню и отметьте, что вы уже делаете',ck:'Уже делаю',cnt:['Вы уже делаете','из'],time:1,items:[
-    ['до 14:00','cup','Выпейте последний кофе или крепкий чай до обеда','Кофеин бодрит еще 6-8 часов'],
-    ['днем','walk','Подвигайтесь: пройдитесь пешком или потренируйтесь','Вечером оставьте только спокойную прогулку'],
-    ['вечером','glass','Не пейте алкоголь, чтобы уснуть','Он помогает заснуть, но делает сон поверхностным'],
-    ['за час до сна','phone','Отложите телефон и приглушите свет','Темнота подсказывает организму, что пора спать'],
-    ['за 30 минут','book','Сделайте спокойный ритуал: примите душ, почитайте или подышите','Одинаковый ритуал каждый вечер настраивает на сон'],
-    ['перед сном','moon','Проверьте, что в спальне темно и прохладно','В прохладной комнате спится глубже'],
-    ['каждый день','clock','Ложитесь и вставайте в одно и то же время, даже в выходные','Так организм привыкает засыпать сам']]},
-  pick:{h:'Выберите одно, что попробуете на этой неделе',from:'free',key:'try',own:'Или напишите свое',res:'Ваш шаг на эту неделю'},
-  note:'Если сон не восстанавливает несколько недель подряд, обсудите это с психологом или врачом'},
- {id:'choice',stage:3,kind:'read',time:'3 минуты',rel:['stress','resp'],title:'Разделите то, что можно изменить, и то, что нельзя',bg:'#e2e9e9',
-  lead:'Если ситуацию можно изменить, меняйте ее. Если нельзя, вы все равно выбираете, как к ней относиться',
-  cols:[['hand','Обстоятельства вокруг вас','события, задачи, сроки, другие люди','Меняйте то, что можно: определите цель, расставьте дела по важности и срочности, поставьте реальные сроки, откажитесь от лишнего и начинайте со сложного'],
-        ['heart','Ваши реакции и мысли','то, что происходит внутри вас','Успокаивайте себя: дышите медленнее, расслабляйте мышцы, вспоминайте успокаивающий образ или слово']],
-  memo:{h:'Если ситуацию изменить нельзя, отметьте, что вы попробуете',ck:'Попробую',cnt:['Вы выбрали','из'],items:[
-    ['','question','Спросите себя: «Мне это правда нужно?»',''],
-    ['','split','Разделите, где ваша ответственность, а где чужая',''],
-    ['','eye','Отделите то, что произошло, от того, как вы это объяснили',''],
-    ['','calendar','Представьте, как эта ситуация будет выглядеть через год',''],
-    ['','sun','Найдите, что в этой ситуации есть полезного для вас',''],
-    ['','wave','Дайте чувствам выход: проговорите их, запишите или подвигайтесь','']]},
-  note:'Если трудности создает другой человек, представьте его уставшим или испуганным: возможно, ему сейчас тоже трудно'},
- {id:'stressan',stage:3,kind:'work',time:'15 минут',rel:['stress','chain'],title:'Разберите одну стрессовую ситуацию',bg:'#efe9e3',
-  lead:'Выберите недавнюю ситуацию, после которой вы долго не могли прийти в себя, и разберите ее в три шага',flow:1,
-  groups:[['Опишите, что произошло',[['sit','Что случилось?'],['pre','Что этому предшествовало?'],['res','К чему это привело?']]],['Вспомните, как вы реагировали',[['th','Что вы думали?'],['act','Что вы делали?'],['fe','Что вы чувствовали?']]],['Решите, что поможет в следующий раз',[['th2','Какая мысль вас поддержит?'],['act2','Что вы сделаете иначе?'],['fe2','На какое чувство вы сможете опереться?']]]]},
- {id:'scanner',stage:4,kind:'work',time:'1 минута',rel:['body','radar','pulse'],title:'Просканируйте тело за одну минуту',bg:'#f1ddd5',lead:'Минуту вы с закрытыми глазами прислушиваетесь к ощущениям в теле, а потом отмечаете, что заметили',scan:true},
- {id:'askself',stage:5,kind:'work',time:'20 минут',rel:['chain','lab','load'],title:'Задайте себе честные вопросы о работе',bg:'#e7e4ee',
-  lead:'Подумайте о работе целиком: о задачах, общении, дороге и ожиданиях. Ваши ответы видите только вы, отвечать на все вопросы не обязательно',flow:1,
-  groups:[['Посмотрите, как вам в работе сейчас',[['q1','Как я себя чувствую в своей работе?'],['q2','Насколько мне нравится то, что я делаю?'],['q3','Готов(а) ли я продолжать так же еще много лет?']]],
-          ['Сравните, что работа дает и что забирает',[['q4','Сколько сил забирает у меня работа?'],['q5','Сколько сил она мне дает?'],['q6','Что я получаю, когда все устроено так, как сейчас?'],['q7','Что я теряю, когда все устроено так?']]],
-          ['Подумайте, что стоит за тем, как все устроено',[['q8','Если бы все было так, как я хочу, чем бы наполнилась моя жизнь?'],['q9','От чего меня спасает моя работа?','Иногда работа помогает не смотреть на то, на что смотреть страшно'],['q10','Какую скрытую выгоду мне дает то, как все устроено сейчас?']]]]},
- {id:'rights',stage:6,kind:'read',time:'2 минуты',rel:['resp'],title:'Напомните себе о своих правах',bg:'#efe9e3',
-  lead:'Границы начинаются с того, что вы разрешаете себе. Прочитайте права ниже и отметьте те, что даются вам труднее всего',
-  memo:{h:'Отметьте права, которые вам пока трудно себе разрешить',ck:'Трудно',cnt:['Отмечено','из'],items:[
+ {id:'sleep',stage:2,kind:'read',time:'3 минуты',rel:['recovery'],title:'Подготовка ко сну',bg:'#e7e4ee',
+  lead:'Сон восстанавливает тело и психику. Несколько привычек днем и вечером помогают легче уснуть и проснуться отдохнувшим(ей)',
+  why:[['battery','Когда сна мало,','хуже работают внимание и память, труднее справляться с эмоциями, и любая нагрузка кажется тяжелее'],['moon','Вечером','организм вырабатывает мелатонин, гормон сна. Ему помогают темнота и тишина, а мешают яркий экран, кофеин и алкоголь']],
+  memo:{h:'Что из этого уже получается',cnt:'Уже получается',time:1,items:[
+    ['до 14:00','cup','Последний кофе или крепкий чай пью до обеда','Кофеин бодрит еще 6-8 часов'],
+    ['днем','walk','Днем двигаюсь: хожу пешком или тренируюсь','Вечером подходит только спокойная прогулка'],
+    ['вечером','glass','Не пью алкоголь, чтобы уснуть','Алкоголь помогает заснуть, но делает сон поверхностным'],
+    ['за час до сна','phone','Откладываю телефон и приглушаю свет','Темнота подсказывает организму, что пора спать'],
+    ['за 30 минут','book','Делаю спокойный ритуал: душ, книга или дыхание','Одинаковый ритуал каждый вечер настраивает на сон'],
+    ['перед сном','moon','В спальне темно и прохладно','В прохладной комнате спится глубже'],
+    ['каждый день','clock','Ложусь и встаю в одно время, даже в выходные','Так организм привыкает засыпать сам']]},
+  note:'Если сон не восстанавливает несколько недель подряд, об этом стоит поговорить с психологом или врачом'},
+ {id:'choice',stage:3,kind:'read',time:'3 минуты',rel:['stress','resp'],title:'Что можно изменить, а что нельзя',bg:'#e2e9e9',
+  lead:'Если ситуацию можно изменить, ее стоит менять. Если нельзя, остается выбор, как к ней относиться',
+  cols:[['hand','Обстоятельства вокруг','события, задачи, сроки, другие люди','Здесь помогает самоорганизация: понятная цель, порядок дел по важности и срочности, реальные сроки и отказ от лишнего'],
+        ['heart','Реакции и мысли','то, что происходит внутри','Здесь помогает саморегуляция: медленное дыхание, расслабление мышц, успокаивающий образ или слово']],
+  memo:{h:'Что можно попробовать, если ситуацию не изменить',cnt:'Выбрано',items:[
+    ['','question','Спрашиваю себя: «Мне это правда нужно?»',''],
+    ['','split','Разделяю, где моя ответственность, а где чужая',''],
+    ['','eye','Отделяю то, что произошло, от того, как я это объяснил(а)',''],
+    ['','calendar','Представляю, как эта ситуация будет выглядеть через год',''],
+    ['','sun','Ищу, что в этой ситуации есть полезного для меня',''],
+    ['','wave','Даю чувствам выход: проговариваю, записываю или двигаюсь','']]},
+  note:'Если трудности создает другой человек, помогает представить его уставшим или испуганным: возможно, ему сейчас тоже трудно'},
+ {id:'stressan',stage:3,kind:'work',time:'15 минут',rel:['stress','chain'],title:'Разбор одной стрессовой ситуации',bg:'#efe9e3',
+  lead:'Разбор недавней ситуации, после которой долго не получалось прийти в себя, в три шага',flow:1,
+  groups:[['Что произошло',[['sit','Что случилось?'],['pre','Что этому предшествовало?'],['res','К чему это привело?']]],['Как я реагировал(а)',[['th','Какие были мысли?'],['act','Какие были действия?'],['fe','Какие были чувства?']]],['Что поможет в следующий раз',[['th2','Какая мысль поддержит?'],['act2','Что можно сделать иначе?'],['fe2','На какое чувство можно опереться?']]]]},
+ {id:'scanner',stage:4,kind:'work',time:'1 минута',rel:['body','radar','pulse'],title:'Сканирование тела за одну минуту',bg:'#f1ddd5',lead:'Минута тишины с закрытыми глазами, чтобы прислушаться к ощущениям в теле, а потом отметить, что удалось заметить',scan:true},
+ {id:'askself',stage:5,kind:'work',time:'20 минут',rel:['chain','lab','load'],title:'Честные вопросы себе о работе',bg:'#e7e4ee',
+  lead:'Вопросы о работе целиком: о задачах, общении, дороге и ожиданиях. Ответы никто не увидит, и отвечать на все не обязательно',flow:1,
+  groups:[['Как мне в работе сейчас',[['q1','Как я себя чувствую в своей работе?'],['q2','Насколько мне нравится то, что я делаю?'],['q3','Готов(а) ли я продолжать так же еще много лет?']]],
+          ['Что работа дает и что забирает',[['q4','Сколько сил забирает у меня работа?'],['q5','Сколько сил она мне дает?'],['q6','Что я получаю, когда все устроено так, как сейчас?'],['q7','Что я теряю, когда все устроено так?']]],
+          ['Что стоит за тем, как все устроено',[['q8','Если бы все было так, как я хочу, чем бы наполнилась моя жизнь?'],['q9','От чего меня спасает моя работа?','Иногда работа помогает не смотреть на то, на что смотреть страшно'],['q10','Какую скрытую выгоду мне дает то, как все устроено сейчас?']]]]},
+ {id:'rights',stage:6,kind:'read',time:'2 минуты',rel:['resp'],title:'Права, о которых стоит помнить',bg:'#efe9e3',
+  lead:'Границы начинаются с того, что мы разрешаем себе сами',
+  memo:{h:'Какие права пока трудно себе разрешить',cnt:'Отмечено',items:[
     ['','heart','Я имею право хотеть и не хотеть',''],
     ['','mute','Я имею право не объяснять причины своих решений',''],
     ['','stop','Я имею право сказать, когда со мной обращаются недопустимо',''],
@@ -5781,12 +5805,11 @@ const MAT=[
     ['','door','Я имею право отдаляться от людей, рядом с которыми мне плохо',''],
     ['','sun','Я имею право радоваться жизни и следовать своим желаниям',''],
     ['','shield','Я имею право не отвечать за чувства других, когда обозначаю свои границы','']]},
-  pick:{h:'Выберите право, которое вам сейчас нужнее всего',from:'checked',key:'right',empty:'Сначала отметьте выше права, которые вам трудно себе разрешить',res:'Право, которое вы себе даете'},
-  fields:[['hard','Где на этой неделе вы попробуете дать себе это право?']]},
- {id:'listen',stage:7,kind:'work',time:'5 минут',rel:['nhv','values'],title:'Сверьте желание с телом',bg:'#e2e9e9',lead:'Четыре шага помогают отличить свое желание от «надо». Выберите сферу жизни и пройдите шаги по порядку',listen:true},
- {id:'wins',stage:9,kind:'work',time:'5 минут вечером',rel:['lab','road','nav'],title:'Ведите дневник достижений',bg:'#f6ecd6',
-  lead:'Достижением считается все, что вы сами так называете: трудный разговор, новый навык, преодоленный страх, время для себя. Насколько оно большое, решаете только вы',
-  how:[['moon','Вечером','вспомните день от вечера к утру'],['star','Найдите','за что можно себя похвалить'],['heart','Запишите','что вы сделали и что почувствовали']],
+  fields:[['hard','Какое право сейчас нужнее всего и где на этой неделе получится его себе дать?']]},
+ {id:'listen',stage:7,kind:'work',time:'5 минут',rel:['nhv','values'],title:'Сверка желания с телом',bg:'#e2e9e9',lead:'Четыре шага, которые помогают отличить свое желание от «надо». Подходят для любой сферы жизни',listen:true},
+ {id:'wins',stage:9,kind:'work',time:'5 минут вечером',rel:['lab','road','nav'],title:'Дневник достижений',bg:'#f6ecd6',
+  lead:'Достижением считается все, что мы сами так называем: трудный разговор, новый навык, преодоленный страх, время для себя. Насколько оно большое, решаем только мы',
+  how:[['moon','Вечером','вспоминаю день от вечера к утру'],['star','Нахожу,','за что могу себя похвалить'],['heart','Записываю,','что сделал(а) и что почувствовал(а)']],
   text:['Записанные достижения не теряются, и их приятно перечитывать в трудный день'],wins:true}];
 const MATI=Object.fromEntries(MAT.map(x=>[x.id,x]));
 const LISTEN_SPH=['Работа','Здоровье','Отношения','Отдых и хобби','Развитие','Деньги','Творчество и вера'];
@@ -5842,7 +5865,7 @@ function matBlock(id){const L=MAT.filter(x=>x.rel.includes(id));if(!L.length)ret
   return `<section class="sec mblock"><div class="sec__h"><h2>Раскройте тему глубже</h2></div><div class="mgrid">${L.map(matCard).join('')}</div></section>`}
 function vMat(m){S.mat=S.mat||{};const x=route.arg&&MATI[route.arg];
   if(!x){const cs=curStage();const by=C.stages.filter(s=>MAT.some(x=>x.stage===s.n));
-    m.innerHTML=`<div class="page page--narrow"><header class="thead"><p class="eyebrow">Дополнительно</p><h1>Раскройте темы трека глубже</h1><p class="thead__goal">Здесь собраны короткие тексты и упражнения к этапам трека. Открывайте их, когда хочется разобраться глубже: ответы сохранятся и попадут в «Ключ к своему состоянию»</p></header>
+    m.innerHTML=`<div class="page page--narrow"><header class="thead"><p class="eyebrow">Дополнительно</p><h1>Материалы к темам трека</h1><p class="thead__goal">Короткие тексты и упражнения к этапам трека. К ним можно возвращаться, когда хочется разобраться глубже: ответы сохранятся и попадут в «Ключ к своему состоянию»</p></header>
       <ol class="mlist">${by.map(s=>`<li class="mlist__i${s.n===cs?' is-now':''}"><p class="mlist__h">Этап ${s.n} · ${esc(s.title)}${s.n===cs?' · <b>вы здесь</b>':''}</p><div class="mgrid">${MAT.filter(x=>x.stage===s.n).map(matCard).join('')}</div></li>`).join('')}</ol></div>`;return}
   const D=S.mat[x.id]=S.mat[x.id]||{};const st=C.stages[x.stage-1];
   const ta=(k,l,h)=>`<label class="mfield"><span class="mfield__l">${esc(l)}</span>${h?`<span class="mfield__h">${esc(h)}</span>`:''}<textarea class="area" data-mf="${k}" rows="2">${esc(D[k]||'')}</textarea></label>`;
@@ -5855,8 +5878,8 @@ function vMat(m){S.mat=S.mat||{};const x=route.arg&&MATI[route.arg];
   if(x.cols)body+=`<div class="mcols2">${x.cols.map(([ic,h,s2,p],i)=>`<div class="mcol2 mcol2--${i}"><span class="mcol2__i">${mico(ic,28)}</span><p class="mcol2__h">${esc(h)}</p><p class="mcol2__s">${esc(s2)}</p><p class="mcol2__p">${esc(p)}</p></div>`).join('')}</div>`;
   /* Памятка: шаги с иконками и отметкой; если у шагов есть время - выстраиваются в линию дня */
   if(x.memo){const M=x.memo;D.chk=(D.chk||[]).filter(v=>M.items.some(it=>it[2]===v));const n=D.chk.length;
-    body+=`<section class="msec"><div class="memo__head"><p class="msec__h">${esc(M.h)}</p><p class="memo__cnt" id="memoCnt">${M.cnt[0]} <b>${n}</b> ${M.cnt[1]} ${M.items.length}</p></div>
-      <ol class="memo${M.time?' memo--time':''}">${M.items.map(([tm,ic,a,w])=>{const on=D.chk.includes(a);return `<li class="memo__i${on?' is-on':''}">${M.time?`<span class="memo__t">${esc(tm)}</span>`:''}<span class="memo__ic">${mico(ic,24)}</span><span class="memo__tx"><b>${esc(a)}</b>${w?`<small>${esc(w)}</small>`:''}</span><button type="button" class="memo__ck" aria-pressed="${on}" data-mc="${esc(a)}"><i>${ico('check',14)}</i>${esc(M.ck)}</button></li>`}).join('')}</ol></section>`}
+    body+=`<section class="msec"><div class="memo__head"><p class="msec__h">${esc(M.h)}</p><p class="memo__cnt" id="memoCnt">${M.cnt}: <b>${n}</b> из ${M.items.length}</p></div>
+      <ol class="memo${M.time?' memo--time':''}">${M.items.map(([tm,ic,a,w])=>{const on=D.chk.includes(a);return `<li><button type="button" class="memo__i${on?' is-on':''}" aria-pressed="${on}" data-mc="${esc(a)}"><span class="memo__box">${ico('check',14)}</span>${M.time?`<span class="memo__t">${esc(tm)}</span>`:''}<span class="memo__ic">${mico(ic,22)}</span><span class="memo__tx"><b>${esc(a)}</b>${w?`<small>${esc(w)}</small>`:''}</span></button></li>`}).join('')}</ol></section>`}
   /* Выбор одного шага: из того, что еще не делается, или из отмеченного */
   if(x.pick){const P=x.pick,M=x.memo;const pool=M?M.items.map(it=>it[2]).filter(a=>P.from==='checked'?(D.chk||[]).includes(a):!(D.chk||[]).includes(a)):[];const cur=D[P.key]||'';const own=cur&&!pool.includes(cur)&&P.own?cur:'';
     body+=`<section class="msec" id="mpick"><p class="msec__h">${esc(P.h)}</p>${pool.length?`<div class="mopt">${pool.map(a=>`<button type="button" aria-pressed="${cur===a}" data-pk="${esc(a)}">${esc(a)}</button>`).join('')}</div>`:`<p class="muted">${esc(P.empty||'Вы уже делаете все из списка. Это хорошая опора')}</p>`}
@@ -5880,13 +5903,13 @@ function vMat(m){S.mat=S.mat||{};const x=route.arg&&MATI[route.arg];
         <div class="scan2__btns"><button type="button" class="btn btn--primary" id="scSave">Сохранить сканирование</button><button type="button" class="btn btn--ghost" id="scAgain">Пройти сканирование еще раз</button></div></div></div></div>
       ${D.log.length?`<div class="msec"><p class="msec__h">Посмотрите свои прошлые сканирования</p><ul class="mlog">${D.log.slice(0,6).map(e=>`<li><span class="muted">${esc(e.d)}</span><span>${esc([e.t,e.h,e.r].filter(Boolean).join(', '))}${e.z&&e.z.length?' · '+esc(e.z.join(', ')):''}</span></li>`).join('')}</ul></div>`:''}`}
   if(x.listen){D.log=D.log||[];const dr=route.lst||(route.lst={});
-    body+=`<div class="msec"><p class="msec__h">Выберите сферу жизни, о которой хотите подумать</p><div class="mopt mopt--4">${LISTEN_SPH.map(v=>`<button type="button" aria-pressed="${dr.sph===v}" data-lsph="${esc(v)}">${esc(v)}</button>`).join('')}</div></div>
-      <ol class="msteps">${[['w','Заметьте желание','Чего мне сейчас хочется?'],['th','Поймайте мысль','Что я об этом думаю? Начните фразу со слова «Я…»'],['b','Сверьтесь с чувствами и телом','Что я чувствую и где это ощущается в теле? Если от мысли становится тяжело, переформулируйте ее'],['st','Сделайте маленький шаг','Какой самый маленький шаг я сделаю?']].map(([k,h,p],i)=>`<li><span class="msteps__n">${i+1}</span><label class="mfield"><span class="mfield__l">${h}</span><span class="mfield__h">${p}</span><textarea class="area" rows="2" data-lst="${k}">${esc(dr[k]||'')}</textarea></label></li>`).join('')}</ol>
+    body+=`<div class="msec"><p class="msec__h">Сфера жизни, о которой хочется подумать</p><div class="mopt mopt--4">${LISTEN_SPH.map(v=>`<button type="button" aria-pressed="${dr.sph===v}" data-lsph="${esc(v)}">${esc(v)}</button>`).join('')}</div></div>
+      <ol class="msteps">${[['w','Желание','Чего мне сейчас хочется?'],['th','Мысль','Что я об этом думаю? Фраза начинается со слова «Я…»'],['b','Чувства и тело','Что я чувствую и где это ощущается в теле? Если от мысли становится тяжело, ее можно переформулировать'],['st','Маленький шаг','Какой самый маленький шаг я сделаю?']].map(([k,h,p],i)=>`<li><span class="msteps__n">${i+1}</span><label class="mfield"><span class="mfield__l">${h}</span><span class="mfield__h">${p}</span><textarea class="area" rows="2" data-lst="${k}">${esc(dr[k]||'')}</textarea></label></li>`).join('')}</ol>
       <button type="button" class="btn btn--primary" id="lsSave">Сохранить запись</button>
       ${D.log.length?`<div class="msec"><p class="msec__h">Перечитайте свои записи</p><ul class="mlog">${D.log.slice(0,8).map(e=>`<li><span class="muted">${esc(e.d)}${e.sph?' · '+esc(e.sph):''}</span><span>${esc(e.w||'')}${e.st?' → '+esc(e.st):''}</span></li>`).join('')}</ul></div>`:''}`}
   if(x.wins){D.log=D.log||[];
     body+=`${!D.log.length?'':`<div class="mjar"><span class="mjar__n">${D.log.length}</span><span class="mjar__l">${plural(D.log.length,'достижение записано','достижения записано','достижений записано')}</span><span class="mjar__s">${Array.from({length:Math.min(D.log.length,30)},()=>mico('star',16)).join('')}</span></div>`}
-      <div class="msec"><p class="msec__h">Запишите достижение за сегодня</p><div class="mfields"><label class="mfield"><span class="mfield__l">Что у вас получилось?</span><textarea class="area" rows="2" id="wW"></textarea></label><label class="mfield"><span class="mfield__l">Что вы почувствовали?</span><textarea class="area" rows="2" id="wF"></textarea></label></div><button type="button" class="btn btn--primary" id="wAdd" style="margin-top:14px">Записать достижение</button></div>
+      <div class="msec"><p class="msec__h">Достижение за сегодня</p><div class="mfields"><label class="mfield"><span class="mfield__l">Что получилось?</span><textarea class="area" rows="2" id="wW"></textarea></label><label class="mfield"><span class="mfield__l">Какие были чувства?</span><textarea class="area" rows="2" id="wF"></textarea></label></div><button type="button" class="btn btn--primary" id="wAdd" style="margin-top:14px">Записать достижение</button></div>
       ${D.log.length?`<div class="msec"><p class="msec__h">Перечитайте свои достижения · ${D.log.length}</p><ul class="mlog">${D.log.map((e,i)=>`<li><span class="muted">${esc(e.d)}</span><span>${esc(e.w)}${e.f?`<em> - ${esc(e.f)}</em>`:''}</span><button type="button" class="btn btn--ghost btn--sm" data-wx="${i}" aria-label="Удалить">×</button></li>`).join('')}</ul></div>`:''}`}
   if(x.note)body+=`<div class="note" style="margin-top:24px">${esc(x.note)}</div>`;
   const rel=x.rel.filter(id=>T[id]&&isOpen(id));
@@ -5897,7 +5920,7 @@ function vMat(m){S.mat=S.mat||{};const x=route.arg&&MATI[route.arg];
   const keep=()=>{save();const y=window.scrollY;render();window.scrollTo({top:y})};
   const today=()=>new Date().toLocaleDateString('ru-RU',{day:'numeric',month:'long'});
   $$('[data-mf]',m).forEach(a=>a.addEventListener('input',()=>autosave('mf',()=>{D[a.dataset.mf]=a.value.trim()})));
-  $$('[data-mc]',m).forEach(b=>b.onclick=()=>{const v=b.dataset.mc,i=D.chk.indexOf(v);i>=0?D.chk.splice(i,1):D.chk.push(v);if(x.pick&&D[x.pick.key]===v&&x.pick.from==='free'&&i<0)delete D[x.pick.key];if(x.pick&&x.pick.from==='checked'&&i>=0&&D[x.pick.key]===v)delete D[x.pick.key];keep()});
+  $$('[data-mc]',m).forEach(b=>b.onclick=()=>{const v=b.dataset.mc,i=D.chk.indexOf(v);i>=0?D.chk.splice(i,1):D.chk.push(v);b.setAttribute('aria-pressed',String(i<0));b.classList.toggle('is-on',i<0);const c=$('#memoCnt b',m);if(c)c.textContent=D.chk.length;save()});
   $$('[data-pk]',m).forEach(b=>b.onclick=()=>{const k=x.pick.key;D[k]=D[k]===b.dataset.pk?'':b.dataset.pk;const o=$('#pkOwn',m);if(o&&D[k])o.value='';save();
     $$('[data-pk]',m).forEach(z=>z.setAttribute('aria-pressed',String(z.dataset.pk===D[k])));const r=$('#pkRes',m);r.hidden=!D[k];$('#pkResT',m).textContent=D[k]||''});
   const pko=$('#pkOwn',m);if(pko)pko.addEventListener('input',()=>{const k=x.pick.key,v=pko.value.trim();D[k]=v;$$('[data-pk]',m).forEach(z=>z.setAttribute('aria-pressed','false'));const r=$('#pkRes',m);r.hidden=!v;$('#pkResT',m).textContent=v;autosave('mf',()=>{})});
@@ -5925,7 +5948,7 @@ function vMat(m){S.mat=S.mat||{};const x=route.arg&&MATI[route.arg];
   if(x.listen){const dr=route.lst;$$('[data-lsph]',m).forEach(b=>b.onclick=()=>{dr.sph=dr.sph===b.dataset.lsph?null:b.dataset.lsph;$$('[data-lsph]',m).forEach(z=>z.setAttribute('aria-pressed',String(dr.sph===z.dataset.lsph)))});
     $$('[data-lst]',m).forEach(a=>a.addEventListener('input',()=>dr[a.dataset.lst]=a.value.trim()));
     $('#lsSave',m).onclick=()=>{if(!dr.w){toast('Начните с желания: чего вам сейчас хочется?');return}D.log.unshift({d:today(),...dr});route.lst={};keep();toast('Запись сохранена')}}
-  if(x.wins){$('#wAdd',m).onclick=()=>{const w=$('#wW',m).value.trim();if(!w){toast('Напишите, что у вас получилось');return}D.log.unshift({d:today(),w,f:$('#wF',m).value.trim()});keep();toast('Достижение записано')};
+  if(x.wins){$('#wAdd',m).onclick=()=>{const w=$('#wW',m).value.trim();if(!w){toast('Сначала нужно написать, что получилось');return}D.log.unshift({d:today(),w,f:$('#wF',m).value.trim()});keep();toast('Достижение записано')};
     $$('[data-wx]',m).forEach(b=>b.onclick=()=>{D.log.splice(+b.dataset.wx,1);keep()})}
 }
 
