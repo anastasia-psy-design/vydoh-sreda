@@ -5672,7 +5672,7 @@ const MAT=[
   note:'Если стрессор - другой человек, попробуйте представить его уставшим или испуганным человеком, которому сейчас тоже трудно'},
  {id:'stressan',stage:3,kind:'work',time:'15 минут',rel:['stress','chain'],title:'Разберите одну стрессовую ситуацию',lead:'Выберите недавнюю ситуацию, после которой вы долго не могли прийти в себя, и разберите ее по шагам',
   groups:[['Опишите, что произошло',[['sit','Что случилось?'],['pre','Что этому предшествовало?'],['res','К чему это привело?']]],['Вспомните, как вы реагировали',[['th','Что вы думали?'],['act','Что вы делали?'],['fe','Что вы чувствовали?']]],['Решите, что поможет в следующий раз',[['th2','Какая мысль поддержит?'],['act2','Что вы сделаете?'],['fe2','Какое чувство поможет опереться?']]]]},
- {id:'scanner',stage:4,kind:'work',time:'1 минута',rel:['body','radar','pulse'],title:'Просканируйте тело за одну минуту',lead:'Минуту вы с закрытыми глазами замечаете ощущения во всем теле, а потом отмечаете, что заметили',scan:true},
+ {id:'scanner',stage:4,kind:'work',time:'1 минута',rel:['body','radar','pulse'],title:'Просканируйте тело за одну минуту',lead:'Минуту вы с закрытыми глазами прислушиваетесь к ощущениям в теле, а потом отмечаете, что заметили',scan:true},
  {id:'askself',stage:5,kind:'work',time:'20 минут',rel:['chain','lab','load'],title:'Задайте себе честные вопросы о работе',lead:'Подумайте о работе целиком: о задачах, общении, дороге, ожиданиях. Ответы видите только вы',
   groups:[['',[['q1','Как я себя чувствую в своей работе?'],['q2','Насколько мне нравится то, что я делаю?'],['q3','Готов(а) ли я продолжать так же еще много лет?'],['q4','Сколько сил забирает у меня работа?'],['q5','Сколько сил она мне дает?'],['q6','Что я получаю, когда все устроено так, как сейчас?'],['q7','Что я теряю, когда все устроено так?'],['q8','Если бы все было так, как я хочу, чем бы наполнилась моя жизнь?'],['q9','От чего меня спасает моя работа?','Иногда работа помогает не смотреть на то, на что смотреть страшно'],['q10','Какую скрытую выгоду мне дает то, как все устроено сейчас?']]]]},
  {id:'rights',stage:6,kind:'read',time:'2 минуты',rel:['resp'],title:'Напомните себе о своих правах',lead:'Границы начинаются с того, что вы разрешаете себе',
@@ -5712,11 +5712,11 @@ function vMat(m){S.mat=S.mat||{};const x=route.arg&&MATI[route.arg];
   if(x.scan){const cur=route.scan||(route.scan={});D.log=D.log||[];const ph=route.scph||'intro';
     body+=`<div class="msec scan2">
       <div class="scan2__st" id="scIntro"${ph==='intro'?'':' hidden'}><div class="scan__fig">${scanSvg([],'i')}</div>
-        <div class="scan2__txt"><h2 class="scan2__h">Закройте глаза на одну минуту и прислушайтесь к своему телу</h2><p class="scan2__p">В течение минуты просто замечайте ощущения во всем теле. Менять ничего не нужно. После отсчета закройте глаза, а когда минута закончится, прозвучит колокольчик</p>
+        <div class="scan2__txt"><h2 class="scan2__h">Закройте глаза на одну минуту и прислушайтесь к ощущениям в своем теле</h2><p class="scan2__p">Просто замечайте их, не пытаясь что-то изменить. Вы услышите сигнал, после него закройте глаза. Когда минута закончится, вы услышите звук колокольчика</p>
         <div class="scan2__btns"><button type="button" class="btn btn--primary" id="scGo">Начать</button><button type="button" class="btn btn--ghost" id="scSkip">Сразу отметить ощущения</button></div></div></div>
       <div class="scan2__st" id="scRun" hidden><div class="scan__fig">${scanSvg([],'r')}</div>
-        <div class="scan2__txt"><p class="eyebrow" id="scWhere">Приготовьтесь</p><h2 class="scan2__h" id="scPlace">Сейчас закройте глаза</h2>
-        <div class="rp-tw"><div class="rp-timer"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="21" class="trk"/><circle cx="24" cy="24" r="21" class="bar" id="scBar" stroke-dasharray="132" stroke-dashoffset="132" style="transition:none"/></svg><span id="scT">3</span></div><p class="rp-cyc" id="scSub">Минута начнется после отсчета</p></div>
+        <div class="scan2__txt"><p class="eyebrow" id="scWhere">Приготовьтесь</p><h2 class="scan2__h" id="scPlace">Закройте глаза, когда услышите сигнал</h2>
+        <div class="rp-tw"><div class="rp-timer"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="21" class="trk"/><circle cx="24" cy="24" r="21" class="bar" id="scBar" stroke-dasharray="132" stroke-dashoffset="132" style="transition:none"/></svg><span id="scT">3</span></div><p class="rp-cyc" id="scSub"></p></div>
         <div class="scan2__btns"><button type="button" class="btn btn--outline" id="scStop">Остановить</button></div></div></div>
       <div class="scan2__st" id="scAfter"${ph==='after'?'':' hidden'}><div class="scan__fig bmk--tense">${scanSvg(cur.z||[],'a')}</div>
         <div class="scan__q"><div><h2 class="scan2__h">Теперь отметьте, что вы заметили в теле</h2><p class="scan2__p">Сверьте ощущения по температуре, весу и напряжению. Если ничего не выделялось, вопрос можно пропустить</p></div>
@@ -5751,14 +5751,14 @@ function vMat(m){S.mat=S.mat||{};const x=route.arg&&MATI[route.arg];
     const ln=$('#scLine',m),tr=$('#scTrailR',m),bar=$('#scBar',m),tt=$('#scT',m),pl=$('#scPlace',m),wh=$('#scWhere',m),sub=$('#scSub',m);let run=null;
     const place=y=>{ln.setAttribute('transform',`translate(0,${y})`);tr.setAttribute('y',y-80)};
     const halt=()=>{if(run){clearTimeout(run.t);cancelAnimationFrame(run.raf);run=null}};
-    const minute=()=>{const N=SCAN_SEG.length-1,T=60000,t0=performance.now();wh.textContent='Глаза закрыты';pl.textContent='Замечайте ощущения во всем теле';sub.textContent='Когда минута закончится, прозвучит колокольчик';
+    const minute=()=>{const N=SCAN_SEG.length-1,T=60000,t0=performance.now();if(typeof chime==='function')chime('in');wh.textContent='Глаза закрыты';pl.textContent='Прислушивайтесь к ощущениям в своем теле';sub.textContent='Когда минута закончится, вы услышите звук колокольчика';
       const f=()=>{if(!run||!document.body.contains(ln))return;const el=Math.max(0,performance.now()-t0),q=Math.min(1,el/T),pos=q*N,i=Math.max(0,Math.min(N-1,Math.floor(pos))),k=pos-i;
         place(SCAN_SEG[i][0]+(SCAN_SEG[i+1][0]-SCAN_SEG[i][0])*k);bar.style.strokeDashoffset=132*(1-q);tt.textContent=fmtS((T-el)/1000);
         if(q>=1){halt();if(typeof chime==='function')chime('end');toast('Готово. Откройте глаза');show('After');return}run.raf=requestAnimationFrame(f)};
       run.raf=requestAnimationFrame(f)};
     $('#scGo',m).onclick=()=>{if(typeof acx==='function'&&typeof RSND!=='undefined'&&RSND)acx();halt();run={};show('Run');place(6);bar.style.strokeDashoffset=132;
-      wh.textContent='Приготовьтесь';pl.textContent='Сейчас закройте глаза';sub.textContent='Минута начнется после отсчета';let n=3;
-      const tick=()=>{if(!run)return;if(n===0){minute();return}tt.textContent=n;if(typeof chime==='function')chime('in');n--;run.t=setTimeout(tick,1000)};tick()};
+      wh.textContent='Приготовьтесь';pl.textContent='Закройте глаза, когда услышите сигнал';sub.textContent='';let n=3;
+      const tick=()=>{if(!run)return;if(n===0){minute();return}tt.textContent=n;n--;run.t=setTimeout(tick,1000)};tick()};
     $('#scStop',m).onclick=()=>{halt();show('Intro')};
     $('#scSkip',m).onclick=()=>show('After');
     $('#scAgain',m).onclick=()=>{halt();show('Intro')};
