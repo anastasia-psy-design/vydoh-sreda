@@ -3424,6 +3424,31 @@ body{background:var(--page);font-size:15px;line-height:1.5}
   .km-here b{font-size:12px}}
 @media (max-width:600px){.km-infl li{grid-template-columns:1fr}.km-card{padding:16px}}
 @media print{.km-add,.km-src,.km-lnk,.km-z__go{display:none!important}.km-card,.km-z{break-inside:avoid}}
+/* === Дорожная карта: маршрут === */
+.rd-road{list-style:none;padding:0;margin:36px 0 0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));position:relative}
+.rd-road:before{content:'';position:absolute;left:22px;right:22px;top:21px;border-top:3px dotted color-mix(in srgb,var(--ink) 22%,transparent)}
+.rd-st{position:relative;padding:0 14px 0 0}
+.rd-dot{position:relative;display:grid;place-items:center;width:44px;height:44px;border-radius:50%;font-family:var(--serif);font-size:18px;color:#fff;box-shadow:0 0 0 4px var(--bg),0 0 0 5px var(--line)}
+.rd-st--ok .rd-dot{background:var(--km-ok-d)}.rd-st--warn .rd-dot{background:var(--km-warn-d)}.rd-st--lav .rd-dot{background:#a9a1c2}.rd-st--bad .rd-dot{background:var(--km-bad-d)}.rd-st--cal .rd-dot{background:var(--bg);color:var(--ink)}
+.rd-st--ok .km-c{background:var(--km-ok)}.rd-st--warn .km-c{background:var(--km-warn)}.rd-st--lav .km-c{background:var(--km-lav)}.rd-st--bad .km-c{background:var(--km-bad)}
+.rd-p{color:var(--ink);font-size:14px;line-height:1.5}
+.rd-st .km-lbl:first-of-type{margin-top:0}
+.rd-st h3{font-family:var(--sans);font-size:16px;font-weight:600;color:var(--ink);line-height:1.35;margin:16px 0 4px}
+.rd-w{font-size:14px;color:var(--muted);line-height:1.45;margin-bottom:12px}
+.rd-date{display:flex;gap:12px;align-items:center;padding:10px 14px;border:1px solid var(--line);border-radius:var(--r-md);margin-bottom:8px}
+.rd-date b{font-family:var(--serif);font-weight:400;font-size:26px;color:var(--ink);line-height:1}
+.rd-date span{font-size:13px;color:var(--muted);line-height:1.35}
+.rd-rule{margin-top:28px;background:var(--km-lav);border-radius:var(--r-lg);padding:18px 22px}
+.rd-rule .km-lbl{margin-top:0}
+.rd-rule q{font-family:var(--serif);font-size:clamp(19px,2.1vw,23px);color:var(--ink);line-height:1.35;quotes:'«' '»'}
+.rd .droad__save{margin-top:32px}
+@media (max-width:980px){.rd-road{grid-template-columns:1fr;gap:22px}.rd-road:before{left:21px;right:auto;top:22px;bottom:22px;border-top:0;border-left:3px dotted color-mix(in srgb,var(--ink) 22%,transparent)}
+  .rd-st{display:grid;grid-template-columns:44px minmax(0,1fr);column-gap:16px;padding:0}.rd-st>*:not(.rd-dot){grid-column:2}.rd-dot{grid-row:1/span 9}.rd-st h3{margin-top:10px}}
+.rd-due{margin:0 0 22px;padding:16px 18px;border-radius:var(--r-lg);background:var(--mint);text-align:left}
+.rd-due__h{font-family:var(--serif);font-size:20px;color:var(--ink);margin-bottom:6px}
+.rd-due p:not(.rd-due__h){color:var(--text);font-size:14px;line-height:1.5}
+.rd-due__b{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;margin-top:12px}
+@media print{.rd .droad__save,.rd [data-rdics]{display:none!important}.rd-st{break-inside:avoid}}
 </style>
 </head>
 <body>
@@ -4040,7 +4065,7 @@ function vToday(m){const {P}=homePath();const n=nextAfter(null);const t=n.tool?T
     '<circle cx="14" cy="20" r="6" fill="currentColor" stroke="none"/><circle cx="26" cy="15" r="5"/><circle cx="30" cy="27" r="4" stroke-dasharray="1.2 2"/>',
     '<circle cx="20" cy="20" r="15" stroke-dasharray="1.5 3"/><path d="M10 28c4 0 4-6 9-6s5-8 11-8"/><circle cx="10" cy="28" r="1.8" fill="currentColor"/><circle cx="30" cy="14" r="2.4"/>'];
   m.innerHTML=`<div class="page hs">
-    <div class="hs__main">
+    <div class="hs__main">${roadDueHtml()}
       <div class="hs__art" aria-hidden="true">${bigIco(n.id==='rest'?'pulse':n.id,128)}</div>
       <p class="hs__eb">${S.name?esc(S.name)+', ваш':'Ваш'} шаг на сегодня${n.time?' · '+esc(n.time):''}</p>
       <h1 class="hs__h">${esc(n.h)}</h1>
@@ -4052,6 +4077,7 @@ function vToday(m){const {P}=homePath();const n=nextAfter(null);const t=n.tool?T
       <ol>${P.map((p,k)=>`<li class="hs__r hs__r--${p.st}${k===i?' is-cur':''}"><span class="hs__ri"><svg viewBox="0 0 40 40" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" aria-hidden="true">${PI[k]}</svg></span><span class="hs__rt"><b>${p.name}${k===i?'<em>вы здесь</em>':''}</b><small>${k===i?esc(p.sub):esc(p.d)}</small></span></li>`).join('')}</ol>
       <p class="hs__links"><button class="link" data-go="tools">Посмотреть весь маршрут</button><button class="link" data-go="meet">Темы для встречи${S.discuss.length?' ('+S.discuss.length+')':''}</button></p></aside>
   </div>`;
+  const ak=$('[data-rdack]',m);if(ak)ak.onclick=()=>{S.road.ack=S.road.ack||{};S.road.ack[ak.dataset.rdack]=1;save();render()};
 }
 
 /* --- Карта тела --- */
@@ -5774,37 +5800,84 @@ TOOL.values=(m,t)=>{S.values=S.values||{picked:[],main:[],place:{},step:{}};cons
 
 /* ================= 16. ДОРОЖНАЯ КАРТА ================= */
 const ROAD_BACK=['Открыть «Выдохнуть»','Написать психологу','Неделю отмечать состояние в «Карте состояния»','Убрать одно дело из недели','Попросить помощи у близких','Вернуться к своему набору в «Центре восстановления»'];
+const ROAD_EARLY=['Сделать паузу на пять минут','Убрать одно дело из списка','Сделать длинный выдох','Лечь спать на час раньше','Сказать близким, что мне нужно время'];
 const addDays=n=>{const d=new Date();d.setDate(d.getDate()+n);return d.toISOString().slice(0,10)};
-function roadKeepSugg(){const V=S.values||{};return [...new Set([...kitText(),...(S.works||[]),...Object.values(V.step||{}).filter(Boolean),...S.load.filter(x=>x.after>0).map(x=>x.name)])].slice(0,10)}
-TOOL.road=(m,t)=>{S.road=S.road||{};const R=S.road;R.keep=R.keep||[];R.backPick=R.backPick||[];
-  const early=[...S.signals.filter(x=>(x.zone||'ранний')==='ранний').map(x=>x.t),...((S.bodyMk||{}).tense||[])].slice(0,6);
-  const sugg=[...new Set([...roadKeepSugg(),...R.keep])];const pk=S.peak||{},d=peakDraft();
-  const ownKeep=R.keep.filter(x=>!roadKeepSugg().includes(x));
+const kmDedup=a=>{const out=[];a.forEach(x=>{x=String(x||'').trim();if(x&&!out.some(y=>kmSame(x,y)))out.push(x)});return out};
+const roadSplit=s=>String(s||'').split(/[,;\n]/).map(x=>x.trim()).filter(Boolean);
+/* Что сохранять каждую неделю: способы восстановления, шаги к ценностям и то, что возвращает силы. Записи об успехах сюда не входят */
+function roadKeepSugg(){const V=S.values||{};return kmDedup([...kitText(),...Object.values(V.step||{}).filter(Boolean),...S.load.filter(x=>x.after>0).map(x=>x.name)]).slice(0,10)}
+function roadRule(){const c=S.chains.find(c=>c.next&&(c.rule||c.action));if(c)return chHint(c);const l=S.lab.find(l=>l.ifx&&l.ify);return l?`Если ${kmLc(l.ifx)}, то я ${kmLc(l.ify)}`:''}
+const RMON=['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
+function roadIcs(R){const dd=d=>d.replace(/-/g,'');const nx=d=>{const x=new Date(d+'T00:00:00Z');x.setUTCDate(x.getUTCDate()+1);return x.toISOString().slice(0,10).replace(/-/g,'')};
+  const url=location.origin+location.pathname;const ev=(d,lbl,i)=>['BEGIN:VEVENT',`UID:vydoh-road-${i}-${dd(d)}@vydoh`,`DTSTAMP:${new Date().toISOString().replace(/[-:]/g,'').slice(0,15)}Z`,`DTSTART;VALUE=DATE:${dd(d)}`,`DTEND;VALUE=DATE:${nx(d)}`,
+    `SUMMARY:Выдох: сверка с собой (${lbl})`,`DESCRIPTION:Неделю отмечайте состояние в «Карте состояния» и откройте «Ключ к своему состоянию»\\, чтобы посмотреть\\, что изменилось. ${url}`,`URL:${url}`,
+    'BEGIN:VALARM','TRIGGER:PT9H','ACTION:DISPLAY','DESCRIPTION:Сегодня день сверки с собой','END:VALARM','END:VEVENT'];
+  const L=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//InTreatment//Vydoh//RU','CALSCALE:GREGORIAN',...(R.d1?ev(R.d1,'через месяц',1):[]),...(R.d3?ev(R.d3,'через три месяца',3):[]),'END:VCALENDAR'];
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([L.join('\r\n')],{type:'text/calendar;charset=utf-8'}));a.download='vydoh-sverka-s-soboy.ics';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500);
+  toast('Файл с напоминаниями скачан. Откройте его, чтобы добавить даты в календарь')}
+/* Напоминание на «Сегодня»: показывается неделю начиная с даты сверки, пока человек его не закроет */
+function roadDue(){const R=S.road||{};if(!R.saved)return null;const t=new Date(),now=`${t.getFullYear()}-${String(t.getMonth()+1).padStart(2,'0')}-${String(t.getDate()).padStart(2,'0')}`;R.ack=R.ack||{};
+  return [[R.d1,'через месяц'],[R.d3,'через три месяца']].find(([d])=>d&&d<=now&&(new Date(now)-new Date(d))/864e5<7&&!R.ack[d])||null}
+function roadDueHtml(){const x=roadDue();if(!x)return '';
+  return `<div class="rd-due"><p class="rd-due__h">Сегодня день сверки с собой</p><p>Вы назначили эту сверку в дорожной карте после трека. Неделю отмечайте состояние в «Карте состояния», а потом откройте «Ключ к своему состоянию» и посмотрите, что изменилось</p>
+    <div class="rd-due__b"><button class="btn btn--sm btn--primary" data-go="tool" data-arg="pulse">Отметить состояние</button><button class="btn btn--sm btn--outline" data-go="tool" data-arg="road">Открыть дорожную карту</button><button class="link" data-rdack="${x[0]}">Скрыть</button></div></div>`}
+
+function roadView(m,t){const R=S.road,pk=S.peak||{},d=peakDraft();
+  const early=kmDedup([...S.signals.filter(x=>(x.zone||'ранний')==='ранний').map(x=>x.t),...((S.bodyMk||{}).tense||[])]).map(kmLc).slice(0,4);
+  const doE=kmDedup([...(R.earlyPick||[]),...roadSplit(R.early)]),back=kmDedup([...(R.backPick||[]),...roadSplit(R.back)]),who=R.who||[];
+  const ch=(a,empty,keepCase)=>a.length?`<div class="km-chips">${a.map(x=>`<span class="km-c">${esc(keepCase?x:kmLc(x))}</span>`).join('')}</div>`:`<p class="km-empty">${empty}</p>`;
+  const date=(v,l)=>{if(!v)return '';const x=new Date(v+'T00:00:00');return `<div class="rd-date"><b>${x.getDate()}</b><span>${RMON[x.getMonth()]}<br>${l}</span></div>`};
+  const rule=roadRule();
+  const st=[['ok','1','Каждую неделю я сохраняю','Без этого неделя становится тяжелее',ch(R.keep,'Пока ничего не выбрано')],
+    ['warn','2','Когда я замечаю первые звоночки',early.length?esc(early.join(', ')):'Чем раньше я реагирую, тем меньше сил трачу',ch(doE,'Пока не решено, что делать')],
+    ['lav','3',pk.situation?`В сложный период «${esc(pk.situation)}»`:'В сложный период','Заранее решено, что я защищаю и что временно убираю',pk.situation?`${pk.keep||d.keep?`<p class="km-lbl">Что я защищаю</p><p class="rd-p">${esc(pk.keep||d.keep)}</p>`:''}${pk.drop||d.drop?`<p class="km-lbl">Что я временно убираю</p><p class="rd-p">${esc(pk.drop||d.drop)}</p>`:''}`:`<p class="km-empty">Протокол на сложный период пока не собран. ${isOpen('peak')?'<button type="button" class="km-lnk" data-go="tool" data-arg="peak">Собрать протокол</button>':''}</p>`],
+    ['bad','4','Если снова станет тяжело, я начну с этого','Это нормально, и к этому стоит подготовиться заранее',ch(back,'Пока не решено, с чего начать')+(who.length?`<p class="km-lbl">К кому я обращаюсь</p>${ch(who,'',1)}`:'')],
+    ['cal','✓','Когда я сверюсь с собой','Неделю отмечаю состояние, а потом смотрю, что изменилось',`${date(R.d1,'через месяц')}${date(R.d3,'через три месяца')}<button type="button" class="btn btn--sm btn--outline" data-rdics>Добавить в календарь</button>`]];
+  m.innerHTML=`<div class="page km rd">${head(t)}
+    <section class="km-sec"><h2>Мой маршрут после трека</h2><p class="km-lead">Это план на ближайшие три месяца. Если что-то пошло не так, найдите нужную остановку и сделайте то, что в ней написано</p>
+      <ol class="rd-road">${st.map(([c,n,h,w,b])=>`<li class="rd-st rd-st--${c}"><span class="rd-dot">${n}</span><h3>${h}</h3><p class="rd-w">${w}</p>${b}</li>`).join('')}</ol>
+      ${rule?`<div class="rd-rule"><p class="km-lbl">Мое правило на это время</p><q>${esc(rule)}</q></div>`:''}</section>
+    <div class="droad__save"><button type="button" class="btn btn--primary" onclick="window.print()">Сохранить в PDF</button><button type="button" class="btn btn--outline" id="rEdit">Изменить дорожную карту</button><button type="button" class="btn btn--ghost" data-go="navself">Открыть «Ключ к своему состоянию»</button></div></div>`;
+  $('#rEdit',m).onclick=()=>{route.redit=1;render();window.scrollTo({top:0})};
+  $('[data-rdics]',m).onclick=()=>roadIcs(R)}
+
+TOOL.road=(m,t)=>{S.road=S.road||{};const R=S.road;R.keep=R.keep||[];R.backPick=R.backPick||[];R.earlyPick=R.earlyPick||[];R.who=R.who||[];
+  if(R.saved&&!route.redit)return roadView(m,t);
+  const early=kmDedup([...S.signals.filter(x=>(x.zone||'ранний')==='ранний').map(x=>x.t),...((S.bodyMk||{}).tense||[])]).slice(0,6);
+  const sugg=kmDedup([...roadKeepSugg(),...R.keep]);const pk=S.peak||{},d=peakDraft();
+  const eOpts=kmDedup([...kitText(),...ROAD_EARLY,...R.earlyPick]).slice(0,10);
+  const people=((S.plan||{}).people||[]).map(p=>p.name).filter(Boolean);const wOpts=kmDedup([...people,...R.who]);
+  const pick=(arr,key)=>arr.map(v=>`<button type="button" class="chip" aria-pressed="${(R[key]||[]).includes(v)}" data-rp-k="${key}" data-rp-v="${esc(v)}">${esc(v)}</button>`).join('');
   m.innerHTML=wrap(t,`<ol class="droad">
     <li class="droad__i"><span class="droad__n">1</span><div class="droad__c"><h2>Выберите, что вы сохраняете каждую неделю</h2><p class="pw-why">Это то, что уже помогло вам за время трека. Отметьте 3-5 пунктов, без которых неделя будет тяжелее</p>
-      ${sugg.length?`<div class="chips">${sugg.map(v=>`<button type="button" class="chip" aria-pressed="${R.keep.includes(v)}" data-rk="${esc(v)}">${esc(v)}</button>`).join('')}</div>`:`<p class="muted">Здесь появятся способы из «Центра восстановления» и «Лаборатории изменений». Пока можно добавить свои</p>`}
+      ${sugg.length?`<div class="chips">${pick(sugg,'keep')}</div>`:`<p class="muted">Здесь появятся способы из «Центра восстановления» и «Карты нагрузки и ресурсов». Пока можно добавить свои</p>`}
       <div class="input" style="margin-top:12px"><input id="rkOwn" placeholder="Добавьте свое, например: прогулка после работы" aria-label="Что сохраняю"><button type="button" class="btn btn--sm btn--ghost" id="rkAdd">Добавить</button></div></div></li>
     <li class="droad__i"><span class="droad__n">2</span><div class="droad__c"><h2>Решите, что вы делаете на первых звоночках</h2><p class="pw-why">Чем раньше вы отреагируете, тем меньше сил потратите</p>
       ${early.length?`<p class="droad__lbl">Ваши первые звоночки</p><div class="droad__tags">${early.map(x=>`<span>${esc(x)}</span>`).join('')}</div>`:`<p class="muted">Первые звоночки соберутся из «Карты сигналов перегрузки» и «Чек-листа маркеров тела»</p>`}
-      <p class="droad__lbl">Когда я их замечаю, я</p><textarea class="area" id="rEarly" placeholder="${esc(kitText().length?'Например: '+kitText().slice(0,2).join(', ').toLowerCase():'Например: делаю паузу на пять минут и убираю одно дело из списка')}">${esc(R.early||'')}</textarea></div></li>
+      <p class="droad__lbl">Когда я их замечаю, я делаю это</p><div class="chips">${pick(eOpts,'earlyPick')}</div>
+      <textarea class="area" id="rEarly" style="margin-top:12px" placeholder="Свое: например, выхожу на десять минут на улицу">${esc(R.early||'')}</textarea></div></li>
     <li class="droad__i"><span class="droad__n">3</span><div class="droad__c"><h2>Проверьте план на следующий сложный период</h2><p class="pw-why">План собирается в «Протоколе пиковой нагрузки»</p>
       ${pk.situation?`<div class="droad__peak"><p><span class="muted">Период:</span> ${esc(pk.situation)}</p><p><span class="muted">Защищаю:</span> ${esc(pk.keep||d.keep||'-')}</p><p><span class="muted">Временно убираю:</span> ${esc(pk.drop||d.drop||'-')}</p></div>`:`<p class="muted">Протокол пока не собран</p>`}
       ${isOpen('peak')?`<button type="button" class="btn btn--sm btn--outline" data-go="tool" data-arg="peak" style="margin-top:12px">${pk.situation?'Поправить протокол':'Собрать протокол'}</button>`:''}</div></li>
     <li class="droad__i"><span class="droad__n">4</span><div class="droad__c"><h2>Решите, что вы сделаете, если снова станет тяжело</h2><p class="pw-why">Если после трека снова станет тяжело, это нормально. Решите заранее, с чего вы начнете</p>
-      <div class="chips">${ROAD_BACK.map(v=>`<button type="button" class="chip" aria-pressed="${R.backPick.includes(v)}" data-rb="${esc(v)}">${esc(v)}</button>`).join('')}</div>
+      <div class="chips">${pick(ROAD_BACK,'backPick')}</div>
+      ${wOpts.length?`<p class="droad__lbl">К кому я обращаюсь за поддержкой</p><div class="chips">${pick(wOpts,'who')}</div>`:''}
       <textarea class="area" id="rBack" style="margin-top:12px" placeholder="Свое: например, позвонить сестре и взять один день без дел">${esc(R.back||'')}</textarea></div></li>
-    <li class="droad__i"><span class="droad__n">5</span><div class="droad__c"><h2>Назначьте дни, когда вы сверитесь с собой</h2><p class="pw-why">В эти дни неделю отмечайте состояние в «Карте состояния» и откройте «Ключ к своему состоянию», чтобы посмотреть, что изменилось</p>
-      <div class="droad__dates"><label><span>Через месяц</span><input type="date" class="line" id="rD1" value="${esc(R.d1||addDays(30))}"></label><label><span>Через три месяца</span><input type="date" class="line" id="rD3" value="${esc(R.d3||addDays(91))}"></label></div></div></li>
+    <li class="droad__i"><span class="droad__n">5</span><div class="droad__c"><h2>Назначьте дни, когда вы сверитесь с собой</h2><p class="pw-why">В эти дни неделю отмечайте состояние в «Карте состояния» и откройте «Ключ к своему состоянию», чтобы посмотреть, что изменилось. Кабинет напомнит о сверке в разделе «Сегодня», а кнопка ниже добавит даты в ваш календарь</p>
+      <div class="droad__dates"><label><span>Через месяц</span><input type="date" class="line" id="rD1" value="${esc(R.d1||addDays(30))}"></label><label><span>Через три месяца</span><input type="date" class="line" id="rD3" value="${esc(R.d3||addDays(91))}"></label></div>
+      <button type="button" class="btn btn--sm btn--outline" id="rIcs" style="margin-top:14px">Добавить в календарь</button></div></li>
   </ol>
-  <div class="droad__save"><button type="button" class="btn btn--primary" id="rSave">${R.saved?'Сохранить изменения':'Сохранить дорожную карту'}</button>${R.saved?`<span class="saved">Дорожная карта сохранена</span>`:''}<button type="button" class="btn btn--outline" onclick="window.print()">Сохранить в PDF</button><button type="button" class="btn btn--ghost" data-go="navself">Открыть «Ключ к своему состоянию»</button></div>`);
+  <div class="droad__save"><button type="button" class="btn btn--primary" id="rSave">${R.saved?'Сохранить изменения':'Сохранить дорожную карту'}</button>${R.saved?`<button type="button" class="btn btn--ghost" id="rCancel">Вернуться к маршруту без изменений</button>`:`<button type="button" class="btn btn--ghost" data-go="navself">Открыть «Ключ к своему состоянию»</button>`}</div>`);
   bindDisc(m);
   const keep=()=>{save();const y=window.scrollY;render();window.scrollTo({top:y})};
-  $$('[data-rk]',m).forEach(b=>b.onclick=()=>{const v=b.dataset.rk,i=R.keep.indexOf(v);i>=0?R.keep.splice(i,1):R.keep.push(v);keep()});
-  $$('[data-rb]',m).forEach(b=>b.onclick=()=>{const v=b.dataset.rb,i=R.backPick.indexOf(v);i>=0?R.backPick.splice(i,1):R.backPick.push(v);keep()});
-  const add=()=>{const v=$('#rkOwn',m).value.trim();if(v&&!R.keep.includes(v)){R.keep.push(v);keep()}};$('#rkAdd',m).onclick=add;$('#rkOwn',m).onkeydown=e=>{if(e.key==='Enter')add()};
+  const grab=()=>{R.early=$('#rEarly',m).value.trim();R.back=$('#rBack',m).value.trim();R.d1=$('#rD1',m).value;R.d3=$('#rD3',m).value};
+  $$('[data-rp-k]',m).forEach(b=>b.onclick=()=>{grab();const k=b.dataset.rpK,v=b.dataset.rpV,a=R[k]=R[k]||[],i=a.indexOf(v);i>=0?a.splice(i,1):a.push(v);keep()});
+  const add=()=>{const v=$('#rkOwn',m).value.trim();if(v&&!R.keep.includes(v)){grab();R.keep.push(v);keep()}};$('#rkAdd',m).onclick=add;$('#rkOwn',m).onkeydown=e=>{if(e.key==='Enter')add()};
   $('#rEarly',m).addEventListener('input',e=>autosave('rd',()=>R.early=e.target.value));$('#rBack',m).addEventListener('input',e=>autosave('rd',()=>R.back=e.target.value));
   $('#rD1',m).onchange=e=>{R.d1=e.target.value;save()};$('#rD3',m).onchange=e=>{R.d3=e.target.value;save()};
-  $('#rSave',m).onclick=()=>{R.early=$('#rEarly',m).value.trim();R.back=$('#rBack',m).value.trim();R.d1=$('#rD1',m).value;R.d3=$('#rD3',m).value;R.saved=1;keep();toast('Дорожная карта сохранена')};
+  $('#rIcs',m).onclick=()=>{grab();save();roadIcs(R)};
+  $('#rCancel',m)&&($('#rCancel',m).onclick=()=>{route.redit=0;render();window.scrollTo({top:0})});
+  $('#rSave',m).onclick=()=>{grab();R.saved=1;route.redit=0;save();render();window.scrollTo({top:0});toast('Дорожная карта сохранена')};
 };
 
 /* ================= 13. КАРТА СЕБЯ: островки ================= */
