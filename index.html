@@ -3214,6 +3214,18 @@ body{background:var(--page);font-size:15px;line-height:1.5}
 .scan__zs button[aria-pressed="true"]{background:#f6e3e0;border-color:#d6a49c;color:#7a3a32}
 .scan #scSave{justify-self:start}
 @media (max-width:860px){.scan{grid-template-columns:minmax(0,1fr);gap:28px}.scan__fig{position:static}.scan__svg{max-width:190px}.scan__zs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Сканер тела по экранам */
+.scan2__st{display:grid;grid-template-columns:minmax(220px,280px) minmax(0,1fr);gap:48px;align-items:start}
+.scan2__st[hidden]{display:none}
+.scan2__txt{display:grid;gap:16px;align-content:start;padding-top:24px}
+.scan2__h{margin:0;font-family:var(--serif);font-weight:400;font-size:clamp(26px,2.4vw,34px);line-height:1.2;color:var(--ink)}
+.scan2__p{margin:0;font-size:17px;line-height:1.5;color:var(--text);max-width:560px}
+.scan2__btns{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:8px}
+.scan2 .eyebrow{margin:0}
+.scan2 .rp-timer span{font-size:26px}
+.scan2 .scan__q{gap:24px}
+@media (max-width:860px){.scan2__st{grid-template-columns:minmax(0,1fr);gap:20px}.scan2__txt{padding-top:0}.scan2 .scan__svg{max-width:150px;margin:0 auto}}
 </style>
 </head>
 <body>
@@ -5660,7 +5672,7 @@ const MAT=[
   note:'Если стрессор - другой человек, попробуйте представить его уставшим или испуганным человеком, которому сейчас тоже трудно'},
  {id:'stressan',stage:3,kind:'work',time:'15 минут',rel:['stress','chain'],title:'Разберите одну стрессовую ситуацию',lead:'Выберите недавнюю ситуацию, после которой вы долго не могли прийти в себя, и разберите ее по шагам',
   groups:[['Опишите, что произошло',[['sit','Что случилось?'],['pre','Что этому предшествовало?'],['res','К чему это привело?']]],['Вспомните, как вы реагировали',[['th','Что вы думали?'],['act','Что вы делали?'],['fe','Что вы чувствовали?']]],['Решите, что поможет в следующий раз',[['th2','Какая мысль поддержит?'],['act2','Что вы сделаете?'],['fe2','Какое чувство поможет опереться?']]]]},
- {id:'scanner',stage:4,kind:'work',time:'1 минута',rel:['body','radar','pulse'],title:'Просканируйте тело за одну минуту',lead:'Нажмите «Начать сканирование» и ведите вниманием вслед за линией от макушки до стоп. Потом сверьте ощущения по температуре, весу и напряжению и отметьте, где они сильнее всего',scan:true},
+ {id:'scanner',stage:4,kind:'work',time:'1 минута',rel:['body','radar','pulse'],title:'Просканируйте тело за одну минуту',lead:'Минуту вы прислушиваетесь к телу с закрытыми глазами, а потом отмечаете, что заметили',scan:true},
  {id:'askself',stage:5,kind:'work',time:'20 минут',rel:['chain','lab','load'],title:'Задайте себе честные вопросы о работе',lead:'Подумайте о работе целиком: о задачах, общении, дороге, ожиданиях. Ответы видите только вы',
   groups:[['',[['q1','Как я себя чувствую в своей работе?'],['q2','Насколько мне нравится то, что я делаю?'],['q3','Готов(а) ли я продолжать так же еще много лет?'],['q4','Сколько сил забирает у меня работа?'],['q5','Сколько сил она мне дает?'],['q6','Что я получаю, когда все устроено так, как сейчас?'],['q7','Что я теряю, когда все устроено так?'],['q8','Если бы все было так, как я хочу, чем бы наполнилась моя жизнь?'],['q9','От чего меня спасает моя работа?','Иногда работа помогает не смотреть на то, на что смотреть страшно'],['q10','Какую скрытую выгоду мне дает то, как все устроено сейчас?']]]]},
  {id:'rights',stage:6,kind:'read',time:'2 минуты',rel:['resp'],title:'Напомните себе о своих правах',lead:'Границы начинаются с того, что вы разрешаете себе',
@@ -5674,13 +5686,13 @@ const LISTEN_SPH=['Работа','Здоровье','Отношения','Отд
 const SCAN=[['t','Сверьте ощущения по температуре',['холодно','горячо']],['h','Сверьте ощущения по весу',['тяжело','легко']],['r','Сверьте ощущения по напряжению',['напряженно','расслабленно']]];
 /* Сканер тела: силуэт, по которому сверху вниз проходит линия; отмеченные зоны мягко светятся */
 const SCAN_SEG=[[6,'Макушка, лоб и глаза'],[62,'Челюсть, горло и шея'],[110,'Плечи, грудь и дыхание'],[200,'Живот, спина и руки'],[280,'Таз, бедра и кисти'],[400,'Колени и голени'],[520,'Стопы и опора под ними'],[596,'']];
-function scanSvg(sel){return `<svg viewBox="0 0 300 600" class="scan__svg bodymap" role="group" aria-label="Силуэт тела. Нажмите на место, где ощущения сильнее всего">
-  <defs><clipPath id="scClip"><ellipse cx="150" cy="50" rx="29" ry="37"/><path d="${BODY_PATH}"/></clipPath>
-    <linearGradient id="scTrail" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fad99" stop-opacity="0"/><stop offset="1" stop-color="#8fad99" stop-opacity=".4"/></linearGradient></defs>
+function scanSvg(sel,mode){const id='sc'+mode;return `<svg viewBox="0 0 300 600" class="scan__svg bodymap" role="${mode==='a'?'group':'img'}" aria-label="Силуэт тела">
+  <defs><clipPath id="${id}Clip"><ellipse cx="150" cy="50" rx="29" ry="37"/><path d="${BODY_PATH}"/></clipPath>
+    <linearGradient id="${id}Trail" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fad99" stop-opacity="0"/><stop offset="1" stop-color="#8fad99" stop-opacity=".4"/></linearGradient></defs>
   <ellipse cx="150" cy="50" rx="29" ry="37" fill="var(--bg)" stroke="var(--ink)" stroke-width="1.6"/><path d="${BODY_PATH}" fill="var(--bg)" stroke="var(--ink)" stroke-width="1.6" stroke-linejoin="round"/>
-  ${ZONES.map(([k,es])=>`<g class="bz ${sel.includes(k)?'on':''}" data-hz="${k}" role="button" tabindex="0" aria-pressed="${sel.includes(k)}" aria-label="${k}">${es.map(([x,y,rx,ry])=>`<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}"/>`).join('')}</g>`).join('')}
-  <g clip-path="url(#scClip)" pointer-events="none"><rect id="scTrailR" x="0" y="-80" width="300" height="80" fill="url(#scTrail)" opacity="0"/></g>
-  <g id="scLine" class="scan__line" transform="translate(0,6)" pointer-events="none"><line x1="14" x2="286" y1="0" y2="0"/><circle cx="14" cy="0" r="3"/><circle cx="286" cy="0" r="3"/></g></svg>`}
+  ${mode==='a'?ZONES.map(([k,es])=>`<g class="bz ${sel.includes(k)?'on':''}" data-hz="${k}" role="button" tabindex="0" aria-pressed="${sel.includes(k)}" aria-label="${k}">${es.map(([x,y,rx,ry])=>`<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}"/>`).join('')}</g>`).join(''):''}
+  ${mode==='r'?`<g clip-path="url(#${id}Clip)" pointer-events="none"><rect id="scTrailR" x="0" y="-80" width="300" height="80" fill="url(#${id}Trail)"/></g>
+  <g id="scLine" class="scan__line is-on" transform="translate(0,6)" pointer-events="none"><line x1="14" x2="286" y1="0" y2="0"/><circle cx="14" cy="0" r="3"/><circle cx="286" cy="0" r="3"/></g>`:''}</svg>`}
 function matFilled(id){const d=(S.mat||{})[id];if(!d)return false;return Object.values(d).some(v=>Array.isArray(v)?v.length:v&&typeof v==='object'?Object.keys(v).length:!!v)}
 function matCard(x){const st=C.stages[x.stage-1];return `<button type="button" class="mcard${matFilled(x.id)?' is-done':''}" data-go="mat" data-arg="${x.id}"><span class="mcard__k mcard__k--${x.kind}">${x.kind==='read'?'Почитать':'Упражнение'} · ${esc(x.time)}</span><span class="mcard__t">${esc(x.title)}</span><span class="mcard__s">Этап ${x.stage} · ${esc(st.title)}</span>${matFilled(x.id)?`<span class="mcard__ok">${ico('check',14)}</span>`:''}</button>`}
 function matBlock(id){const L=MAT.filter(x=>x.rel.includes(id));if(!L.length)return '';
@@ -5697,11 +5709,20 @@ function vMat(m){S.mat=S.mat||{};const x=route.arg&&MATI[route.arg];
   if(x.check){D.chk=D.chk||[];body+=`<div class="msec"><p class="msec__h">${esc(x.check.h)}</p><div class="mchk">${x.check.items.map(v=>`<button type="button" class="bmk-i" aria-pressed="${D.chk.includes(v)}" data-mc="${esc(v)}"><span class="bmk-i__c" aria-hidden="true">${ico('check',14)}</span><span>${esc(v)}</span></button>`).join('')}</div></div>`}
   if(x.groups)body+=x.groups.map(([h,F])=>`<div class="msec">${h?`<p class="msec__h">${esc(h)}</p>`:''}<div class="mfields${F.length===3?' mfields--3':''}">${F.map(([k,l,hh])=>ta(k,l,hh)).join('')}</div></div>`).join('');
   if(x.fields)body+=`<div class="msec">${x.fields.map(([k,l])=>ta(k,l)).join('')}</div>`;
-  if(x.scan){const cur=route.scan||(route.scan={});D.log=D.log||[];
-    body+=`<div class="msec scan"><div class="scan__fig bmk--tense">${scanSvg(cur.z||[])}<p class="scan__cap" id="scCap">Линия пройдет по телу за одну минуту. Можно закрыть глаза: смену места подскажет тихий звук</p><button type="button" class="btn btn--primary scan__go" id="scGo">Начать сканирование</button></div>
-      <div class="scan__q" id="scQ">${SCAN.map(([k,l,o])=>`<div class="scan__r"><p class="scan__l">${l}</p><div class="scan__seg" data-scan="${k}" style="grid-template-columns:repeat(${o.length},minmax(0,1fr))">${o.map(v=>`<button type="button" aria-pressed="${cur[k]===v}" data-v="${v}">${v}</button>`).join('')}</div></div>`).join('')}
-      <div class="scan__r"><p class="scan__l">Отметьте, где ощущения в теле обращают на себя больше всего внимания</p><p class="scan__h">Нажмите на это место на силуэте или выберите в списке</p><div class="scan__zs">${ZONES.map(z=>z[0]).map(z=>`<button type="button" aria-pressed="${(cur.z||[]).includes(z)}" data-sz="${z}">${z}</button>`).join('')}</div></div>
-      <button type="button" class="btn btn--primary" id="scSave">Сохранить сканирование</button></div></div>
+  if(x.scan){const cur=route.scan||(route.scan={});D.log=D.log||[];const ph=route.scph||'intro';
+    body+=`<div class="msec scan2">
+      <div class="scan2__st" id="scIntro"${ph==='intro'?'':' hidden'}><div class="scan__fig">${scanSvg([],'i')}</div>
+        <div class="scan2__txt"><h2 class="scan2__h">Закройте глаза на одну минуту и прислушайтесь к своему телу</h2><p class="scan2__p">Заметьте, какие ощущения обращают на себя больше всего внимания. Менять ничего не нужно, достаточно замечать. Смену места подскажет тихий звук, а в конце прозвучит колокольчик</p>
+        <div class="scan2__btns"><button type="button" class="btn btn--primary" id="scGo">Начать</button><button type="button" class="btn btn--ghost" id="scSkip">Сразу отметить ощущения</button></div></div></div>
+      <div class="scan2__st" id="scRun" hidden><div class="scan__fig">${scanSvg([],'r')}</div>
+        <div class="scan2__txt"><p class="eyebrow" id="scWhere">Приготовьтесь</p><h2 class="scan2__h" id="scPlace">Закройте глаза</h2>
+        <div class="rp-tw"><div class="rp-timer"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="21" class="trk"/><circle cx="24" cy="24" r="21" class="bar" id="scBar" stroke-dasharray="132" stroke-dashoffset="132" style="transition:none"/></svg><span id="scT">3</span></div><p class="rp-cyc" id="scSub">Минута начнется после отсчета</p></div>
+        <div class="scan2__btns"><button type="button" class="btn btn--outline" id="scStop">Остановить</button></div></div></div>
+      <div class="scan2__st" id="scAfter"${ph==='after'?'':' hidden'}><div class="scan__fig bmk--tense">${scanSvg(cur.z||[],'a')}</div>
+        <div class="scan__q"><div><h2 class="scan2__h">Теперь отметьте, что вы заметили в теле</h2><p class="scan2__p">Сверьте ощущения по температуре, весу и напряжению. Если ничего не выделялось, вопрос можно пропустить</p></div>
+        ${SCAN.map(([k,l,o])=>`<div class="scan__r"><p class="scan__l">${l}</p><div class="scan__seg" data-scan="${k}" style="grid-template-columns:repeat(${o.length},minmax(0,1fr))">${o.map(v=>`<button type="button" aria-pressed="${cur[k]===v}" data-v="${v}">${v}</button>`).join('')}</div></div>`).join('')}
+        <div class="scan__r"><p class="scan__l">Отметьте, где ощущения в теле обращают на себя больше всего внимания</p><p class="scan__h">Нажмите на это место на силуэте или выберите в списке</p><div class="scan__zs">${ZONES.map(z=>z[0]).map(z=>`<button type="button" aria-pressed="${(cur.z||[]).includes(z)}" data-sz="${z}">${z}</button>`).join('')}</div></div>
+        <div class="scan2__btns"><button type="button" class="btn btn--primary" id="scSave">Сохранить сканирование</button><button type="button" class="btn btn--ghost" id="scAgain">Пройти сканирование еще раз</button></div></div></div></div>
       ${D.log.length?`<div class="msec"><p class="msec__h">Посмотрите свои прошлые сканирования</p><ul class="mlog">${D.log.slice(0,6).map(e=>`<li><span class="muted">${esc(e.d)}</span><span>${esc([e.t,e.h,e.r].filter(Boolean).join(', '))}${e.z&&e.z.length?' · '+esc(e.z.join(', ')):''}</span></li>`).join('')}</ul></div>`:''}`}
   if(x.listen){D.log=D.log||[];const dr=route.lst||(route.lst={});
     body+=`<div class="msec"><p class="msec__h">Выберите сферу жизни</p><div class="chips">${LISTEN_SPH.map(v=>`<button type="button" class="chip" aria-pressed="${dr.sph===v}" data-lsph="${esc(v)}">${esc(v)}</button>`).join('')}</div></div>
@@ -5725,20 +5746,24 @@ function vMat(m){S.mat=S.mat||{};const x=route.arg&&MATI[route.arg];
     const tz=z=>{cur.z=cur.z||[];const i=cur.z.indexOf(z);i>=0?cur.z.splice(i,1):cur.z.push(z);$$(`[data-sz="${z}"]`,m).forEach(b=>b.setAttribute('aria-pressed',String(i<0)));$$(`[data-hz="${z}"]`,m).forEach(g=>{g.classList.toggle('on',i<0);g.setAttribute('aria-pressed',String(i<0))})};
     $$('[data-sz]',m).forEach(b=>b.onclick=()=>tz(b.dataset.sz));
     $$('[data-hz]',m).forEach(h=>{h.onclick=()=>tz(h.dataset.hz);h.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();tz(h.dataset.hz)}}});
-    /* Минута сканирования: линия идет сверху вниз, на каждом новом месте - подпись и тихий звук */
-    const go=$('#scGo',m),cap=$('#scCap',m),ln=$('#scLine',m),tr=$('#scTrailR',m);let run=null;
+    /* Экраны: подготовка - отсчет 3, 2, 1 - минута, когда линия идет по телу - отметки */
+    const E=k=>$('#sc'+k,m),show=k=>{['Intro','Run','After'].forEach(x=>E(x).hidden=x!==k);route.scph=k.toLowerCase();const top=$('.scan2',m);if(top){const y=top.getBoundingClientRect().top+window.scrollY-110;if(y<window.scrollY)window.scrollTo({top:Math.max(0,y),behavior:'smooth'})}};
+    const ln=$('#scLine',m),tr=$('#scTrailR',m),bar=$('#scBar',m),tt=$('#scT',m),pl=$('#scPlace',m),wh=$('#scWhere',m),sub=$('#scSub',m);let run=null;
     const place=y=>{ln.setAttribute('transform',`translate(0,${y})`);tr.setAttribute('y',y-80)};
-    const stop=(done)=>{if(run){cancelAnimationFrame(run.raf);run=null}go.textContent=done?'Пройти еще раз':'Начать сканирование';ln.classList.remove('is-on');tr.setAttribute('opacity','0');
-      if(done){cap.innerHTML='<b>Готово.</b> Сверьте, что вы заметили в теле';if(typeof chime==='function')chime('end');if(matchMedia('(max-width:860px)').matches){const q=$('#scQ',m);q&&q.scrollIntoView({behavior:'smooth',block:'start'})}}else{place(6)}};
-    go.onclick=()=>{if(run){stop(false);return}if(typeof acx==='function'&&typeof RSND!=='undefined'&&RSND)acx();const N=SCAN_SEG.length-1,T=60000,t0=performance.now();let last=-1;
-      ln.classList.add('is-on');tr.setAttribute('opacity','1');go.textContent='Остановить';run={};
-      const f=n=>{if(!run||!document.body.contains(ln))return;const el=Math.max(0,performance.now()-t0),q=Math.min(1,el/T),pos=q*N,i=Math.max(0,Math.min(N-1,Math.floor(pos))),k=pos-i;
-        const y=SCAN_SEG[i][0]+(SCAN_SEG[i+1][0]-SCAN_SEG[i][0])*k;place(y);
-        if(i!==last){last=i;if(i&&typeof chime==='function')chime('in')}
-        cap.innerHTML=`<b>${esc(SCAN_SEG[i][1])}</b><span>осталось ${fmtS((T-el)/1000)}</span>`;
-        if(q>=1){stop(true);return}run.raf=requestAnimationFrame(f)};
+    const halt=()=>{if(run){clearTimeout(run.t);cancelAnimationFrame(run.raf);run=null}};
+    const minute=()=>{const N=SCAN_SEG.length-1,T=60000,t0=performance.now();let last=-1;wh.textContent='Ведите вниманием вслед за линией';sub.textContent='';
+      const f=()=>{if(!run||!document.body.contains(ln))return;const el=Math.max(0,performance.now()-t0),q=Math.min(1,el/T),pos=q*N,i=Math.max(0,Math.min(N-1,Math.floor(pos))),k=pos-i;
+        place(SCAN_SEG[i][0]+(SCAN_SEG[i+1][0]-SCAN_SEG[i][0])*k);bar.style.strokeDashoffset=132*(1-q);tt.textContent=fmtS((T-el)/1000);
+        if(i!==last){last=i;pl.textContent=SCAN_SEG[i][1];if(i&&typeof chime==='function')chime('in')}
+        if(q>=1){halt();if(typeof chime==='function')chime('end');toast('Готово. Откройте глаза');show('After');return}run.raf=requestAnimationFrame(f)};
       run.raf=requestAnimationFrame(f)};
-    $('#scSave',m).onclick=()=>{if(!cur.t&&!cur.h&&!cur.r){toast('Ответьте хотя бы на один вопрос');return}D.log.unshift({d:today(),t:cur.t,h:cur.h,r:cur.r,z:cur.z||[]});route.scan={};keep();toast('Сканирование сохранено')}}
+    $('#scGo',m).onclick=()=>{if(typeof acx==='function'&&typeof RSND!=='undefined'&&RSND)acx();halt();run={};show('Run');place(6);bar.style.strokeDashoffset=132;
+      wh.textContent='Приготовьтесь';pl.textContent='Закройте глаза';sub.textContent='Минута начнется после отсчета';let n=3;
+      const tick=()=>{if(!run)return;if(n===0){minute();return}tt.textContent=n;if(typeof chime==='function')chime('in');n--;run.t=setTimeout(tick,1000)};tick()};
+    $('#scStop',m).onclick=()=>{halt();show('Intro')};
+    $('#scSkip',m).onclick=()=>show('After');
+    $('#scAgain',m).onclick=()=>{halt();show('Intro')};
+    $('#scSave',m).onclick=()=>{if(!cur.t&&!cur.h&&!cur.r){toast('Ответьте хотя бы на один вопрос');return}D.log.unshift({d:today(),t:cur.t,h:cur.h,r:cur.r,z:cur.z||[]});route.scan={};route.scph='intro';keep();toast('Сканирование сохранено. Его можно сравнить с прошлыми ниже')}}
   if(x.listen){const dr=route.lst;$$('[data-lsph]',m).forEach(b=>b.onclick=()=>{dr.sph=dr.sph===b.dataset.lsph?null:b.dataset.lsph;$$('[data-lsph]',m).forEach(z=>z.setAttribute('aria-pressed',String(dr.sph===z.dataset.lsph)))});
     $$('[data-lst]',m).forEach(a=>a.addEventListener('input',()=>dr[a.dataset.lst]=a.value.trim()));
     $('#lsSave',m).onclick=()=>{if(!dr.w){toast('Начните с желания: чего вам сейчас хочется?');return}D.log.unshift({d:today(),...dr});route.lst={};keep();toast('Запись сохранена')}}
