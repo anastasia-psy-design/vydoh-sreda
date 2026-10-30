@@ -3325,6 +3325,8 @@ body{background:var(--page);font-size:15px;line-height:1.5}
 }
 
 .mat .note{max-width:780px}
+
+.mat .msteps,.mat .mfields,.mat .msec>.mfield,.mat .mopt{max-width:780px}
 </style>
 </head>
 <body>
@@ -5806,7 +5808,7 @@ const MAT=[
     ['','sun','Я имею право радоваться жизни и следовать своим желаниям',''],
     ['','shield','Я имею право не отвечать за чувства других, когда обозначаю свои границы','']]},
   fields:[['hard','Какое право сейчас нужнее всего и где на этой неделе получится его себе дать?']]},
- {id:'listen',stage:7,kind:'work',time:'5 минут',rel:['nhv','values'],title:'Сверка желания с телом',bg:'#e2e9e9',lead:'Четыре шага, которые помогают отличить свое желание от «надо». Подходят для любой сферы жизни',listen:true},
+ {id:'listen',stage:7,kind:'work',time:'5 минут',rel:['nhv','values'],title:'Сверка желания с телом',bg:'#e2e9e9',lead:'Эти четыре шага помогают отличить свое желание от «надо». Их можно пройти для любой сферы жизни',listen:true},
  {id:'wins',stage:9,kind:'work',time:'5 минут вечером',rel:['lab','road','nav'],title:'Дневник достижений',bg:'#f6ecd6',
   lead:'Достижением считается все, что мы сами так называем: трудный разговор, новый навык, преодоленный страх, время для себя. Насколько оно большое, решаем только мы',
   how:[['moon','Вечером','вспоминаю день от вечера к утру'],['star','Нахожу,','за что могу себя похвалить'],['heart','Записываю,','что сделал(а) и что почувствовал(а)']],
@@ -5904,7 +5906,10 @@ function vMat(m){S.mat=S.mat||{};const x=route.arg&&MATI[route.arg];
       ${D.log.length?`<div class="msec"><p class="msec__h">Посмотрите свои прошлые сканирования</p><ul class="mlog">${D.log.slice(0,6).map(e=>`<li><span class="muted">${esc(e.d)}</span><span>${esc([e.t,e.h,e.r].filter(Boolean).join(', '))}${e.z&&e.z.length?' · '+esc(e.z.join(', ')):''}</span></li>`).join('')}</ul></div>`:''}`}
   if(x.listen){D.log=D.log||[];const dr=route.lst||(route.lst={});
     body+=`<div class="msec"><p class="msec__h">Сфера жизни, о которой хочется подумать</p><div class="mopt mopt--4">${LISTEN_SPH.map(v=>`<button type="button" aria-pressed="${dr.sph===v}" data-lsph="${esc(v)}">${esc(v)}</button>`).join('')}</div></div>
-      <ol class="msteps">${[['w','Желание','Чего мне сейчас хочется?'],['th','Мысль','Что я об этом думаю? Фраза начинается со слова «Я…»'],['b','Чувства и тело','Что я чувствую и где это ощущается в теле? Если от мысли становится тяжело, ее можно переформулировать'],['st','Маленький шаг','Какой самый маленький шаг я сделаю?']].map(([k,h,p],i)=>`<li><span class="msteps__n">${i+1}</span><label class="mfield"><span class="mfield__l">${h}</span><span class="mfield__h">${p}</span><textarea class="area" rows="2" data-lst="${k}">${esc(dr[k]||'')}</textarea></label></li>`).join('')}</ol>
+      <ol class="msteps">${[['w',dr.sph?`Чего мне хочется в сфере «${esc(dr.sph)}»?`:'Чего мне сейчас хочется?','Достаточно одного желания, которое есть прямо сейчас. Например: «Хочу провести выходные без работы»'],
+        ['th','Что я думаю об этом желании?','Первая мысль в ответ на желание часто звучит как «надо» или «нельзя». Например: «Я не могу отдыхать, пока не доделаю отчет»'],
+        ['b','Что я чувствую, когда думаю об этом желании, и где это ощущается в теле?','Чувства бывают разными: например, радость и тепло в груди или вина и тяжесть в плечах. Если мысль из второго шага вызывает тяжесть, ее можно переформулировать мягче'],
+        ['st','Какой самый маленький шаг к этому желанию я сделаю на этой неделе?','Шаг стоит выбрать таким маленьким, чтобы его точно получилось сделать. Например: «В субботу утром выключу рабочий чат на два часа»']].map(([k,h,p],i)=>`<li><span class="msteps__n">${i+1}</span><label class="mfield"><span class="mfield__l"${k==='w'?' id="lsQ1"':''}>${h}</span><span class="mfield__h">${p}</span><textarea class="area" rows="2" data-lst="${k}">${esc(dr[k]||'')}</textarea></label></li>`).join('')}</ol>
       <button type="button" class="btn btn--primary" id="lsSave">Сохранить запись</button>
       ${D.log.length?`<div class="msec"><p class="msec__h">Перечитайте свои записи</p><ul class="mlog">${D.log.slice(0,8).map(e=>`<li><span class="muted">${esc(e.d)}${e.sph?' · '+esc(e.sph):''}</span><span>${esc(e.w||'')}${e.st?' → '+esc(e.st):''}</span></li>`).join('')}</ul></div>`:''}`}
   if(x.wins){D.log=D.log||[];
@@ -5945,9 +5950,9 @@ function vMat(m){S.mat=S.mat||{};const x=route.arg&&MATI[route.arg];
     $('#scSkip',m).onclick=()=>show('After');
     $('#scAgain',m).onclick=()=>{halt();show('Intro')};
     $('#scSave',m).onclick=()=>{if(!cur.t&&!cur.h&&!cur.r){toast('Ответьте хотя бы на один вопрос');return}D.log.unshift({d:today(),t:cur.t,h:cur.h,r:cur.r,z:cur.z||[]});route.scan={};route.scph='intro';keep();toast('Сканирование сохранено. Его можно сравнить с прошлыми ниже')}}
-  if(x.listen){const dr=route.lst;$$('[data-lsph]',m).forEach(b=>b.onclick=()=>{dr.sph=dr.sph===b.dataset.lsph?null:b.dataset.lsph;$$('[data-lsph]',m).forEach(z=>z.setAttribute('aria-pressed',String(dr.sph===z.dataset.lsph)))});
+  if(x.listen){const dr=route.lst;$$('[data-lsph]',m).forEach(b=>b.onclick=()=>{dr.sph=dr.sph===b.dataset.lsph?null:b.dataset.lsph;$$('[data-lsph]',m).forEach(z=>z.setAttribute('aria-pressed',String(dr.sph===z.dataset.lsph)));const q=$('#lsQ1',m);if(q)q.textContent=dr.sph?`Чего мне хочется в сфере «${dr.sph}»?`:'Чего мне сейчас хочется?'});
     $$('[data-lst]',m).forEach(a=>a.addEventListener('input',()=>dr[a.dataset.lst]=a.value.trim()));
-    $('#lsSave',m).onclick=()=>{if(!dr.w){toast('Начните с желания: чего вам сейчас хочется?');return}D.log.unshift({d:today(),...dr});route.lst={};keep();toast('Запись сохранена')}}
+    $('#lsSave',m).onclick=()=>{if(!dr.w){toast('Сначала нужно записать желание в первом шаге');return}D.log.unshift({d:today(),...dr});route.lst={};keep();toast('Запись сохранена')}}
   if(x.wins){$('#wAdd',m).onclick=()=>{const w=$('#wW',m).value.trim();if(!w){toast('Сначала нужно написать, что получилось');return}D.log.unshift({d:today(),w,f:$('#wF',m).value.trim()});keep();toast('Достижение записано')};
     $$('[data-wx]',m).forEach(b=>b.onclick=()=>{D.log.splice(+b.dataset.wx,1);keep()})}
 }
