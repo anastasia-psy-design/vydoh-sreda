@@ -4686,12 +4686,19 @@ function chHint(c){const r=String(c.rule||'').trim().replace(/^[«"]|[»"]$/g,''
 const CH_LBL={situation:'Ситуация',reading:'Первая мысль',rule:'Правило',emotion:'Чувства',body:'Тело',action:'Что вы сделали',gain:'Что это дало',cost:'Чего это стоило'};
 TOOL.chain=(m,t)=>{const idx=route.sub!=null?route.sub:0;const c=S.chDraft&&S.chDraft.idx===idx?JSON.parse(JSON.stringify(S.chDraft.c)):S.chains[idx]?JSON.parse(JSON.stringify(S.chains[idx])):{};
   const N=C.CHAIN.length;const saved=!!S.chains[idx]&&!(S.chDraft&&S.chDraft.idx===idx);
-  if(route.cst==null)route.cst=saved?N+1:0;const st=route.cst;
+  const hasDraft=!!(S.chDraft&&S.chDraft.idx===idx&&C.CHAIN.some(([k])=>String(S.chDraft.c[k]||'').trim()));
+  if(route.cst==null)route.cst=saved?N+1:hasDraft?'resume':0;const st=route.cst;
+  /* Первый вопрос, на который еще нет ответа: с него и продолжаем */
+  const firstEmpty=()=>{const i=C.CHAIN.findIndex(([k])=>!String(c[k]||'').trim());return i<0?N:i};
   const keepDraft=()=>{S.chDraft={idx,c};save()};
   const q=(v,n)=>{v=String(v||'').trim();return v.length>n?v.slice(0,n-1)+'…':v};
   const prog=`<div class="chw__prog"><div class="chw__bar"><i style="width:${Math.round(Math.min(st,N)/N*100)}%"></i></div><span>${st<N?`Вопрос ${st+1} из ${N}`:st===N?'Последний шаг':'Цепочка сохранена'}</span></div>`;
   let body;
-  if(st<N){const [k,l,h,ex]=C.CHAIN[st];const ctx=(CH_CTX[k]||[]).filter(x=>(c[x]||'').trim());
+  if(st==='resume'){const fe=firstEmpty();
+    body=`<div class="chw"><h2 class="chw__q">Вы не закончили разбор случая</h2><p class="chw__h">Вы уже ответили на ${Math.min(fe,N)} ${plural(Math.min(fe,N),'вопрос','вопроса','вопросов')} из ${N}. Ваши ответы сохранены</p>
+      <div class="chw__ctx"><p><span>Ситуация</span>«${esc(q(c.situation||'',140))}»</p></div>
+      <div class="rw__nav"><button type="button" class="btn btn--primary" id="chResume">${fe<N?`Продолжить с вопроса ${fe+1}`:'Перейти к последнему шагу'}</button><button type="button" class="btn btn--ghost" id="chRestart">Разобрать другой случай</button></div></div>`}
+  else if(st<N){const [k,l,h,ex]=C.CHAIN[st];const ctx=(CH_CTX[k]||[]).filter(x=>(c[x]||'').trim());
     body=`<div class="chw">${prog}
       ${ctx.length?`<div class="chw__ctx"><p class="chw__ctxh">Напомним, о чем речь</p>${ctx.map(x=>`<p><span>${CH_LBL[x]}</span>«${esc(q(c[x],140))}»</p>`).join('')}</div>`:st?'':`<p class="chw__intro">Ответьте на 8 коротких вопросов по порядку. Над каждым вопросом будет напоминание из ваших прошлых ответов</p>`}
       <h2 class="chw__q">${l}</h2><p class="chw__h">${h}</p>
@@ -4709,7 +4716,7 @@ TOOL.chain=(m,t)=>{const idx=route.sub!=null?route.sub:0;const c=S.chDraft&&S.ch
   else{body=`${c.next?`<div class="chn__card chn__card--big"><p class="chn__eb">Ваша подсказка на следующий раз</p><p class="chn__t">${esc(chHint(c))}</p><p class="chn__how">Сохраните ее в заметки телефона или поставьте на заставку, чтобы она попадалась на глаза. Она также сохранена в «Ключе к своему состоянию»</p><div class="chn__btns"><button type="button" class="btn btn--sm btn--outline" id="chCopy">Скопировать</button>${c.rule?`<button type="button" class="btn btn--sm btn--ghost" id="toLab">Проверить в «Лаборатории изменений»</button>`:''}</div></div>`:''}${chainViz(S.chains[idx])}<div class="rw__nav rw__nav--end"><button type="button" class="btn" id="chEdit">Изменить ответы</button><button class="btn btn--outline" id="chNew">Разобрать другой случай</button>${c.rule&&!c.next?`<button class="btn btn--ghost" id="toLab">Проверить правило в «Лаборатории изменений»</button>`:''}</div>
     ${S.chains.length>1?`<section class="sec"><div class="sec__h"><h2>Другие случаи, которые вы разобрали</h2></div><ul class="list">${S.chains.map((x,i)=>`<li><span>${esc(x.situation||'Эпизод')}<br><span class="muted">${x.next?'в следующий раз: '+esc(x.next):'правило: '+esc(x.rule||'-')}</span></span><button class="btn btn--sm btn--ghost" data-ch="${i}">Открыть</button></li>`).join('')}</ul></section>`:''}`}
   m.innerHTML=wrap(t,`<section class="sec chw-sec">${body}</section>`);
-  if(st<=N){const nx=$('.nxt',m);if(nx)nx.hidden=true;const rs=$('.nxt__reset',m);if(rs)rs.hidden=true}
+  if(st==='resume'||st<=N){const nx=$('.nxt',m);if(nx)nx.hidden=true;const rs=$('.nxt__reset',m);if(rs)rs.hidden=true}
   bindDisc(m);
   const top=()=>{const e=$('.chw-sec',m);if(e){const y=e.getBoundingClientRect().top+window.scrollY-96;window.scrollTo({top:Math.max(0,y),behavior:'smooth'})}};
   const goSt=n=>{const a=$('textarea[data-ck]',m);if(a)c[a.dataset.ck]=a.value;keepDraft();route.cst=n;render();top();const f=$('textarea[data-ck]',m);if(f&&matchMedia('(min-width:861px)').matches)f.focus({preventScroll:true})};
@@ -4726,6 +4733,8 @@ TOOL.chain=(m,t)=>{const idx=route.sub!=null?route.sub:0;const c=S.chDraft&&S.ch
     if(S.chains[idx])S.chains[idx]=c;else{S.chains.push(c);route.sub=S.chains.length-1}save();toast('Цепочка сохранена');route.cst=N+1;render();top()};
   const ed=$('#chEdit',m);if(ed)ed.onclick=()=>{S.chDraft={idx,c};save();route.cst=N;render();top()};
   const nw=$('#chNew',m);if(nw)nw.onclick=()=>{route.sub=S.chains.length;route.cst=0;render();top()};
+  const rsm=$('#chResume',m);if(rsm)rsm.onclick=()=>{route.cst=firstEmpty();render();top()};
+  const rst=$('#chRestart',m);if(rst)rst.onclick=()=>{delete S.chDraft;save();route.sub=S.chains.length;route.cst=0;render();top()};
   $('#toLab',m)&&($('#toLab',m).onclick=()=>{S.lab.push({belief:c.rule,pred:'',b0:70,exp:c.next?chLower(c.next):'',observe:'',result:'',b1:null,ifx:'',ify:''});S.open.lab=1;save();go('tool','lab')});
   $$('[data-ch]',m).forEach(b=>b.onclick=()=>{route.sub=+b.dataset.ch;route.cst=null;render();top()});
 };
