@@ -3442,6 +3442,8 @@ body{background:var(--page);font-size:15px;line-height:1.5}
 .rd-rule .km-lbl{margin-top:0}
 .rd-rule q{font-family:var(--serif);font-size:clamp(19px,2.1vw,23px);color:var(--ink);line-height:1.35;quotes:'«' '»'}
 .rd .droad__save{margin-top:32px}
+.rd-start{margin-top:18px;display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;padding:16px 20px;border-radius:var(--r-lg);background:var(--soft)}
+.rd-start p{flex:1 1 320px;color:var(--text);line-height:1.5}
 @media (max-width:980px){.rd-road{grid-template-columns:1fr;gap:22px}.rd-road:before{left:21px;right:auto;top:22px;bottom:22px;border-top:0;border-left:3px dotted color-mix(in srgb,var(--ink) 22%,transparent)}
   .rd-st{display:grid;grid-template-columns:44px minmax(0,1fr);column-gap:16px;padding:0}.rd-st>*:not(.rd-dot){grid-column:2}.rd-dot{grid-row:1/span 9}.rd-st h3{margin-top:10px}}
 .rd-due{margin:0 0 22px;padding:16px 18px;border-radius:var(--r-lg);background:var(--mint);text-align:left}
@@ -3788,7 +3790,7 @@ try{PSY=localStorage.getItem('vydoh-psy')==='1'}catch(e){}
   if(!PSY)S.psy=false;save();
   /* Личная ссылка клиента остается в адресной строке, чтобы ее можно было сохранить в закладки */
   const want=location.pathname+(S.ctoken&&!PSY?'?c='+S.ctoken:'');
-  if((ch||q.has('c')||S.ctoken)&&location.pathname+location.search!==want)try{history.replaceState(null,'',want)}catch(e){}})();
+  if((ch||q.has('c')||S.ctoken)&&location.pathname+location.search!==want)try{history.replaceState(null,'',want+location.hash)}catch(e){}})();
 function weekNo(){const d=Math.floor((Date.now()-new Date(S.start).getTime())/864e5);return Math.min(12,Math.max(1,Math.floor(d/7)+1))}
 /* Неделя для подписи маршрута: если психолог уже открыл более поздний этап, показываем неделю этого этапа, чтобы «неделя N из 12» и «вы здесь» не расходились */
 /* Повторная диагностика появляется, только когда пришло ее время: психолог открыл последний этап или идет 11-12 неделя.
@@ -3820,6 +3822,10 @@ function importData(file){const r=new FileReader();r.onload=()=>{try{const j=JSO
 
 /* ---------- маршрутизация ---------- */
 let route={v:'today'};
+const routeHash=(v,arg)=>'#'+v+(arg!=null&&arg!==''?'/'+encodeURIComponent(arg):'');
+/* Раздел, открытый до обновления страницы, хранится в адресе после #, чтобы после обновления открылся тот же экран */
+function hashRoute(){const x=/^#([a-z]+)(?:\/(.+))?$/.exec(location.hash||'');if(!x)return null;const v=x[1],arg=x[2]?decodeURIComponent(x[2]):undefined;
+  if(!['today','tools','navself','mat','meet','hard','audio','help','links','tool'].includes(v))return null;if(v==='tool'&&!(arg&&T[arg]&&isOpen(arg)))return null;if(v==='links'&&!PSY)return null;return {v,arg}}
 /* Автосохранение: черновики не теряются, если человек отвлекся и ушел со страницы */
 const asT={};function autosave(k,fn){clearTimeout(asT[k]);asT[k]=setTimeout(()=>{fn();save()},350)}
 function keepPulseDraft(){if(route&&route.v==='tool'&&route.arg==='pulse'&&route.pw){const c=document.getElementById('ctx');if(c)route.pw.p.ctx=c.value.trim();const p=route.pw.p;const has=p.energy||p.tension||p.ctx||(p.emo||[]).length||Object.keys(p.bmap||{}).length||p.clarity||p.want;if(has){S.pwDraft=route.pw;save()}}}
@@ -3830,10 +3836,9 @@ const NAVH=[];
 function routeName(r){if(!r)return 'Маршрут программы';if(r.v==='tool'){const t=T[r.arg];return t?(t.id==='point'?'Диагностика':t.title):'Маршрут программы'}
   return {today:'Сегодня',tools:'Маршрут программы',navself:'Ключ к своему состоянию',mat:'Материалы',meet:'Темы для встречи',hard:'Выдохнуть',audio:'Записи Насти',help:'Как устроен кабинет',links:'Панель клиентов'}[r.v]||'Маршрут программы'}
 function backLbl(){const r=NAVH[NAVH.length-1];return `Вернуться в раздел «${esc(routeName(r||{v:'tools'}))}»`}
-function go(v,arg,noPush){if(document.getElementById('hpOv')&&typeof hpClose==='function')hpClose();keepPulseDraft();if(route&&route.arg!==arg)route.pst=0;if(typeof pracStop==='function')pracStop();if(typeof recStop==='function')recStop();const mn=document.getElementById('main');if(mn){mn.classList.add('enter');clearTimeout(window._ent);window._ent=setTimeout(()=>mn.classList.remove('enter'),1800)}if(!noPush&&route&&!(route.v===v&&route.arg===arg)){NAVH.push({v:route.v,arg:route.arg});if(NAVH.length>40)NAVH.shift()}route={v,arg};$('#sidebar').classList.remove('open');if(!noPush)try{history.pushState({v,arg},'')}catch(e){}render();window.scrollTo({top:0})}
+function go(v,arg,noPush){if(document.getElementById('hpOv')&&typeof hpClose==='function')hpClose();keepPulseDraft();if(route&&route.arg!==arg)route.pst=0;if(typeof pracStop==='function')pracStop();if(typeof recStop==='function')recStop();const mn=document.getElementById('main');if(mn){mn.classList.add('enter');clearTimeout(window._ent);window._ent=setTimeout(()=>mn.classList.remove('enter'),1800)}if(!noPush&&route&&!(route.v===v&&route.arg===arg)){NAVH.push({v:route.v,arg:route.arg});if(NAVH.length>40)NAVH.shift()}route={v,arg};$('#sidebar').classList.remove('open');if(!noPush)try{history.pushState({v,arg},'',location.pathname+location.search+routeHash(v,arg))}catch(e){}render();window.scrollTo({top:0})}
 window.__vy={go:(...a)=>go(...a),get S(){return S},save:()=>save(),render:()=>render(),get route(){return route}};
 window.addEventListener('popstate',e=>{if(document.getElementById('hpOv')){hpClose();return}NAVH.pop();const st=e.state;if(st&&st.v)go(st.v,st.arg,true);else go('today',null,true)});
-try{history.replaceState({v:'today'},'')}catch(e){}
 document.addEventListener('click',e=>{if(e.target.closest('[data-back]')){e.preventDefault();if(NAVH.length&&history.state&&history.state.v!=='today')history.back();else go(NAVH.length?NAVH[NAVH.length-1].v:'tools',NAVH.length?NAVH[NAVH.length-1].arg:undefined)}});
 document.addEventListener('click',e=>{const g=e.target.closest('[data-go]');if(g&&!g.disabled){e.preventDefault();if(g.dataset.go==='tool'&&route.v==='tool'&&route.arg&&g.dataset.arg!==route.arg&&g.dataset.arg!==RET)RET=route.arg;else if(g.dataset.go!=='tool'||g.dataset.arg===RET)RET=null;go(g.dataset.go,g.dataset.arg)}});
 $('#menuBtn').onclick=()=>$('#sidebar').classList.toggle('open');
@@ -5825,24 +5830,25 @@ function roadDueHtml(){const x=roadDue();if(!x)return '';
 function roadView(m,t){const R=S.road,pk=S.peak||{},d=peakDraft();
   const early=kmDedup([...S.signals.filter(x=>(x.zone||'ранний')==='ранний').map(x=>x.t),...((S.bodyMk||{}).tense||[])]).map(kmLc).slice(0,4);
   const doE=kmDedup([...(R.earlyPick||[]),...roadSplit(R.early)]),back=kmDedup([...(R.backPick||[]),...roadSplit(R.back)]),who=R.who||[];
-  const ch=(a,empty,keepCase)=>a.length?`<div class="km-chips">${a.map(x=>`<span class="km-c">${esc(keepCase?x:kmLc(x))}</span>`).join('')}</div>`:`<p class="km-empty">${empty}</p>`;
+  const ch=(a,empty,keepCase,n)=>a.length?`<div class="km-chips">${a.map(x=>`<span class="km-c">${esc(keepCase?x:kmLc(x))}</span>`).join('')}</div>`:empty?`<p class="km-empty">${empty}${n?` <button type="button" class="km-lnk" data-rdedit="${n}">Выбрать</button>`:''}</p>`:'';
   const date=(v,l)=>{if(!v)return '';const x=new Date(v+'T00:00:00');return `<div class="rd-date"><b>${x.getDate()}</b><span>${RMON[x.getMonth()]}<br>${l}</span></div>`};
   const rule=roadRule();
-  const st=[['ok','1','Каждую неделю я сохраняю','Без этого неделя становится тяжелее',ch(R.keep,'Пока ничего не выбрано')],
-    ['warn','2','Когда я замечаю первые звоночки',early.length?esc(early.join(', ')):'Чем раньше я реагирую, тем меньше сил трачу',ch(doE,'Пока не решено, что делать')],
+  const st=[['ok','1','Каждую неделю я сохраняю','Без этого неделя становится тяжелее',ch(R.keep,'Пока ничего не выбрано.',0,1)],
+    ['warn','2','Когда я замечаю первые звоночки',early.length?esc(early.join(', ')):'Чем раньше я реагирую, тем меньше сил трачу',ch(doE,'Пока не решено, что делать.',0,2)],
     ['lav','3',pk.situation?`В сложный период «${esc(pk.situation)}»`:'В сложный период','Заранее решено, что я защищаю и что временно убираю',pk.situation?`${pk.keep||d.keep?`<p class="km-lbl">Что я защищаю</p><p class="rd-p">${esc(pk.keep||d.keep)}</p>`:''}${pk.drop||d.drop?`<p class="km-lbl">Что я временно убираю</p><p class="rd-p">${esc(pk.drop||d.drop)}</p>`:''}`:`<p class="km-empty">Протокол на сложный период пока не собран. ${isOpen('peak')?'<button type="button" class="km-lnk" data-go="tool" data-arg="peak">Собрать протокол</button>':''}</p>`],
-    ['bad','4','Если снова станет тяжело, я начну с этого','Это нормально, и к этому стоит подготовиться заранее',ch(back,'Пока не решено, с чего начать')+(who.length?`<p class="km-lbl">К кому я обращаюсь</p>${ch(who,'',1)}`:'')],
-    ['cal','✓','Когда я сверюсь с собой','Неделю отмечаю состояние, а потом смотрю, что изменилось',`${date(R.d1,'через месяц')}${date(R.d3,'через три месяца')}<button type="button" class="btn btn--sm btn--outline" data-rdics>Добавить в календарь</button>`]];
+    ['bad','4','Если снова станет тяжело, я начну с этого','Это нормально, и к этому стоит подготовиться заранее',ch(back,'Пока не решено, с чего начать.',0,4)+(who.length?`<p class="km-lbl">К кому я обращаюсь</p>${ch(who,'',1)}`:'')],
+    ['cal','✓','Когда я сверюсь с собой','Неделю отмечаю состояние, а потом смотрю, что изменилось',`${date(R.d1||addDays(30),'через месяц')}${date(R.d3||addDays(91),'через три месяца')}<button type="button" class="btn btn--sm btn--outline" data-rdics>Добавить в календарь</button>`]];
   m.innerHTML=`<div class="page km rd">${head(t)}
     <section class="km-sec"><h2>Мой маршрут после трека</h2><p class="km-lead">Это план на ближайшие три месяца. Если что-то пошло не так, найдите нужную остановку и сделайте то, что в ней написано</p>
+      ${R.saved?'':`<div class="rd-start"><p>Часть маршрута уже собралась из ваших ответов в других инструментах. Остальное вы решите сами: это займет около 15 минут</p><button type="button" class="btn btn--primary" data-rdedit="1">Заполнить дорожную карту</button></div>`}
       <ol class="rd-road">${st.map(([c,n,h,w,b])=>`<li class="rd-st rd-st--${c}"><span class="rd-dot">${n}</span><h3>${h}</h3><p class="rd-w">${w}</p>${b}</li>`).join('')}</ol>
       ${rule?`<div class="rd-rule"><p class="km-lbl">Мое правило на это время</p><q>${esc(rule)}</q></div>`:''}</section>
-    <div class="droad__save"><button type="button" class="btn btn--primary" onclick="window.print()">Сохранить в PDF</button><button type="button" class="btn btn--outline" id="rEdit">Изменить дорожную карту</button><button type="button" class="btn btn--ghost" data-go="navself">Открыть «Ключ к своему состоянию»</button></div></div>`;
-  $('#rEdit',m).onclick=()=>{route.redit=1;render();window.scrollTo({top:0})};
-  $('[data-rdics]',m).onclick=()=>roadIcs(R)}
+    <div class="droad__save"><button type="button" class="btn btn--primary" onclick="window.print()">Сохранить в PDF</button><button type="button" class="btn btn--outline" data-rdedit="1">${R.saved?'Изменить дорожную карту':'Заполнить дорожную карту'}</button><button type="button" class="btn btn--ghost" data-go="navself">Открыть «Ключ к своему состоянию»</button></div></div>`;
+  $$('[data-rdedit]',m).forEach(b=>b.onclick=()=>{const n=+b.dataset.rdedit;route.redit=n;render();const li=$$('.droad__i',$('#main'))[n-1];const y=n>1&&li?li.getBoundingClientRect().top+window.scrollY-90:0;window.scrollTo({top:y})});
+  $('[data-rdics]',m).onclick=()=>roadIcs({d1:R.d1||addDays(30),d3:R.d3||addDays(91)})}
 
 TOOL.road=(m,t)=>{S.road=S.road||{};const R=S.road;R.keep=R.keep||[];R.backPick=R.backPick||[];R.earlyPick=R.earlyPick||[];R.who=R.who||[];
-  if(R.saved&&!route.redit)return roadView(m,t);
+  if(!route.redit)return roadView(m,t);
   const early=kmDedup([...S.signals.filter(x=>(x.zone||'ранний')==='ранний').map(x=>x.t),...((S.bodyMk||{}).tense||[])]).slice(0,6);
   const sugg=kmDedup([...roadKeepSugg(),...R.keep]);const pk=S.peak||{},d=peakDraft();
   const eOpts=kmDedup([...kitText(),...ROAD_EARLY,...R.earlyPick]).slice(0,10);
@@ -5867,7 +5873,7 @@ TOOL.road=(m,t)=>{S.road=S.road||{};const R=S.road;R.keep=R.keep||[];R.backPick=
       <div class="droad__dates"><label><span>Через месяц</span><input type="date" class="line" id="rD1" value="${esc(R.d1||addDays(30))}"></label><label><span>Через три месяца</span><input type="date" class="line" id="rD3" value="${esc(R.d3||addDays(91))}"></label></div>
       <button type="button" class="btn btn--sm btn--outline" id="rIcs" style="margin-top:14px">Добавить в календарь</button></div></li>
   </ol>
-  <div class="droad__save"><button type="button" class="btn btn--primary" id="rSave">${R.saved?'Сохранить изменения':'Сохранить дорожную карту'}</button>${R.saved?`<button type="button" class="btn btn--ghost" id="rCancel">Вернуться к маршруту без изменений</button>`:`<button type="button" class="btn btn--ghost" data-go="navself">Открыть «Ключ к своему состоянию»</button>`}</div>`);
+  <div class="droad__save"><button type="button" class="btn btn--primary" id="rSave">${R.saved?'Сохранить изменения':'Сохранить дорожную карту'}</button>${R.saved?`<button type="button" class="btn btn--ghost" id="rCancel">Вернуться к маршруту без изменений</button>`:`<button type="button" class="btn btn--ghost" id="rCancel">Посмотреть маршрут</button>`}</div>`);
   bindDisc(m);
   const keep=()=>{save();const y=window.scrollY;render();window.scrollTo({top:y})};
   const grab=()=>{R.early=$('#rEarly',m).value.trim();R.back=$('#rBack',m).value.trim();R.d1=$('#rD1',m).value;R.d3=$('#rD3',m).value};
@@ -6296,7 +6302,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-tp]');if(!
   document.addEventListener('visibilitychange',()=>{if(document.hidden)stop()});
 })();
 
-if(START_GO)route={v:START_GO};render();if(pendingToast)setTimeout(()=>toast(pendingToast),300);
+if(START_GO)route={v:START_GO};else{const h=hashRoute();if(h)route=h}try{history.replaceState({v:route.v,arg:route.arg},'',location.pathname+location.search+(route.v==='today'?'':routeHash(route.v,route.arg)))}catch(e){}render();if(pendingToast)setTimeout(()=>toast(pendingToast),300);
 })();
 
 </script>
