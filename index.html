@@ -3451,6 +3451,31 @@ body{background:var(--page);font-size:15px;line-height:1.5}
 .rd-due p:not(.rd-due__h){color:var(--text);font-size:14px;line-height:1.5}
 .rd-due__b{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;margin-top:12px}
 @media print{.rd .droad__save,.rd [data-rdics]{display:none!important}.rd-st{break-inside:avoid}}
+
+/* Подзаголовки от первого лица, строка этапа на «Сегодня», место для размышлений */
+.thero__q{font-family:var(--serif);font-style:italic;font-size:clamp(19px,1.6vw,22px);color:var(--ink);opacity:.82;margin:4px 0 10px;line-height:1.3}
+.tt__q{display:block;font-size:13px;line-height:1.35;color:var(--muted);margin-top:4px}
+.rtl__q{font-family:var(--serif);font-style:italic;font-size:17px;color:var(--ink);opacity:.75;margin-top:2px}
+.hs{display:grid!important;grid-template-columns:minmax(0,1.25fr) minmax(300px,.9fr);column-gap:clamp(28px,4vw,64px);align-content:start;min-height:0!important}
+.wk{grid-column:1/-1;padding-bottom:20px;margin-bottom:clamp(20px,3vh,32px);border-bottom:1px solid var(--line)}
+.wk__l{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.wk__t{font-family:var(--serif);font-size:clamp(26px,2.4vw,34px);color:var(--ink);line-height:1.15;margin-top:6px}
+.wk__q{font-family:var(--serif);font-style:italic;font-size:17px;color:var(--muted);margin-top:2px}
+.hs__main{align-self:start}.hs__route{align-self:start!important;background:linear-gradient(160deg,#e9efee,#dfe8e7)!important}
+.wnote{grid-column:1/-1;margin-top:clamp(32px,5vh,52px);padding-top:26px;border-top:1px solid var(--line);display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:28px;align-items:start}
+.wnote__h{font-family:var(--serif);font-size:22px;color:var(--ink);font-weight:400}
+.wnote__d{font-size:14px;line-height:1.5;color:var(--muted);margin-top:6px}
+.wnote__a{width:100%;min-height:110px;border:1px solid var(--line);background:linear-gradient(180deg,#fbfaf8,#f6f4f0);padding:14px 16px;font:inherit;font-size:15px;resize:vertical;color:var(--ink)}
+.wnote__b{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:flex-start;margin-top:10px}
+.wnote__past{flex:1 1 100%;font-size:14px}
+.wnote__past summary{cursor:pointer;color:var(--muted)}
+.wnote__pi{margin-top:10px;padding-left:12px;border-left:2px solid var(--line)}
+.wnote__pw{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.r-lead,.thead__goal{font-family:var(--serif)!important;font-size:clamp(18px,1.5vw,20px)!important;line-height:1.45!important;color:var(--text)!important}
+.tt{background:linear-gradient(160deg,#fbfaf8,#f3f1ec)!important}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .hs__route{background:var(--mint)!important}:root:not([data-theme="light"]) .wnote__a,:root:not([data-theme="light"]) .tt{background:var(--cream)!important}}
+:root[data-theme="dark"] .hs__route{background:var(--mint)!important}:root[data-theme="dark"] .wnote__a,:root[data-theme="dark"] .tt{background:var(--cream)!important}
+@media (max-width:900px){.hs{grid-template-columns:1fr!important}.wnote{grid-template-columns:1fr;gap:12px}}
 </style>
 </head>
 <body>
@@ -3738,6 +3763,9 @@ const DEMO = {
    ЛОГИКА - менять не нужно
    =================================================================== */
 (function(){
+/* Подзаголовки от первого лица: что человек узнает о себе в инструменте и на этапе */
+const TOOL_Q={"point": "С чего я начинаю: силы, сон и нагрузка", "pulse": "Сколько у меня сил и насколько я напряжен(а)", "radar": "Как я замечаю, что приближается перегрузка", "load": "Что забирает мои силы и что их возвращает", "stress": "Что создает напряжение и на что из этого я могу повлиять", "chain": "Как я дохожу до состояния перегрузки", "recovery": "Что помогает мне восстановить силы", "range": "Какую нагрузку я выдерживаю без истощения", "resp": "За что отвечаю я, а за что другие люди", "nhv": "Что я делаю по своему выбору, а что по инерции", "lab": "Как я проверяю свои убеждения на практике", "peak": "Как я пройду следующий сложный период", "nav": "Как я устроен(а) и что мне помогает", "body": "Как мое тело подает сигналы", "values": "Что для меня по-настоящему важно", "road": "Что я сохраняю после трека"},STAGE_Q=["С чего я начинаю", "Как мне успокоиться и вернуть силы", "Что забирает мои силы и на что из этого я могу повлиять", "Как я замечаю перегрузку по телу", "Что заставляет меня переступать свои пределы", "За что я отвечаю и сколько я выдерживаю", "Чего я хочу и что для меня важно", "Как встроить то, что сработало, в обычную неделю", "Что я забираю с собой после трека"];
+CONTENT.tools.forEach(t=>t.q=TOOL_Q[t.id]);CONTENT.stages.forEach((x,i)=>x.q=STAGE_Q[i]);
 const C=CONTENT, KEY='vydoh-env-v2';
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -3917,7 +3945,7 @@ function head(t){
   const h=C.howTo[t.id]||{};
   const prv=NAVH[NAVH.length-1];return `<button class="back" ${t.id==='pulse'?'data-go="today"':'data-back'}>${BACK}${t.id==='pulse'?'Вернуться на «Сегодня»':backLbl()}</button>${RET&&RET!==t.id&&T[RET]&&!(prv&&prv.v==='tool'&&prv.arg===RET)?`<button class="retbar" data-go="tool" data-arg="${RET}">${BACK}Вернуться в «${esc(T[RET].title)}»</button>`:''}<header class="thero">
     <div class="thero__img" style="background:${HBG[t.id]||'var(--mint)'}">${bigIco(t.id,150)}</div>
-    <div class="thero__txt"><p class="eyebrow">${t.role?esc(t.role)+' · ':''}${esc(t.time)}</p><h1>${esc(t.id==='point'?'Диагностика':t.title)}</h1>
+    <div class="thero__txt"><p class="eyebrow">${t.role?esc(t.role)+' · ':''}${esc(t.time)}</p><h1>${esc(t.id==='point'?'Диагностика':t.title)}</h1>${t.q?`<p class="thero__q">${esc(t.q)}</p>`:''}
       <p class="thero__met">${esc((C.metaphor||{})[t.id]||t.goal)}</p>
       <div class="thero__pills"><button type="button" class="tpill" data-tp="how" aria-expanded="false">${ico('nav',16)}Как это работает</button>${C.lowEnergy[t.id]?`<button type="button" class="tpill" data-tp="low" aria-expanded="false"><span class="thead__bat" aria-hidden="true"><i></i></span>Если сил мало</button>`:''}</div>
       <div class="tpanel" data-tpp="how" hidden><p>${esc(t.goal)}</p><p>${esc(C.howShort[t.id]||'')}</p></div>
@@ -4069,7 +4097,9 @@ function vToday(m){const {P}=homePath();const n=nextAfter(null);const t=n.tool?T
     '<circle cx="20" cy="20" r="15" stroke-dasharray="1.5 3"/><path d="M9 22c3-6 5-8 7-5s3 7 6 3 4-7 9-5"/>',
     '<circle cx="14" cy="20" r="6" fill="currentColor" stroke="none"/><circle cx="26" cy="15" r="5"/><circle cx="30" cy="27" r="4" stroke-dasharray="1.2 2"/>',
     '<circle cx="20" cy="20" r="15" stroke-dasharray="1.5 3"/><path d="M10 28c4 0 4-6 9-6s5-8 11-8"/><circle cx="10" cy="28" r="1.8" fill="currentColor"/><circle cx="30" cy="14" r="2.4"/>'];
+  const stNow=C.stages[curStage()-1];S.wnote=S.wnote||{};const wk=weekShown(),wPast=Object.keys(S.wnote).map(Number).filter(w=>w!==wk&&String(S.wnote[w]||'').trim()).sort((a,b)=>b-a);
   m.innerHTML=`<div class="page hs">
+    <header class="wk"><p class="wk__l">Ваш этап сейчас</p><p class="wk__t">${esc(stNow.title)}</p>${stNow.q?`<p class="wk__q">${esc(stNow.q)}</p>`:''}</header>
     <div class="hs__main">${roadDueHtml()}
       <div class="hs__art" aria-hidden="true">${bigIco(n.id==='rest'?'pulse':n.id,128)}</div>
       <p class="hs__eb">${S.name?esc(S.name)+', ваш':'Ваш'} шаг на сегодня${n.time?' · '+esc(n.time):''}</p>
@@ -4078,10 +4108,14 @@ function vToday(m){const {P}=homePath();const n=nextAfter(null);const t=n.tool?T
       <button class="btn btn--primary hs__btn" data-go="${n.go[0]}" ${n.go[1]?`data-arg="${n.go[1]}"`:''}${n.jump?' data-ptfin':''}>${n.rest?(n.marked?'Посмотреть весь маршрут':'Отметить, как вы сейчас'):t&&tStatus(t.id)==='work'?'Продолжить':'Начать'}</button>
       ${!S.seenHelp&&n.id==='point'&&!n.final?`<p class="hs__first">Впервые здесь? <button class="link" data-go="help">Посмотрите, как устроен кабинет</button> · 1 минута</p>`:''}
     </div>
-    <aside class="hs__route" aria-label="Ваш путь в программе"><p class="hs__rl">Ваш путь в программе · неделя ${weekShown()} из 12</p>
+    <aside class="hs__route" aria-label="Ваш путь в программе"><p class="hs__rl">Ваш путь в программе</p>
       <ol>${P.map((p,k)=>`<li class="hs__r hs__r--${p.st}${k===i?' is-cur':''}"><span class="hs__ri"><svg viewBox="0 0 40 40" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" aria-hidden="true">${PI[k]}</svg></span><span class="hs__rt"><b>${p.name}${k===i?'<em>вы здесь</em>':''}</b><small>${k===i?esc(p.sub):esc(p.d)}</small></span></li>`).join('')}</ol>
       <p class="hs__links"><button class="link" data-go="tools">Посмотреть весь маршрут</button><button class="link" data-go="meet">Темы для встречи${S.discuss.length?' ('+S.discuss.length+')':''}</button></p></aside>
+    <section class="wnote" aria-label="Место для свободных размышлений"><div><h2 class="wnote__h">Место для свободных размышлений</h2><p class="wnote__d">Здесь можно записывать все, что приходит в голову за неделю: мысли, наблюдения, вопросы. Эти записи видите только вы, а важное можно перенести в темы для встречи</p></div>
+      <div><textarea class="wnote__a" id="wNote" aria-label="Мои мысли за эту неделю" placeholder="Например: заметила, что после планерки весь вечер прокручиваю разговоры">${esc(S.wnote[wk]||'')}</textarea>
+      <div class="wnote__b"><button type="button" class="btn btn--sm btn--outline" id="wNoteTo">Перенести в темы для встречи</button>${wPast.length?`<details class="wnote__past"><summary>Записи прошлых недель</summary>${wPast.map(w=>`<div class="wnote__pi"><p class="wnote__pw">Неделя ${w}</p><p>${esc(S.wnote[w])}</p></div>`).join('')}</details>`:''}</div></div></section>
   </div>`;
+  const wn=$('#wNote',m);if(wn){wn.addEventListener('input',()=>autosave('wn',()=>{S.wnote[wk]=wn.value}));$('#wNoteTo',m).onclick=()=>{const v=wn.value.trim();if(!v){toast('Сначала запишите мысль в поле выше');return}S.wnote[wk]=wn.value;discuss(v)}}
   const ak=$('[data-rdack]',m);if(ak)ak.onclick=()=>{S.road.ack=S.road.ack||{};S.road.ack[ak.dataset.rdack]=1;save();render()};
 }
 
@@ -4288,18 +4322,18 @@ function toolRow(t){const op=isOpen(t.id),dn=done(t.id);
     <span class="tool__goal">${esc(t.goal)}</span></div>`}
 function vTools(m){const cs=curStage();const stg=C.stages[cs-1];
   const tile=id=>{const t=T[id];const op=isOpen(id),dn=done(id);const cls=t.final?'final':dn?'done':op?'open':'locked';
-    const inner=`<span class="tt__ico">${bigIco(id,58)}${dn?`<span class="tt__ok">${ico('check',14)}</span>`:''}${!op?`<span class="tt__lock" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="3" y="6.5" width="8" height="6" rx="1.5"/><path d="M4.8 6.5V5a2.2 2.2 0 014.4 0v1.5"/></svg></span>`:''}</span><span class="tt__t">${esc(t.title)}</span><span class="tt__s">${t.final?'собирается сама':dn?'готово':op?(tStatus(id)==='work'?'в работе · '+esc(t.time):esc(t.time)):'откроется после встречи'}</span>`;
+    const inner=`<span class="tt__ico">${bigIco(id,58)}${dn?`<span class="tt__ok">${ico('check',14)}</span>`:''}${!op?`<span class="tt__lock" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="3" y="6.5" width="8" height="6" rx="1.5"/><path d="M4.8 6.5V5a2.2 2.2 0 014.4 0v1.5"/></svg></span>`:''}</span><span class="tt__t">${esc(t.title)}</span>${t.q?`<span class="tt__q">${esc(t.q)}</span>`:''}<span class="tt__s">${t.final?'собирается сама':dn?'готово':op?(tStatus(id)==='work'?'в работе · '+esc(t.time):esc(t.time)):'откроется после встречи'}</span>`;
     return `<div class="tt-wrap">${op?`<button class="tt tt--${cls}" data-go="tool" data-arg="${id}">${inner}</button>`:`<button type="button" class="tt tt--${cls}" data-locked="${id}" aria-label="${esc(t.title)}: откроется после встречи">${inner}</button>`}${S.psy&&!t.final?`<label class="tt__psy"><input type="checkbox" data-open="${id}" ${S.open[id]?'checked':''}> открыт</label>`:''}</div>`};
   m.innerHTML=`<div class="page rmap">
     <header class="r-head"><p class="eyebrow">Неделя ${weekShown()} из 12</p><h1>Посмотрите свой маршрут</h1>
       <p class="r-lead">Сейчас вы на этапе «${esc(stg.title)}». Новые инструменты появляются постепенно, после встреч с психологом</p>
-      <div class="r-rel"><div><b>${ico('pulse',16)}Сегодня</b><span>Здесь всегда одно главное дело на день, его подсказывает текущий этап маршрута</span></div><div><b>${ico('point',16)}Маршрут</b><span>Здесь показана вся программа на 12 недель: где вы сейчас и что откроется дальше</span></div></div></header>
+      </header>
     <div class="bat2"><div class="bat2__icon" role="img" aria-label="Пройдено этапов: ${cs-1} из 9"><div class="bat2__body"><div class="bat2__fill" style="--lvl:${Math.round((cs-0.5)/9*100)}%"><span class="bat2__shine"></span></div><span class="bat2__ticks"></span><svg class="bat2__bolt" width="22" height="30" viewBox="0 0 22 30" aria-hidden="true"><path d="M13 1L2 17h7l-2 12 11-16h-7z" fill="var(--ink)"/></svg></div><span class="bat2__nub"></span></div>
       <div class="bat2__txt"><span class="bat2__big">Этап ${cs} из 9</span><span class="bat2__sub">${esc(TRAIL_SHORT[cs-1])}${cs<9?` · дальше ${esc(TRAIL_SHORT[cs])}`:''}</span></div></div>
     <ol class="rtl">${C.stages.map((s,i)=>{const stt=i<cs-1?'past':i===cs-1?'now':'next';const ids=s.tools.length?s.tools:['lab','range'];
       return `<li class="rtl__i rtl--${stt}" id="stg${s.n}"><span class="rtl__n" aria-hidden="true">${stt==='past'?ico('check',16):s.n}</span><div class="rtl__c">
         <p class="rtl__w">Этап ${s.n} · ${esc(s.weeks)}${stt==='now'?' · <b>вы здесь</b>':stt==='next'?' · откроется позже':''}</p>
-        <h2 class="rtl__t">${esc(s.title)}</h2>${stt==='now'?`<p class="rtl__d">${esc(s.desc)}</p>`:''}
+        <h2 class="rtl__t">${esc(s.title)}</h2>${s.q?`<p class="rtl__q">${esc(s.q)}</p>`:''}${stt==='now'?`<p class="rtl__d">${esc(s.desc)}</p>`:''}
         ${!s.tools.length?`<p class="stg__note">Здесь вы закрепляете то, что уже сработало</p>`:''}
         <div class="rtl__tools">${ids.map(tile).join('')}</div></div></li>`}).join('')}</ol></div>`;
   $$('.tt__psy',m).forEach(l=>l.addEventListener('click',e=>e.stopPropagation()));
